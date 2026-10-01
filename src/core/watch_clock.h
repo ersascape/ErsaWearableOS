@@ -5,6 +5,8 @@ namespace WatchClock {
 
 void begin();
 void tick();
+// Refresh the software cache from the DS3231 after a light-sleep wake.
+void resync();
 DateTime now();
 bool healthy();
 bool setAtBoot();

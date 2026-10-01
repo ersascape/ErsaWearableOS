@@ -75,16 +75,43 @@ public:
             if (self->slowRestartPending_.exchange(false)) {
                 self->advertisingPending_ = true;
                 self->advertiseAfterMs_ = millis() + 250;
+            } else if (!self->connected_ &&
+                       !(self->parent_ && self->parent_->maintenanceSuspended_)) {
+                // Advertising can stop outside the fast-to-slow transition
+                // (for example after a controller-side radio event). Treat
+                // every unexpected stop as recoverable.
+                self->advertisingPending_ = true;
+                self->advertiseAfterMs_ = millis() + 750;
+                DebugLog::log("BLE: advertising stopped while disconnected; scheduling retry");
             }
         }
     }
     esp_bd_addr_t peer_{};
     esp_ble_addr_type_t peerType_{BLE_ADDR_TYPE_RANDOM};
+    portMUX_TYPE authMux_ = portMUX_INITIALIZER_UNLOCKED;
+    bool discoveryReadyForAuth_{false};
+    bool pendingAuth_{false};
+    bool pendingAuthSuccess_{false};
     static void authenticated(const esp_ble_auth_cmpl_t& auth, void* user) {
         auto* self = static_cast<Impl*>(user);
-        if (self->connected_) {
+        bool releaseWorker = false;
+        portENTER_CRITICAL(&self->authMux_);
+        if (self->connected_ && self->discoveryReadyForAuth_) {
+            releaseWorker = true;
+        } else {
+            self->pendingAuth_ = true;
+            self->pendingAuthSuccess_ = auth.success;
+        }
+        portEXIT_CRITICAL(&self->authMux_);
+        if (releaseWorker) {
             self->appleClient_.authenticationComplete(auth.success);
             if (auth.success) DebugLog::log("BLE: encrypted link ready; Apple worker released");
+            else {
+                DebugLog::log("BLE: authentication failed; disconnecting so advertising can recover");
+                esp_ble_gap_disconnect(self->peer_);
+            }
+        } else {
+            DebugLog::log("BLE: authentication result latched until Apple discovery is ready");
         }
         // Do not compare an identity address with a potentially private connection
         // address. The current peripheral connection owns this auth completion.
@@ -93,6 +120,9 @@ public:
     void onConnect(BLEServer* pServer, esp_ble_gatts_cb_param_t* param) override {
         (void)pServer;
         connected_ = true;
+        portENTER_CRITICAL(&authMux_);
+        discoveryReadyForAuth_ = false;
+        portEXIT_CRITICAL(&authMux_);
         if (param) connectionId_ = param->connect.conn_id;
         advertising_ = false;
         advertisingPending_ = false;
@@ -106,6 +136,24 @@ public:
             DebugLog::log("BLE: Apple discovery scheduled (addrType=%u)", unsigned(peerType_));
             appleClient_.startDiscovery(peer_, peerType_);
         }
+        bool releaseWorker = false;
+        bool authSuccess = false;
+        portENTER_CRITICAL(&authMux_);
+        discoveryReadyForAuth_ = true;
+        if (pendingAuth_) {
+            releaseWorker = true;
+            authSuccess = pendingAuthSuccess_;
+            pendingAuth_ = false;
+        }
+        portEXIT_CRITICAL(&authMux_);
+        if (releaseWorker) {
+            appleClient_.authenticationComplete(authSuccess);
+            DebugLog::log("BLE: latched authentication result delivered to Apple worker success=%d", authSuccess);
+            if (!authSuccess) {
+                DebugLog::log("BLE: authentication failed; disconnecting so advertising can recover");
+                esp_ble_gap_disconnect(peer_);
+            }
+        }
         if (parent_ && parent_->connCb_) {
             parent_->connCb_(true, parent_->connUserData_);
         }
@@ -114,6 +162,10 @@ public:
     void onDisconnect(BLEServer* pServer, esp_ble_gatts_cb_param_t* param) override {
         (void)pServer;
         connected_ = false;
+        portENTER_CRITICAL(&authMux_);
+        discoveryReadyForAuth_ = false;
+        pendingAuth_ = false;
+        portEXIT_CRITICAL(&authMux_);
         advertising_ = false;
         advertisingPending_ = !(parent_ && parent_->maintenanceSuspended_);
         slowAdvertising_ = false;

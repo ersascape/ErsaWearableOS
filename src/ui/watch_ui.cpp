@@ -526,6 +526,9 @@ void WatchUi::tick() {
         TickType_t waitTicks = pdMS_TO_TICKS(waitMs);
         if (!waitTicks) waitTicks = 1;
         ulTaskNotifyTake(pdTRUE, waitTicks ? waitTicks : 1);
+        // millis() can pause during light sleep on this target. Re-anchor the
+        // software clock to the DS3231 before calculating the next refresh.
+        WatchClock::resync();
 #else
         delay(25);
 #endif

@@ -1,5 +1,17 @@
 # Changelog
 
+## ewp-0.2.1
+
+- Retry BLE advertising after unexpected radio stops, release stalled links after
+  authentication failures, and deliver authentication results that arrive before
+  the Apple GATT worker is ready.
+- Detect the DS3231 oscillator-stop flag and retain the advancing software clock
+  instead of replacing it with a stale RTC value; log once-a-minute RTC and
+  software time readings to diagnose clock drift or a stopped oscillator.
+- Re-anchor the clock from the DS3231 after light-sleep wakeups.
+
+See [release notes](release-notes/ewp-0.2.1.md) for details.
+
 ## ewp-0.2.0
 
 - Resume interrupted HTTPS OTA range downloads from the last written byte, with
