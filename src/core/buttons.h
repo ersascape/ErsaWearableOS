@@ -16,6 +16,7 @@ void begin();
 void tick();
 Event takeEvent();
 bool isPressed();
+bool bothPressed();
 bool hasPendingEvents();
 const char* name(Event event);
 }

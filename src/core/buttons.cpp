@@ -90,6 +90,10 @@ bool Buttons::isPressed() {
     return digitalRead(Pins::BUTTON_1) == LOW || digitalRead(Pins::BUTTON_2) == LOW;
 }
 
+bool Buttons::bothPressed() {
+    return digitalRead(Pins::BUTTON_1) == LOW && digitalRead(Pins::BUTTON_2) == LOW;
+}
+
 bool Buttons::hasPendingEvents() {
     return head != tail;
 }

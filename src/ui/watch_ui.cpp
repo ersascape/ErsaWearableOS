@@ -48,6 +48,9 @@ ersa::Rect watchfaceRect{0, 0, 0, 0};
 bool watchfaceMediaPending = false;
 uint32_t watchfaceMediaChangedAt = 0;
 char renderedWatchfaceMediaTitle[32] = {0};
+uint32_t bothButtonsPressedAt = 0;
+bool bothButtonResetTriggered = false;
+constexpr uint32_t BOTH_BUTTON_RESET_HOLD_MS = 3000;
 
 #if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
 TaskHandle_t uiTaskHandle = nullptr;
@@ -430,6 +433,20 @@ void WatchUi::onButton(Buttons::Event legacyEvent) {
 
 void WatchUi::tick() {
     bluetoothManager.tick();
+    const uint32_t buttonNow = millis();
+    if (Buttons::bothPressed()) {
+        if (!bothButtonsPressedAt) bothButtonsPressedAt = buttonNow ? buttonNow : 1;
+        if (!bothButtonResetTriggered &&
+            uint32_t(buttonNow - bothButtonsPressedAt) >= BOTH_BUTTON_RESET_HOLD_MS) {
+            bothButtonResetTriggered = true;
+            DebugLog::log("BUTTON: both held for %lu ms; forcing restart",
+                          static_cast<unsigned long>(BOTH_BUTTON_RESET_HOLD_MS));
+            ESP.restart();
+        }
+    } else {
+        bothButtonsPressedAt = 0;
+        bothButtonResetTriggered = false;
+    }
     board.getInput().poll();
     if (Buttons::isPressed()) {
         lastActivityMs = millis();

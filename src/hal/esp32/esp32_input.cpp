@@ -20,6 +20,8 @@ void Esp32Input::poll() {
     Buttons::tick();
     const auto legacy = Buttons::takeEvent();
     if (legacy == Buttons::Event::None) return;
+    // A simultaneous hold is reserved for the forced-restart gesture.
+    if (Buttons::bothPressed()) return;
 
     events::EventType type = events::EventType::None;
     events::ButtonId btn = events::ButtonId::Unknown;
