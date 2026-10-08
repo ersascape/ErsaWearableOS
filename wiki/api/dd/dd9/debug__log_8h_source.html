@@ -103,6 +103,16 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d3/d93/namespaceDebugLog.html#a8720047ee3d4043c9baadad3484754ae">flush</a>();</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
 </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#ifndef ERSA_VERBOSE_DIAGNOSTICS</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="../../dd/dd9/debug__log_8h.html#aa923b509e4693523c03b1914986f8755">   35</a></span><span class="preprocessor">#define ERSA_VERBOSE_DIAGNOSTICS 0</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#if ERSA_VERBOSE_DIAGNOSTICS</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define ERSA_LOG_VERBOSE(...) DebugLog::log(__VA_ARGS__)</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../dd/dd9/debug__log_8h.html#a12acdf0b0d406935ce64b1d10184fa36">   41</a></span><span class="preprocessor">#define ERSA_LOG_VERBOSE(...) ((void)0)</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespaceDebugLog_html"><div class="ttname"><a href="../../d3/d93/namespaceDebugLog.html">DebugLog</a></div><div class="ttdef"><b>Definition</b> debug_log.h:5</div></div>
 <div class="ttc" id="anamespaceDebugLog_html_a0856070d4cb474b58722e2a2d77f3f80"><div class="ttname"><a href="../../d3/d93/namespaceDebugLog.html#a0856070d4cb474b58722e2a2d77f3f80">DebugLog::readSince</a></div><div class="ttdeci">size_t readSince(uint32_t cursor, Record *out, size_t capacity, uint32_t *nextCursor)</div><div class="ttdef"><b>Definition</b> debug_log.cpp:96</div></div>
 <div class="ttc" id="anamespaceDebugLog_html_a2e07593419825a4efad298efab05ef37"><div class="ttname"><a href="../../d3/d93/namespaceDebugLog.html#a2e07593419825a4efad298efab05ef37">DebugLog::begin</a></div><div class="ttdeci">void begin()</div><div class="ttdef"><b>Definition</b> debug_log.cpp:59</div></div>

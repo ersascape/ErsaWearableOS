@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['index_2emd_0',['index.md',['../df/dcf/index_8md.html',1,'']]],
-  ['input_2eh_1',['input.h',['../de/ded/input_8h.html',1,'']]]
+  ['logging_2eh_0',['logging.h',['../d5/d77/logging_8h.html',1,'']]],
+  ['logging_5fservice_2ecpp_1',['logging_service.cpp',['../d4/d29/logging__service_8cpp.html',1,'']]],
+  ['logging_5fservice_2eh_2',['logging_service.h',['../db/d50/logging__service_8h.html',1,'']]]
 ];

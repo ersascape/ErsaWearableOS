@@ -191,13 +191,14 @@ app navigable.</p>
 <h2 id="build-and-check">Build and check</h2>
 <p>From the repository root:</p>
 <pre><code class="language-sh">make test       # host-side platform and service tests
-make firmware   # ESP32-C3 firmware build
+make firmware   # default ESP32-C3 firmware build
+./scripts/pio.sh run -e ErsaWearableC6  # ESP32-C6 firmware build
 make docs       # wiki and generated C++ API reference
 </code></pre>
-<p>The firmware output is <code>.pio/build/ErsaWearable/firmware.bin</code>. The same build
-can be run with <code>./scripts/pio.sh run</code>. PlatformIO uses the pinned project
-environment in <code>platformio.ini</code> and downloads its framework and libraries when
-needed.</p>
+<p>The firmware outputs are <code>.pio/build/ErsaWearable/firmware.bin</code> for C3 and
+<code>.pio/build/ErsaWearableC6/firmware.bin</code> for C6. Release assets include the
+platform in each filename. PlatformIO uses the project environment in
+<code>platformio.ini</code> and downloads its framework and libraries when needed.</p>
 <h2 id="app-store-and-installable-apps">App store and installable apps</h2>
 <p>There is no app store or runtime app installer today. App code is linked into
 the firmware, and updates replace one of the two OTA firmware slots. The

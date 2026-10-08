@@ -13,5 +13,6 @@ var searchData=
   ['header_10',['header',['../d0/d99/classersa_1_1hal_1_1IHttpClient.html#a701567db346b65570de59a930d4ea2a2',1,'ersa::hal::IHttpClient']]],
   ['healthy_11',['healthy',['../d9/d57/namespaceWatchClock.html#a800e8ef4d9d0c0d6376e7a2238abd63c',1,'WatchClock']]],
   ['height_12',['height',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ac9abca0d4afff7e929b06af13a5e768b',1,'ersa::hal::IDisplay::height()'],['../d5/dd7/classersa_1_1ui_1_1Canvas.html#ab1e59d2a2a6493bf3b0836544cf4bcd9',1,'ersa::ui::Canvas::height()'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aef8f46fb12604557c7c3e0288017c12c',1,'ersa::test::MockDisplay::height()']]],
-  ['host_5fmillis_13',['host_millis',['../d7/db4/bluetooth__manager_8cpp.html#ad7618d6a12afc3501e3cdf3f2e059d46',1,'bluetooth_manager.cpp']]]
+  ['host_5fmillis_13',['host_millis',['../d7/db4/bluetooth__manager_8cpp.html#ad7618d6a12afc3501e3cdf3f2e059d46',1,'bluetooth_manager.cpp']]],
+  ['hour_14',['hour',['../de/d82/classersa_1_1common_1_1CalendarTime.html#a14af6ad21835fba700d41279f2fb51c3',1,'ersa::common::CalendarTime']]]
 ];

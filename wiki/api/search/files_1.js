@@ -8,8 +8,8 @@ var searchData=
   ['board_2ecpp_5',['board.cpp',['../df/d6e/board_8cpp.html',1,'']]],
   ['board_2eh_6',['board.h',['../d3/d02/board_8h.html',1,'']]],
   ['board_5fconfig_2eh_7',['board_config.h',['../df/d24/board__config_8h.html',1,'']]],
-  ['board_5fterra_2ecpp_8',['board_terra.cpp',['../dd/d73/board__terra_8cpp.html',1,'']]],
-  ['board_5fterra_2eh_9',['board_terra.h',['../d7/ddd/board__terra_8h.html',1,'']]],
+  ['board_5fterra_2ecpp_8',['board_terra.cpp',['../d8/d88/xiao__esp32c3_2terra_2board__terra_8cpp.html',1,'(Global Namespace)'],['../db/d6c/xiao__esp32c6_2terra_2board__terra_8cpp.html',1,'(Global Namespace)']]],
+  ['board_5fterra_2eh_9',['board_terra.h',['../d4/dd4/xiao__esp32c3_2terra_2board__terra_8h.html',1,'(Global Namespace)'],['../d1/d93/xiao__esp32c6_2terra_2board__terra_8h.html',1,'(Global Namespace)']]],
   ['building_5fapps_2emd_10',['BUILDING_APPS.md',['../d2/d18/BUILDING__APPS_8md.html',1,'']]],
   ['buttons_2eh_11',['buttons.h',['../de/d05/buttons_8h.html',1,'']]]
 ];

@@ -5,5 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node0 [id="Node000000",label="ersa::services::NetworkManager",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$de/d55/classersa_1_1services_1_1NetworkManager.html",tooltip=" "];
+  Node0 [id="Node000000",label="ersa::services::NetworkHandle",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d4/df3/classersa_1_1services_1_1NetworkHandle.html",tooltip=" "];
 }

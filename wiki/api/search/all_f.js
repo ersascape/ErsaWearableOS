@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['h_0',['h',['../de/dc7/structersa_1_1Rect.html#a56ee0a32962ee5d94a570b8ec7d5ec8f',1,'ersa::Rect::h'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aa869a21e2d52ab593da833864adba39a',1,'ersa::test::MockDisplay::H']]],
+  ['h_0',['h',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aa869a21e2d52ab593da833864adba39a',1,'ersa::test::MockDisplay::H'],['../de/dc7/structersa_1_1Rect.html#a56ee0a32962ee5d94a570b8ec7d5ec8f',1,'ersa::Rect::h']]],
   ['hal_20and_20board_20architecture_1',['HAL and Board Architecture',['../d8/d4d/md_docs_2HAL__ARCHITECTURE.html',1,'']]],
   ['hal_20and_20driver_20placement_2',['HAL and driver placement',['../da/d59/md_docs_2ADDING__A__BOARD.html#autotoc_md9',1,'']]],
   ['hal_20boundaries_3',['HAL boundaries',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html#autotoc_md66',1,'']]],
@@ -27,15 +27,16 @@ var searchData=
   ['header_24',['header',['../d0/d99/classersa_1_1hal_1_1IHttpClient.html#a701567db346b65570de59a930d4ea2a2',1,'ersa::hal::IHttpClient']]],
   ['healthy_25',['healthy',['../d9/d57/namespaceWatchClock.html#a800e8ef4d9d0c0d6376e7a2238abd63c',1,'WatchClock']]],
   ['healthy_5f_26',['healthy_',['../da/daa/classersa_1_1test_1_1MockRtc.html#a374c7e0199ab13eb4763b3ae04ede7b6',1,'ersa::test::MockRtc']]],
-  ['height_27',['height',['../de/d4b/structersa_1_1board_1_1DisplayConfig.html#a7317fddc85ec8a167ce3ab4d0cc0788d',1,'ersa::board::DisplayConfig::height'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aef8f46fb12604557c7c3e0288017c12c',1,'ersa::test::MockDisplay::height()'],['../d5/dd7/classersa_1_1ui_1_1Canvas.html#ab1e59d2a2a6493bf3b0836544cf4bcd9',1,'ersa::ui::Canvas::height()'],['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ac9abca0d4afff7e929b06af13a5e768b',1,'ersa::hal::IDisplay::height()']]],
+  ['height_27',['height',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ac9abca0d4afff7e929b06af13a5e768b',1,'ersa::hal::IDisplay::height()'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aef8f46fb12604557c7c3e0288017c12c',1,'ersa::test::MockDisplay::height()'],['../d5/dd7/classersa_1_1ui_1_1Canvas.html#ab1e59d2a2a6493bf3b0836544cf4bcd9',1,'ersa::ui::Canvas::height()'],['../de/d4b/structersa_1_1board_1_1DisplayConfig.html#a7317fddc85ec8a167ce3ab4d0cc0788d',1,'ersa::board::DisplayConfig::height']]],
   ['here_28',['Start here',['../index.html#autotoc_md52',1,'']]],
   ['high_29',['High',['../dd/d81/namespaceersa_1_1board.html#a8736ee0bf320528c726d1bc75f468d56a655d20c1ca69519ca647684edbb2db35',1,'ersa::board']]],
   ['home_30',['Home',['../d5/d98/namespaceButtons.html#a4bc5208097166fc48b97455b9b6050e3a8cf04a9734132302f96da8e113e80ce5',1,'Buttons']]],
   ['host_5fmillis_31',['host_millis',['../d7/db4/bluetooth__manager_8cpp.html#ad7618d6a12afc3501e3cdf3f2e059d46',1,'bluetooth_manager.cpp']]],
   ['hotspot_32',['Hotspot',['../da/d53/namespaceAppDrawer.html#ab437682649533f4c3e933d90683f16caaf5ca5dd25881530ec3a465ed7ded8d24',1,'AppDrawer']]],
-  ['hour_33',['hour',['../d8/d14/structersa_1_1hal_1_1TimePoint.html#a785a9f4dcdc5d64081d558e07fa10377',1,'ersa::hal::TimePoint::hour'],['../d5/d53/structersa_1_1events_1_1TimePayload.html#a0e219fee826d2e333c069849f4c513ea',1,'ersa::events::TimePayload::hour']]],
-  ['http_5fserver_2eh_34',['http_server.h',['../dd/d95/http__server_8h.html',1,'']]],
-  ['http_5ftime_5ftimeout_5fms_35',['HTTP_TIME_TIMEOUT_MS',['../dd/dd8/namespaceersa_1_1config.html#aa987e79d6415babbec3a44db9663520e',1,'ersa::config']]],
-  ['httphandler_36',['HttpHandler',['../d9/de5/namespaceersa_1_1hal.html#a5a47755c3a14f770df167d0ea6ae5728',1,'ersa::hal']]],
-  ['httpmethod_37',['HttpMethod',['../d9/de5/namespaceersa_1_1hal.html#a66d313c0524cc35a698f2c937e37e3ef',1,'ersa::hal']]]
+  ['hour_33',['hour',['../de/d82/classersa_1_1common_1_1CalendarTime.html#a14af6ad21835fba700d41279f2fb51c3',1,'ersa::common::CalendarTime::hour()'],['../d8/d14/structersa_1_1hal_1_1TimePoint.html#a785a9f4dcdc5d64081d558e07fa10377',1,'ersa::hal::TimePoint::hour'],['../d5/d53/structersa_1_1events_1_1TimePayload.html#a0e219fee826d2e333c069849f4c513ea',1,'ersa::events::TimePayload::hour']]],
+  ['hour_5f_34',['hour_',['../de/d82/classersa_1_1common_1_1CalendarTime.html#a4b01f7a776dc0c40c4c9e2b1f2c2a7a1',1,'ersa::common::CalendarTime']]],
+  ['http_5fserver_2eh_35',['http_server.h',['../dd/d95/http__server_8h.html',1,'']]],
+  ['http_5ftime_5ftimeout_5fms_36',['HTTP_TIME_TIMEOUT_MS',['../dd/dd8/namespaceersa_1_1config.html#aa987e79d6415babbec3a44db9663520e',1,'ersa::config']]],
+  ['httphandler_37',['HttpHandler',['../d9/de5/namespaceersa_1_1hal.html#a5a47755c3a14f770df167d0ea6ae5728',1,'ersa::hal']]],
+  ['httpmethod_38',['HttpMethod',['../d9/de5/namespaceersa_1_1hal.html#a66d313c0524cc35a698f2c937e37e3ef',1,'ersa::hal']]]
 ];

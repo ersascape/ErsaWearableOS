@@ -46,7 +46,7 @@ digraph "include/ersa/hal/display.h"
   Node18 [id="Node000018",label="src/apps/app_status.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$dd/d96/app__status_8cpp.html",tooltip=" "];
   Node16 -> Node8 [id="edge23_Node000016_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node16 -> Node19 [id="edge24_Node000016_Node000019",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node19 [id="Node000019",label="src/bsp/ampere/xiao\l_esp32c3/terra/device\l_info.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d2/d89/device__info_8cpp.html",tooltip=" "];
+  Node19 [id="Node000019",label="src/bsp/ampere/common\l/terra/device_info.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d2/d89/device__info_8cpp.html",tooltip=" "];
   Node16 -> Node20 [id="edge25_Node000016_Node000020",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node20 [id="Node000020",label="src/core/debug_log.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$de/d65/debug__log_8cpp.html",tooltip=" "];
   Node16 -> Node21 [id="edge26_Node000016_Node000021",dir="back",color="steelblue1",style="solid",tooltip=" "];

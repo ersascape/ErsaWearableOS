@@ -35,5 +35,5 @@ var searchData=
   ['ispressed_32',['isPressed',['../d8/d26/classersa_1_1hal_1_1IInput.html#a3d8d77e9cc6c44e911ce99866d2ad349',1,'ersa::hal::IInput']]],
   ['isrtchealthy_33',['isRtcHealthy',['../de/deb/classersa_1_1services_1_1TimeService.html#a69ceca49b10fa345eba9e2d69a72efc1',1,'ersa::services::TimeService']]],
   ['issyncing_34',['isSyncing',['../dd/db8/namespaceNetSync.html#ad923ccc41a4fff9e597896f561400888',1,'NetSync']]],
-  ['isvalid_35',['isValid',['../d4/df3/classersa_1_1services_1_1NetworkHandle.html#af0eb9ede51741d4df5d06b0c3c7cf6f7',1,'ersa::services::NetworkHandle']]]
+  ['isvalid_35',['isvalid',['../de/d82/classersa_1_1common_1_1CalendarTime.html#ae35f91f432520584bb914df1c357ff00',1,'ersa::common::CalendarTime::isValid()'],['../d4/df3/classersa_1_1services_1_1NetworkHandle.html#af0eb9ede51741d4df5d06b0c3c7cf6f7',1,'ersa::services::NetworkHandle::isValid()']]]
 ];

@@ -10,9 +10,11 @@ digraph "src/bsp/ampere"
   subgraph clusterdir_ce869ed0c2c3a14e0f756aaeccbaeef9 {
     graph [ bgcolor="#edf0f7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_ce869ed0c2c3a14e0f756aaeccbaeef9.html",tooltip=""]
     dir_ce869ed0c2c3a14e0f756aaeccbaeef9 [shape=plaintext, label="ampere"];
+  dir_8933e4be559892a296b9b6f02de79334 [label="common", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_8933e4be559892a296b9b6f02de79334.html",tooltip=""];
   dir_bc0ed14e77cbffb8ddd1cdfdccbddc72 [label="xiao_esp32c3", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_bc0ed14e77cbffb8ddd1cdfdccbddc72.html",tooltip=""];
+  dir_f338da3b2765cdfae2b9d15835d57550 [label="xiao_esp32c6", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_f338da3b2765cdfae2b9d15835d57550.html",tooltip=""];
   }
   }
   dir_d44c64559bbebec7f509842c48db8b23 [label="include", fillcolor="#edf0f7", color="red", style="filled", URL="dir_d44c64559bbebec7f509842c48db8b23.html",tooltip=""];
-  dir_bc0ed14e77cbffb8ddd1cdfdccbddc72->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="1", labeldistance=1.5 headhref="dir_000034_000021.html" href="dir_000034_000021.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_8933e4be559892a296b9b6f02de79334->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="1", labeldistance=1.5 headhref="dir_000007_000022.html" href="dir_000007_000022.html" color="steelblue1" fontcolor="steelblue1"];
 }

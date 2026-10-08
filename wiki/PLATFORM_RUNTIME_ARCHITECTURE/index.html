@@ -203,11 +203,11 @@ code are migration work, not a desired layer dependency.</p>
   policy, response parsing, timeout decisions, and task orchestration; its
   remaining FreeRTOS task and heap diagnostics calls are platform migration
   work.</li>
-<li><strong>RTC:</strong> <code>Esp32Rtc</code> now owns <code>Wire</code>, the DS3231 driver, and its bounded
-  software-time interpolation/reconciliation. The old <code>WatchClock</code> functions
-  are compatibility wrappers over the generic <code>IRtc</code>; their <code>DateTime</code> return
-  type still leaks RTClib into callers and can be replaced by <code>TimePoint</code> in a
-  later API migration.</li>
+<li><strong>RTC:</strong> <code>Esp32Rtc</code> adapts the generic <code>IRtc</code> contract to the custom DS3231
+  register driver. It owns bus setup, oscillator-stop handling, verification,
+  and bounded software-time interpolation/reconciliation. <code>WatchClock</code> is a
+  compatibility facade returning the first party <code>CalendarTime</code> value; RTClib
+  has been removed from the dependency graph.</li>
 <li><strong>Still to migrate:</strong> network sync still uses FreeRTOS task controls and
   ESP-IDF heap diagnostics in <code>src/core/net_sync.cpp</code>; USB control still uses ESP-IDF OTA,
   partition, reset, heap, and CPU-frequency APIs; OTA transfer implementation

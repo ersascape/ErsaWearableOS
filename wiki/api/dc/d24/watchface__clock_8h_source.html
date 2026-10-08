@@ -83,18 +83,20 @@ $(document).ready(function() { init_codefold(1); });
 </div><!--header-->
 <div class="contents">
 <a href="../../dc/d24/watchface__clock_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;RTClib.h&gt;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="../../d5/d8c/calendar__time_8h.html">ersa/common/calendar_time.h</a>&quot;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="../../d4/d68/display_8h.html">ersa/hal/display.h</a>&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../d9/df2/namespaceWatchfaceClock.html">WatchfaceClock</a> {</div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d9/df2/namespaceWatchfaceClock.html#aa5c8b4e11417836729aa197f72cf8243">render</a>(<a class="code hl_class" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html">ersa::hal::IDisplay</a>&amp; display, <span class="keyword">const</span> DateTime&amp; time, <span class="keywordtype">bool</span> full = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d9/df2/namespaceWatchfaceClock.html#ae44ee9e80a2fa0d41a1fd84e346e1bea">render</a>(<a class="code hl_class" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html">ersa::hal::IDisplay</a>&amp; display, <span class="keyword">const</span> <a class="code hl_class" href="../../de/d82/classersa_1_1common_1_1CalendarTime.html">CalendarTime</a>&amp; time, <span class="keywordtype">bool</span> full = <span class="keyword">true</span>);</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>} <span class="comment">// namespace WatchfaceClock</span></div>
+<div class="ttc" id="acalendar__time_8h_html"><div class="ttname"><a href="../../d5/d8c/calendar__time_8h.html">calendar_time.h</a></div></div>
+<div class="ttc" id="aclassersa_1_1common_1_1CalendarTime_html"><div class="ttname"><a href="../../de/d82/classersa_1_1common_1_1CalendarTime.html">ersa::common::CalendarTime</a></div><div class="ttdef"><b>Definition</b> calendar_time.h:11</div></div>
 <div class="ttc" id="aclassersa_1_1hal_1_1IDisplay_html"><div class="ttname"><a href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html">ersa::hal::IDisplay</a></div><div class="ttdef"><b>Definition</b> display.h:40</div></div>
 <div class="ttc" id="adisplay_8h_html"><div class="ttname"><a href="../../d4/d68/display_8h.html">display.h</a></div></div>
 <div class="ttc" id="anamespaceWatchfaceClock_html"><div class="ttname"><a href="../../d9/df2/namespaceWatchfaceClock.html">WatchfaceClock</a></div><div class="ttdef"><b>Definition</b> watchface_clock.cpp:8</div></div>
-<div class="ttc" id="anamespaceWatchfaceClock_html_aa5c8b4e11417836729aa197f72cf8243"><div class="ttname"><a href="../../d9/df2/namespaceWatchfaceClock.html#aa5c8b4e11417836729aa197f72cf8243">WatchfaceClock::render</a></div><div class="ttdeci">void render(ersa::hal::IDisplay &amp;display, const DateTime &amp;time, bool full)</div><div class="ttdef"><b>Definition</b> watchface_clock.cpp:94</div></div>
+<div class="ttc" id="anamespaceWatchfaceClock_html_ae44ee9e80a2fa0d41a1fd84e346e1bea"><div class="ttname"><a href="../../d9/df2/namespaceWatchfaceClock.html#ae44ee9e80a2fa0d41a1fd84e346e1bea">WatchfaceClock::render</a></div><div class="ttdeci">void render(ersa::hal::IDisplay &amp;display, const CalendarTime &amp;time, bool full)</div><div class="ttdef"><b>Definition</b> watchface_clock.cpp:94</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

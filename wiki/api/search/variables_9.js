@@ -1,4 +1,22 @@
 var searchData=
 [
-  ['kersaotarootca_0',['kErsaOtaRootCa',['../d9/d90/ota__root__ca_8h.html#a82e4fb502d58ac8348794241ff4a1804',1,'ota_root_ca.h']]]
+  ['lastactivityms_5f_0',['lastactivityms_',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#ae78962d602084ca8fcf1bcb44e93c3b9',1,'ersa::services::PowerManager::lastActivityMs_'],['../de/d55/classersa_1_1services_1_1NetworkManager.html#aa5a8fb5ea8f7c98ff2ce8f3f68ee5c5e',1,'ersa::services::NetworkManager::lastActivityMs_']]],
+  ['lastbatterysamplems_5f_1',['lastBatterySampleMs_',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#a1d368793ea452a1e87502450aa0a4c04',1,'ersa::services::PowerManager']]],
+  ['lastdeepsleepus_2',['lastDeepSleepUs',['../da/d19/classersa_1_1test_1_1MockPowerManagement.html#ab42f34529fc2984a9ddb9a4e757f1a0a',1,'ersa::test::MockPowerManagement']]],
+  ['lastdialed_5f_3',['lastDialed_',['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a9c7ffbd5f08642722cfe5cc94fbbc0c3',1,'ersa::test::MockBluetooth']]],
+  ['lastdismisseduid_5f_4',['lastDismissedUid_',['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#ac0fd03a01d68b27c77b18b7286a8956f',1,'ersa::test::MockBluetooth']]],
+  ['lastmediaaction_5f_5',['lastMediaAction_',['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a513bb17b88a104bc1b729a20caf971c4',1,'ersa::test::MockBluetooth']]],
+  ['lastminute_5f_6',['lastMinute_',['../de/deb/classersa_1_1services_1_1TimeService.html#a2113fd4590e326a5b59d32a1559c3ce0',1,'ersa::services::TimeService']]],
+  ['lastnumber_5f_7',['lastNumber_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#af1964926ccfa9e60eca89a9a64f4f260',1,'ersa::test::MockDisplay']]],
+  ['lastpollms_5f_8',['lastPollMs_',['../de/deb/classersa_1_1services_1_1TimeService.html#ad8f644cac024f91721b39d2aa3dfd6a4',1,'ersa::services::TimeService']]],
+  ['lastrefreshtime_5f_9',['lastRefreshTime_',['../d8/dad/classersa_1_1services_1_1DisplayManager.html#a21d31f531ba0e71cdfa519eb53c80be1',1,'ersa::services::DisplayManager']]],
+  ['lastrendertime_5f_10',['lastRenderTime_',['../de/df7/classersa_1_1app_1_1ApplicationManager.html#a39f7be726884865c27e6366a33d59823',1,'ersa::app::ApplicationManager']]],
+  ['lastsourceavailability_5f_11',['lastSourceAvailability_',['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a5705cf7a0e45fb885880356d677002ad',1,'ersa::hal::Esp32Bluetooth']]],
+  ['laststate_5f_12',['lastState_',['../dc/dd5/apps__registry_8cpp.html#a82e7245cd5b1ca530e9d6798f269cdf6',1,'apps_registry.cpp']]],
+  ['lasttext_5f_13',['lastText_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a74e3e7e2136efd6cea1a6443a96f56f7',1,'ersa::test::MockDisplay']]],
+  ['lastwaitms_14',['lastWaitMs',['../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a4ef710a757159daaea17998378111e9a',1,'ersa::test::MockPowerManagement']]],
+  ['length_15',['length',['../d1/d80/ota__service_8cpp.html#ae809d5359ac030c60a30a8f0b2294b82',1,'ota_service.cpp']]],
+  ['listener_16',['listener',['../df/dbf/structersa_1_1events_1_1Subscription.html#a45570e9538fba16759940d3eae3cb7b5',1,'ersa::events::Subscription']]],
+  ['low_5fbattery_5fmv_17',['LOW_BATTERY_MV',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#acc737371c82cebf40b63d616790735d1',1,'ersa::services::PowerManager']]],
+  ['low_5fbattery_5fpercent_18',['LOW_BATTERY_PERCENT',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#a309896391e3382943883dcde33653eb5',1,'ersa::services::PowerManager']]]
 ];

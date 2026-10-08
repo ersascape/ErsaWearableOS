@@ -74,7 +74,7 @@ var searchData=
   ['ispressed_71',['isPressed',['../d8/d26/classersa_1_1hal_1_1IInput.html#a3d8d77e9cc6c44e911ce99866d2ad349',1,'ersa::hal::IInput']]],
   ['isrtchealthy_72',['isRtcHealthy',['../de/deb/classersa_1_1services_1_1TimeService.html#a69ceca49b10fa345eba9e2d69a72efc1',1,'ersa::services::TimeService']]],
   ['issyncing_73',['isSyncing',['../dd/db8/namespaceNetSync.html#ad923ccc41a4fff9e597896f561400888',1,'NetSync']]],
-  ['isvalid_74',['isValid',['../d4/df3/classersa_1_1services_1_1NetworkHandle.html#af0eb9ede51741d4df5d06b0c3c7cf6f7',1,'ersa::services::NetworkHandle']]],
+  ['isvalid_74',['isvalid',['../d4/df3/classersa_1_1services_1_1NetworkHandle.html#af0eb9ede51741d4df5d06b0c3c7cf6f7',1,'ersa::services::NetworkHandle::isValid()'],['../de/d82/classersa_1_1common_1_1CalendarTime.html#ae35f91f432520584bb914df1c357ff00',1,'ersa::common::CalendarTime::isValid()']]],
   ['item_75',['Item',['../da/d53/namespaceAppDrawer.html#ab437682649533f4c3e933d90683f16ca',1,'AppDrawer']]],
   ['its_20image_20while_20its_20drive_20voltage_20is_20off_76',['5. E-paper retains its image while its drive voltage is off',['../da/dfe/md_docs_2ARCHITECTURE__AND__POWER__AUDIT.html#autotoc_md22',1,'']]],
   ['iwifiradio_77',['IWifiRadio',['../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html',1,'ersa::hal']]]

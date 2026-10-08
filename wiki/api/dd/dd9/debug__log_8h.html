@@ -77,6 +77,7 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">debug_log.h File Reference</div></div>
 </div><!--header-->
@@ -106,6 +107,13 @@ Namespaces</h2></td></tr>
 <tr class="memitem:d3/d93/namespaceDebugLog" id="r_d3/d93/namespaceDebugLog"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d93/namespaceDebugLog.html">DebugLog</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:aa923b509e4693523c03b1914986f8755" id="r_aa923b509e4693523c03b1914986f8755"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dd9/debug__log_8h.html#aa923b509e4693523c03b1914986f8755">ERSA_VERBOSE_DIAGNOSTICS</a>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:aa923b509e4693523c03b1914986f8755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12acdf0b0d406935ce64b1d10184fa36" id="r_a12acdf0b0d406935ce64b1d10184fa36"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dd9/debug__log_8h.html#a12acdf0b0d406935ce64b1d10184fa36">ERSA_LOG_VERBOSE</a>(...)&#160;&#160;&#160;((void)0)</td></tr>
+<tr class="separator:a12acdf0b0d406935ce64b1d10184fa36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a2e07593419825a4efad298efab05ef37" id="r_a2e07593419825a4efad298efab05ef37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d93/namespaceDebugLog.html#a2e07593419825a4efad298efab05ef37">DebugLog::begin</a> ()</td></tr>
@@ -127,6 +135,40 @@ Functions</h2></td></tr>
 <tr class="memitem:a8720047ee3d4043c9baadad3484754ae" id="r_a8720047ee3d4043c9baadad3484754ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d93/namespaceDebugLog.html#a8720047ee3d4043c9baadad3484754ae">DebugLog::flush</a> ()</td></tr>
 <tr class="separator:a8720047ee3d4043c9baadad3484754ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a12acdf0b0d406935ce64b1d10184fa36" name="a12acdf0b0d406935ce64b1d10184fa36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12acdf0b0d406935ce64b1d10184fa36">&#9670;&#160;</a></span>ERSA_LOG_VERBOSE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ERSA_LOG_VERBOSE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td>&#160;&#160;&#160;((void)0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa923b509e4693523c03b1914986f8755" name="aa923b509e4693523c03b1914986f8755"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa923b509e4693523c03b1914986f8755">&#9670;&#160;</a></span>ERSA_VERBOSE_DIAGNOSTICS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ERSA_VERBOSE_DIAGNOSTICS&#160;&#160;&#160;0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Expensive protocol and power telemetry that should disappear from release images. Build with ERSA_VERBOSE_DIAGNOSTICS=1 to restore these call sites. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

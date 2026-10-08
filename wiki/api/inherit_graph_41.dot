@@ -5,9 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node0 [id="Node000000",label="ersa::hal::IPowerManagement",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$dc/d23/classersa_1_1hal_1_1IPowerManagement.html",tooltip=" "];
-  Node0 -> Node1 [id="edge16_Node000000_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 [id="Node000001",label="ersa::hal::Esp32PowerManagement",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html",tooltip=" "];
-  Node0 -> Node2 [id="edge17_Node000000_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node2 [id="Node000002",label="ersa::test::MockPowerManagement",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$da/d19/classersa_1_1test_1_1MockPowerManagement.html",tooltip=" "];
+  Node0 [id="Node000000",label="ersa::hal::IPlatformDiagnostics",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d6/d7b/classersa_1_1hal_1_1IPlatformDiagnostics.html",tooltip=" "];
 }

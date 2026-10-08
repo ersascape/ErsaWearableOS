@@ -101,7 +101,7 @@ digraph "include/ersa/events/event.h"
   Node32 -> Node18 [id="edge62_Node000032_Node000018",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node32 -> Node8 [id="edge63_Node000032_Node000008",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node32 -> Node34 [id="edge64_Node000032_Node000034",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node34 [id="Node000034",label="src/bsp/ampere/xiao\l_esp32c3/terra/device\l_info.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d2/d89/device__info_8cpp.html",tooltip=" "];
+  Node34 [id="Node000034",label="src/bsp/ampere/common\l/terra/device_info.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d2/d89/device__info_8cpp.html",tooltip=" "];
   Node32 -> Node35 [id="edge65_Node000032_Node000035",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node35 [id="Node000035",label="src/core/debug_log.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$de/d65/debug__log_8cpp.html",tooltip=" "];
   Node32 -> Node28 [id="edge66_Node000032_Node000028",dir="back",color="steelblue1",style="solid",tooltip=" "];

@@ -8,11 +8,12 @@ var searchData=
   ['laststatus_5',['lastStatus',['../dd/db8/namespaceNetSync.html#a6041551775f40e6351c00fff706386b2',1,'NetSync']]],
   ['lasttransporterror_6',['lastTransportError',['../d0/d99/classersa_1_1hal_1_1IHttpClient.html#aa6a4c9ba41eaddc2d6bf1b7035b420f7',1,'ersa::hal::IHttpClient']]],
   ['latestsequence_7',['latestSequence',['../d3/d93/namespaceDebugLog.html#ab806683a9e963528b22fae12472e6359',1,'DebugLog']]],
-  ['levelname_8',['levelName',['../de/dd9/namespaceersa_1_1services.html#a1f2256fbcd7ddfb3ad377f2f8a55f4db',1,'ersa::services']]],
-  ['line_9',['line',['../db/d43/namespaceWatchText.html#aea6c22c05ce19406680ce39e82da29fe',1,'WatchText']]],
-  ['log_10',['log',['../d5/db5/classersa_1_1services_1_1LoggingService.html#ac2963432af57c43af82eef97245e827d',1,'ersa::services::LoggingService::log()'],['../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#ac2a94cf7bd5b4d7290f76b3ff2c19a61',1,'ersa::services::StandardLoggingService::log()'],['../d3/d93/namespaceDebugLog.html#a99f2aee28a4cfc8d0c936c8acd5bba59',1,'DebugLog::log()']]],
-  ['logger_11',['logger',['../d9/d7b/namespaceersa_1_1system.html#aa81b84c34db24de40a0352b7b1e2eb68',1,'ersa::system']]],
-  ['loggerautoinit_12',['LoggerAutoInit',['../da/d47/structersa_1_1services_1_1LoggerAutoInit.html#a757bf37151affa235d20d7de029dfde2',1,'ersa::services::LoggerAutoInit']]],
-  ['logv_13',['logv',['../d5/db5/classersa_1_1services_1_1LoggingService.html#a137965939949ec40e8186923dbcca367',1,'ersa::services::LoggingService::logv()'],['../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#a631554ba05f1f8fa68f573dbecdeb7ee',1,'ersa::services::StandardLoggingService::logv()']]],
-  ['loop_14',['loop',['../df/d0a/main_8cpp.html#afe461d27b9c48d5921c00d521181f12f',1,'main.cpp']]]
+  ['leap_8',['leap',['../de/d82/classersa_1_1common_1_1CalendarTime.html#a7bd08bf364594008877cd94b06d0ec72',1,'ersa::common::CalendarTime']]],
+  ['levelname_9',['levelName',['../de/dd9/namespaceersa_1_1services.html#a1f2256fbcd7ddfb3ad377f2f8a55f4db',1,'ersa::services']]],
+  ['line_10',['line',['../db/d43/namespaceWatchText.html#aea6c22c05ce19406680ce39e82da29fe',1,'WatchText']]],
+  ['log_11',['log',['../d5/db5/classersa_1_1services_1_1LoggingService.html#ac2963432af57c43af82eef97245e827d',1,'ersa::services::LoggingService::log()'],['../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#ac2a94cf7bd5b4d7290f76b3ff2c19a61',1,'ersa::services::StandardLoggingService::log()'],['../d3/d93/namespaceDebugLog.html#a99f2aee28a4cfc8d0c936c8acd5bba59',1,'DebugLog::log()']]],
+  ['logger_12',['logger',['../d9/d7b/namespaceersa_1_1system.html#aa81b84c34db24de40a0352b7b1e2eb68',1,'ersa::system']]],
+  ['loggerautoinit_13',['LoggerAutoInit',['../da/d47/structersa_1_1services_1_1LoggerAutoInit.html#a757bf37151affa235d20d7de029dfde2',1,'ersa::services::LoggerAutoInit']]],
+  ['logv_14',['logv',['../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#a631554ba05f1f8fa68f573dbecdeb7ee',1,'ersa::services::StandardLoggingService::logv()'],['../d5/db5/classersa_1_1services_1_1LoggingService.html#a137965939949ec40e8186923dbcca367',1,'ersa::services::LoggingService::logv()']]],
+  ['loop_15',['loop',['../df/d0a/main_8cpp.html#afe461d27b9c48d5921c00d521181f12f',1,'main.cpp']]]
 ];

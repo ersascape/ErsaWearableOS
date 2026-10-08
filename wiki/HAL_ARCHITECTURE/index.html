@@ -165,10 +165,14 @@ arm wake sources; it does not call ESP-IDF power, sleep, GPIO interrupt, or
 FreeRTOS notification APIs directly. Bluetooth has the separate <code>IBluetooth</code>
 and <code>ICompanionSource</code> contracts, implemented by the ESP32 Bluetooth adapter.</p>
 <p><code>IDisplay</code> contains the graphics operations used by the UI, with logical font
-and color values. The Terra BSP selects <code>GxEpd2Display</code>; that driver alone
-knows GxEPD2, the GDEY0154D67 panel, and its SPI transport. Other display
-drivers can implement the same contract. No renderer includes Adafruit GFX or
-accesses a concrete display object.</p>
+and color values. The Terra BSP selects a custom SSD1681 driver adapted from
+T1E V2a for the GDEY0154D67 panel. It owns the panel protocol, waveform tables,
+SPI transport, and canvas. Renderers use only <code>IDisplay</code>; they do not include
+Adafruit GFX or access a concrete display object.</p>
+<p><code>IRtc</code> carries calendar values and timekeeping diagnostics. The Terra BSP binds
+<code>Esp32Rtc</code>, which composes the custom DS3231 register driver. Date conversion
+and display-facing calendar values use the first party <code>CalendarTime</code> type;
+RTClib is not part of the build.</p>
 <p>The board pin contract groups I2C, SPI, display, buttons, and ADC pins. Pin
 records include function, direction, pull, and active level. The platform pin
 controller applies GPIO electrical settings; the peripheral drivers route bus
@@ -178,7 +182,7 @@ consume DTS bindings.</p>
 <p>ESP-IDF Kconfig selects the board product and its required drivers. The BSP
 provider is guarded by the selected board symbol. Keep
 <code>sdkconfig.defaults</code> as the reproducible default configuration and use
-<code>menuconfig</code> for local tuning. The Terra BSP selects its required GxEPD2 panel
+<code>menuconfig</code> for local tuning. The Terra BSP selects its required SSD1681 panel
 driver, and the component build compiles only that panel's sources.</p>
 <p>There is no audio playback or audio peripheral in this firmware. BLE media
 controls and metadata are companion-source features, not an audio HAL. Add an

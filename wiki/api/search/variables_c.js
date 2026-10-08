@@ -1,28 +1,7 @@
 var searchData=
 [
-  ['name_0',['name',['../d2/d55/structersa_1_1board_1_1BoardConfig.html#a474aa1a71e3adf4f995a22044f225b5b',1,'ersa::board::BoardConfig::name'],['../d5/dcd/structersa_1_1services_1_1RecentCall.html#ac6ad0f1f7230c0bfec2ea5d04a0b1ca7',1,'ersa::services::RecentCall::name'],['../d6/db2/structersa_1_1board_1_1DeviceInfo.html#aa5a4057d157cd1cbbdc1b8cdcfeca3d0',1,'ersa::board::DeviceInfo::name']]],
-  ['nav_5fagenda_5fempty_5ffoot_1',['NAV_AGENDA_EMPTY_FOOT',['../d2/d82/namespaceersa_1_1strings.html#a4259fc7f4dbe9e565451364a11fc01b8',1,'ersa::strings']]],
-  ['nav_5fagenda_5ffooter_2',['NAV_AGENDA_FOOTER',['../d2/d82/namespaceersa_1_1strings.html#a157bb39fb4638779ce0e08883200749c',1,'ersa::strings']]],
-  ['nav_5fcalendar_5ffooter_3',['NAV_CALENDAR_FOOTER',['../d2/d82/namespaceersa_1_1strings.html#ad89407c7ba24930a8f90687d743e3192',1,'ersa::strings']]],
-  ['nav_5fdrawer_5ffooter_4',['NAV_DRAWER_FOOTER',['../d2/d82/namespaceersa_1_1strings.html#aa6fd4ec8c94c852e738fdd1f2cb56150',1,'ersa::strings']]],
-  ['nav_5fstatus_5ffooter_5',['NAV_STATUS_FOOTER',['../d2/d82/namespaceersa_1_1strings.html#a0997316c460bff7c3df725cff0fc1d12',1,'ersa::strings']]],
-  ['nav_5ftodo_5fempty_5ffoot_6',['NAV_TODO_EMPTY_FOOT',['../d2/d82/namespaceersa_1_1strings.html#a4e513d5a283544ddde8c3c189fa6f1a1',1,'ersa::strings']]],
-  ['nav_5ftodo_5ffooter_7',['NAV_TODO_FOOTER',['../d2/d82/namespaceersa_1_1strings.html#a562945fcd6c7f635f88213cb9a2248c0',1,'ersa::strings']]],
-  ['negativeactionlabel_8',['negativeActionLabel',['../d9/da9/classersa_1_1protocols_1_1AncsAttributes.html#aaa46b6f1d0b86c67aa0173cdf1b113a6',1,'ersa::protocols::AncsAttributes']]],
-  ['network_9',['network',['../d4/db2/structersa_1_1events_1_1Event.html#af7de731a83646a4f28637d6f9cce4324',1,'ersa::events::Event']]],
-  ['networkworkactive_10',['networkWorkActive',['../d2/d41/structersa_1_1runtime_1_1SleepEligibility.html#a1acbd06291b522f4f5ebb2453f1cd1b3',1,'ersa::runtime::SleepEligibility']]],
-  ['nextsubid_5f_11',['nextSubId_',['../d4/de9/classersa_1_1events_1_1EventBus.html#a5ac5d396302eb40193923e8e431099e8',1,'ersa::events::EventBus']]],
-  ['nosleeplock_5f_12',['noSleepLock_',['../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#afb7f6bc54f5079b7da5ed0b45dcd794c',1,'ersa::hal::Esp32PowerManagement']]],
-  ['nosleeplockheld_5f_13',['noSleepLockHeld_',['../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a79cbdbfbb73c80c90061247e76dc0a6a',1,'ersa::hal::Esp32PowerManagement']]],
-  ['notifcb_5f_14',['notifcb_',['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a8288e17663dc331ecf2c064ef12d94f2',1,'ersa::test::MockBluetooth::notifCb_'],['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a34a81c446ae71788ac7977386e16c9f3',1,'ersa::hal::Esp32Bluetooth::notifCb_']]],
-  ['notifcount_5f_15',['notifCount_',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#aa60b88c38dbfec1f80dc65bb075c5f76',1,'ersa::services::BluetoothManager']]],
-  ['notification_16',['notification',['../d4/db2/structersa_1_1events_1_1Event.html#a75559801b403a9db4029e335cabddf43',1,'ersa::events::Event']]],
-  ['notificationdismisscount_5f_17',['notificationDismissCount_',['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#ae3236c3b2a7fd423733451eb0afe4982',1,'ersa::test::MockBluetooth']]],
-  ['notifications_18',['notifications',['../df/d5c/structersa_1_1hal_1_1CompanionCapabilities.html#aa55dd24df12512bb4c901dcac0e372d0',1,'ersa::hal::CompanionCapabilities']]],
-  ['notifications_5f_19',['notifications_',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a5794e2aa1ef130eafc26ca7db5b87bf2',1,'ersa::services::BluetoothManager']]],
-  ['notifuserdata_5f_20',['notifuserdata_',['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a2940677464f95ea05eb767fc9ff47524',1,'ersa::test::MockBluetooth::notifUserData_'],['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#aa7c83f3ef2bd90dc652bc7b7e78334f6',1,'ersa::hal::Esp32Bluetooth::notifUserData_']]],
-  ['ntp_5fsync_5ftimeout_5fms_21',['NTP_SYNC_TIMEOUT_MS',['../dd/dd8/namespaceersa_1_1config.html#a7aa00cc300800bbed0e107597f5e9e2a',1,'ersa::config']]],
-  ['num_5fhttp_5ftime_5fendpoints_22',['NUM_HTTP_TIME_ENDPOINTS',['../dd/dd8/namespaceersa_1_1config.html#a4340ce377e80ae704fa77253bd685da6',1,'ersa::config']]],
-  ['num_5fntp_5fservers_23',['NUM_NTP_SERVERS',['../dd/dd8/namespaceersa_1_1config.html#af53ccac621106afbabea77a703aaf408',1,'ersa::config']]],
-  ['number_24',['number',['../d5/dcd/structersa_1_1services_1_1RecentCall.html#aab2f5e7693873c397b3db87a3e82cc1a',1,'ersa::services::RecentCall::number'],['../d4/dbc/structersa_1_1events_1_1CallPayload.html#a2f6acb52dc4f33f15958d67ea4ca4c5b',1,'ersa::events::CallPayload::number'],['../d6/d49/structersa_1_1board_1_1Pin.html#a6a51ca56837307adfcc1f1dbb38c4cad',1,'ersa::board::Pin::number']]]
+  ['oscillatorstopped_0',['oscillatorStopped',['../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html#a5b6ecdfadcf20ab627b34f48f2b58f25',1,'ersa::hal::RtcDiagnostics']]],
+  ['output_5f_1',['output_',['../da/d26/classersa_1_1test_1_1MockConsole.html#a55e5769818806d183b60b32dc05f8fbb',1,'ersa::test::MockConsole']]],
+  ['outputcapacity_5f_2',['outputCapacity_',['../da/d26/classersa_1_1test_1_1MockConsole.html#a748b98b7d7feb66e3a9f62b47709f13b',1,'ersa::test::MockConsole']]],
+  ['overflow_3',['overflow',['../d1/d80/ota__service_8cpp.html#a49aa97067a36875627e1380c3fb3833d',1,'ota_service.cpp']]]
 ];

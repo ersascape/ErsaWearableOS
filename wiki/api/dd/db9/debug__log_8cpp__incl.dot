@@ -90,11 +90,17 @@ digraph "src/core/debug_log.cpp"
   Node1 -> Node25 [id="edge60_Node000001_Node000025",color="steelblue1",style="solid",tooltip=" "];
   Node25 [id="Node000025",label="watch_clock.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d1/def/watch__clock_8h.html",tooltip=" "];
   Node25 -> Node26 [id="edge61_Node000025_Node000026",color="steelblue1",style="solid",tooltip=" "];
-  Node26 [id="Node000026",label="RTClib.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
-  Node1 -> Node27 [id="edge62_Node000001_Node000027",color="steelblue1",style="solid",tooltip=" "];
-  Node27 [id="Node000027",label="stdarg.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
-  Node1 -> Node28 [id="edge63_Node000001_Node000028",color="steelblue1",style="solid",tooltip=" "];
+  Node26 [id="Node000026",label="ersa/common/calendar\l_time.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d5/d8c/calendar__time_8h.html",tooltip=" "];
+  Node26 -> Node3 [id="edge62_Node000026_Node000003",color="steelblue1",style="solid",tooltip=" "];
+  Node26 -> Node27 [id="edge63_Node000026_Node000027",color="steelblue1",style="solid",tooltip=" "];
+  Node27 [id="Node000027",label="stdio.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node26 -> Node28 [id="edge64_Node000026_Node000028",color="steelblue1",style="solid",tooltip=" "];
   Node28 [id="Node000028",label="string.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
-  Node1 -> Node29 [id="edge64_Node000001_Node000029",color="steelblue1",style="solid",tooltip=" "];
-  Node29 [id="Node000029",label="freertos/FreeRTOS.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node26 -> Node29 [id="edge65_Node000026_Node000029",color="steelblue1",style="solid",tooltip=" "];
+  Node29 [id="Node000029",label="time.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node30 [id="edge66_Node000001_Node000030",color="steelblue1",style="solid",tooltip=" "];
+  Node30 [id="Node000030",label="stdarg.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node28 [id="edge67_Node000001_Node000028",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node31 [id="edge68_Node000001_Node000031",color="steelblue1",style="solid",tooltip=" "];
+  Node31 [id="Node000031",label="freertos/FreeRTOS.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
 }

@@ -1,10 +1,10 @@
-digraph "src/bsp/ampere/xiao_esp32c3/terra/device_info.cpp"
+digraph "src/bsp/ampere/common/terra/device_info.cpp"
 {
  // LATEX_PDF_SIZE
   bgcolor="transparent";
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
-  Node1 [id="Node000001",label="src/bsp/ampere/xiao\l_esp32c3/terra/device\l_info.cpp",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
+  Node1 [id="Node000001",label="src/bsp/ampere/common\l/terra/device_info.cpp",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
   Node1 -> Node2 [id="edge1_Node000001_Node000002",color="steelblue1",style="solid",tooltip=" "];
   Node2 [id="Node000002",label="ersa/board/board.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d3/d02/board_8h.html",tooltip=" "];
   Node2 -> Node3 [id="edge2_Node000002_Node000003",color="steelblue1",style="solid",tooltip=" "];
@@ -77,4 +77,6 @@ digraph "src/bsp/ampere/xiao_esp32c3/terra/device_info.cpp"
   Node22 [id="Node000022",label="ersa/hal/platform_diagnostics.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d9/dbc/platform__diagnostics_8h.html",tooltip=" "];
   Node22 -> Node5 [id="edge50_Node000022_Node000005",color="steelblue1",style="solid",tooltip=" "];
   Node22 -> Node4 [id="edge51_Node000022_Node000004",color="steelblue1",style="solid",tooltip=" "];
+  Node1 -> Node23 [id="edge52_Node000001_Node000023",color="steelblue1",style="solid",tooltip=" "];
+  Node23 [id="Node000023",label="sdkconfig.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
 }

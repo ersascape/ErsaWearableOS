@@ -11,6 +11,7 @@ digraph "src/drivers"
     graph [ bgcolor="#edf0f7", pencolor="grey25", label="", fontname=Helvetica,fontsize=10 style="filled,bold", URL="dir_c718a368270b13c54d94892d20736f45.html",tooltip=""]
     dir_c718a368270b13c54d94892d20736f45 [shape=plaintext, label="drivers"];
   dir_fbcdc047ec583807de9c284f63c4935b [label="display", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_fbcdc047ec583807de9c284f63c4935b.html",tooltip=""];
+  dir_b42f7877bf00bb462571d21ed28d3064 [label="rtc", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_b42f7877bf00bb462571d21ed28d3064.html",tooltip=""];
   }
   }
 }

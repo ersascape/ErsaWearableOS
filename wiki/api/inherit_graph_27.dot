@@ -5,5 +5,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node0 [id="Node000000",label="ersa::events::Subscription",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$df/dbf/structersa_1_1events_1_1Subscription.html",tooltip=" "];
+  Node0 [id="Node000000",label="ersa::events::Notification\lPayload",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d6/dc2/structersa_1_1events_1_1NotificationPayload.html",tooltip=" "];
 }
