@@ -455,6 +455,7 @@ void WatchUi::tick() {
         board.getDisplay().isBusy(),
         !powerManager.canSleep(),
         board.getInput().hasPendingEvents() || appManager.isDirty()
+            || topPressed || bottomPressed
     };
     // Services contribute deadlines; the scheduler chooses both sleep policy
     // and the main task's wait cadence in one place.

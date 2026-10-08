@@ -90,8 +90,8 @@ void test_runtime_scheduler() {
     eligible.foregroundWorkActive = false;
     const auto sleepingPlan = runtime::RuntimeScheduler::plan(eligible, false, false, 1200);
     TEST_ASSERT(sleepingPlan.allowAutomaticSleep &&
-                sleepingPlan.waitMs == runtime::RuntimeScheduler::INPUT_POLL_INTERVAL_MS,
-                "sleeping loop wakes periodically to poll click and long-press state");
+                sleepingPlan.waitMs == 1200,
+                "sleeping loop waits for its next deadline and GPIO interrupts wake input");
     const auto deadlinePlan = runtime::RuntimeScheduler::plan(eligible, false, false, 5);
     TEST_ASSERT(deadlinePlan.allowAutomaticSleep && deadlinePlan.waitMs == 5,
                 "service deadlines shorter than the input poll interval are preserved");
