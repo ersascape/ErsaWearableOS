@@ -3,7 +3,7 @@ var searchData=
   ['g_5flastreceivedevent_0',['g_lastReceivedEvent',['../d5/d89/main__test_8cpp.html#ae1c281c532494318b309df116e2a0504',1,'main_test.cpp']]],
   ['g_5fsubcallcount_1',['g_subCallCount',['../d5/d89/main__test_8cpp.html#af299cf3d54e05d8df80bfa5d5c0630a9',1,'main_test.cpp']]],
   ['g_5ftimeeventcount_2',['g_timeEventCount',['../d5/d89/main__test_8cpp.html#a0cb3fb31874b77d30390f1b9b619390b',1,'main_test.cpp']]],
-  ['gatt_20operations_20bypass_20application_20timeout_20handling_3',['5. Blocking GATT operations bypass application timeout handling',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md38',1,'']]],
+  ['gatt_20operations_20bypass_20application_20timeout_20handling_3',['5. Blocking GATT operations bypass application timeout handling',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md44',1,'']]],
   ['get_4',['get',['../dc/d0d/namespaceWatchConfig.html#ad6e5a6f661a33c59e9da8111e82987b2',1,'WatchConfig::get()'],['../df/ded/classBatteryComplication.html#a2b91c64f5a27d8941949f9a07209dcef',1,'BatteryComplication::get()'],['../d6/d88/classersa_1_1app_1_1ComplicationProvider.html#a53f3d5a968cecaf1149805e800320c55',1,'ersa::app::ComplicationProvider::get()']]],
   ['getactiveapp_5',['getActiveApp',['../de/df7/classersa_1_1app_1_1ApplicationManager.html#aaf2f00b7cabc117841bb20c83f701618',1,'ersa::app::ApplicationManager']]],
   ['getactivehandlecount_6',['getActiveHandleCount',['../de/d55/classersa_1_1services_1_1NetworkManager.html#a67e8bfc36a3c2b0f1b197d3328612f9e',1,'ersa::services::NetworkManager']]],
@@ -59,7 +59,7 @@ var searchData=
   ['getwifi_56',['getWifi',['../dc/d9d/classersa_1_1board_1_1Board.html#ae490d2ecfd61ad2940cb68e76c6c7116',1,'ersa::board::Board']]],
   ['getwifipass_57',['getwifipass',['../de/de7/classersa_1_1services_1_1MemorySettingsService.html#a4a2e736c379146e4b907164baf138e6e',1,'ersa::services::MemorySettingsService::getWifiPass()'],['../dd/db5/classersa_1_1services_1_1SettingsService.html#a052c798115e1d3de977fdc2f299fee74',1,'ersa::services::SettingsService::getWifiPass()']]],
   ['getwifissid_58',['getwifissid',['../de/de7/classersa_1_1services_1_1MemorySettingsService.html#afde5b2b74fc502b60909dff5c9672b9f',1,'ersa::services::MemorySettingsService::getWifiSsid()'],['../dd/db5/classersa_1_1services_1_1SettingsService.html#ab401f3d119e9405f930a9e4370a88317',1,'ersa::services::SettingsService::getWifiSsid()']]],
-  ['goal_59',['Goal',['../d0/d16/md_docs_2ewctl-control-bridge.html#autotoc_md16',1,'']]],
+  ['goal_59',['Goal',['../d0/d16/md_docs_2ewctl-control-bridge.html#autotoc_md22',1,'']]],
   ['gpio_60',['Gpio',['../dd/d81/namespaceersa_1_1board.html#a3a8efaf077683613bcb1ca10794f8ba5a79aadd8a4aaa4be437552b807bb25827',1,'ersa::board']]],
   ['gxepd2_5fdisplay_2ecpp_61',['gxepd2_display.cpp',['../d9/d41/gxepd2__display_8cpp.html',1,'']]],
   ['gxepd2_5fdisplay_2eh_62',['gxepd2_display.h',['../dc/dde/gxepd2__display_8h.html',1,'']]]

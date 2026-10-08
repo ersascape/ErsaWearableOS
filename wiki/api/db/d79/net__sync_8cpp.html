@@ -95,6 +95,7 @@ $(function() {
 <code>#include &lt;Preferences.h&gt;</code><br />
 <code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;ctype.h&gt;</code><br />
+<code>#include &lt;atomic&gt;</code><br />
 <code>#include &lt;esp_sntp.h&gt;</code><br />
 <code>#include &lt;esp_heap_caps.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -134,8 +135,14 @@ Functions</h2></td></tr>
 <tr class="separator:ac95f847fa957e5be5c254b3f4f68358f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a267daf9dc8f8a88df82d6c992cdb652f" id="r_a267daf9dc8f8a88df82d6c992cdb652f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a267daf9dc8f8a88df82d6c992cdb652f">NetSync::fetchNtpUtc</a> (time_t &amp;outUtc, uint32_t timeoutMs=<a class="el" href="../../dd/dd8/namespaceersa_1_1config.html#a7aa00cc300800bbed0e107597f5e9e2a">ersa::config::NTP_SYNC_TIMEOUT_MS</a>)</td></tr>
 <tr class="separator:a267daf9dc8f8a88df82d6c992cdb652f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a879f5c07e9dbedd63b2082e1c3ca690e" id="r_a879f5c07e9dbedd63b2082e1c3ca690e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a879f5c07e9dbedd63b2082e1c3ca690e">NetSync::fetchTimeWithFallbacks</a> (time_t &amp;outUtc, bool &amp;isHttpFallback)</td></tr>
-<tr class="separator:a879f5c07e9dbedd63b2082e1c3ca690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad08f661d84086395c9be0ea3e862f27" id="r_aad08f661d84086395c9be0ea3e862f27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#aad08f661d84086395c9be0ea3e862f27">NetSync::fetchTimeWithFallbacks</a> (time_t &amp;outUtc, bool &amp;isHttpFallback, bool updateStatus=true)</td></tr>
+<tr class="separator:aad08f661d84086395c9be0ea3e862f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a238be1379c73314387019265d3340606" id="r_a238be1379c73314387019265d3340606"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a238be1379c73314387019265d3340606">NetSync::startBootTimeSync</a> ()</td></tr>
+<tr class="memdesc:a238be1379c73314387019265d3340606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a non-blocking boot fallback when no phone/manual time has arrived.  <br /></td></tr>
+<tr class="separator:a238be1379c73314387019265d3340606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4de3af225da1f6468f981b4955788770" id="r_a4de3af225da1f6468f981b4955788770"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a4de3af225da1f6468f981b4955788770">NetSync::tick</a> ()</td></tr>
+<tr class="memdesc:a4de3af225da1f6468f981b4955788770"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply any completed boot sync from the main/UI task.  <br /></td></tr>
+<tr class="separator:a4de3af225da1f6468f981b4955788770"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1be05bc7325dbe5c80e93c7030d7c719" id="r_a1be05bc7325dbe5c80e93c7030d7c719"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a1be05bc7325dbe5c80e93c7030d7c719">NetSync::syncNtp</a> ()</td></tr>
 <tr class="separator:a1be05bc7325dbe5c80e93c7030d7c719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45804e7aa007e7f8afca161c39a04595" id="r_a45804e7aa007e7f8afca161c39a04595"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a45804e7aa007e7f8afca161c39a04595">NetSync::syncAll</a> ()</td></tr>

@@ -74,15 +74,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_docs_2index"></a> This wiki is the entry point for working on Ersa Wearable Platform firmware, board support, hardware, and host tools. It documents the code in this repository and labels planned integrations as planned.</p>
-<h1><a class="anchor" id="autotoc_md51"></a>
+<h1><a class="anchor" id="autotoc_md57"></a>
 Start here</h1>
 <ul>
 <li><a href="https://github.com/ersascape/ErsaWearableOS#readme">Project overview and build commands</a></li>
 <li><a class="el" href="d8/d4d/md_docs_2HAL__ARCHITECTURE.html">Architecture and hardware boundaries</a></li>
+<li><a class="el" href="de/df3/md_docs_2BUILDING__APPS.html">Build and register apps</a></li>
 <li><a class="el" href="da/d59/md_docs_2ADDING__A__BOARD.html">Add or port a board</a></li>
 <li><a class="el" href="da/db6/md_docs_2FEATURES.html">Feature catalog</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md52"></a>
+<h1><a class="anchor" id="autotoc_md58"></a>
 Firmware and hardware</h1>
 <ul>
 <li><a class="el" href="d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html">Power and battery design</a></li>
@@ -91,10 +92,10 @@ Firmware and hardware</h1>
 <li><a class="el" href="d9/d51/md_docs_2apple-connectivity.html">Apple Bluetooth connectivity</a></li>
 <li><a class="el" href="d0/d16/md_docs_2ewctl-control-bridge.html">USB developer control and `ewctl`</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md53"></a>
+<h1><a class="anchor" id="autotoc_md59"></a>
 API reference</h1>
-<p>The generated C++ API reference covers public contracts, services, board support, platform HALs, drivers, and tests. Build it with <code>make docs</code>; the result is <code>api/index.html</code> in the generated site.</p>
-<h1><a class="anchor" id="autotoc_md54"></a>
+<p>The <a href="https://pkgs-wearables.ersa.dev/wiki/api/">published C++ API reference</a> covers project headers, source, services, board support, platform HALs, peripheral drivers, and tests. Build it locally with <code>make docs</code>; the result is <code>api/index.html</code> in <code>.pio/wiki-site/</code>. Third-party Arduino and ESP-IDF SDK sources are maintained upstream and are not copied into this project reference.</p>
+<h1><a class="anchor" id="autotoc_md60"></a>
 Contributing changes</h1>
 <p>Run <code>make test</code>, <code>make firmware</code>, and <code>make docs</code> for changes that affect the firmware or its interfaces. Keep board wiring in the BSP, vendor APIs in the matching platform HAL or peripheral driver, and update the relevant wiki page when behavior changes. </p>
 </div></div><!-- PageDoc -->

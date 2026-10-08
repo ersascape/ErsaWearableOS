@@ -53,9 +53,9 @@ var searchData=
   ['esp32appleclient_50',['esp32appleclient',['../d6/d4f/classersa_1_1hal_1_1Esp32AppleClient.html',1,'ersa::hal::Esp32AppleClient'],['../d6/d4f/classersa_1_1hal_1_1Esp32AppleClient.html#a957cb17065c26827f49463a4956e8256',1,'ersa::hal::Esp32AppleClient::Esp32AppleClient()']]],
   ['esp32bluetooth_51',['esp32bluetooth',['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#ad0dd5958261d2f233cc901b85124b740',1,'ersa::hal::Esp32Bluetooth::Esp32Bluetooth()'],['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html',1,'ersa::hal::Esp32Bluetooth']]],
   ['esp32powermanagement_52',['Esp32PowerManagement',['../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html',1,'ersa::hal']]],
-  ['estimate_20and_20low_20battery_20policy_20need_20separation_53',['9. Battery estimate and low-battery policy need separation',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md43',1,'']]],
+  ['estimate_20and_20low_20battery_20policy_20need_20separation_53',['9. Battery estimate and low-battery policy need separation',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md49',1,'']]],
   ['event_54',['event',['../d4/db2/structersa_1_1events_1_1Event.html#a389eaab608c90536148b4b6dd1504b04',1,'ersa::events::Event::Event(EventType t, uint32_t ts=0)'],['../d4/db2/structersa_1_1events_1_1Event.html#a9c6be599fd696d320dc4dc43982ba665',1,'ersa::events::Event::Event()'],['../d4/db2/structersa_1_1events_1_1Event.html',1,'ersa::events::Event'],['../d5/d98/namespaceButtons.html#a4bc5208097166fc48b97455b9b6050e3',1,'Buttons::Event']]],
-  ['event_20now_20uses_20the_20ble_20queue_20hardware_20validation_20pending_55',['6. CTS event now uses the BLE queue; hardware validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md39',1,'']]],
+  ['event_20now_20uses_20the_20ble_20queue_20hardware_20validation_20pending_55',['6. CTS event now uses the BLE queue; hardware validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md45',1,'']]],
   ['event_2eh_56',['event.h',['../dd/d20/event_8h.html',1,'']]],
   ['event_5fbus_2ecpp_57',['event_bus.cpp',['../de/da7/event__bus_8cpp.html',1,'']]],
   ['event_5fbus_2eh_58',['event_bus.h',['../dd/d6d/event__bus_8h.html',1,'']]],
@@ -67,6 +67,6 @@ var searchData=
   ['ewctl_20tt_20device_20control_20bridge_64',['&lt;tt&gt;ewctl&lt;/tt&gt; Device Control Bridge',['../d0/d16/md_docs_2ewctl-control-bridge.html',1,'']]],
   ['ewctl_2dcontrol_2dbridge_2emd_65',['ewctl-control-bridge.md',['../d9/d27/ewctl-control-bridge_8md.html',1,'']]],
   ['ewp_20developer_20wiki_66',['EWP developer wiki',['../index.html',1,'']]],
-  ['exit_20—_20implemented_20validation_20pending_67',['1. Hotspot cleanup on screen exit — implemented, validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md34',1,'']]],
-  ['external_20references_68',['External references',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md48',1,'']]]
+  ['exit_20—_20implemented_20validation_20pending_67',['1. Hotspot cleanup on screen exit — implemented, validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md40',1,'']]],
+  ['external_20references_68',['External references',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md54',1,'']]]
 ];

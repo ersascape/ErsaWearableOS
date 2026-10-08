@@ -1,5 +1,5 @@
 var searchData=
 [
   ['kersaotarootca_0',['kErsaOtaRootCa',['../d9/d90/ota__root__ca_8h.html#a82e4fb502d58ac8348794241ff4a1804',1,'ota_root_ca.h']]],
-  ['known_20validation_20limits_1',['Known validation limits',['../da/db6/md_docs_2FEATURES.html#autotoc_md31',1,'']]]
+  ['known_20validation_20limits_1',['Known validation limits',['../da/db6/md_docs_2FEATURES.html#autotoc_md37',1,'']]]
 ];

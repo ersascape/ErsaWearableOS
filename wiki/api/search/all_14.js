@@ -25,9 +25,9 @@ var searchData=
   ['latestsequence_22',['latestSequence',['../d3/d93/namespaceDebugLog.html#ab806683a9e963528b22fae12472e6359',1,'DebugLog']]],
   ['length_23',['length',['../d1/d80/ota__service_8cpp.html#ae809d5359ac030c60a30a8f0b2294b82',1,'ota_service.cpp']]],
   ['levelname_24',['levelName',['../de/dd9/namespaceersa_1_1services.html#a1f2256fbcd7ddfb3ad377f2f8a55f4db',1,'ersa::services']]],
-  ['light_20sleep_25',['BLE-preserving light sleep',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html#autotoc_md59',1,'']]],
+  ['light_20sleep_25',['BLE-preserving light sleep',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html#autotoc_md65',1,'']]],
   ['lightsleep_26',['LightSleep',['../de/dd9/namespaceersa_1_1services.html#a0008a00f66347fa218809d94d1ed9f1ba2656669b87b1d134613fb58427fc0b9c',1,'ersa::services']]],
-  ['limits_27',['Known validation limits',['../da/db6/md_docs_2FEATURES.html#autotoc_md31',1,'']]],
+  ['limits_27',['Known validation limits',['../da/db6/md_docs_2FEATURES.html#autotoc_md37',1,'']]],
   ['line_28',['line',['../db/d43/namespaceWatchText.html#aea6c22c05ce19406680ce39e82da29fe',1,'WatchText']]],
   ['listener_29',['listener',['../df/dbf/structersa_1_1events_1_1Subscription.html#a45570e9538fba16759940d3eae3cb7b5',1,'ersa::events::Subscription']]],
   ['log_30',['log',['../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#ac2a94cf7bd5b4d7290f76b3ff2c19a61',1,'ersa::services::StandardLoggingService::log()'],['../d3/d93/namespaceDebugLog.html#a99f2aee28a4cfc8d0c936c8acd5bba59',1,'DebugLog::log()'],['../d5/db5/classersa_1_1services_1_1LoggingService.html#ac2963432af57c43af82eef97245e827d',1,'ersa::services::LoggingService::log()']]],
@@ -41,8 +41,8 @@ var searchData=
   ['logv_38',['logv',['../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#a631554ba05f1f8fa68f573dbecdeb7ee',1,'ersa::services::StandardLoggingService::logv()'],['../d5/db5/classersa_1_1services_1_1LoggingService.html#a137965939949ec40e8186923dbcca367',1,'ersa::services::LoggingService::logv()']]],
   ['loop_39',['loop',['../df/d0a/main_8cpp.html#afe461d27b9c48d5921c00d521181f12f',1,'main.cpp']]],
   ['low_40',['low',['../dd/d81/namespaceersa_1_1board.html#a8736ee0bf320528c726d1bc75f468d56a28d0edd045e05cf5af64e35ae0c4c6ef',1,'ersa::board::Low'],['../de/dd9/namespaceersa_1_1services.html#a48736255b5bd967b03e558176212dfa3a28d0edd045e05cf5af64e35ae0c4c6ef',1,'ersa::services::Low']]],
-  ['low_20battery_20policy_20need_20separation_41',['9. Battery estimate and low-battery policy need separation',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md43',1,'']]],
+  ['low_20battery_20policy_20need_20separation_41',['9. Battery estimate and low-battery policy need separation',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md49',1,'']]],
   ['low_5fbattery_5fmv_42',['LOW_BATTERY_MV',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#acc737371c82cebf40b63d616790735d1',1,'ersa::services::PowerManager']]],
   ['low_5fbattery_5fpercent_43',['LOW_BATTERY_PERCENT',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#a309896391e3382943883dcde33653eb5',1,'ersa::services::PowerManager']]],
-  ['lowered_20to_2040_20mhz_20hardware_20validation_20pending_44',['8. CPU idle floor lowered to 40 MHz; hardware validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md42',1,'']]]
+  ['lowered_20to_2040_20mhz_20hardware_20validation_20pending_44',['8. CPU idle floor lowered to 40 MHz; hardware validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md48',1,'']]]
 ];

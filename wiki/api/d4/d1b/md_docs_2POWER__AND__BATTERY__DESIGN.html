@@ -73,20 +73,20 @@ $(function() {
   <div class="headertitle"><div class="title">Battery and power management design</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md57"></a> </p>
-<h1><a class="anchor" id="autotoc_md58"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md63"></a> </p>
+<h1><a class="anchor" id="autotoc_md64"></a>
 What this board can control today</h1>
 <p>The supplied EasyEDA PCB JSON confirms the main LiPo connects to the XIAO module's battery pads. R3 and R4 are each 220 kOhm: R3 connects battery positive to their midpoint, R4 connects the midpoint to battery return, and that midpoint routes to XIAO pad 1 / GPIO2 / A0. The existing <code>ADC millivolts * 2</code> conversion matches this 1:1 divider. The separately mounted CR927 holder is for RTC backup, not the watch's main battery. The component list contains no separate fuel gauge or charger IC; charging and protection are on the XIAO module.</p>
 <p>The board does not expose charger enable, charger status, battery current, or cell temperature to firmware. The XIAO's onboard charger/protection therefore operates autonomously. Firmware can estimate cell voltage, notify the user, reduce system load, and choose a safe sleep state; it cannot implement charge termination or replace the cell's independent protection circuit.</p>
 <p>The current ADC implementation reports a voltage-only state-of-charge estimate. The divider ratio is confirmed, but the ADC reading should still be compared with a meter on the assembled watch. Voltage shifts with load and temperature, so a voltage curve cannot report precise remaining capacity or predict runtime. The code averages ADC readings, filters sample-to-sample variation, and uses an explicit Li-ion voltage lookup table; those changes improve stability, not absolute accuracy. Charging state is unknown with the present pin map and must not be inferred from cell voltage alone.</p>
 <p>The firmware policy now requires three consecutive critical samples (10 seconds apart) before entering a 10-minute deep-sleep charge-check cycle; buttons also wake it. Low and critical voltage thresholds use hysteresis. Validate these thresholds with the actual cell under load before relying on them: they are conservative starting points, not characterized limits for this assembled watch.</p>
-<h1><a class="anchor" id="autotoc_md59"></a>
+<h1><a class="anchor" id="autotoc_md65"></a>
 BLE-preserving light sleep</h1>
 <p>The PlatformIO <code>framework = arduino, espidf</code> build enables <code>CONFIG_PM_ENABLE</code>, <code>CONFIG_FREERTOS_USE_TICKLESS_IDLE</code>, and Bluetooth controller modem sleep in <code>sdkconfig.defaults</code>. The generated <code>.pio/build/ErsaWearable/config/sdkconfig.h</code> confirms these options are active for the firmware build. <code>Esp32PowerManagement::initialize()</code> calls <code>esp_pm_configure()</code> with <code>light_sleep_enable = true</code>; the UI releases its <code>ESP_PM_NO_LIGHT_SLEEP</code> lock after 30 seconds of inactivity when USB, display, network sync, and active-call constraints permit sleep. FreeRTOS tickless idle then coordinates automatic light sleep with task deadlines and power locks.</p>
 <p>The Bluetooth controller uses modem sleep mode 1 and the main crystal as its low-power clock. <code>CONFIG_BT_CTRL_MAIN_XTAL_PU_DURING_LIGHT_SLEEP</code> is enabled, so the controller can use the main crystal during automatic light sleep without holding its <code>ESP_PM_NO_LIGHT_SLEEP</code> lock. The separate DS3231 clock is not connected to the ESP32-C3 low-power clock pins and is not used for this purpose. The code does not call <code>esp_light_sleep_start()</code> from the UI loop; manual sleep would bypass the controller's coordination.</p>
 <p>These build settings and code paths enable BLE-compatible automatic light sleep, but they do not prove that a particular device spends time in light sleep or that its BLE link remains stable under all negotiated connection parameters. Validate sleep residency, BLE stability, button wake latency, e-paper refresh, Wi-Fi sync, and current draw on hardware. The main-crystal clock choice favors BLE timing and link compatibility over the lowest possible sleep current.</p>
 <p>ESP-IDF references: <a href="https://docs.espressif.com/projects/esp-idf/en/v4.4/esp32c3/api-reference/system/power_management.html">Power Management</a>, <a href="https://github.com/espressif/esp-idf/blob/v4.4/components/bt/controller/esp32c3/Kconfig.in">Bluetooth low-power clock Kconfig</a>.</p>
-<h1><a class="anchor" id="autotoc_md60"></a>
+<h1><a class="anchor" id="autotoc_md66"></a>
 HAL boundaries</h1>
 <p>Keep policy independent from ESP32, charger, and gauge drivers:</p>
 <div class="fragment"><div class="line">Application / UI</div>
@@ -115,11 +115,11 @@ HAL boundaries</h1>
 </div><!-- fragment --><p>The service owns filtering and policy, and emits events for normal, low, and critical battery states. Thresholds need hysteresis and time qualification so radio bursts or e-paper refresh dips do not flap the UI. Critical policy should stop optional Wi-Fi sync, reduce BLE advertising, postpone nonessential display refreshes, save settings, warn once, then enter a board-supported low-power state before the regulator reaches brownout. Recovery requires voltage above a higher threshold for a dwell period. The exact thresholds must be measured on the assembled board under radio and display load.</p>
 <p><code>IPowerControl</code> owns board-specific actions such as radio mode, CPU frequency, display power, and sleep/wake. The policy service requests an operating profile; it does not call ESP-IDF sleep APIs directly. Interrupt-driven buttons can wake the board, but sleep must not be enabled until BLE reconnect, RTC wake, and e-paper behavior are validated together.</p>
 <p><code>IChargeController</code> is optional and separate from the gauge. It may expose charger status or safe input-current/enable controls only when the selected IC and board wiring support them. Cell overvoltage, undervoltage, overcurrent, and temperature protection must remain in hardware and function with firmware stopped.</p>
-<h1><a class="anchor" id="autotoc_md61"></a>
+<h1><a class="anchor" id="autotoc_md67"></a>
 Hardware needed for full management</h1>
 <p>For useful SOC and robust early brownout handling, use a fuel gauge connected to the cell (for example a gauge with a documented I2C interface) and expose its alert output to a wake-capable GPIO. To manage charge policy, select a charger with documented status and controllable inputs, route those signals to the MCU, and include a battery temperature sensor. Keep a separate cell-protection path that disconnects the cell on electrical faults even if the MCU or firmware has failed. Confirm regulator dropout and peak load with oscilloscope measurements.</p>
 <p>Before choosing components or thresholds, record the cell part/capacity, actual divider resistor values, charger IC, protection IC, regulator, and loaded voltage at brownout. Without these, firmware can provide conservative policy, but cannot promise an accurate percentage, remaining runtime, or controlled charging.</p>
-<h1><a class="anchor" id="autotoc_md62"></a>
+<h1><a class="anchor" id="autotoc_md68"></a>
 Bring-up and validation</h1>
 <ol type="1">
 <li>Compare logged ADC-derived millivolts with a multimeter at full charge, mid-discharge, and near the board's safe shutdown point; tune divider scale.</li>

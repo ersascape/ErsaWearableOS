@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pkgs-wearables.ersa.dev/wiki/BUILDING_APPS/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Build and register apps - Ersa Wearable Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Build and register apps";
+        var mkdocs_page_input_path = "BUILDING_APPS.md";
+        var mkdocs_page_url = "/wiki/BUILDING_APPS/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Ersa Wearable Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Build and register apps</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#app-structure">App structure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#registering-an-app">Registering an app</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#build-and-check">Build and check</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#app-store-and-installable-apps">App store and installable apps</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sdk-and-c-reference">SDK and C++ reference</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://pkgs-wearables.ersa.dev/wiki/api/">C++ API reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FEATURES/">Features</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../POWER_AND_BATTERY_DESIGN/">Power and battery</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../TIMEKEEPING/">Timekeeping</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FIRMWARE_POWER_AUDIT/">Firmware power audit</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../apple-connectivity/">Apple connectivity</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ewctl-control-bridge/">USB control and ewctl</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pcb-pin-map/">PCB pin map</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Ersa Wearable Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Build and register apps</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/ersascape/ErsaWearableOS/edit/master/docs/BUILDING_APPS.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="building-and-registering-apps">Building and registering apps</h1>
+<p>EWP apps are C++ components compiled into the firmware image. The firmware
+starts one app at a time through <code>ApplicationManager</code>; it does not load native
+app binaries at runtime.</p>
+<h2 id="app-structure">App structure</h2>
+<p>Keep app-specific behavior in <code>src/apps/</code>. Existing apps commonly split their
+screen logic into a small module and adapt it to <code>ersa::app::Application</code> in
+<code>src/apps/apps_registry.cpp</code>.</p>
+<p>Implement the application contract from
+<a href="https://github.com/ersascape/ErsaWearableOS/blob/master/include/ersa/app/application.h"><code>include/ersa/app/application.h</code></a>:</p>
+<ul>
+<li><code>getId()</code> returns a stable unique ID used by navigation.</li>
+<li><code>getTitle()</code> returns the display name.</li>
+<li><code>render()</code> draws through the <code>hal::IDisplay</code> interface.</li>
+<li><code>onEvent()</code> handles button and system events.</li>
+<li><code>onEnter()</code> and <code>onExit()</code> acquire and release app-scoped state.</li>
+<li><code>tick()</code> is for short, non-blocking work; do not wait on network or BLE I/O
+  from the UI loop.</li>
+<li><code>getPartialBounds()</code> declares the area to refresh for app updates.</li>
+</ul>
+<p>Apps should use framework services and HAL contracts. Do not include Arduino,
+ESP-IDF, or concrete peripheral-driver headers in app code. For network work,
+use the existing service flow and return promptly so input, BLE events, and
+clock updates continue to run.</p>
+<h2 id="registering-an-app">Registering an app</h2>
+<ol>
+<li>Add the app module under <code>src/apps/</code>, with a header and implementation when
+   the app has reusable screen logic.</li>
+<li>Include its header in <code>src/apps/apps_registry.cpp</code>.</li>
+<li>Add an <code>Application</code> adapter class there. Give it a unique ID and title,
+   forward rendering and input to the app module, and handle lifecycle or
+   periodic updates as needed.</li>
+<li>Create a static app instance beside the other registered app instances.</li>
+<li>Add <code>manager.registerApp(&amp;myApp);</code> in <code>registerAllApps()</code> in that same file.
+   The UI calls <code>registerAllApps()</code> during startup.</li>
+<li>To make the app visible in the drawer, add a drawer item in
+   <code>src/apps/app_drawer.h</code> and <code>src/apps/app_drawer.cpp</code>, then handle that item
+   in the <code>DrawerApp</code> event switch in <code>src/apps/apps_registry.cpp</code>.</li>
+<li>Build and run the checks below. Confirm drawer navigation, back navigation,
+   button behavior, rendering bounds, and wake/sleep behavior on the watch.</li>
+</ol>
+<p><code>src/CMakeLists.txt</code> discovers project <code>.cpp</code> and <code>.c</code> files recursively, so a
+new source file under <code>src/</code> is included in the firmware build automatically.
+App registration is still explicit; adding a source file alone does not make an
+app navigable.</p>
+<h2 id="build-and-check">Build and check</h2>
+<p>From the repository root:</p>
+<pre><code class="language-sh">make test       # host-side platform and service tests
+make firmware   # ESP32-C3 firmware build
+make docs       # wiki and generated C++ API reference
+</code></pre>
+<p>The firmware output is <code>.pio/build/ErsaWearable/firmware.bin</code>. The same build
+can be run with <code>./scripts/pio.sh run</code>. PlatformIO uses the pinned project
+environment in <code>platformio.ini</code> and downloads its framework and libraries when
+needed.</p>
+<h2 id="app-store-and-installable-apps">App store and installable apps</h2>
+<p>There is no app store or runtime app installer today. App code is linked into
+the firmware, and updates replace one of the two OTA firmware slots. The
+current image already uses about 95% of one slot, and the partition table has
+no app-data filesystem. There is no dynamic linker or stable binary ABI for
+third-party native apps.</p>
+<p>A hosted app catalog could list firmware releases, source projects, or
+compatible app bundles for developers to build themselves. Installing native
+apps independently would require a different runtime or operating system,
+storage reserved for app packages, a stable application ABI, and a security
+model. Those are substantial platform changes; the current flash layout does
+not have room for a conventional app store.</p>
+<h2 id="sdk-and-c-reference">SDK and C++ reference</h2>
+<p>The generated <a href="https://pkgs-wearables.ersa.dev/wiki/api/">C++ API reference</a>
+documents project headers and implementation, including HALs, services, app
+contracts, and board support. It is built from the same source headers the app
+compiler uses; Doxygen comments on declarations provide the function
+reference.</p>
+<p>PlatformIO pins the current firmware to ESP-IDF 4.4.7 and Arduino-ESP32 2.0.17.
+Use the upstream <a href="https://docs.espressif.com/projects/esp-idf/en/v4.4/esp32c3/api-reference/index.html">ESP-IDF 4.4 API reference</a>
+and <a href="https://docs.espressif.com/projects/arduino-esp32/en/2.0.17/">Arduino-ESP32 documentation</a>
+for those vendor APIs. Their SDK headers and implementations are downloaded
+into PlatformIO's package cache; this project's Doxygen site documents Ersa
+code and links to the matching vendor references instead of duplicating SDK
+documentation.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../HAL_ARCHITECTURE/" class="btn btn-neutral float-right" title="Architecture">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/ersascape/ErsaWearableOS" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../HAL_ARCHITECTURE/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

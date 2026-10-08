@@ -110,7 +110,9 @@ digraph "src/core/net_sync.cpp"
   Node1 -> Node35 [id="edge70_Node000001_Node000035",color="steelblue1",style="solid",tooltip=" "];
   Node35 [id="Node000035",label="ctype.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node1 -> Node36 [id="edge71_Node000001_Node000036",color="steelblue1",style="solid",tooltip=" "];
-  Node36 [id="Node000036",label="esp_sntp.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node36 [id="Node000036",label="atomic",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
   Node1 -> Node37 [id="edge72_Node000001_Node000037",color="steelblue1",style="solid",tooltip=" "];
-  Node37 [id="Node000037",label="esp_heap_caps.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node37 [id="Node000037",label="esp_sntp.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node1 -> Node38 [id="edge73_Node000001_Node000038",color="steelblue1",style="solid",tooltip=" "];
+  Node38 [id="Node000038",label="esp_heap_caps.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
 }

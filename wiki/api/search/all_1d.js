@@ -1,16 +1,16 @@
 var searchData=
 [
-  ['ui_20and_20bypasses_20networkmanager_0',['10. Network work blocks the UI and bypasses NetworkManager',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md44',1,'']]],
+  ['ui_20and_20bypasses_20networkmanager_0',['10. Network work blocks the UI and bypasses NetworkManager',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md50',1,'']]],
   ['ui_5fstrings_2eh_1',['ui_strings.h',['../da/d42/ui__strings_8h.html',1,'']]],
   ['uid_2',['uid',['../d6/dc2/structersa_1_1events_1_1NotificationPayload.html#a52230869ccfd91d757ff58be37f21457',1,'ersa::events::NotificationPayload::uid'],['../dc/d4d/structersa_1_1protocols_1_1AncsCall.html#a58dfd63a0c914e948216e6d72c7e864a',1,'ersa::protocols::AncsCall::uid'],['../d0/d01/structersa_1_1services_1_1AppNotification.html#a0e0359ccff3f1a98b75ce15f204d08d3',1,'ersa::services::AppNotification::uid'],['../da/df4/structNetSync_1_1CalTodo.html#af563e05374ba240d646e1d27269c6408',1,'NetSync::CalTodo::uid']]],
   ['uid_5f_3',['uid_',['../d9/da9/classersa_1_1protocols_1_1AncsAttributes.html#a45754cbdeca46fdc8314e3a4776bf9ec',1,'ersa::protocols::AncsAttributes']]],
   ['uitask_5f_4',['uiTask_',['../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#ac1182fccda668d7328ce2b0fdf353b5d',1,'ersa::hal::Esp32PowerManagement']]],
   ['unknown_5',['unknown',['../d2/d01/namespaceersa_1_1events.html#aa08b1a001251f330b47aa1b560a05c13a88183b946cc5f0e8c96b2e66e1c74a7e',1,'ersa::events::Unknown'],['../d2/d01/namespaceersa_1_1events.html#a56eb9938f9f9bd5a6c2fc5c820636d20a88183b946cc5f0e8c96b2e66e1c74a7e',1,'ersa::events::Unknown']]],
-  ['unmeasured_6',['3. Actual sleep residency is unmeasured',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md36',1,'']]],
+  ['unmeasured_6',['3. Actual sleep residency is unmeasured',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md42',1,'']]],
   ['unsubscribe_7',['unsubscribe',['../d4/de9/classersa_1_1events_1_1EventBus.html#ac8b67a447677a1d4dcffeac85da22aee',1,'ersa::events::EventBus']]],
-  ['unsupported_20peers_8',['4. BLE has no adaptive connection policy and retries unsupported peers',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md37',1,'']]],
+  ['unsupported_20peers_8',['4. BLE has no adaptive connection policy and retries unsupported peers',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md43',1,'']]],
   ['up_9',['Up',['../dd/d81/namespaceersa_1_1board.html#a0671fd7e1c7c759cccea97704a9e7083a258f49887ef8d14ac268c92b02503aaa',1,'ersa::board']]],
-  ['up_20and_20validation_10',['Bring-up and validation',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html#autotoc_md62',1,'']]],
+  ['up_20and_20validation_10',['Bring-up and validation',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html#autotoc_md68',1,'']]],
   ['up_20checklist_11',['Bring-up checklist',['../da/d59/md_docs_2ADDING__A__BOARD.html#autotoc_md10',1,'']]],
   ['update_12',['update',['../df/def/structersa_1_1protocols_1_1AmsMedia.html#ad894fbc797cca89af9430066c13813a2',1,'ersa::protocols::AmsMedia::update()'],['../dc/d4d/structersa_1_1protocols_1_1AncsCall.html#a4d9a651147840472e7e09f490fe44afe',1,'ersa::protocols::AncsCall::update()']]],
   ['updateifdirty_13',['updateIfDirty',['../d8/dad/classersa_1_1services_1_1DisplayManager.html#a1433d48fdf3ecd7ebc717cbc1cb63f6e',1,'ersa::services::DisplayManager']]],
@@ -22,13 +22,13 @@ var searchData=
   ['updatetaskactive_5f_19',['updateTaskActive_',['../d9/d27/classersa_1_1services_1_1OtaService.html#a6caa4753afc5c767073889c72e0b62c5',1,'ersa::services::OtaService']]],
   ['updateversion_20',['updateVersion',['../d9/d27/classersa_1_1services_1_1OtaService.html#af7322b1bdaeaca7ad15b4eb5b7399e24',1,'ersa::services::OtaService']]],
   ['updateversion_5f_21',['updateVersion_',['../d9/d27/classersa_1_1services_1_1OtaService.html#a95b534a25cbeee9fb9dd99d84cc6aa32',1,'ersa::services::OtaService']]],
-  ['upper_20button_20buzzer_20conflict_22',['Upper button / buzzer conflict',['../d2/d49/md_docs_2pcb-pin-map.html#autotoc_md56',1,'']]],
+  ['upper_20button_20buzzer_20conflict_22',['Upper button / buzzer conflict',['../d2/d49/md_docs_2pcb-pin-map.html#autotoc_md62',1,'']]],
   ['uptodate_23',['UpToDate',['../d9/d27/classersa_1_1services_1_1OtaService.html#a0dcad2d7ad614e63161dda4c6d0e5e46a761266b390b3dc960c74d9194512850a',1,'ersa::services::OtaService']]],
-  ['usb_20behavior_24',['Scheduling, sleep, and USB behavior',['../d0/d16/md_docs_2ewctl-control-bridge.html#autotoc_md21',1,'']]],
+  ['usb_20behavior_24',['Scheduling, sleep, and USB behavior',['../d0/d16/md_docs_2ewctl-control-bridge.html#autotoc_md27',1,'']]],
   ['usb_5fcontrol_2ecpp_25',['usb_control.cpp',['../d5/d4a/usb__control_8cpp.html',1,'']]],
   ['usb_5fcontrol_2eh_26',['usb_control.h',['../d0/d07/usb__control_8h.html',1,'']]],
   ['usbcontrol_27',['UsbControl',['../d6/d6b/namespaceUsbControl.html',1,'']]],
-  ['useful_20commands_28',['Useful commands',['../da/db6/md_docs_2FEATURES.html#autotoc_md30',1,'']]],
+  ['useful_20commands_28',['Useful commands',['../da/db6/md_docs_2FEATURES.html#autotoc_md36',1,'']]],
   ['userdata_29',['userData',['../df/dbf/structersa_1_1events_1_1Subscription.html#ad9541347dd45fda786db6c5fd525c609',1,'ersa::events::Subscription']]],
-  ['uses_20the_20ble_20queue_20hardware_20validation_20pending_30',['6. CTS event now uses the BLE queue; hardware validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md39',1,'']]]
+  ['uses_20the_20ble_20queue_20hardware_20validation_20pending_30',['6. CTS event now uses the BLE queue; hardware validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md45',1,'']]]
 ];

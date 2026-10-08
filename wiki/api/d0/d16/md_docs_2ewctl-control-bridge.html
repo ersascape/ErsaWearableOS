@@ -73,8 +73,8 @@ $(function() {
   <div class="headertitle"><div class="title">&lt;tt&gt;ewctl&lt;/tt&gt; Device Control Bridge</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md15"></a> </p>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md21"></a> </p>
+<h1><a class="anchor" id="autotoc_md22"></a>
 Goal</h1>
 <p>Provide a small, scriptable USB control surface for inspecting and operating an Ersa watch during development. The host tool should feel familiar to someone who has used <code>adb</code>, while remaining a narrow Ersa protocol rather than implementing the ADB protocol. It must coexist with normal watch operation: USB commands cannot block the UI loop, BLE callbacks, display work, or power management.</p>
 <p>The first transport is the ESP32-C3 USB Serial/JTAG console. Keep the protocol transport-neutral so a later BLE or network transport can reuse command handling with a separate policy.</p>
@@ -83,14 +83,14 @@ Goal</h1>
 <p><code>ewctl flash firmware.bin</code> flashes an app image through the ESP32-C3 ROM bootloader. <code>ewctl flash ewp-factory.bin</code> flashes the factory image and resets saved settings. The image argument can be omitted to use the local build. Tagged GitHub releases can be downloaded, verified against their SHA-256 manifest, cached, and flashed with <code>ewctl flash release 0.1.3</code>; use <code>latest</code> for the latest stable release and <code>--factory</code> for its factory image. This uses the same ROM bootloader process and esptool wrapper as <code>scripts/flash_firmware.sh</code>, not the USB control bridge. The app-image path writes the fixed <code>ota_0</code> address; after migration to the dual-slot table, use the on-device <code>updater</code> app for routine Wi-Fi updates because it selects the inactive slot and keeps bootloader rollback metadata consistent.</p>
 <p><code>ewctl power get-dvfs-state</code> captures ESP-IDF's current PM lock and CPU residency report on demand. It reports the measured CPU clock, lock counts/timing, and time in each PM mode, including sleep. <code>ewctl power log</code> samples battery voltage, CPU frequency, power state, BLE state, uptime, and heap to a timestamped CSV. Set <code>--interval 30 --duration 7200 --output run.csv</code>; duration <code>0</code> records until Ctrl-C. USB monitoring blocks the watch's normal sleep policy, so this helps compare telemetry but does not measure normal battery life.</p>
 <p><code>ewctl debug bundle</code> creates a ZIP bug report with status snapshots and up to 16 recent logs. It redacts Wi-Fi SSIDs, tokens, and URLs from log lines. Add <code>--include-coredump</code> to decode and include the raw core; that opt-in dump may contain arbitrary task memory and should be reviewed before sharing.</p>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Panic coredumps</h1>
 <p>New firmware builds save ESP-IDF panic coredumps in the existing 64 KiB <code>coredump</code> flash partition, using ELF format and a CRC32 integrity check. After a panic and reboot, connect USB and decode the saved dump with the exact ELF used to build the flashed firmware:</p>
 <div class="fragment"><div class="line">python3 -m pip install -r requirements-ewctl.txt</div>
 <div class="line">python3 scripts/ewctl.py --port /dev/ttyACM0 debug coredump</div>
 </div><!-- fragment --><p>The command reads the coredump partition over the ROM bootloader, prints task/register/backtrace details, and uses <code>.pio/build/ErsaWearable/firmware.elf</code> by default. Retain that ELF for each flashed build: symbols from a different build can produce misleading function names. If the ELF is elsewhere, pass <code>--elf /path/to/firmware.elf</code>; if ESP-IDF is installed outside this checkout, pass <code>--idf-path /path/to/esp-idf</code>. The decoder also needs the RISC-V ESP GDB toolchain; the local PlatformIO package is detected automatically, otherwise put <code>riscv32-esp-elf-gdb</code> on <code>PATH</code> or pass <code>--gdb</code>. Use <code>--save-core panic.elf</code> to retain the extracted dump for sharing. A missing or invalid saved dump is reported by ESP-IDF's decoder.</p>
 <p>Core dumps are disabled in firmware builds predating this setting. Flash the new firmware before expecting a panic dump. Since a dump captures task memory, it may include transient notification or other user data; review it before sharing the saved core file.</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md24"></a>
 Architecture</h1>
 <div class="fragment"><div class="line">flowchart LR</div>
 <div class="line">    cli[Host CLI&lt;br/&gt;ewctl] &lt;--&gt;|USB serial/JTAG&lt;br/&gt;framed requests and replies| endpoint[USB endpoint]</div>
@@ -104,7 +104,7 @@ Architecture</h1>
 <div class="line">    dispatch --&gt; logring</div>
 </div><!-- fragment --><p>The endpoint is polled from the firmware application loop. It reads at most 64 bytes and dispatches at most one complete request per pass; it does not create a second task or call application code from a USB callback. A fixed 512-byte line buffer bounds memory use. Status and log handlers are queries; CPU frequency commands are narrowly scoped development settings. Long operations and job polling are not implemented.</p>
 <p>The USB transport uses the existing Arduino <code>Serial</code> USB Serial/JTAG console. The parser does not depend on a JSON library. Firmware diagnostics are kept in a bounded ring and raw log output is suppressed after the first valid protocol request, preventing log text from corrupting replies.</p>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 Wire protocol</h1>
 <p>Use newline-delimited JSON (NDJSON) initially. It is easy to inspect with a terminal while remaining straightforward to parse in a host script. Requests are limited to 512 bytes; replies are limited to 2048 bytes so a bounded batch of diagnostic lines fits. Reject overlong or malformed requests and discard input through the next newline after a framing error. Never allocate from an untrusted length field.</p>
 <p>Each request includes a protocol version, request ID, command, and optional arguments:</p>
@@ -118,7 +118,7 @@ Wire protocol</h1>
 <div class="line">{&quot;v&quot;:1,&quot;event&quot;:&quot;job.progress&quot;,&quot;job&quot;:42,&quot;percent&quot;:50}</div>
 <div class="line">{&quot;v&quot;:1,&quot;event&quot;:&quot;job.complete&quot;,&quot;job&quot;:42,&quot;ok&quot;:true}</div>
 </div><!-- fragment --><p>The current endpoint has no asynchronous jobs or dispatch queue. It processes one request at a time and echoes the request ID. <code>job.get</code> returns <code>unsupported</code>. Commands must remain idempotent where practical.</p>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 Command model</h1>
 <p>Implemented commands:</p>
 <table class="markdownTable">
@@ -159,7 +159,7 @@ Command model</h1>
 </div><!-- fragment --><p>ESP-IDF's global power policy is applied at boot. A set request returns an acknowledgement and then performs a controlled reboot to apply the profile; it does not reconfigure PM while BLE or peripheral locks are live. The request is held in RTC memory across that restart. <code>0</code> restores the automatic 40–160 MHz range. The 40 MHz profile uses a 40 MHz floor and an 80 MHz ceiling because ESP-IDF supports 80/160 MHz CPU maxima; BLE's APB lock can raise the live CPU to 80 MHz. Check the measured clock with <code>power cpu-freq-get</code> after the watch restarts.</p>
 <p>Follow-up commands can request <code>agenda.refresh</code>, <code>ble.restart-advertising</code>, or <code>system.reboot</code>. Commands that mutate configuration, clear data, or reboot must be explicitly named and return an acknowledgement before execution. Do not provide an arbitrary shell, memory read/write, or unrestricted register command.</p>
 <p>Responses should report capability and validity instead of inventing defaults. For example, if battery sampling is unavailable, return <code>available:false</code>; if BLE is disconnected, report connection state while keeping discovered capability data clearly marked stale or unavailable.</p>
-<h1><a class="anchor" id="autotoc_md21"></a>
+<h1><a class="anchor" id="autotoc_md27"></a>
 Scheduling, sleep, and USB behavior</h1>
 <ul>
 <li>Keep USB receive and transmit handling nonblocking and use fixed-size frame storage.</li>
@@ -170,11 +170,11 @@ Scheduling, sleep, and USB behavior</h1>
 <li>USB Serial/JTAG and firmware logs share a physical stream. Diagnostics go to a 16-record in-memory ring and are exposed through <code>logs.read</code>. Once a valid request arrives, raw logging is suppressed until USB disconnect so replies remain machine-readable.</li>
 <li>If the host opens or closes the serial port during sleep, recover cleanly. The watch continues its normal boot path and BLE advertising even when no host is present.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md28"></a>
 Reliability and validation</h1>
 <p>The endpoint enforces a 512-byte request bound, required version/ID/command fields, numeric ID parsing, and bounded command names. It discards malformed and oversized lines through the next newline and resumes. CPU frequency inputs are restricted to 0, 40, 80, or 160 MHz. Unsupported valid commands receive a structured error. Full JSON schema/depth validation remains a follow-up before broader mutating commands are introduced.</p>
 <p>The host client has unit tests for request framing, size limits, malformed replies, and argument parsing. The firmware has been built and flashed; USB command protocol behavior still needs an on-device pass for attach/detach, command bursts, log cursor polling, BLE activity during a USB session, forced-clock response, and sleep after disconnect.</p>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md29"></a>
 Rollout</h1>
 <ol type="1">
 <li>Implemented: Rich Python host CLI, bounded USB request scanner, versioned NDJSON replies, status handlers, temporary CPU-frequency testing, and batched log-ring polling.</li>

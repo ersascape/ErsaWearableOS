@@ -11,6 +11,7 @@ var searchData=
   ['board_5fconfig_2eh_8',['board_config.h',['../df/d24/board__config_8h.html',1,'']]],
   ['board_5fterra_2ecpp_9',['board_terra.cpp',['../dd/d73/board__terra_8cpp.html',1,'']]],
   ['board_5fterra_2eh_10',['board_terra.h',['../d7/ddd/board__terra_8h.html',1,'']]],
-  ['buttons_2ecpp_11',['buttons.cpp',['../d9/d52/buttons_8cpp.html',1,'']]],
-  ['buttons_2eh_12',['buttons.h',['../de/d05/buttons_8h.html',1,'']]]
+  ['building_5fapps_2emd_11',['BUILDING_APPS.md',['../d2/d18/BUILDING__APPS_8md.html',1,'']]],
+  ['buttons_2ecpp_12',['buttons.cpp',['../d9/d52/buttons_8cpp.html',1,'']]],
+  ['buttons_2eh_13',['buttons.h',['../de/d05/buttons_8h.html',1,'']]]
 ];

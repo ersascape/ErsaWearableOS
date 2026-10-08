@@ -111,8 +111,14 @@ Functions</h2></td></tr>
 <tr class="separator:ac95f847fa957e5be5c254b3f4f68358f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a267daf9dc8f8a88df82d6c992cdb652f" id="r_a267daf9dc8f8a88df82d6c992cdb652f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a267daf9dc8f8a88df82d6c992cdb652f">fetchNtpUtc</a> (time_t &amp;outUtc, uint32_t timeoutMs=<a class="el" href="../../dd/dd8/namespaceersa_1_1config.html#a7aa00cc300800bbed0e107597f5e9e2a">ersa::config::NTP_SYNC_TIMEOUT_MS</a>)</td></tr>
 <tr class="separator:a267daf9dc8f8a88df82d6c992cdb652f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a879f5c07e9dbedd63b2082e1c3ca690e" id="r_a879f5c07e9dbedd63b2082e1c3ca690e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a879f5c07e9dbedd63b2082e1c3ca690e">fetchTimeWithFallbacks</a> (time_t &amp;outUtc, bool &amp;isHttpFallback)</td></tr>
-<tr class="separator:a879f5c07e9dbedd63b2082e1c3ca690e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad08f661d84086395c9be0ea3e862f27" id="r_aad08f661d84086395c9be0ea3e862f27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#aad08f661d84086395c9be0ea3e862f27">fetchTimeWithFallbacks</a> (time_t &amp;outUtc, bool &amp;isHttpFallback, bool updateStatus=true)</td></tr>
+<tr class="separator:aad08f661d84086395c9be0ea3e862f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a238be1379c73314387019265d3340606" id="r_a238be1379c73314387019265d3340606"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a238be1379c73314387019265d3340606">startBootTimeSync</a> ()</td></tr>
+<tr class="memdesc:a238be1379c73314387019265d3340606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a non-blocking boot fallback when no phone/manual time has arrived.  <br /></td></tr>
+<tr class="separator:a238be1379c73314387019265d3340606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4de3af225da1f6468f981b4955788770" id="r_a4de3af225da1f6468f981b4955788770"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a4de3af225da1f6468f981b4955788770">tick</a> ()</td></tr>
+<tr class="memdesc:a4de3af225da1f6468f981b4955788770"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply any completed boot sync from the main/UI task.  <br /></td></tr>
+<tr class="separator:a4de3af225da1f6468f981b4955788770"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1be05bc7325dbe5c80e93c7030d7c719" id="r_a1be05bc7325dbe5c80e93c7030d7c719"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a1be05bc7325dbe5c80e93c7030d7c719">syncNtp</a> ()</td></tr>
 <tr class="separator:a1be05bc7325dbe5c80e93c7030d7c719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45804e7aa007e7f8afca161c39a04595" id="r_a45804e7aa007e7f8afca161c39a04595"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a45804e7aa007e7f8afca161c39a04595">syncAll</a> ()</td></tr>
@@ -222,8 +228,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a879f5c07e9dbedd63b2082e1c3ca690e" name="a879f5c07e9dbedd63b2082e1c3ca690e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a879f5c07e9dbedd63b2082e1c3ca690e">&#9670;&#160;</a></span>fetchTimeWithFallbacks()</h2>
+<a id="aad08f661d84086395c9be0ea3e862f27" name="aad08f661d84086395c9be0ea3e862f27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad08f661d84086395c9be0ea3e862f27">&#9670;&#160;</a></span>fetchTimeWithFallbacks()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +244,13 @@ Variables</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool &amp;&#160;</td>
-          <td class="paramname"><em>isHttpFallback</em>&#160;</td>
+          <td class="paramname"><em>isHttpFallback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>updateStatus</em> = <code>true</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -356,6 +368,25 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a238be1379c73314387019265d3340606" name="a238be1379c73314387019265d3340606"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a238be1379c73314387019265d3340606">&#9670;&#160;</a></span>startBootTimeSync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NetSync::startBootTimeSync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Start a non-blocking boot fallback when no phone/manual time has arrived. </p>
+
+</div>
+</div>
 <a id="a45804e7aa007e7f8afca161c39a04595" name="a45804e7aa007e7f8afca161c39a04595"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45804e7aa007e7f8afca161c39a04595">&#9670;&#160;</a></span>syncAll()</h2>
 
@@ -387,6 +418,25 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4de3af225da1f6468f981b4955788770" name="a4de3af225da1f6468f981b4955788770"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4de3af225da1f6468f981b4955788770">&#9670;&#160;</a></span>tick()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NetSync::tick </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Apply any completed boot sync from the main/UI task. </p>
 
 </div>
 </div>

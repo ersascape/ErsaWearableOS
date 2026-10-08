@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['w_0',['w',['../de/dc7/structersa_1_1Rect.html#a9ec11d58a5717ec577d68937c66128b8',1,'ersa::Rect::w'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aabb96b46820ec2b9e144e29931827d3c',1,'ersa::test::MockDisplay::W']]],
+  ['w_0',['w',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aabb96b46820ec2b9e144e29931827d3c',1,'ersa::test::MockDisplay::W'],['../de/dc7/structersa_1_1Rect.html#a9ec11d58a5717ec577d68937c66128b8',1,'ersa::Rect::w']]],
   ['waitforwake_1',['waitforwake',['../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a998dce83172da045975906ac4f1a3a75',1,'ersa::test::MockPowerManagement::waitForWake()'],['../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a6c9f7a39af095548820d8e7b123aea06',1,'ersa::hal::Esp32PowerManagement::waitForWake()'],['../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a2bc3cbe6288f1191dbdc02b49f318f3a',1,'ersa::hal::IPowerManagement::waitForWake()']]],
   ['wakecallback_2',['WakeCallback',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a44a1c44df18e2d60e2f79c29b9daa2c3',1,'ersa::services::BluetoothManager']]],
   ['wakecallback_5f_3',['wakeCallback_',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#ac91e1911d453c6a48129f3a19b895e90',1,'ersa::services::BluetoothManager']]],
@@ -10,7 +10,7 @@ var searchData=
   ['wakesourcesinitialized_7',['wakeSourcesInitialized',['../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a2d8479ce7b24f8b7a53ec54763354582',1,'ersa::test::MockPowerManagement']]],
   ['wakeuserdata_5f_8',['wakeUserData_',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#af0deafca75fce0d1f1f8988ca14de07b',1,'ersa::services::BluetoothManager']]],
   ['warn_9',['Warn',['../de/dd9/namespaceersa_1_1services.html#afbb42a56f9eeb0cd92e1769dbe66a07aa56525ae64d370c0b448ac0d60710ef17',1,'ersa::services']]],
-  ['watch_20apps_20and_20interaction_10',['Watch apps and interaction',['../da/db6/md_docs_2FEATURES.html#autotoc_md25',1,'']]],
+  ['watch_20apps_20and_20interaction_10',['Watch apps and interaction',['../da/db6/md_docs_2FEATURES.html#autotoc_md31',1,'']]],
   ['watch_5fclock_2ecpp_11',['watch_clock.cpp',['../db/d89/watch__clock_8cpp.html',1,'']]],
   ['watch_5fclock_2eh_12',['watch_clock.h',['../d1/def/watch__clock_8h.html',1,'']]],
   ['watch_5fconfig_2ecpp_13',['watch_config.cpp',['../d9/d6f/watch__config_8cpp.html',1,'']]],
@@ -30,7 +30,7 @@ var searchData=
   ['watchui_27',['WatchUi',['../d9/d9d/namespaceWatchUi.html',1,'']]],
   ['wearable_20platform_28',['Ersa Wearable Platform',['../d0/d30/md_README.html',1,'']]],
   ['wearable_20platform_20feature_20catalog_29',['Ersa Wearable Platform Feature Catalog',['../da/db6/md_docs_2FEATURES.html',1,'']]],
-  ['what_20this_20board_20can_20control_20today_30',['What this board can control today',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html#autotoc_md58',1,'']]],
+  ['what_20this_20board_20can_20control_20today_30',['What this board can control today',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html#autotoc_md64',1,'']]],
   ['what_20works_20today_31',['What works today',['../d0/d30/md_README.html#autotoc_md1',1,'']]],
   ['white_32',['white',['../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02a25a81701fbfa4a1efdf660a950c1d006',1,'ersa::hal::White'],['../d9/d0f/namespaceersa_1_1ui.html#a24a70b0d18f2e3ddba7df3c7537ce4caa25a81701fbfa4a1efdf660a950c1d006',1,'ersa::ui::White']]],
   ['width_33',['width',['../de/d4b/structersa_1_1board_1_1DisplayConfig.html#a04760a17cfcd2ad9170f75a73edefb38',1,'ersa::board::DisplayConfig::width'],['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a80dcfcd153d960169da660e9868992a4',1,'ersa::hal::IDisplay::width()'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a6cd19ebea73b176ad3def0ede29f866e',1,'ersa::test::MockDisplay::width()'],['../d5/dd7/classersa_1_1ui_1_1Canvas.html#a689f044ff910b42983ba0559ba7b406e',1,'ersa::ui::Canvas::width()']]],
@@ -42,8 +42,8 @@ var searchData=
   ['wifissid_39',['wifiSsid',['../d6/d35/structWatchConfig_1_1Config.html#a7c61425b1c77b670b723498db7f15927',1,'WatchConfig::Config']]],
   ['wifistate_40',['WifiState',['../d9/de5/namespaceersa_1_1hal.html#a058cc88c446605000ef10449f7b32df5',1,'ersa::hal']]],
   ['wiki_41',['EWP developer wiki',['../index.html',1,'']]],
-  ['wire_20protocol_42',['Wire protocol',['../d0/d16/md_docs_2ewctl-control-bridge.html#autotoc_md19',1,'']]],
-  ['work_20blocks_20the_20ui_20and_20bypasses_20networkmanager_43',['10. Network work blocks the UI and bypasses NetworkManager',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md44',1,'']]],
+  ['wire_20protocol_42',['Wire protocol',['../d0/d16/md_docs_2ewctl-control-bridge.html#autotoc_md25',1,'']]],
+  ['work_20blocks_20the_20ui_20and_20bypasses_20networkmanager_43',['10. Network work blocks the UI and bypasses NetworkManager',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md50',1,'']]],
   ['works_20today_44',['What works today',['../d0/d30/md_README.html#autotoc_md1',1,'']]],
   ['write_45',['write',['../d9/df9/classPrint.html#aef75be66be6456b49e249fc5540ac488',1,'Print::write(const uint8_t *text, size_t length)'],['../d9/df9/classPrint.html#a5be30d49adae2406a270c29ba9a3e0a3',1,'Print::write(uint8_t)=0']]],
   ['writele32_46',['writeLe32',['../d5/d23/namespaceersa_1_1protocols.html#a226a8095ba474edc82dcf3f9b3e7c834',1,'ersa::protocols']]]

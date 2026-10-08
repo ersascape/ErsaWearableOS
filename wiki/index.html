@@ -54,6 +54,14 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="reference internal" href="BUILDING_APPS/">Build and register apps</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://pkgs-wearables.ersa.dev/wiki/api/">C++ API reference</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="HAL_ARCHITECTURE/">Architecture</a>
                 </li>
               </ul>
@@ -67,6 +75,10 @@
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="POWER_AND_BATTERY_DESIGN/">Power and battery</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="TIMEKEEPING/">Timekeeping</a>
                 </li>
               </ul>
               <ul>
@@ -117,6 +129,7 @@ repository and labels planned integrations as planned.</p>
 <ul>
 <li><a href="https://github.com/ersascape/ErsaWearableOS#readme">Project overview and build commands</a></li>
 <li><a href="HAL_ARCHITECTURE/">Architecture and hardware boundaries</a></li>
+<li><a href="BUILDING_APPS/">Build and register apps</a></li>
 <li><a href="ADDING_A_BOARD/">Add or port a board</a></li>
 <li><a href="FEATURES/">Feature catalog</a></li>
 </ul>
@@ -129,9 +142,11 @@ repository and labels planned integrations as planned.</p>
 <li><a href="ewctl-control-bridge/">USB developer control and <code>ewctl</code></a></li>
 </ul>
 <h2 id="api-reference">API reference</h2>
-<p>The generated C++ API reference covers public contracts, services, board
-support, platform HALs, drivers, and tests. Build it with <code>make docs</code>; the
-result is <code>api/index.html</code> in the generated site.</p>
+<p>The <a href="https://pkgs-wearables.ersa.dev/wiki/api/">published C++ API reference</a>
+covers project headers, source, services, board support, platform HALs,
+peripheral drivers, and tests. Build it locally with <code>make docs</code>; the result is
+<code>api/index.html</code> in <code>.pio/wiki-site/</code>. Third-party Arduino and ESP-IDF SDK
+sources are maintained upstream and are not copied into this project reference.</p>
 <h2 id="contributing-changes">Contributing changes</h2>
 <p>Run <code>make test</code>, <code>make firmware</code>, and <code>make docs</code> for changes that affect the
 firmware or its interfaces. Keep board wiring in the BSP, vendor APIs in the
@@ -141,7 +156,7 @@ when behavior changes.</p>
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="HAL_ARCHITECTURE/" class="btn btn-neutral float-right" title="Architecture">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="BUILDING_APPS/" class="btn btn-neutral float-right" title="Build and register apps">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -169,7 +184,7 @@ when behavior changes.</p>
     
     
     
-      <span><a href="HAL_ARCHITECTURE/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="BUILDING_APPS/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
@@ -189,5 +204,5 @@ when behavior changes.</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-10-08 07:49:18.774638+00:00
+Build Date UTC : 2026-10-08 08:58:07.023275+00:00
 -->
