@@ -47,6 +47,12 @@ uint32_t cpuMHz() {
     return esp_clk_cpu_freq() / 1000000UL;
 }
 
+unsigned configuredMinimumMHz() {
+    if (testFrequencyMHz == 80) return 80;
+    if (testFrequencyMHz == 160) return 160;
+    return 40;
+}
+
 void logIfChanged(const char* reason) {
     const uint32_t current = cpuMHz();
     const uint32_t previous = lastLoggedMHz.exchange(current);
@@ -88,9 +94,9 @@ void releaseLock(Profile profile, const char* reason) {
             DebugLog::log("DVFS: lock release failed profile=%u err=0x%x",
                           unsigned(profile), unsigned(result));
         }
-        DebugLog::log("DVFS: release profile=%s reason=%s CPU=%lu MHz; idle floor=40 MHz",
+        DebugLog::log("DVFS: release profile=%s reason=%s CPU=%lu MHz; configured minimum=%u MHz",
                       state.name, reason ? reason : "unspecified",
-                      static_cast<unsigned long>(cpuMHz()));
+                      static_cast<unsigned long>(cpuMHz()), configuredMinimumMHz());
         logIfChanged(reason);
     }
     xSemaphoreGive(mutex);

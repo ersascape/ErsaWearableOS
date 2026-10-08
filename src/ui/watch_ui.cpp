@@ -18,6 +18,8 @@
 
 namespace {
 
+constexpr uint32_t LIGHT_SLEEP_IDLE_THRESHOLD_MS = 5000;
+
 ersa::board::Board& board = ersa::board::Board::current();
 ersa::events::EventBus& eventBus = ersa::events::EventBus::instance();
 ersa::app::ApplicationManager& appManager = ersa::app::ApplicationManager::instance();
@@ -168,7 +170,7 @@ void WatchUi::begin() {
 
     automaticSleepReady = powerHal.initializeWakeSources(board.getPins());
     if (automaticSleepReady)
-        DebugLog::log("PWR: light sleep armed after 30s inactivity; wake sources BLE, minute timer, buttons");
+        DebugLog::log("PWR: light sleep armed after 5s inactivity; wake sources BLE, minute timer, buttons");
     else
         DebugLog::log("PWR: cannot initialize automatic sleep wake sources");
     bluetoothManager.setWakeCallback([](void*) { board.getPowerManagement().notifyWake(); }, nullptr);
@@ -449,7 +451,7 @@ void WatchUi::tick() {
     const ersa::runtime::SleepEligibility sleepPolicy{
         automaticSleepReady,
         usbConsoleAttached,
-        userIdleMs >= 30000,
+        userIdleMs >= LIGHT_SLEEP_IDLE_THRESHOLD_MS,
         appBusy,
         NetSync::isSyncing(),
         board.getDisplay().isBusy(),
