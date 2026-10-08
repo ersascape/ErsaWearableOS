@@ -167,6 +167,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return a stable, unique, null-terminated navigation key. </p>
 
 <p>Implements <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a717fb4f65b724d1edca6b8da3bc30279">ersa::app::Application</a>.</p>
 
@@ -194,6 +195,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the user-facing name shown by the app drawer. </p>
 
 <p>Implements <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aa192e72ddde0963225dee51de671ad1f">ersa::app::Application</a>.</p>
 
@@ -221,6 +223,8 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called once before this app is first shown.</p>
+<p>Establish durable model state here. Do not assume the display is active or block the UI task; the base implementation is empty so simple apps have no setup boilerplate. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aecfd76ce4a6422dab6cbaff5b70f4a30">ersa::app::Application</a>.</p>
 
@@ -249,6 +253,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Receive a normalized system or input event while this app is active. Override this to translate button, clock, battery, and companion events into app state changes. Payloads are copied values, so app logic does not need to depend on the device driver that produced the event. The base implementation intentionally ignores events for static screens. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a568acc7ddfb4f59c8b599df161ca1a64">ersa::app::Application</a>.</p>
 
@@ -276,6 +281,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called before another screen temporarily covers this app. Stop animations and polling, and release temporary wake/performance leases. The manager retains the app instance, so this is not destruction. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#afb8a3a9d85d6bb6af27f2c9d5d0e155a">ersa::app::Application</a>.</p>
 
@@ -303,6 +309,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called after <a class="el" href="../../dd/d1a/classTestAppA.html#a9cb66eaab80354b6ddccf367328b43ff">onPause()</a> when this app is foregrounded again. Revalidate transient state and resume paused work; durable model state normally remains intact across this temporary transition. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aad1c88a84c58013ecf46a9e29bf81171">ersa::app::Application</a>.</p>
 
@@ -330,6 +337,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the manager selects this app as the foreground screen. Start foreground-only work, such as app-specific event subscriptions or refresh requests. Pair subscriptions with pause/stop cleanup so hidden screens do not process events unnecessarily. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a29f1cb06e0c03634e343ffdffa606b8d">ersa::app::Application</a>.</p>
 
@@ -357,6 +365,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when navigation leaves this app. Release foreground-only resources and callbacks. Use <a class="el" href="../../dd/d1a/classTestAppA.html#a9cb66eaab80354b6ddccf367328b43ff">onPause()</a> for a temporary cover and <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a7e7c1970acea1566b49e4a789750d41c">onDestroy()</a> only when the manager permanently removes the object. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a7e3ba20d8c90bd8c4a0d923258d07815">ersa::app::Application</a>.</p>
 
@@ -381,7 +390,7 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>full</em>&#160;</td>
+          <td class="paramname"><em>fullRefresh</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -395,6 +404,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Render through the display HAL. <code>fullRefresh</code> requests a panel-wide update when the hardware supports a distinct full-refresh waveform. The UI calls this only when content is dirty. Draw into the framebuffer; the display manager owns physical refresh timing and panel power so app code stays independent of e-paper driver APIs. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#afc8a6d6d37cebce281b67ce96ae6a53b">ersa::app::Application</a>.</p>
 

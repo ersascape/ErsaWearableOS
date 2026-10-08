@@ -6,5 +6,5 @@ digraph "ersa::test::MockWifi"
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   Node1 [id="Node000001",label="ersa::test::MockWifi",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node2 [id="Node000002",label="ersa::hal::IWifiRadio",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d7/d7e/classersa_1_1hal_1_1IWifiRadio.html",tooltip="Wi-Fi station and access-point radio control; networking protocols live above this interface."];
+  Node2 [id="Node000002",label="ersa::hal::IWifiRadio",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d7/d7e/classersa_1_1hal_1_1IWifiRadio.html",tooltip=" "];
 }

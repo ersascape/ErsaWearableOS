@@ -106,7 +106,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a56ee0a32962ee5d94a570b8ec7d5ec8f" id="r_a56ee0a32962ee5d94a570b8ec7d5ec8f"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dc7/structersa_1_1Rect.html#a56ee0a32962ee5d94a570b8ec7d5ec8f">h</a> {0}</td></tr>
 <tr class="separator:a56ee0a32962ee5d94a570b8ec7d5ec8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Half-open axis-aligned rectangle used for layout and partial refresh regions. Left/top are included and right/bottom are excluded; this convention matches framebuffer indexing and allows adjacent regions to share an edge safely. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa6611f22140481e70218e708962cf2c8" name="aa6611f22140481e70218e708962cf2c8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa6611f22140481e70218e708962cf2c8">&#9670;&#160;</a></span>Rect() <span class="overload">[1/2]</span></h2>
 
@@ -129,6 +131,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Construct an empty rectangle at the origin. </p>
 
 </div>
 </div>
@@ -177,6 +180,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Construct a rectangle with origin and width/height extents. </p>
 
 </div>
 </div>
@@ -214,6 +218,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Test point containment using the half-open edge convention. </p>
 
 </div>
 </div>
@@ -239,6 +244,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return true if either extent is zero or negative. </p>
 
 </div>
 </div>
@@ -254,6 +260,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Vertical extent; non-positive values make the rectangle empty. </p>
 
 </div>
 </div>
@@ -268,6 +275,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Horizontal extent; non-positive values make the rectangle empty. </p>
 
 </div>
 </div>
@@ -282,6 +290,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Inclusive left edge in logical pixels. </p>
 
 </div>
 </div>
@@ -296,6 +305,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Inclusive top edge in logical pixels. </p>
 
 </div>
 </div>

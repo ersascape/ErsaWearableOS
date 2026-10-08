@@ -81,9 +81,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Real-time clock contract using transport-neutral calendar values.  
- <a href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../dc/d1b/rtc_8h_source.html">rtc.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ersa::hal::IRtc:</div>
@@ -96,19 +93,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7fa996c740c9ae7350af13ba0ea182cb" id="r_a7fa996c740c9ae7350af13ba0ea182cb"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#a7fa996c740c9ae7350af13ba0ea182cb">~IRtc</a> ()=default</td></tr>
 <tr class="separator:a7fa996c740c9ae7350af13ba0ea182cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf45751eb05860d10dab4716862fd8e7" id="r_acf45751eb05860d10dab4716862fd8e7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#acf45751eb05860d10dab4716862fd8e7">init</a> ()=0</td></tr>
-<tr class="memdesc:acf45751eb05860d10dab4716862fd8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize and validate the RTC backend.  <br /></td></tr>
 <tr class="separator:acf45751eb05860d10dab4716862fd8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6efd686bf0b01ebdb82d1d2b0e5d6a54" id="r_a6efd686bf0b01ebdb82d1d2b0e5d6a54"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d8/d14/structersa_1_1hal_1_1TimePoint.html">TimePoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#a6efd686bf0b01ebdb82d1d2b0e5d6a54">now</a> ()=0</td></tr>
-<tr class="memdesc:a6efd686bf0b01ebdb82d1d2b0e5d6a54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current calendar time.  <br /></td></tr>
 <tr class="separator:a6efd686bf0b01ebdb82d1d2b0e5d6a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3a020b8778368f5f1b690837dce9b1f6" id="r_a3a020b8778368f5f1b690837dce9b1f6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#a3a020b8778368f5f1b690837dce9b1f6">adjust</a> (const <a class="el" href="../../d8/d14/structersa_1_1hal_1_1TimePoint.html">TimePoint</a> &amp;time)=0</td></tr>
-<tr class="memdesc:a3a020b8778368f5f1b690837dce9b1f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the RTC calendar time.  <br /></td></tr>
 <tr class="separator:a3a020b8778368f5f1b690837dce9b1f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1d37a12706656f6cf1000d66b5cd9cd" id="r_aa1d37a12706656f6cf1000d66b5cd9cd"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#aa1d37a12706656f6cf1000d66b5cd9cd">setEpoch</a> (uint32_t epochSeconds)=0</td></tr>
-<tr class="memdesc:aa1d37a12706656f6cf1000d66b5cd9cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the RTC from Unix epoch seconds.  <br /></td></tr>
 <tr class="separator:aa1d37a12706656f6cf1000d66b5cd9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc68e7c4be1fcd5b7b83c17a5776fdea" id="r_adc68e7c4be1fcd5b7b83c17a5776fdea"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#adc68e7c4be1fcd5b7b83c17a5776fdea">isHealthy</a> () const =0</td></tr>
-<tr class="memdesc:adc68e7c4be1fcd5b7b83c17a5776fdea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the RTC is initialized and reporting valid time.  <br /></td></tr>
 <tr class="separator:adc68e7c4be1fcd5b7b83c17a5776fdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -163,8 +155,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the RTC calendar time. </p>
+<p>Write explicit calendar fields and report bus/chip failures. </p>
 
 <p>Implemented in <a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a3791c2771d7c0666223601796f6455ab">ersa::test::MockRtc</a>.</p>
 
@@ -192,8 +183,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize and validate the RTC backend. </p>
+<p>Initialize the chip/bus and verify that calendar reads are plausible. </p>
 
 <p>Implemented in <a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#ae58ded7ac346a238f02a79caf69d8576">ersa::test::MockRtc</a>.</p>
 
@@ -221,8 +211,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether the RTC is initialized and reporting valid time. </p>
+<p>Report backend health; this does not guarantee the wall time is accurate. </p>
 
 <p>Implemented in <a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#ad131768f3fa9099a625edfd5629c8fa5">ersa::test::MockRtc</a>.</p>
 
@@ -250,8 +239,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Read the current calendar time. </p>
+<p>Return a calendar snapshot; the implementation may derive epoch fields. </p>
 
 <p>Implemented in <a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a7abb468357395b790e7935435a6073ef">ersa::test::MockRtc</a>.</p>
 
@@ -280,8 +268,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the RTC from Unix epoch seconds. </p>
+<p>Convert and write epoch seconds without exposing a chip-specific date type. </p>
 
 <p>Implemented in <a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#aede11fa42d17546eaafbc17cb662d59c">ersa::test::MockRtc</a>.</p>
 

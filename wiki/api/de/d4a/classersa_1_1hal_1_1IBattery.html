@@ -81,9 +81,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Board-level battery telemetry and sampling contract.  
- <a href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d0/ddc/include_2ersa_2hal_2battery_8h_source.html">battery.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ersa::hal::IBattery:</div>
@@ -96,16 +93,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad660775b96593d2334f314e3d838a8ae" id="r_ad660775b96593d2334f314e3d838a8ae"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#ad660775b96593d2334f314e3d838a8ae">~IBattery</a> ()=default</td></tr>
 <tr class="separator:ad660775b96593d2334f314e3d838a8ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86f72943b06f94197e49dc7bd9965511" id="r_a86f72943b06f94197e49dc7bd9965511"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#a86f72943b06f94197e49dc7bd9965511">init</a> ()=0</td></tr>
-<tr class="memdesc:a86f72943b06f94197e49dc7bd9965511"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the battery measurement backend.  <br /></td></tr>
 <tr class="separator:a86f72943b06f94197e49dc7bd9965511"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab9bbfac9a8a3a323be996c2a9353db6" id="r_aab9bbfac9a8a3a323be996c2a9353db6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#aab9bbfac9a8a3a323be996c2a9353db6">sample</a> ()=0</td></tr>
-<tr class="memdesc:aab9bbfac9a8a3a323be996c2a9353db6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take a new battery sample and update cached measurements.  <br /></td></tr>
 <tr class="separator:aab9bbfac9a8a3a323be996c2a9353db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17af59af5a79b10a7c2500134afa0cee" id="r_a17af59af5a79b10a7c2500134afa0cee"><td class="memItemLeft" align="right" valign="top">virtual uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#a17af59af5a79b10a7c2500134afa0cee">millivolts</a> () const =0</td></tr>
 <tr class="memdesc:a17af59af5a79b10a7c2500134afa0cee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the latest measured voltage in millivolts.  <br /></td></tr>
 <tr class="separator:a17af59af5a79b10a7c2500134afa0cee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40c346275a52a6dd575d70a2b60c3078" id="r_a40c346275a52a6dd575d70a2b60c3078"><td class="memItemLeft" align="right" valign="top">virtual uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#a40c346275a52a6dd575d70a2b60c3078">percentage</a> () const =0</td></tr>
-<tr class="memdesc:a40c346275a52a6dd575d70a2b60c3078"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the estimated remaining capacity as a percentage from 0 to 100.  <br /></td></tr>
 <tr class="separator:a40c346275a52a6dd575d70a2b60c3078"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acea6542580c0c8f5b7320dd54dff279b" id="r_acea6542580c0c8f5b7320dd54dff279b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#acea6542580c0c8f5b7320dd54dff279b">isConnected</a> () const =0</td></tr>
 <tr class="memdesc:acea6542580c0c8f5b7320dd54dff279b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report whether a usable battery is connected.  <br /></td></tr>
@@ -115,7 +109,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a09035fc3015ba409fa39a15920dc7faf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Board-level battery telemetry and sampling contract. </p>
+<div class="textblock"><p>Board-level battery telemetry and sampling contract.</p>
+<p>Sampling is explicit so PowerManager can adapt its cadence to battery health instead of performing ADC work on every UI tick. Implementations cache the most recent measurement; getters therefore return a coherent last sample without initiating potentially expensive hardware conversions. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad660775b96593d2334f314e3d838a8ae" name="ad660775b96593d2334f314e3d838a8ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad660775b96593d2334f314e3d838a8ae">&#9670;&#160;</a></span>~IBattery()</h2>
@@ -165,8 +160,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize the battery measurement backend. </p>
+<p>Configure ADC/gauge resources and report whether the backend is usable. </p>
 
 <p>Implemented in <a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#aa5a725bbe51cc36b7ff55e99acae710b">ersa::test::MockBattery</a>.</p>
 
@@ -281,8 +275,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return the estimated remaining capacity as a percentage from 0 to 100. </p>
+<p>Return a bounded estimate; voltage-only boards must not imply precision. </p>
 
 <p>Implemented in <a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#ae8dfb73a159e8902a884eef2f3aa509f">ersa::test::MockBattery</a>.</p>
 
@@ -310,8 +303,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Take a new battery sample and update cached measurements. </p>
+<p>Refresh cached telemetry; implementations should keep this bounded. </p>
 
 <p>Implemented in <a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#a86c742000d566761c38c8362499e9d93">ersa::test::MockBattery</a>.</p>
 

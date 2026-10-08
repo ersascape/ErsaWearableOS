@@ -104,7 +104,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a67741ba9af183fd89991cc19c0fbe2ee" id="r_a67741ba9af183fd89991cc19c0fbe2ee"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dd7/classersa_1_1ui_1_1Canvas.html#a67741ba9af183fd89991cc19c0fbe2ee">drawText</a> (int x, int y, const char *text, <a class="el" href="../../d9/d0f/namespaceersa_1_1ui.html#a24a70b0d18f2e3ddba7df3c7537ce4ca">Color</a> color=<a class="el" href="../../d9/d0f/namespaceersa_1_1ui.html#a24a70b0d18f2e3ddba7df3c7537ce4caa25a81701fbfa4a1efdf660a950c1d006">Color::White</a>)=0</td></tr>
 <tr class="separator:a67741ba9af183fd89991cc19c0fbe2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Small renderer contract for canvas-oriented watchfaces.</p>
+<p><a class="el" href="../../d5/dd7/classersa_1_1ui_1_1Canvas.html">Canvas</a> is intentionally narrower than a vendor graphics library: it exposes logical pixels, primitive geometry, and text while hiding framebuffer and panel details. It is useful for portable watchface code; the fuller display HAL is used when an app needs font selection or refresh-specific behavior. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3ec4e2613a30537139ce89306acef7af" name="a3ec4e2613a30537139ce89306acef7af"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3ec4e2613a30537139ce89306acef7af">&#9670;&#160;</a></span>~Canvas()</h2>
 
@@ -127,6 +130,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Allow concrete canvases to be destroyed through this interface. </p>
 
 </div>
 </div>
@@ -154,6 +158,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Fill the entire canvas; no hardware refresh is implied. </p>
 
 </div>
 </div>
@@ -208,6 +213,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Rasterize a line between logical endpoints. </p>
 
 </div>
 </div>
@@ -250,6 +256,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Set one logical pixel, clipping or ignoring coordinates outside bounds. </p>
 
 </div>
 </div>
@@ -304,6 +311,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Draw a rectangle outline with the supplied origin and extent. </p>
 
 </div>
 </div>
@@ -352,6 +360,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Draw text at the backend-defined baseline convention. </p>
 
 </div>
 </div>
@@ -406,6 +415,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Fill a rectangle in the framebuffer. </p>
 
 </div>
 </div>
@@ -431,6 +441,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return logical height in pixels for layout calculations. </p>
 
 </div>
 </div>
@@ -456,6 +467,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return logical width in pixels for layout calculations. </p>
 
 </div>
 </div>

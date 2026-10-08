@@ -92,13 +92,10 @@ Collaboration diagram for ersa::services::NetworkHandle:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a138b8937b3b47b787f1bcea7eacffa46" id="r_a138b8937b3b47b787f1bcea7eacffa46"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df3/classersa_1_1services_1_1NetworkHandle.html#a138b8937b3b47b787f1bcea7eacffa46">NetworkHandle</a> ()</td></tr>
-<tr class="memdesc:a138b8937b3b47b787f1bcea7eacffa46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an inactive handle.  <br /></td></tr>
 <tr class="separator:a138b8937b3b47b787f1bcea7eacffa46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a341aac5104ade9434db97a56122c4f99" id="r_a341aac5104ade9434db97a56122c4f99"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df3/classersa_1_1services_1_1NetworkHandle.html#a341aac5104ade9434db97a56122c4f99">NetworkHandle</a> (<a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html">NetworkManager</a> *mgr)</td></tr>
-<tr class="memdesc:a341aac5104ade9434db97a56122c4f99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an active handle and acquire a network wake lease.  <br /></td></tr>
 <tr class="separator:a341aac5104ade9434db97a56122c4f99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa773f678a2c14da1769d3529a1558bd7" id="r_aa773f678a2c14da1769d3529a1558bd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df3/classersa_1_1services_1_1NetworkHandle.html#aa773f678a2c14da1769d3529a1558bd7">~NetworkHandle</a> ()</td></tr>
-<tr class="memdesc:aa773f678a2c14da1769d3529a1558bd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release the network wake lease if still active.  <br /></td></tr>
 <tr class="separator:aa773f678a2c14da1769d3529a1558bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3eaeffd7f8b7599264290be180227d86" id="r_a3eaeffd7f8b7599264290be180227d86"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df3/classersa_1_1services_1_1NetworkHandle.html#a3eaeffd7f8b7599264290be180227d86">NetworkHandle</a> (const <a class="el" href="../../d4/df3/classersa_1_1services_1_1NetworkHandle.html">NetworkHandle</a> &amp;)=delete</td></tr>
 <tr class="separator:a3eaeffd7f8b7599264290be180227d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,8 +142,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Create an inactive handle. </p>
+<p>Construct an empty handle that holds no radio lease. </p>
 
 </div>
 </div>
@@ -173,8 +169,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Create an active handle and acquire a network wake lease. </p>
+<p>Acquire one manager lease; move semantics ensure exactly-once release. </p>
 
 </div>
 </div>
@@ -192,8 +187,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Release the network wake lease if still active. </p>
+<p>Release the held lease during scope cleanup. </p>
 
 </div>
 </div>
@@ -246,6 +240,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Transfer a live lease without changing the manager's reference count. </p>
 
 </div>
 </div>
@@ -326,6 +321,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Release this lease, then take ownership of the source lease. </p>
 
 </div>
 </div>

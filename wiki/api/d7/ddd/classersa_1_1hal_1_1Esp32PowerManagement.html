@@ -99,31 +99,22 @@ Collaboration diagram for ersa::hal::Esp32PowerManagement:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8aba494eaf7d1e8cb4d9d4da51e1d0d3" id="r_a8aba494eaf7d1e8cb4d9d4da51e1d0d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a8aba494eaf7d1e8cb4d9d4da51e1d0d3">initialize</a> () override</td></tr>
-<tr class="memdesc:a8aba494eaf7d1e8cb4d9d4da51e1d0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the platform power policy before radios and peripherals start.  <br /></td></tr>
 <tr class="separator:a8aba494eaf7d1e8cb4d9d4da51e1d0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56c82888673dcf8b867ea3bf924b57fc" id="r_a56c82888673dcf8b867ea3bf924b57fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a56c82888673dcf8b867ea3bf924b57fc">tick</a> () override</td></tr>
-<tr class="memdesc:a56c82888673dcf8b867ea3bf924b57fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run periodic platform power-management maintenance.  <br /></td></tr>
 <tr class="separator:a56c82888673dcf8b867ea3bf924b57fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33819f906570638b0a672a2c90486a29" id="r_a33819f906570638b0a672a2c90486a29"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a33819f906570638b0a672a2c90486a29">initializeWakeSources</a> (const <a class="el" href="../../d1/df2/classersa_1_1board_1_1Pins.html">board::Pins</a> &amp;pins) override</td></tr>
-<tr class="memdesc:a33819f906570638b0a672a2c90486a29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure GPIO/button wake sources from the selected board's pin map.  <br /></td></tr>
 <tr class="separator:a33819f906570638b0a672a2c90486a29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab25e94b7ca997f95650b04a13ca8bd08" id="r_ab25e94b7ca997f95650b04a13ca8bd08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#ab25e94b7ca997f95650b04a13ca8bd08">allowAutomaticSleep</a> (bool allow) override</td></tr>
-<tr class="memdesc:ab25e94b7ca997f95650b04a13ca8bd08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow or block automatic idle sleep.  <br /></td></tr>
 <tr class="separator:ab25e94b7ca997f95650b04a13ca8bd08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c9f7a39af095548820d8e7b123aea06" id="r_a6c9f7a39af095548820d8e7b123aea06"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a6c9f7a39af095548820d8e7b123aea06">waitForWake</a> (uint32_t timeoutMs) override</td></tr>
-<tr class="memdesc:a6c9f7a39af095548820d8e7b123aea06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for a task wake notification or a timeout in milliseconds.  <br /></td></tr>
 <tr class="separator:a6c9f7a39af095548820d8e7b123aea06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a037f86e17dc18d1aa25ac19562ffd25c" id="r_a037f86e17dc18d1aa25ac19562ffd25c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a037f86e17dc18d1aa25ac19562ffd25c">notifyWake</a> () override</td></tr>
-<tr class="memdesc:a037f86e17dc18d1aa25ac19562ffd25c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake a task blocked in waitForWake.  <br /></td></tr>
 <tr class="separator:a037f86e17dc18d1aa25ac19562ffd25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb6380c6221b76521ca57a21ba23d7ed" id="r_acb6380c6221b76521ca57a21ba23d7ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#acb6380c6221b76521ca57a21ba23d7ed">enterLightSleep</a> (uint64_t timerUs) override</td></tr>
-<tr class="memdesc:acb6380c6221b76521ca57a21ba23d7ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enter light sleep, optionally with a timer wake source in microseconds.  <br /></td></tr>
 <tr class="separator:acb6380c6221b76521ca57a21ba23d7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bb92294817235d104f285f9240cdcfd" id="r_a7bb92294817235d104f285f9240cdcfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a7bb92294817235d104f285f9240cdcfd">enterDeepSleep</a> (uint64_t timerUs) override</td></tr>
-<tr class="memdesc:a7bb92294817235d104f285f9240cdcfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enter deep sleep, optionally with a timer wake source in microseconds.  <br /></td></tr>
 <tr class="separator:a7bb92294817235d104f285f9240cdcfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1d4f2112920b5a9172df151fe16adc97" id="r_a1d4f2112920b5a9172df151fe16adc97"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a1d4f2112920b5a9172df151fe16adc97">acquirePerformance</a> (<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a11b9976544ba590df5660dae05382667">PerformanceProfile</a> profile, const char *reason) override</td></tr>
-<tr class="memdesc:a1d4f2112920b5a9172df151fe16adc97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a performance profile; return false when unsupported or unavailable.  <br /></td></tr>
 <tr class="separator:a1d4f2112920b5a9172df151fe16adc97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0eda0651fe0190a447a02b10da7fc68" id="r_ad0eda0651fe0190a447a02b10da7fc68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#ad0eda0651fe0190a447a02b10da7fc68">releasePerformance</a> (<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a11b9976544ba590df5660dae05382667">PerformanceProfile</a> profile, const char *reason) override</td></tr>
 <tr class="memdesc:ad0eda0651fe0190a447a02b10da7fc68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a performance profile acquired earlier.  <br /></td></tr>
@@ -169,7 +160,9 @@ Static Private Attributes</h2></td></tr>
 <tr class="memitem:a269fde5adeaadc2b464c506993df6fc2" id="r_a269fde5adeaadc2b464c506993df6fc2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html">Esp32PowerManagement</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a269fde5adeaadc2b464c506993df6fc2">active_</a> = nullptr</td></tr>
 <tr class="separator:a269fde5adeaadc2b464c506993df6fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>ESP-IDF power backend for automatic sleep, wake sources, and CPU profiles. It coordinates FreeRTOS tickless idle and PM locks with BLE/radio policy; direct light-sleep entry from app code would bypass that coordination. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a1d4f2112920b5a9172df151fe16adc97" name="a1d4f2112920b5a9172df151fe16adc97"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1d4f2112920b5a9172df151fe16adc97">&#9670;&#160;</a></span>acquirePerformance()</h2>
 
@@ -203,8 +196,14 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Acquire a performance profile; return false when unsupported or unavailable. </p>
+<p>Acquire a temporary CPU/APB minimum for latency-sensitive work. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">profile</td><td>Workload class selecting the platform's performance guarantee. </td></tr>
+    <tr><td class="paramname">reason</td><td>Short diagnostic label paired with <a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#ad0eda0651fe0190a447a02b10da7fc68" title="Release a performance profile acquired earlier.">releasePerformance()</a>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>False when the profile is unsupported or the platform lock failed. </dd></dl>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a7b86ffe22361815c0a18ba2fe6054cfc">ersa::hal::IPowerManagement</a>.</p>
 
@@ -233,8 +232,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Allow or block automatic idle sleep. </p>
+<p>Permit FreeRTOS automatic sleep when true; false holds the platform's no-light-sleep guard for display, network, USB, or active interaction. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a1a58a9a043753457e7316004fbda8f92">ersa::hal::IPowerManagement</a>.</p>
 
@@ -288,8 +286,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Enter deep sleep, optionally with a timer wake source in microseconds. </p>
+<p>Enter deep sleep after configuring enabled GPIO/timer sources. This normally restarts firmware on wake, unlike light sleep. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a18bf5e14632301468a8d9e1ee42cf74d">ersa::hal::IPowerManagement</a>.</p>
 
@@ -318,8 +315,12 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Enter light sleep, optionally with a timer wake source in microseconds. </p>
+<p>Enter coordinated light sleep; active BLE/PM locks may constrain entry. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">timerUs</td><td>Optional timer wake deadline in microseconds; zero omits it. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a6cbe0d6113dc3fd90c5a6dc2056fd4dc">ersa::hal::IPowerManagement</a>.</p>
 
@@ -387,8 +388,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Configure the platform power policy before radios and peripherals start. </p>
+<p>Configure ESP-IDF dynamic frequency scaling and automatic light sleep. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a9eb44ddae4e60f5cc3f3a736dcf7bb2d">ersa::hal::IPowerManagement</a>.</p>
 
@@ -417,8 +417,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Configure GPIO/button wake sources from the selected board's pin map. </p>
+<p>Configure Terra's GPIO wake sources from its board pinctrl contract. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a2ea78ea6ab3559dbf67e430ab5357f3c">ersa::hal::IPowerManagement</a>.</p>
 
@@ -446,8 +445,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Wake a task blocked in waitForWake. </p>
+<p>Notify the task that new event/driver work is ready to process. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a1d11eb935a82d2c20122bb1e08c473ed">ersa::hal::IPowerManagement</a>.</p>
 
@@ -603,8 +601,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Run periodic platform power-management maintenance. </p>
+<p>Sample/debug power state while the UI task is active. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#aeea5125604cd19b355fa1225cff082f6">ersa::hal::IPowerManagement</a>.</p>
 
@@ -633,8 +630,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Wait for a task wake notification or a timeout in milliseconds. </p>
+<p>Block the UI task until <a class="el" href="../../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a037f86e17dc18d1aa25ac19562ffd25c">notifyWake()</a> or timeout to reduce active polling. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a2bc3cbe6288f1191dbdc02b49f318f3a">ersa::hal::IPowerManagement</a>.</p>
 

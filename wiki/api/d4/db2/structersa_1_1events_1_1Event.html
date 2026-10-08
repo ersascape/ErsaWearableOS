@@ -141,7 +141,10 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a200a02f3ba52da5db75ace56dbf05b5a" id="r_a200a02f3ba52da5db75ace56dbf05b5a"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom">&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
 <tr class="separator:a200a02f3ba52da5db75ace56dbf05b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Fixed-size event envelope with a tagged, type-specific payload union.</p>
+<p>Creating and posting an <a class="el" href="../../d4/db2/structersa_1_1events_1_1Event.html">Event</a> copies all bounded text into the value. This lets asynchronous producers release callback-owned buffers immediately and avoids heap allocation; consumers must read only the union member associated with <code>type</code> because the payload storage is shared. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9c6be599fd696d320dc4dc43982ba665" name="a9c6be599fd696d320dc4dc43982ba665"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9c6be599fd696d320dc4dc43982ba665">&#9670;&#160;</a></span>Event() <span class="overload">[1/2]</span></h2>
 
@@ -164,6 +167,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Construct an empty event whose button payload is initialized safely. </p>
 
 </div>
 </div>
@@ -200,6 +204,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Construct an event envelope for <code>t</code> at an optional monotonic timestamp. </p>
 
 </div>
 </div>
@@ -255,6 +260,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Build a battery sample event, copying voltage, estimate, and status bits. </p>
 
 </div>
 </div>
@@ -297,6 +303,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Build a button event with the requested subtype and logical button key. </p>
 
 </div>
 </div>
@@ -351,6 +358,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Build a call transition with bounded copies of caller and number. Text is truncated to the inline payload capacity and null-terminated so later asynchronous consumers do not retain borrowed provider pointers. </p>
 
 </div>
 </div>
@@ -399,6 +407,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Build a media-track event with copied title, artist, and playback state. </p>
 
 </div>
 </div>
@@ -435,6 +444,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Build a minute-boundary event containing one RTC snapshot. </p>
 
 </div>
 </div>
@@ -495,6 +505,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Build a notification event with bounded text copies and remote-dismiss metadata. Fixed buffers make queued events self-contained and predictable. </p>
 
 </div>
 </div>
@@ -537,6 +548,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Build a request to apply an external time value through TimeService. </p>
 
 </div>
 </div>
@@ -678,6 +690,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Monotonic device uptime at event creation, in milliseconds. </p>
 
 </div>
 </div>
@@ -692,6 +705,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Discriminator selecting the active payload member. </p>
 
 </div>
 </div>

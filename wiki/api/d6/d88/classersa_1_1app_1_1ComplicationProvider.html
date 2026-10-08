@@ -95,7 +95,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a53f3d5a968cecaf1149805e800320c55" id="r_a53f3d5a968cecaf1149805e800320c55"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d0/d71/structersa_1_1app_1_1ComplicationData.html">ComplicationData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d88/classersa_1_1app_1_1ComplicationProvider.html#a53f3d5a968cecaf1149805e800320c55">get</a> ()=0</td></tr>
 <tr class="separator:a53f3d5a968cecaf1149805e800320c55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Extension point for watchface data such as weather, battery, or activity. Providers keep data acquisition separate from the watchface renderer so a face can consume a stable value without depending on a particular service. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad9605175ba9d9d8605b41b9ca002a285" name="ad9605175ba9d9d8605b41b9ca002a285"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad9605175ba9d9d8605b41b9ca002a285">&#9670;&#160;</a></span>~ComplicationProvider()</h2>
 
@@ -118,6 +120,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Permit provider implementations to be destroyed through this contract. </p>
 
 </div>
 </div>
@@ -144,6 +147,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the provider's current presentation value. </p>
 
 <p>Implemented in <a class="el" href="../../df/ded/classBatteryComplication.html#a2b91c64f5a27d8941949f9a07209dcef">BatteryComplication</a>.</p>
 

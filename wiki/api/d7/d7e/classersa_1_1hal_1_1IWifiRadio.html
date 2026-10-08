@@ -81,9 +81,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Wi-Fi station and access-point radio control; networking protocols live above this interface.  
- <a href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d0/d13/wifi_8h_source.html">wifi.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ersa::hal::IWifiRadio:</div>
@@ -96,22 +93,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6814f1a24aaefacff80c60578fadd217" id="r_a6814f1a24aaefacff80c60578fadd217"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a6814f1a24aaefacff80c60578fadd217">~IWifiRadio</a> ()=default</td></tr>
 <tr class="separator:a6814f1a24aaefacff80c60578fadd217"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a72a2c049d6101aee96a1eeab299994c0" id="r_a72a2c049d6101aee96a1eeab299994c0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a72a2c049d6101aee96a1eeab299994c0">init</a> ()=0</td></tr>
-<tr class="memdesc:a72a2c049d6101aee96a1eeab299994c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the radio backend.  <br /></td></tr>
 <tr class="separator:a72a2c049d6101aee96a1eeab299994c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c0d84b5e71ece9a14cfec3dce9fa487" id="r_a5c0d84b5e71ece9a14cfec3dce9fa487"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a5c0d84b5e71ece9a14cfec3dce9fa487">enableStation</a> ()=0</td></tr>
-<tr class="memdesc:a5c0d84b5e71ece9a14cfec3dce9fa487"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable station mode.  <br /></td></tr>
 <tr class="separator:a5c0d84b5e71ece9a14cfec3dce9fa487"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ecf960c1988713ac51c6dbed38f4c81" id="r_a1ecf960c1988713ac51c6dbed38f4c81"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a1ecf960c1988713ac51c6dbed38f4c81">connectStation</a> (const char *ssid, const char *password, bool powerSave)=0</td></tr>
-<tr class="memdesc:a1ecf960c1988713ac51c6dbed38f4c81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect to a station network, optionally enabling radio power save.  <br /></td></tr>
 <tr class="separator:a1ecf960c1988713ac51c6dbed38f4c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ea3615f050cba4c7883a9f4fe0449c5" id="r_a4ea3615f050cba4c7883a9f4fe0449c5"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a058cc88c446605000ef10449f7b32df5">WifiState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a4ea3615f050cba4c7883a9f4fe0449c5">state</a> () const =0</td></tr>
 <tr class="memdesc:a4ea3615f050cba4c7883a9f4fe0449c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current station/radio state.  <br /></td></tr>
 <tr class="separator:a4ea3615f050cba4c7883a9f4fe0449c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad64e7b8cdc81391ffbf47a3d12f13952" id="r_ad64e7b8cdc81391ffbf47a3d12f13952"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#ad64e7b8cdc81391ffbf47a3d12f13952">copyLocalAddress</a> (char *output, size_t capacity) const =0</td></tr>
-<tr class="memdesc:ad64e7b8cdc81391ffbf47a3d12f13952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the local station address into a caller-owned buffer.  <br /></td></tr>
 <tr class="separator:ad64e7b8cdc81391ffbf47a3d12f13952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab5e920408fc660c3e885c3d2db15c6c" id="r_aab5e920408fc660c3e885c3d2db15c6c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#aab5e920408fc660c3e885c3d2db15c6c">startAccessPoint</a> (const char *ssid, const char *password)=0</td></tr>
-<tr class="memdesc:aab5e920408fc660c3e885c3d2db15c6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start an access point using the supplied credentials.  <br /></td></tr>
 <tr class="separator:aab5e920408fc660c3e885c3d2db15c6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67b7900130d4271885b6fabae23f13b0" id="r_a67b7900130d4271885b6fabae23f13b0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a67b7900130d4271885b6fabae23f13b0">stopAccessPoint</a> ()=0</td></tr>
 <tr class="memdesc:a67b7900130d4271885b6fabae23f13b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop access point mode.  <br /></td></tr>
@@ -120,11 +112,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad0781e4856181f198f94af8dfc9dbee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy the access point address into a caller-owned buffer.  <br /></td></tr>
 <tr class="separator:ad0781e4856181f198f94af8dfc9dbee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18a1087beca4f502a67b3918776cce36" id="r_a18a1087beca4f502a67b3918776cce36"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a18a1087beca4f502a67b3918776cce36">disconnect</a> (bool powerOff)=0</td></tr>
-<tr class="memdesc:a18a1087beca4f502a67b3918776cce36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect from the current network and optionally power off the radio.  <br /></td></tr>
 <tr class="separator:a18a1087beca4f502a67b3918776cce36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Wi-Fi station and access-point radio control; networking protocols live above this interface. </p>
+<div class="textblock"><p>Wi-Fi station and access-point radio control; networking protocols live above this interface.</p>
+<p>This HAL deliberately exposes link control and addresses only. HTTP, NTP, CalDAV, and other sockets belong to services, which lets those protocols be tested without the vendor Wi-Fi stack and prevents board pin details leaking into application code. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6814f1a24aaefacff80c60578fadd217" name="a6814f1a24aaefacff80c60578fadd217"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6814f1a24aaefacff80c60578fadd217">&#9670;&#160;</a></span>~IWifiRadio()</h2>
@@ -191,8 +183,14 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Connect to a station network, optionally enabling radio power save. </p>
+<p>Start station association with provided credentials. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ssid</td><td>Null-terminated network name. </td></tr>
+    <tr><td class="paramname">password</td><td>Null-terminated passphrase, or empty for an open network. </td></tr>
+    <tr><td class="paramname">powerSave</td><td>Keep radio modem sleep enabled when coexisting with BLE. Completion is asynchronous; poll <a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a4ea3615f050cba4c7883a9f4fe0449c5" title="Return the current station/radio state.">state()</a> instead of blocking this call. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../d4/d6a/classersa_1_1test_1_1MockWifi.html#a352fa247ccbd5b8a81b0efd4dbe3f989">ersa::test::MockWifi</a>.</p>
 
@@ -271,8 +269,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Copy the local station address into a caller-owned buffer. </p>
+<p>Copy the station IPv4 address to caller storage; false means unavailable or truncated. </p>
 
 <p>Implemented in <a class="el" href="../../d4/d6a/classersa_1_1test_1_1MockWifi.html#a088efdf6da6a14953cf3fd9b3aa3c4e5">ersa::test::MockWifi</a>.</p>
 
@@ -301,8 +298,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Disconnect from the current network and optionally power off the radio. </p>
+<p>Disconnect the active mode and optionally turn the radio off to save power. </p>
 
 <p>Implemented in <a class="el" href="../../d4/d6a/classersa_1_1test_1_1MockWifi.html#a68ca6c57dc3051627157cb2053fc4618">ersa::test::MockWifi</a>.</p>
 
@@ -330,8 +326,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Enable station mode. </p>
+<p>Configure station mode before issuing a connection request. </p>
 
 <p>Implemented in <a class="el" href="../../d4/d6a/classersa_1_1test_1_1MockWifi.html#ab606559ddca7e707541201d7d4d22f15">ersa::test::MockWifi</a>.</p>
 
@@ -359,8 +354,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize the radio backend. </p>
+<p>Initialize the controller and release it to a known Off/Disconnected state. </p>
 
 <p>Implemented in <a class="el" href="../../d4/d6a/classersa_1_1test_1_1MockWifi.html#aeeabcc1cd60860c9a7d791630c93832c">ersa::test::MockWifi</a>.</p>
 
@@ -399,8 +393,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Start an access point using the supplied credentials. </p>
+<p>Start a local configuration AP. </p><dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d2/d91/structersa_1_1Error.html">Error</a> when credentials, radio state, or driver setup prevents AP startup. </dd></dl>
 
 <p>Implemented in <a class="el" href="../../d4/d6a/classersa_1_1test_1_1MockWifi.html#ac8cf432c2e93a12cd439b8ff6aba6331">ersa::test::MockWifi</a>.</p>
 

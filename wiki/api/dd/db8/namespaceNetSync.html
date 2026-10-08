@@ -114,10 +114,8 @@ Functions</h2></td></tr>
 <tr class="memitem:aad08f661d84086395c9be0ea3e862f27" id="r_aad08f661d84086395c9be0ea3e862f27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#aad08f661d84086395c9be0ea3e862f27">fetchTimeWithFallbacks</a> (time_t &amp;outUtc, bool &amp;isHttpFallback, bool updateStatus=true)</td></tr>
 <tr class="separator:aad08f661d84086395c9be0ea3e862f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a238be1379c73314387019265d3340606" id="r_a238be1379c73314387019265d3340606"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a238be1379c73314387019265d3340606">startBootTimeSync</a> ()</td></tr>
-<tr class="memdesc:a238be1379c73314387019265d3340606"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a non-blocking boot fallback when no phone/manual time has arrived.  <br /></td></tr>
 <tr class="separator:a238be1379c73314387019265d3340606"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4de3af225da1f6468f981b4955788770" id="r_a4de3af225da1f6468f981b4955788770"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a4de3af225da1f6468f981b4955788770">tick</a> ()</td></tr>
-<tr class="memdesc:a4de3af225da1f6468f981b4955788770"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply any completed boot sync from the main/UI task.  <br /></td></tr>
 <tr class="separator:a4de3af225da1f6468f981b4955788770"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1be05bc7325dbe5c80e93c7030d7c719" id="r_a1be05bc7325dbe5c80e93c7030d7c719"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a1be05bc7325dbe5c80e93c7030d7c719">syncNtp</a> ()</td></tr>
 <tr class="separator:a1be05bc7325dbe5c80e93c7030d7c719"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,6 +150,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Load cached items and initialize synchronization state. </p>
 
 </div>
 </div>
@@ -169,6 +168,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Return the number of currently retained calendar entries. </p>
 
 </div>
 </div>
@@ -277,6 +277,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Return a cached event by index; callers must check <a class="el" href="../../dd/db8/namespaceNetSync.html#aebc286a0509ba6d320bda142e0c3e9ab">eventCount()</a> first. </p>
 
 </div>
 </div>
@@ -295,6 +296,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Return a cached task by index; callers must check <a class="el" href="../../dd/db8/namespaceNetSync.html#a8718fdce4c832216434826c2bf4c8da3">todoCount()</a> first. </p>
 
 </div>
 </div>
@@ -312,6 +314,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Report whether a sync operation currently owns Wi-Fi resources. </p>
 
 </div>
 </div>
@@ -329,6 +332,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Return a borrowed status string describing the latest sync outcome. </p>
 
 </div>
 </div>
@@ -382,7 +386,6 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
 <p>Start a non-blocking boot fallback when no phone/manual time has arrived. </p>
 
 </div>
@@ -401,6 +404,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Run time and configured CalDAV synchronization for explicit user requests. </p>
 
 </div>
 </div>
@@ -418,6 +422,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Run a synchronous NTP/HTTP time sync for explicit foreground requests. </p>
 
 </div>
 </div>
@@ -435,8 +440,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Apply any completed boot sync from the main/UI task. </p>
+<p>Apply completed boot-sync results from the UI task, preserving source priority. </p>
 
 </div>
 </div>
@@ -454,6 +458,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Return the number of currently retained task entries. </p>
 
 </div>
 </div>
@@ -472,6 +477,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Toggle a task's local completion bit and persist the updated cache. </p>
 
 </div>
 </div>
@@ -495,6 +501,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Number of calendar days represented by the bounded cache. </p>
 
 </div>
 </div>
@@ -517,6 +524,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Total fixed event capacity across the cache window. </p>
 
 </div>
 </div>
@@ -539,6 +547,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Maximum events retained for one local calendar day. </p>
 
 </div>
 </div>
@@ -561,6 +570,7 @@ Variables</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Maximum task entries retained in RAM and persistent cache. </p>
 
 </div>
 </div>

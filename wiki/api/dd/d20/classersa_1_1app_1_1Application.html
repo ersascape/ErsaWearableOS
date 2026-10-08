@@ -131,7 +131,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5735b145577399e8c20ca31c45ff2a02 inherit pub_methods_classersa_1_1events_1_1IEventListener" id="r_a5735b145577399e8c20ca31c45ff2a02"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d9e/classersa_1_1events_1_1IEventListener.html#a5735b145577399e8c20ca31c45ff2a02">~IEventListener</a> ()=default</td></tr>
 <tr class="separator:a5735b145577399e8c20ca31c45ff2a02 inherit pub_methods_classersa_1_1events_1_1IEventListener"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base contract for a screen or watchface that can be selected by the UI.</p>
+<p>The manager owns navigation, lifecycle dispatch, refresh scheduling, and event delivery; an application owns only its screen state and behavior. Implementations are statically linked into the firmware, so IDs are stable navigation keys rather than runtime package names. Keep callbacks bounded: long radio or storage operations belong in a service/task, not the UI loop. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af5992107a2ca97c87b06f5667ca85930" name="af5992107a2ca97c87b06f5667ca85930"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af5992107a2ca97c87b06f5667ca85930">&#9670;&#160;</a></span>~Application()</h2>
 
@@ -154,6 +157,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Destroy through the base interface when application ownership ends. </p>
 
 </div>
 </div>
@@ -180,6 +184,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return a stable, unique, null-terminated navigation key. </p>
 
 <p>Implemented in <a class="el" href="../../df/d28/classersa_1_1app_1_1Watchface.html#ab50fdde058a22ac018ab3f2399a492e7">ersa::app::Watchface</a>, <a class="el" href="../../d2/d99/classersa_1_1watchface_1_1AppWatchface.html#a9d9cd4ded70aa5c22b7688175c6ccadf">ersa::watchface::AppWatchface</a>, <a class="el" href="../../dd/d1a/classTestAppA.html#af3b3c62e2bcede5b888cdc9e986a9646">TestAppA</a>, and <a class="el" href="../../df/de9/classTestAppB.html#ac9498136a2cbaff70c4ab756eb211adc">TestAppB</a>.</p>
 
@@ -207,6 +212,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the smallest display rectangle that may have changed. The UI uses this to limit partial e-paper refreshes and reduce visible flashing; return the whole panel when the changed region cannot be bounded. The default describes the 200 by 200 reference canvas and is conservative for the current product; other geometries should provide their own. </p>
 
 <p>Reimplemented in <a class="el" href="../../d2/d99/classersa_1_1watchface_1_1AppWatchface.html#a767a37c4bb473a6a757413d83bfa37df">ersa::watchface::AppWatchface</a>.</p>
 
@@ -234,6 +240,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the user-facing name shown by the app drawer. </p>
 
 <p>Implemented in <a class="el" href="../../df/d28/classersa_1_1app_1_1Watchface.html#a06e94f777cccf7f883d628e314ad6411">ersa::app::Watchface</a>, <a class="el" href="../../d2/d99/classersa_1_1watchface_1_1AppWatchface.html#a25aca3e4544e0c16408c0a854395d0e8">ersa::watchface::AppWatchface</a>, <a class="el" href="../../dd/d1a/classTestAppA.html#a698eff2c443901d6ee769b72953eb46c">TestAppA</a>, and <a class="el" href="../../df/de9/classTestAppB.html#abbbe4b69246ce915227578917e7ce66d">TestAppB</a>.</p>
 
@@ -261,6 +268,8 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called once before this app is first shown.</p>
+<p>Establish durable model state here. Do not assume the display is active or block the UI task; the base implementation is empty so simple apps have no setup boilerplate. </p>
 
 <p>Reimplemented in <a class="el" href="../../dd/d1a/classTestAppA.html#ae76fb6c2869d4280e924fb06e8031aaf">TestAppA</a>, and <a class="el" href="../../df/de9/classTestAppB.html#a148aed5db2e58ac4d798f6fb29346f95">TestAppB</a>.</p>
 
@@ -288,6 +297,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the manager permanently removes this app. Free app-owned resources and unregister any remaining listeners. Static firmware apps normally live for an entire boot, so this callback is uncommon. </p>
 
 </div>
 </div>
@@ -313,6 +323,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Compatibility hook for adapters using the earlier enter/exit lifecycle. New app code should use <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a29f1cb06e0c03634e343ffdffa606b8d">onStart()</a> and <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aad1c88a84c58013ecf46a9e29bf81171">onResume()</a>; this no-op remains so existing adapters continue to compile. </p>
 
 <p>Reimplemented in <a class="el" href="../../d2/d99/classersa_1_1watchface_1_1AppWatchface.html#a40c08911a04de74281211b4ed759f1df">ersa::watchface::AppWatchface</a>.</p>
 
@@ -341,6 +352,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Receive a normalized system or input event while this app is active. Override this to translate button, clock, battery, and companion events into app state changes. Payloads are copied values, so app logic does not need to depend on the device driver that produced the event. The base implementation intentionally ignores events for static screens. </p>
 
 <p>Implements <a class="el" href="../../d7/d9e/classersa_1_1events_1_1IEventListener.html#a68173fe77497ecb30628c865d6feebf2">ersa::events::IEventListener</a>.</p>
 
@@ -370,6 +382,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Compatibility counterpart of <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a5bfd2e5374d84285c99759022ced3cbf">onEnter()</a>; prefer <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#afb8a3a9d85d6bb6af27f2c9d5d0e155a">onPause()</a> or <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a7e3ba20d8c90bd8c4a0d923258d07815">onStop()</a>. </p>
 
 <p>Reimplemented in <a class="el" href="../../d2/d99/classersa_1_1watchface_1_1AppWatchface.html#a071aeaaf20371c8eb35e98c53f865110">ersa::watchface::AppWatchface</a>.</p>
 
@@ -397,6 +410,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called before another screen temporarily covers this app. Stop animations and polling, and release temporary wake/performance leases. The manager retains the app instance, so this is not destruction. </p>
 
 <p>Reimplemented in <a class="el" href="../../dd/d1a/classTestAppA.html#a9cb66eaab80354b6ddccf367328b43ff">TestAppA</a>.</p>
 
@@ -424,6 +438,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called after <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#afb8a3a9d85d6bb6af27f2c9d5d0e155a">onPause()</a> when this app is foregrounded again. Revalidate transient state and resume paused work; durable model state normally remains intact across this temporary transition. </p>
 
 <p>Reimplemented in <a class="el" href="../../dd/d1a/classTestAppA.html#a0a6d7832c5018cff3fbed15774272b99">TestAppA</a>, and <a class="el" href="../../df/de9/classTestAppB.html#a3257600188511c99112a4affc92390a4">TestAppB</a>.</p>
 
@@ -451,6 +466,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the manager selects this app as the foreground screen. Start foreground-only work, such as app-specific event subscriptions or refresh requests. Pair subscriptions with pause/stop cleanup so hidden screens do not process events unnecessarily. </p>
 
 <p>Reimplemented in <a class="el" href="../../dd/d1a/classTestAppA.html#a97c529b910806e522e535f71555f9c32">TestAppA</a>, and <a class="el" href="../../df/de9/classTestAppB.html#ae49ad1c9b3b57ea3fce343b411b7fe30">TestAppB</a>.</p>
 
@@ -478,6 +494,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when navigation leaves this app. Release foreground-only resources and callbacks. Use <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#afb8a3a9d85d6bb6af27f2c9d5d0e155a">onPause()</a> for a temporary cover and <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a7e7c1970acea1566b49e4a789750d41c">onDestroy()</a> only when the manager permanently removes the object. </p>
 
 <p>Reimplemented in <a class="el" href="../../dd/d1a/classTestAppA.html#ae6607bb07a3105b0b8e59100ed812700">TestAppA</a>.</p>
 
@@ -516,6 +533,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Render through the display HAL. <code>fullRefresh</code> requests a panel-wide update when the hardware supports a distinct full-refresh waveform. The UI calls this only when content is dirty. Draw into the framebuffer; the display manager owns physical refresh timing and panel power so app code stays independent of e-paper driver APIs. </p>
 
 <p>Reimplemented in <a class="el" href="../../dd/d1a/classTestAppA.html#abe51b983dc16cc5dbbb965af07cb8339">TestAppA</a>, and <a class="el" href="../../d2/d99/classersa_1_1watchface_1_1AppWatchface.html#ad3c77a1b7d2cf578948505eb75ba5233">ersa::watchface::AppWatchface</a>.</p>
 
@@ -544,6 +562,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Render through the lightweight canvas contract used by watchfaces. This overload supports canvas-oriented apps; override the overload used by the registry adapter for the app being implemented. </p>
 
 <p>Reimplemented in <a class="el" href="../../df/d28/classersa_1_1app_1_1Watchface.html#aeb96b3655a41fb1326ef7a98a23d2617">ersa::app::Watchface</a>.</p>
 
@@ -571,6 +590,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Perform short periodic work while this application is active. The manager invokes this from the UI task, so return promptly. Use a service or worker for network, filesystem, or radio operations and let <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a6564ee09a7a7acb447098d741d998fb6">tick()</a> consume their completed results instead of waiting for I/O. </p>
 
 </div>
 </div>

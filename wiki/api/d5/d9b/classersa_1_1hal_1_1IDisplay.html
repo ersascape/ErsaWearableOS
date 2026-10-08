@@ -81,9 +81,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Graphics, text, refresh, and power contract consumed by watch UI code.  
- <a href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d4/d68/display_8h_source.html">display.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ersa::hal::IDisplay:</div>
@@ -96,37 +93,26 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad6ecc66030af2a9dc91c4c66b6d600a9" id="r_ad6ecc66030af2a9dc91c4c66b6d600a9"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ad6ecc66030af2a9dc91c4c66b6d600a9">~IDisplay</a> ()=default</td></tr>
 <tr class="separator:ad6ecc66030af2a9dc91c4c66b6d600a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b02624b7a7366b682c4a61fea66fa6b" id="r_a0b02624b7a7366b682c4a61fea66fa6b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a0b02624b7a7366b682c4a61fea66fa6b">init</a> ()=0</td></tr>
-<tr class="memdesc:a0b02624b7a7366b682c4a61fea66fa6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the panel and framebuffer.  <br /></td></tr>
 <tr class="separator:a0b02624b7a7366b682c4a61fea66fa6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80dcfcd153d960169da660e9868992a4" id="r_a80dcfcd153d960169da660e9868992a4"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a80dcfcd153d960169da660e9868992a4">width</a> () const =0</td></tr>
-<tr class="memdesc:a80dcfcd153d960169da660e9868992a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the logical canvas width in pixels.  <br /></td></tr>
 <tr class="separator:a80dcfcd153d960169da660e9868992a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9abca0d4afff7e929b06af13a5e768b" id="r_ac9abca0d4afff7e929b06af13a5e768b"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ac9abca0d4afff7e929b06af13a5e768b">height</a> () const =0</td></tr>
-<tr class="memdesc:ac9abca0d4afff7e929b06af13a5e768b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the logical canvas height in pixels.  <br /></td></tr>
 <tr class="separator:ac9abca0d4afff7e929b06af13a5e768b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d1a30dd61d39b30d0024e4aa41dffc8" id="r_a3d1a30dd61d39b30d0024e4aa41dffc8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a3d1a30dd61d39b30d0024e4aa41dffc8">clear</a> (<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color=<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02ae90dfb84e30edf611e326eeb04d680de">Color::Black</a>)=0</td></tr>
-<tr class="memdesc:a3d1a30dd61d39b30d0024e4aa41dffc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the canvas to a logical color.  <br /></td></tr>
 <tr class="separator:a3d1a30dd61d39b30d0024e4aa41dffc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fd75b044b05393cadd4208613ea1231" id="r_a4fd75b044b05393cadd4208613ea1231"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a4fd75b044b05393cadd4208613ea1231">drawPixel</a> (int16_t x, int16_t y, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:a4fd75b044b05393cadd4208613ea1231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set one pixel to a logical color.  <br /></td></tr>
 <tr class="separator:a4fd75b044b05393cadd4208613ea1231"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae865b8a5575ca3d9b2a53b8b1bda9520" id="r_ae865b8a5575ca3d9b2a53b8b1bda9520"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ae865b8a5575ca3d9b2a53b8b1bda9520">drawLine</a> (int16_t x1, int16_t y1, int16_t x2, int16_t y2, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:ae865b8a5575ca3d9b2a53b8b1bda9520"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a line between two canvas points.  <br /></td></tr>
 <tr class="separator:ae865b8a5575ca3d9b2a53b8b1bda9520"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a8cd93b67b7154304c3f2afea0c17a4" id="r_a0a8cd93b67b7154304c3f2afea0c17a4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a0a8cd93b67b7154304c3f2afea0c17a4">fillRect</a> (int16_t x, int16_t y, int16_t w, int16_t h, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:a0a8cd93b67b7154304c3f2afea0c17a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fill an axis-aligned rectangle.  <br /></td></tr>
 <tr class="separator:a0a8cd93b67b7154304c3f2afea0c17a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4caa48bdb65f07b1fc21276cff882d60" id="r_a4caa48bdb65f07b1fc21276cff882d60"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a4caa48bdb65f07b1fc21276cff882d60">drawFastHLine</a> (int16_t x, int16_t y, int16_t w, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:a4caa48bdb65f07b1fc21276cff882d60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a horizontal line using the backend's optimized primitive.  <br /></td></tr>
 <tr class="separator:a4caa48bdb65f07b1fc21276cff882d60"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a524832db10fd2035402e1930b6a9d274" id="r_a524832db10fd2035402e1930b6a9d274"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a524832db10fd2035402e1930b6a9d274">drawFastVLine</a> (int16_t x, int16_t y, int16_t h, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:a524832db10fd2035402e1930b6a9d274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a vertical line using the backend's optimized primitive.  <br /></td></tr>
 <tr class="separator:a524832db10fd2035402e1930b6a9d274"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82d42c523561bc3dca64d19f64b96a4f" id="r_a82d42c523561bc3dca64d19f64b96a4f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a82d42c523561bc3dca64d19f64b96a4f">drawCircle</a> (int16_t x, int16_t y, int16_t r, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:a82d42c523561bc3dca64d19f64b96a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an unfilled circle.  <br /></td></tr>
 <tr class="separator:a82d42c523561bc3dca64d19f64b96a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea3009e74142480fe03edbff08e7a765" id="r_aea3009e74142480fe03edbff08e7a765"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#aea3009e74142480fe03edbff08e7a765">fillCircle</a> (int16_t x, int16_t y, int16_t r, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:aea3009e74142480fe03edbff08e7a765"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a filled circle.  <br /></td></tr>
 <tr class="separator:aea3009e74142480fe03edbff08e7a765"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a568c3ba39fd5f00e9df1c572dd2f0d18" id="r_a568c3ba39fd5f00e9df1c572dd2f0d18"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a568c3ba39fd5f00e9df1c572dd2f0d18">drawRoundRect</a> (int16_t x, int16_t y, int16_t w, int16_t h, int16_t radius, <a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
 <tr class="memdesc:a568c3ba39fd5f00e9df1c572dd2f0d18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an unfilled rectangle with rounded corners.  <br /></td></tr>
@@ -135,22 +121,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a28732ac46c05f21616a113d8aa24a83c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a filled rectangle with rounded corners.  <br /></td></tr>
 <tr class="separator:a28732ac46c05f21616a113d8aa24a83c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c1d8b0654c6c20d42ab0e441a0d8ea4" id="r_a6c1d8b0654c6c20d42ab0e441a0d8ea4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a6c1d8b0654c6c20d42ab0e441a0d8ea4">setFont</a> (<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#ad695e31df6448f4e03e633b60a23abea">FontFace</a> face)=0</td></tr>
-<tr class="memdesc:a6c1d8b0654c6c20d42ab0e441a0d8ea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select a logical font face supported by the renderer.  <br /></td></tr>
 <tr class="separator:a6c1d8b0654c6c20d42ab0e441a0d8ea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e1425d4f2e690facf1f037233d5a35c" id="r_a9e1425d4f2e690facf1f037233d5a35c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a9e1425d4f2e690facf1f037233d5a35c">setTextSize</a> (uint8_t <a class="el" href="../../d1/d80/ota__service_8cpp.html#a854352f53b148adc24983a58a1866d66">size</a>)=0</td></tr>
-<tr class="memdesc:a9e1425d4f2e690facf1f037233d5a35c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the text scale factor.  <br /></td></tr>
 <tr class="separator:a9e1425d4f2e690facf1f037233d5a35c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab12cb8435b98d09c5f1ac85ede733231" id="r_ab12cb8435b98d09c5f1ac85ede733231"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ab12cb8435b98d09c5f1ac85ede733231">setTextColor</a> (<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a8cf232aae5a3420f1cca2bcdb3361a02">Color</a> color)=0</td></tr>
-<tr class="memdesc:ab12cb8435b98d09c5f1ac85ede733231"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the foreground text color.  <br /></td></tr>
 <tr class="separator:ab12cb8435b98d09c5f1ac85ede733231"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a023f063a999b9417dfd1ec987d3dad0c" id="r_a023f063a999b9417dfd1ec987d3dad0c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a023f063a999b9417dfd1ec987d3dad0c">setTextWrap</a> (bool wrap)=0</td></tr>
-<tr class="memdesc:a023f063a999b9417dfd1ec987d3dad0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable wrapping at the canvas edge.  <br /></td></tr>
 <tr class="separator:a023f063a999b9417dfd1ec987d3dad0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f7552100afd77882f6a3bd5891fa82f" id="r_a0f7552100afd77882f6a3bd5891fa82f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a0f7552100afd77882f6a3bd5891fa82f">setCursor</a> (int16_t x, int16_t y)=0</td></tr>
-<tr class="memdesc:a0f7552100afd77882f6a3bd5891fa82f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the baseline cursor for subsequent text output.  <br /></td></tr>
 <tr class="separator:a0f7552100afd77882f6a3bd5891fa82f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c1199a3f5f643f1d504615a54b3ea79" id="r_a5c1199a3f5f643f1d504615a54b3ea79"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a5c1199a3f5f643f1d504615a54b3ea79">print</a> (const char *text)=0</td></tr>
-<tr class="memdesc:a5c1199a3f5f643f1d504615a54b3ea79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a null-terminated string and return the number of characters consumed.  <br /></td></tr>
 <tr class="separator:a5c1199a3f5f643f1d504615a54b3ea79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4aa0fe978c37e1d973ecf56dd8b40500" id="r_a4aa0fe978c37e1d973ecf56dd8b40500"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a4aa0fe978c37e1d973ecf56dd8b40500">print</a> (uint8_t value)=0</td></tr>
 <tr class="memdesc:a4aa0fe978c37e1d973ecf56dd8b40500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an unsigned byte value and return the number of characters consumed.  <br /></td></tr>
@@ -162,13 +142,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad43067e02a3ec505828fa6330086f797"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw an unsigned 32-bit value and return the number of characters consumed.  <br /></td></tr>
 <tr class="separator:ad43067e02a3ec505828fa6330086f797"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dcfcedc77e56005956a8af14e030266" id="r_a3dcfcedc77e56005956a8af14e030266"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a3dcfcedc77e56005956a8af14e030266">getTextBounds</a> (const char *text, int16_t x, int16_t y, int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h)=0</td></tr>
-<tr class="memdesc:a3dcfcedc77e56005956a8af14e030266"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure a string at the requested baseline using the selected font.  <br /></td></tr>
 <tr class="separator:a3dcfcedc77e56005956a8af14e030266"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b69b7b32f1687d32cb95c776d03ddce" id="r_a5b69b7b32f1687d32cb95c776d03ddce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a5b69b7b32f1687d32cb95c776d03ddce">fillScreen</a> (uint16_t color)</td></tr>
+<tr class="memdesc:a5b69b7b32f1687d32cb95c776d03ddce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear the framebuffer using the legacy 0=black, nonzero=white mapping.  <br /></td></tr>
 <tr class="separator:a5b69b7b32f1687d32cb95c776d03ddce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aee16bb7927585cdd3b045255ec69216e" id="r_aee16bb7927585cdd3b045255ec69216e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#aee16bb7927585cdd3b045255ec69216e">setTextColor</a> (uint16_t color)</td></tr>
+<tr class="memdesc:aee16bb7927585cdd3b045255ec69216e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set legacy monochrome text color; nonzero maps to white.  <br /></td></tr>
 <tr class="separator:aee16bb7927585cdd3b045255ec69216e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa33cf58f4bf414a07770c6c313b7581f" id="r_aa33cf58f4bf414a07770c6c313b7581f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#aa33cf58f4bf414a07770c6c313b7581f">drawLine</a> (int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color)</td></tr>
+<tr class="memdesc:aa33cf58f4bf414a07770c6c313b7581f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Draw a line using the legacy monochrome color convention.  <br /></td></tr>
 <tr class="separator:aa33cf58f4bf414a07770c6c313b7581f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86e440061f9d1a51fb263d2f1bfd3d88" id="r_a86e440061f9d1a51fb263d2f1bfd3d88"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a86e440061f9d1a51fb263d2f1bfd3d88">drawFastHLine</a> (int16_t x, int16_t y, int16_t w, uint16_t color)</td></tr>
 <tr class="separator:a86e440061f9d1a51fb263d2f1bfd3d88"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,35 +167,29 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a78cdd6e83bbad258aa90d3171f98979d" id="r_a78cdd6e83bbad258aa90d3171f98979d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a78cdd6e83bbad258aa90d3171f98979d">fillRoundRect</a> (int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color)</td></tr>
 <tr class="separator:a78cdd6e83bbad258aa90d3171f98979d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add5654bcf5098004133f8a597566f88b" id="r_add5654bcf5098004133f8a597566f88b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#add5654bcf5098004133f8a597566f88b">refresh</a> (bool full=false)=0</td></tr>
-<tr class="memdesc:add5654bcf5098004133f8a597566f88b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refresh the full panel, optionally using the slower full waveform.  <br /></td></tr>
 <tr class="separator:add5654bcf5098004133f8a597566f88b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c320fd0c6430009d74831690c61eb7a" id="r_a1c320fd0c6430009d74831690c61eb7a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a1c320fd0c6430009d74831690c61eb7a">refreshRect</a> (const <a class="el" href="../../de/dc7/structersa_1_1Rect.html">Rect</a> &amp;rect)=0</td></tr>
-<tr class="memdesc:a1c320fd0c6430009d74831690c61eb7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refresh the specified canvas rectangle when the backend supports it.  <br /></td></tr>
 <tr class="separator:a1c320fd0c6430009d74831690c61eb7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af585f0777b600dceeb116c45ccab7fbc" id="r_af585f0777b600dceeb116c45ccab7fbc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#af585f0777b600dceeb116c45ccab7fbc">isBusy</a> () const =0</td></tr>
 <tr class="memdesc:af585f0777b600dceeb116c45ccab7fbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the panel is still processing a refresh.  <br /></td></tr>
 <tr class="separator:af585f0777b600dceeb116c45ccab7fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a115193d2931abd0378272d75e70a1187" id="r_a115193d2931abd0378272d75e70a1187"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a115193d2931abd0378272d75e70a1187">setBusyCallback</a> (<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a2a3ac653de4e09362f1f276d1588f56f">DisplayBusyCallback</a> cb, void *userData=nullptr)=0</td></tr>
-<tr class="memdesc:a115193d2931abd0378272d75e70a1187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a callback used while waiting for panel completion.  <br /></td></tr>
 <tr class="separator:a115193d2931abd0378272d75e70a1187"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af578669336e45b1e61e09cc22d72b6ba" id="r_af578669336e45b1e61e09cc22d72b6ba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#af578669336e45b1e61e09cc22d72b6ba">powerOff</a> ()=0</td></tr>
-<tr class="memdesc:af578669336e45b1e61e09cc22d72b6ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Put the panel controller into its low-power state.  <br /></td></tr>
 <tr class="separator:af578669336e45b1e61e09cc22d72b6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af019a9a3ea51cad639527842ed9df892" id="r_af019a9a3ea51cad639527842ed9df892"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#af019a9a3ea51cad639527842ed9df892">powerOn</a> ()=0</td></tr>
-<tr class="memdesc:af019a9a3ea51cad639527842ed9df892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wake or initialize the panel controller.  <br /></td></tr>
 <tr class="separator:af019a9a3ea51cad639527842ed9df892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6f00ff1204b8fc279fb2e9586dc87f8" id="r_ad6f00ff1204b8fc279fb2e9586dc87f8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ad6f00ff1204b8fc279fb2e9586dc87f8">isPowered</a> () const =0</td></tr>
 <tr class="memdesc:ad6f00ff1204b8fc279fb2e9586dc87f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the panel controller is currently powered.  <br /></td></tr>
 <tr class="separator:ad6f00ff1204b8fc279fb2e9586dc87f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09913ec43e4680ab0ad18917ed892add" id="r_a09913ec43e4680ab0ad18917ed892add"><td class="memItemLeft" align="right" valign="top">virtual const uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a09913ec43e4680ab0ad18917ed892add">getBuffer</a> () const =0</td></tr>
-<tr class="memdesc:a09913ec43e4680ab0ad18917ed892add"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a read-only view of the framebuffer when one is available.  <br /></td></tr>
 <tr class="separator:a09913ec43e4680ab0ad18917ed892add"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1eee68f4fd1cb74b4ec1cf6729f952ea" id="r_a1eee68f4fd1cb74b4ec1cf6729f952ea"><td class="memItemLeft" align="right" valign="top">virtual uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a1eee68f4fd1cb74b4ec1cf6729f952ea">getBuffer</a> ()=0</td></tr>
-<tr class="memdesc:a1eee68f4fd1cb74b4ec1cf6729f952ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a mutable view of the framebuffer when one is available.  <br /></td></tr>
 <tr class="separator:a1eee68f4fd1cb74b4ec1cf6729f952ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Graphics, text, refresh, and power contract consumed by watch UI code. </p>
+<div class="textblock"><p>Graphics, text, refresh, and power contract consumed by watch UI code.</p>
+<p>This is the stable renderer-facing surface for every board. Applications draw using logical colors, fonts, and coordinates; the selected driver maps those operations to e-paper, OLED, or another panel. Keeping vendor drawing types out of this interface lets a different panel driver be substituted without rewriting app code. Drawing mutates a framebuffer; refresh methods are the separate operation that transmits that buffer to the physical panel. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad6ecc66030af2a9dc91c4c66b6d600a9" name="ad6ecc66030af2a9dc91c4c66b6d600a9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad6ecc66030af2a9dc91c4c66b6d600a9">&#9670;&#160;</a></span>~IDisplay()</h2>
@@ -237,6 +213,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Allow a concrete panel driver to be destroyed through this contract. </p>
 
 </div>
 </div>
@@ -264,8 +241,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Clear the canvas to a logical color. </p>
+<p>Fill the drawing buffer with one logical color; this does not itself trigger a physical panel refresh. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a6e522f862000b9e4f4291f878393ec86">ersa::test::MockDisplay</a>.</p>
 
@@ -316,8 +292,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Draw an unfilled circle. </p>
+<p>Draw a circle outline centered at (<code>x</code>, <code>y</code>) with the given radius. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a48ff6171120c5ba5f9cfb4eb28e43a19">ersa::test::MockDisplay</a>.</p>
 
@@ -416,8 +391,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Draw a horizontal line using the backend's optimized primitive. </p>
+<p>Draw a horizontal line, allowing the backend to optimize row access. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a2e708d3c6561c7461d9bd3dea807ea33">ersa::test::MockDisplay</a>.</p>
 
@@ -516,8 +490,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Draw a vertical line using the backend's optimized primitive. </p>
+<p>Draw a vertical line, allowing the backend to optimize column access. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a20091ee652cd99f178694ba1be8dc0d5">ersa::test::MockDisplay</a>.</p>
 
@@ -622,8 +595,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Draw a line between two canvas points. </p>
+<p>Rasterize a line from (<code>x1</code>, <code>y1</code>) to (<code>x2</code>, <code>y2</code>) in the framebuffer. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a7048676a145e8b9c16b1cdf0bf486991">ersa::test::MockDisplay</a>.</p>
 
@@ -681,6 +653,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Draw a line using the legacy monochrome color convention. </p>
+
 </div>
 </div>
 <a id="a4fd75b044b05393cadd4208613ea1231" name="a4fd75b044b05393cadd4208613ea1231"></a>
@@ -722,8 +696,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set one pixel to a logical color. </p>
+<p>Set the framebuffer pixel at (<code>x</code>, <code>y</code>), clipping unsupported coordinates. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a1ca896aaf64bd10af1c3f9938290f937">ersa::test::MockDisplay</a>.</p>
 
@@ -898,8 +871,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Draw a filled circle. </p>
+<p>Fill a circle centered at (<code>x</code>, <code>y</code>) with the given radius. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a7821a75dbf7ddb1ca5826b8509cb0b79">ersa::test::MockDisplay</a>.</p>
 
@@ -1004,8 +976,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Fill an axis-aligned rectangle. </p>
+<p>Fill a rectangle with its top-left corner at (<code>x</code>, <code>y</code>). </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a96fb5cb91fce90795983940d1b32d200">ersa::test::MockDisplay</a>.</p>
 
@@ -1213,6 +1184,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Clear the framebuffer using the legacy 0=black, nonzero=white mapping. </p>
+
 </div>
 </div>
 <a id="a09913ec43e4680ab0ad18917ed892add" name="a09913ec43e4680ab0ad18917ed892add"></a>
@@ -1237,8 +1210,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return a read-only view of the framebuffer when one is available. </p>
+<p>Return a non-owning read-only framebuffer view, or null if unavailable. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a814c860e8d7d72ce71576d7d3a1cab6d">ersa::test::MockDisplay</a>.</p>
 
@@ -1266,8 +1238,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return a mutable view of the framebuffer when one is available. </p>
+<p>Return a non-owning mutable framebuffer view, or null if unavailable. Direct access is an optimization; callers must still schedule <a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#add5654bcf5098004133f8a597566f88b">refresh()</a>. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a2861c91e8b09cfcd508efa2933aae05c">ersa::test::MockDisplay</a>.</p>
 
@@ -1336,8 +1307,18 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Measure a string at the requested baseline using the selected font. </p>
+<p>Measure text using the current font/size without drawing it. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">text</td><td>Null-terminated string to measure. </td></tr>
+    <tr><td class="paramname">x</td><td>Baseline origin x coordinate. </td></tr>
+    <tr><td class="paramname">y</td><td>Baseline origin y coordinate. </td></tr>
+    <tr><td class="paramname">x1</td><td>Receives the left edge relative to the supplied origin. </td></tr>
+    <tr><td class="paramname">y1</td><td>Receives the top edge relative to the supplied baseline. </td></tr>
+    <tr><td class="paramname">w</td><td>Receives measured width in pixels. </td></tr>
+    <tr><td class="paramname">h</td><td>Receives measured height in pixels. Callers should provide non-null output pointers supported by the driver. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a3f1ef1ca14e282448a88c953cc587bb9">ersa::test::MockDisplay</a>.</p>
 
@@ -1365,8 +1346,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return the logical canvas height in pixels. </p>
+<p>Return vertical logical resolution used by app coordinates. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#aef8f46fb12604557c7c3e0288017c12c">ersa::test::MockDisplay</a>.</p>
 
@@ -1394,8 +1374,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize the panel and framebuffer. </p>
+<p>Initialize the panel and its drawing buffer. </p><dl class="section return"><dt>Returns</dt><dd>An error when the controller or required buffer is unavailable. </dd></dl>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#acdfa9ee3ad6bcdb39228c9f797ceefd7">ersa::test::MockDisplay</a>.</p>
 
@@ -1481,8 +1460,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Put the panel controller into its low-power state. </p>
+<p>Put the panel controller into low power without discarding framebuffer data. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#aba0779ea402f661e76bf674274bd466a">ersa::test::MockDisplay</a>.</p>
 
@@ -1510,8 +1488,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Wake or initialize the panel controller. </p>
+<p>Restore panel-controller power before a refresh or status query. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a71db5167fdecd716b40047aa6b5cda35">ersa::test::MockDisplay</a>.</p>
 
@@ -1540,8 +1517,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Draw a null-terminated string and return the number of characters consumed. </p>
+<p>Draw a null-terminated string at the current cursor and return its consumed character count. The pointer is borrowed for this call only. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a82add318bb785d32c3dd5086e5e4a2de">ersa::test::MockDisplay</a>.</p>
 
@@ -1660,8 +1636,12 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Refresh the full panel, optionally using the slower full waveform. </p>
+<p>Transmit the framebuffer to the panel. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">full</td><td>Request a full waveform when true; partial waveform otherwise. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#ada0b674a40f66ba37fc601a041c0867f">ersa::test::MockDisplay</a>.</p>
 
@@ -1690,8 +1670,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Refresh the specified canvas rectangle when the backend supports it. </p>
+<p>Update only the specified region when the panel supports partial refresh. Drivers without region updates may safely promote this to a full refresh. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a04148aa729a9a8a249da2808f3492a73">ersa::test::MockDisplay</a>.</p>
 
@@ -1730,8 +1709,13 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Register a callback used while waiting for panel completion. </p>
+<p>Register a completion/wait callback for panel busy handling. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cb</td><td>Callback invoked by the driver, or null to clear it. </td></tr>
+    <tr><td class="paramname">userData</td><td>Opaque context passed back unchanged to <code>cb</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#aab92791959946183f83b5fbb3d712546">ersa::test::MockDisplay</a>.</p>
 
@@ -1770,8 +1754,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the baseline cursor for subsequent text output. </p>
+<p>Set the text baseline origin used by subsequent <a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a5c1199a3f5f643f1d504615a54b3ea79">print()</a> calls. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a82125ee91e12e76c1437be2296c97bb8">ersa::test::MockDisplay</a>.</p>
 
@@ -1800,8 +1783,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Select a logical font face supported by the renderer. </p>
+<p>Select an asset-level font name; drivers map it to their own font data. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#aecd2aded217b683a4dd4333c87b15546">ersa::test::MockDisplay</a>.</p>
 
@@ -1830,8 +1812,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the foreground text color. </p>
+<p>Set the color used by subsequent <a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a5c1199a3f5f643f1d504615a54b3ea79">print()</a> calls. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a18e797a2327433175ff3fb44898512a3">ersa::test::MockDisplay</a>.</p>
 
@@ -1861,6 +1842,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set legacy monochrome text color; nonzero maps to white. </p>
+
 </div>
 </div>
 <a id="a9e1425d4f2e690facf1f037233d5a35c" name="a9e1425d4f2e690facf1f037233d5a35c"></a>
@@ -1886,8 +1869,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the text scale factor. </p>
+<p>Set text scaling; size 1 is the backend's normal scale. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a4a4895470b0cc5ae582d19d3c409605b">ersa::test::MockDisplay</a>.</p>
 
@@ -1916,8 +1898,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Enable or disable wrapping at the canvas edge. </p>
+<p>Control whether subsequent text wraps when it reaches the canvas edge. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#af7b44a6a7fcccd41029ce9f71b59c03f">ersa::test::MockDisplay</a>.</p>
 
@@ -1945,8 +1926,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return the logical canvas width in pixels. </p>
+<p>Return horizontal logical resolution used by app coordinates. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a6cd19ebea73b176ad3def0ede29f866e">ersa::test::MockDisplay</a>.</p>
 

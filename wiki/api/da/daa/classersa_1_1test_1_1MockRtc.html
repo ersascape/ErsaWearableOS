@@ -99,19 +99,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2cd0f3f443ebae29de9cb555cb148c18" id="r_a2cd0f3f443ebae29de9cb555cb148c18"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a2cd0f3f443ebae29de9cb555cb148c18">MockRtc</a> (uint32_t epoch=1790535111)</td></tr>
 <tr class="separator:a2cd0f3f443ebae29de9cb555cb148c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae58ded7ac346a238f02a79caf69d8576" id="r_ae58ded7ac346a238f02a79caf69d8576"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#ae58ded7ac346a238f02a79caf69d8576">init</a> () override</td></tr>
-<tr class="memdesc:ae58ded7ac346a238f02a79caf69d8576"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize and validate the RTC backend.  <br /></td></tr>
 <tr class="separator:ae58ded7ac346a238f02a79caf69d8576"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7abb468357395b790e7935435a6073ef" id="r_a7abb468357395b790e7935435a6073ef"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d14/structersa_1_1hal_1_1TimePoint.html">hal::TimePoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a7abb468357395b790e7935435a6073ef">now</a> () override</td></tr>
-<tr class="memdesc:a7abb468357395b790e7935435a6073ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read the current calendar time.  <br /></td></tr>
 <tr class="separator:a7abb468357395b790e7935435a6073ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3791c2771d7c0666223601796f6455ab" id="r_a3791c2771d7c0666223601796f6455ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a3791c2771d7c0666223601796f6455ab">adjust</a> (const <a class="el" href="../../d8/d14/structersa_1_1hal_1_1TimePoint.html">hal::TimePoint</a> &amp;time) override</td></tr>
-<tr class="memdesc:a3791c2771d7c0666223601796f6455ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the RTC calendar time.  <br /></td></tr>
 <tr class="separator:a3791c2771d7c0666223601796f6455ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aede11fa42d17546eaafbc17cb662d59c" id="r_aede11fa42d17546eaafbc17cb662d59c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#aede11fa42d17546eaafbc17cb662d59c">setEpoch</a> (uint32_t epochSeconds) override</td></tr>
-<tr class="memdesc:aede11fa42d17546eaafbc17cb662d59c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the RTC from Unix epoch seconds.  <br /></td></tr>
 <tr class="separator:aede11fa42d17546eaafbc17cb662d59c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad131768f3fa9099a625edfd5629c8fa5" id="r_ad131768f3fa9099a625edfd5629c8fa5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#ad131768f3fa9099a625edfd5629c8fa5">isHealthy</a> () const override</td></tr>
-<tr class="memdesc:ad131768f3fa9099a625edfd5629c8fa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the RTC is initialized and reporting valid time.  <br /></td></tr>
 <tr class="separator:ad131768f3fa9099a625edfd5629c8fa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b6bbcd6fb4ab09535d75f4a3c2dcd07" id="r_a6b6bbcd6fb4ab09535d75f4a3c2dcd07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a6b6bbcd6fb4ab09535d75f4a3c2dcd07">advanceSeconds</a> (uint32_t sec)</td></tr>
 <tr class="separator:a6b6bbcd6fb4ab09535d75f4a3c2dcd07"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,8 +176,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the RTC calendar time. </p>
+<p>Write explicit calendar fields and report bus/chip failures. </p>
 
 <p>Implements <a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#a3a020b8778368f5f1b690837dce9b1f6">ersa::hal::IRtc</a>.</p>
 
@@ -262,8 +256,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize and validate the RTC backend. </p>
+<p>Initialize the chip/bus and verify that calendar reads are plausible. </p>
 
 <p>Implements <a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#acf45751eb05860d10dab4716862fd8e7">ersa::hal::IRtc</a>.</p>
 
@@ -291,8 +284,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether the RTC is initialized and reporting valid time. </p>
+<p>Report backend health; this does not guarantee the wall time is accurate. </p>
 
 <p>Implements <a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#adc68e7c4be1fcd5b7b83c17a5776fdea">ersa::hal::IRtc</a>.</p>
 
@@ -320,8 +312,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Read the current calendar time. </p>
+<p>Return a calendar snapshot; the implementation may derive epoch fields. </p>
 
 <p>Implements <a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#a6efd686bf0b01ebdb82d1d2b0e5d6a54">ersa::hal::IRtc</a>.</p>
 
@@ -350,8 +341,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the RTC from Unix epoch seconds. </p>
+<p>Convert and write epoch seconds without exposing a chip-specific date type. </p>
 
 <p>Implements <a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#aa1d37a12706656f6cf1000d66b5cd9cd">ersa::hal::IRtc</a>.</p>
 

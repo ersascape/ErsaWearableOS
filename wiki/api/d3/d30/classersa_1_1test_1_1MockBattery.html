@@ -99,16 +99,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8e9cb7b03cb00c6add4fc37d7d4b4208" id="r_a8e9cb7b03cb00c6add4fc37d7d4b4208"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#a8e9cb7b03cb00c6add4fc37d7d4b4208">MockBattery</a> (uint16_t mv=3900, uint8_t pct=80, bool conn=true, bool chg=false)</td></tr>
 <tr class="separator:a8e9cb7b03cb00c6add4fc37d7d4b4208"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5a725bbe51cc36b7ff55e99acae710b" id="r_aa5a725bbe51cc36b7ff55e99acae710b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#aa5a725bbe51cc36b7ff55e99acae710b">init</a> () override</td></tr>
-<tr class="memdesc:aa5a725bbe51cc36b7ff55e99acae710b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the battery measurement backend.  <br /></td></tr>
 <tr class="separator:aa5a725bbe51cc36b7ff55e99acae710b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86c742000d566761c38c8362499e9d93" id="r_a86c742000d566761c38c8362499e9d93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#a86c742000d566761c38c8362499e9d93">sample</a> () override</td></tr>
-<tr class="memdesc:a86c742000d566761c38c8362499e9d93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take a new battery sample and update cached measurements.  <br /></td></tr>
 <tr class="separator:a86c742000d566761c38c8362499e9d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcfeb21dd88e4bf87645ef004d06cbee" id="r_abcfeb21dd88e4bf87645ef004d06cbee"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#abcfeb21dd88e4bf87645ef004d06cbee">millivolts</a> () const override</td></tr>
 <tr class="memdesc:abcfeb21dd88e4bf87645ef004d06cbee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the latest measured voltage in millivolts.  <br /></td></tr>
 <tr class="separator:abcfeb21dd88e4bf87645ef004d06cbee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8dfb73a159e8902a884eef2f3aa509f" id="r_ae8dfb73a159e8902a884eef2f3aa509f"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#ae8dfb73a159e8902a884eef2f3aa509f">percentage</a> () const override</td></tr>
-<tr class="memdesc:ae8dfb73a159e8902a884eef2f3aa509f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the estimated remaining capacity as a percentage from 0 to 100.  <br /></td></tr>
 <tr class="separator:ae8dfb73a159e8902a884eef2f3aa509f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f1f87bb667b20e91386ca08ade9b188" id="r_a7f1f87bb667b20e91386ca08ade9b188"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d30/classersa_1_1test_1_1MockBattery.html#a7f1f87bb667b20e91386ca08ade9b188">isConnected</a> () const override</td></tr>
 <tr class="memdesc:a7f1f87bb667b20e91386ca08ade9b188"><td class="mdescLeft">&#160;</td><td class="mdescRight">Report whether a usable battery is connected.  <br /></td></tr>
@@ -211,8 +208,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize the battery measurement backend. </p>
+<p>Configure ADC/gauge resources and report whether the backend is usable. </p>
 
 <p>Implements <a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#a86f72943b06f94197e49dc7bd9965511">ersa::hal::IBattery</a>.</p>
 
@@ -327,8 +323,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return the estimated remaining capacity as a percentage from 0 to 100. </p>
+<p>Return a bounded estimate; voltage-only boards must not imply precision. </p>
 
 <p>Implements <a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#a40c346275a52a6dd575d70a2b60c3078">ersa::hal::IBattery</a>.</p>
 
@@ -356,8 +351,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Take a new battery sample and update cached measurements. </p>
+<p>Refresh cached telemetry; implementations should keep this bounded. </p>
 
 <p>Implements <a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html#aab9bbfac9a8a3a323be996c2a9353db6">ersa::hal::IBattery</a>.</p>
 

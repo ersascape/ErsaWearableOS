@@ -83,9 +83,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Coordinates Wi-Fi radio availability for foreground network operations.  
- <a href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d0/dcc/network__manager_8h_source.html">network_manager.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for ersa::services::NetworkManager:</div>
@@ -96,22 +93,16 @@ Collaboration diagram for ersa::services::NetworkManager:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a0e10c80f7d5cfda6356d9ff2ac9ad827" id="r_a0e10c80f7d5cfda6356d9ff2ac9ad827"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#a0e10c80f7d5cfda6356d9ff2ac9ad827">NetworkManager</a> (<a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html">events::EventBus</a> &amp;bus=<a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html#a166b87e734e250403548c1d33465d662">events::EventBus::instance</a>(), <a class="el" href="../../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html">hal::IWifiRadio</a> *wifi=nullptr)</td></tr>
-<tr class="memdesc:a0e10c80f7d5cfda6356d9ff2ac9ad827"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manage a radio and event bus; a null radio keeps host use hardware-free.  <br /></td></tr>
 <tr class="separator:a0e10c80f7d5cfda6356d9ff2ac9ad827"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66d80f4c9ff71e1a05045f97cacd89b2" id="r_a66d80f4c9ff71e1a05045f97cacd89b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#a66d80f4c9ff71e1a05045f97cacd89b2">init</a> ()</td></tr>
-<tr class="memdesc:a66d80f4c9ff71e1a05045f97cacd89b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize network event handling and radio state.  <br /></td></tr>
 <tr class="separator:a66d80f4c9ff71e1a05045f97cacd89b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae35b0853284a524ef7a9efc80c0b2867" id="r_ae35b0853284a524ef7a9efc80c0b2867"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#ae35b0853284a524ef7a9efc80c0b2867">tick</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="memdesc:ae35b0853284a524ef7a9efc80c0b2867"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advance connection and radio-idle policy.  <br /></td></tr>
 <tr class="separator:ae35b0853284a524ef7a9efc80c0b2867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec7f1ab976405796f9491a6d0c3d36d9" id="r_aec7f1ab976405796f9491a6d0c3d36d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/df3/classersa_1_1services_1_1NetworkHandle.html">NetworkHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#aec7f1ab976405796f9491a6d0c3d36d9">requestInternet</a> ()</td></tr>
-<tr class="memdesc:aec7f1ab976405796f9491a6d0c3d36d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a scoped lease that keeps station connectivity available.  <br /></td></tr>
 <tr class="separator:aec7f1ab976405796f9491a6d0c3d36d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e5d72dc86625192bcc09489843a4f2f" id="r_a4e5d72dc86625192bcc09489843a4f2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#a4e5d72dc86625192bcc09489843a4f2f">acquire</a> ()</td></tr>
-<tr class="memdesc:a4e5d72dc86625192bcc09489843a4f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire an unscoped network lease for legacy call sites.  <br /></td></tr>
 <tr class="separator:a4e5d72dc86625192bcc09489843a4f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79d3c933b7185747b0772c31e958bebd" id="r_a79d3c933b7185747b0772c31e958bebd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#a79d3c933b7185747b0772c31e958bebd">release</a> ()</td></tr>
-<tr class="memdesc:a79d3c933b7185747b0772c31e958bebd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release an unscoped network lease.  <br /></td></tr>
 <tr class="separator:a79d3c933b7185747b0772c31e958bebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d0b6f2bb83ab853b92de0c8317fabc" id="r_a96d0b6f2bb83ab853b92de0c8317fabc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d55/classersa_1_1services_1_1NetworkManager.html#a96d0b6f2bb83ab853b92de0c8317fabc">isConnected</a> () const</td></tr>
 <tr class="memdesc:a96d0b6f2bb83ab853b92de0c8317fabc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether station networking is connected.  <br /></td></tr>
@@ -148,7 +139,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aa5a8fb5ea8f7c98ff2ce8f3f68ee5c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Coordinates Wi-Fi radio availability for foreground network operations. </p>
+<div class="textblock"><p>Coordinates Wi-Fi availability with independent service clients.</p>
+<p>Each <a class="el" href="../../d4/df3/classersa_1_1services_1_1NetworkHandle.html">NetworkHandle</a> is a scoped radio-use lease. The manager keeps the radio active while at least one lease exists and powers it down after the final lease and idle policy permit. This makes resource lifetime explicit and avoids one app disconnecting Wi-Fi while another service still needs it. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0e10c80f7d5cfda6356d9ff2ac9ad827" name="a0e10c80f7d5cfda6356d9ff2ac9ad827"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e10c80f7d5cfda6356d9ff2ac9ad827">&#9670;&#160;</a></span>NetworkManager()</h2>
@@ -183,8 +175,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Manage a radio and event bus; a null radio keeps host use hardware-free. </p>
+<p>Bind a radio and event bus; null radio provides a no-hardware host mode. </p>
 
 </div>
 </div>
@@ -203,8 +194,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Acquire an unscoped network lease for legacy call sites. </p>
+<p>Increment an unscoped reference count for legacy/manual lifetime code. </p>
 
 </div>
 </div>
@@ -241,8 +231,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Initialize network event handling and radio state. </p>
+<p>Subscribe to link transitions and initialize radio state if available. </p>
 
 </div>
 </div>
@@ -325,8 +314,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Release an unscoped network lease. </p>
+<p>Decrement a prior raw acquisition; unmatched releases are ignored. </p>
 
 </div>
 </div>
@@ -344,8 +332,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Acquire a scoped lease that keeps station connectivity available. </p>
+<p>Acquire an RAII lease; connectivity remains active until release. </p>
 
 </div>
 </div>
@@ -392,8 +379,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Advance connection and radio-idle policy. </p>
+<p>Apply deferred link events and idle power-off using monotonic uptime. </p>
 
 </div>
 </div>

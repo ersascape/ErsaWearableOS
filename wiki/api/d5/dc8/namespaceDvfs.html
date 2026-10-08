@@ -129,6 +129,7 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Requested temporary CPU/APB guarantee; platform locks map each profile. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a230a6a53189f7c14da0f601c307173a6a24b9b8c0634a40138e76b2fb86894698" name="a230a6a53189f7c14da0f601c307173a6a24b9b8c0634a40138e76b2fb86894698"></a>Interactive&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a230a6a53189f7c14da0f601c307173a6aa623a8d0366bf079411aa30be45b2d10" name="a230a6a53189f7c14da0f601c307173a6aa623a8d0366bf079411aa30be45b2d10"></a>Compute&#160;</td><td class="fielddoc"></td></tr>
@@ -147,13 +148,13 @@ Functions</h2></td></tr>
           <td class="memname">bool Dvfs::acquire </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d5/dc8/namespaceDvfs.html#a230a6a53189f7c14da0f601c307173a6">Profile</a>&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>profile</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramname"><em>reason</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -162,6 +163,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Acquire a profile lock and optionally log a diagnostic reason. </p>
 
 </div>
 </div>
@@ -179,6 +181,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Initialize ESP-IDF power-management locks and dynamic frequency scaling. </p>
 
 </div>
 </div>
@@ -207,6 +210,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Copy the current power-mode report to a bounded caller-owned buffer. </p>
 
 </div>
 </div>
@@ -220,13 +224,13 @@ Functions</h2></td></tr>
           <td class="memname">void Dvfs::release </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d5/dc8/namespaceDvfs.html#a230a6a53189f7c14da0f601c307173a6">Profile</a>&#160;</td>
-          <td class="paramname">, </td>
+          <td class="paramname"><em>profile</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const char *&#160;</td>
-          <td class="paramname">&#160;</td>
+          <td class="paramname"><em>reason</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -235,6 +239,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Release a previously acquired profile lock. </p>
 
 </div>
 </div>
@@ -252,6 +257,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Emit a one-time report of ESP-IDF PM configuration and lock state. </p>
 
 </div>
 </div>
@@ -287,6 +293,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Return the forced test frequency, or zero when dynamic DVFS is restored. </p>
 
 </div>
 </div>
@@ -304,6 +311,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Sample CPU frequency/residency while application work runs. </p>
 
 </div>
 </div>

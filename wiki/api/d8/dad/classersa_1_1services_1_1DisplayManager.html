@@ -84,9 +84,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Coalesces UI invalidations and schedules safe panel refresh/power transitions.  
- <a href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d6/d5d/display__manager_8h_source.html">display_manager.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for ersa::services::DisplayManager:</div>
@@ -97,37 +94,28 @@ Collaboration diagram for ersa::services::DisplayManager:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a94c2ea8d28b4039a9c6ae217673e31e6" id="r_a94c2ea8d28b4039a9c6ae217673e31e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a94c2ea8d28b4039a9c6ae217673e31e6">DisplayManager</a> (<a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html">hal::IDisplay</a> &amp;display)</td></tr>
-<tr class="memdesc:a94c2ea8d28b4039a9c6ae217673e31e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manage the supplied display contract.  <br /></td></tr>
 <tr class="separator:a94c2ea8d28b4039a9c6ae217673e31e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0187875b5aeb76440d1ca50905adf1e5" id="r_a0187875b5aeb76440d1ca50905adf1e5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a0187875b5aeb76440d1ca50905adf1e5">init</a> ()</td></tr>
-<tr class="memdesc:a0187875b5aeb76440d1ca50905adf1e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the display and manager state.  <br /></td></tr>
 <tr class="separator:a0187875b5aeb76440d1ca50905adf1e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0623d122d0b1a03bf174ccedb800fdd9" id="r_a0623d122d0b1a03bf174ccedb800fdd9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a0623d122d0b1a03bf174ccedb800fdd9">tick</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="memdesc:a0623d122d0b1a03bf174ccedb800fdd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advance refresh and idle-power policy using current uptime.  <br /></td></tr>
 <tr class="separator:a0623d122d0b1a03bf174ccedb800fdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad061949fc5003334a39382d40264941e" id="r_ad061949fc5003334a39382d40264941e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#ad061949fc5003334a39382d40264941e">markDirty</a> (bool fullRefresh=false)</td></tr>
-<tr class="memdesc:ad061949fc5003334a39382d40264941e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark buffered content as changed and optionally request a full refresh.  <br /></td></tr>
 <tr class="separator:ad061949fc5003334a39382d40264941e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4da791b979d89417c555a03dc4cf63ee" id="r_a4da791b979d89417c555a03dc4cf63ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a4da791b979d89417c555a03dc4cf63ee">isDirty</a> () const</td></tr>
 <tr class="memdesc:a4da791b979d89417c555a03dc4cf63ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the panel needs a refresh.  <br /></td></tr>
 <tr class="separator:a4da791b979d89417c555a03dc4cf63ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1433d48fdf3ecd7ebc717cbc1cb63f6e" id="r_a1433d48fdf3ecd7ebc717cbc1cb63f6e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a1433d48fdf3ecd7ebc717cbc1cb63f6e">updateIfDirty</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="memdesc:a1433d48fdf3ecd7ebc717cbc1cb63f6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refresh pending content when the minimum interval allows it.  <br /></td></tr>
 <tr class="separator:a1433d48fdf3ecd7ebc717cbc1cb63f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83f5f5882fac9071731e221e5cb75226" id="r_a83f5f5882fac9071731e221e5cb75226"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a83f5f5882fac9071731e221e5cb75226">refresh</a> (bool full=false, uint32_t currentUptimeMs=0)</td></tr>
-<tr class="memdesc:a83f5f5882fac9071731e221e5cb75226"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force a panel refresh, optionally using the full waveform.  <br /></td></tr>
 <tr class="separator:a83f5f5882fac9071731e221e5cb75226"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a672ec8c85db6c407137275e1b60622ef" id="r_a672ec8c85db6c407137275e1b60622ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a672ec8c85db6c407137275e1b60622ef">noteActivity</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="memdesc:a672ec8c85db6c407137275e1b60622ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Record user activity to keep the panel powered through interaction.  <br /></td></tr>
 <tr class="separator:a672ec8c85db6c407137275e1b60622ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a036191cf1241de3d5ed6ae5e19fa7b33" id="r_a036191cf1241de3d5ed6ae5e19fa7b33"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a036191cf1241de3d5ed6ae5e19fa7b33">getPartialFrameCount</a> () const</td></tr>
-<tr class="memdesc:a036191cf1241de3d5ed6ae5e19fa7b33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of partial frames since the last full refresh.  <br /></td></tr>
 <tr class="separator:a036191cf1241de3d5ed6ae5e19fa7b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5066142ebe63f47a4e431353e144079b" id="r_a5066142ebe63f47a4e431353e144079b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a5066142ebe63f47a4e431353e144079b">resetPartialFrameCount</a> ()</td></tr>
 <tr class="memdesc:a5066142ebe63f47a4e431353e144079b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the partial-frame refresh counter.  <br /></td></tr>
 <tr class="separator:a5066142ebe63f47a4e431353e144079b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0fae4ab689beda740144feeff98d970c" id="r_a0fae4ab689beda740144feeff98d970c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html">hal::IDisplay</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a0fae4ab689beda740144feeff98d970c">getDisplay</a> ()</td></tr>
-<tr class="memdesc:a0fae4ab689beda740144feeff98d970c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the display contract managed by this service.  <br /></td></tr>
 <tr class="separator:a0fae4ab689beda740144feeff98d970c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -166,7 +154,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a47d75486d099effd66393a6bc0e53259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Coalesces UI invalidations and schedules safe panel refresh/power transitions. </p>
+<div class="textblock"><p>Coalesces drawing changes and applies panel-specific refresh/power policy.</p>
+<p>Apps only mark content dirty; this manager rate-limits physical refreshes, tracks partial-frame counts, and powers the panel down after inactivity. Keeping those decisions here prevents fast UI events from causing excessive e-paper flashing or shortening panel lifetime. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a94c2ea8d28b4039a9c6ae217673e31e6" name="a94c2ea8d28b4039a9c6ae217673e31e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a94c2ea8d28b4039a9c6ae217673e31e6">&#9670;&#160;</a></span>DisplayManager()</h2>
@@ -191,8 +180,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Manage the supplied display contract. </p>
+<p>Bind the generic display; manager does not own the driver object. </p>
 
 </div>
 </div>
@@ -211,8 +199,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return the display contract managed by this service. </p>
+<p>Return the borrowed display HAL so coordinated services share one panel. </p>
 
 </div>
 </div>
@@ -230,8 +217,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return the number of partial frames since the last full refresh. </p>
+<p>Read the ghosting-policy counter used to decide when to full-refresh. </p>
 
 </div>
 </div>
@@ -249,8 +235,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Initialize the display and manager state. </p>
+<p>Initialize the panel and seed refresh/idle bookkeeping. </p>
 
 </div>
 </div>
@@ -315,8 +300,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Mark buffered content as changed and optionally request a full refresh. </p>
+<p>Record invalidated framebuffer content; repeated marks coalesce into one future refresh. A full request is sticky until serviced. </p>
 
 </div>
 </div>
@@ -335,8 +319,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Record user activity to keep the panel powered through interaction. </p>
+<p>Reset the idle timer so interaction is not interrupted by power-off. </p>
 
 </div>
 </div>
@@ -365,8 +348,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Force a panel refresh, optionally using the full waveform. </p>
+<p>Bypass dirty scheduling for explicit refresh requests, such as redraw. </p>
 
 </div>
 </div>
@@ -432,8 +414,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Advance refresh and idle-power policy using current uptime. </p>
+<p>Apply due refresh and idle-power transitions for the current uptime. </p>
 
 </div>
 </div>
@@ -452,8 +433,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Refresh pending content when the minimum interval allows it. </p>
+<p>Submit one pending update only after the minimum refresh interval. </p><dl class="section return"><dt>Returns</dt><dd>True when a panel refresh was submitted this call. </dd></dl>
 
 </div>
 </div>
@@ -521,6 +501,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Partial frames before policy requests a full ghost-clearing waveform. </p>
 
 </div>
 </div>
@@ -565,6 +546,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Idle duration before the display controller may power off. </p>
 
 </div>
 </div>
@@ -631,6 +613,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Minimum delay between refresh submissions, protecting panel timing. </p>
 
 </div>
 </div>

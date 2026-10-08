@@ -86,16 +86,15 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aa9c1b92e19aaab692b4cd3f7273c9e0b" id="r_aa9c1b92e19aaab692b4cd3f7273c9e0b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d41/classersa_1_1services_1_1SessionStats.html#aa9c1b92e19aaab692b4cd3f7273c9e0b">begin</a> ()</td></tr>
-<tr class="memdesc:aa9c1b92e19aaab692b4cd3f7273c9e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load prior-session metadata and begin tracking this boot session.  <br /></td></tr>
 <tr class="separator:aa9c1b92e19aaab692b4cd3f7273c9e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16c46c728c31682ae9d0f26247d34dfa" id="r_a16c46c728c31682ae9d0f26247d34dfa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d41/classersa_1_1services_1_1SessionStats.html#a16c46c728c31682ae9d0f26247d34dfa">tick</a> (uint32_t uptimeMs)</td></tr>
-<tr class="memdesc:a16c46c728c31682ae9d0f26247d34dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Persist session uptime when its reporting interval has elapsed.  <br /></td></tr>
 <tr class="separator:a16c46c728c31682ae9d0f26247d34dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5eb21e05db8673c557bfb6ce88e63ae" id="r_ac5eb21e05db8673c557bfb6ce88e63ae"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d41/classersa_1_1services_1_1SessionStats.html#ac5eb21e05db8673c557bfb6ce88e63ae">previousSessionUptimeSeconds</a> ()</td></tr>
-<tr class="memdesc:ac5eb21e05db8673c557bfb6ce88e63ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the uptime recorded for the preceding session.  <br /></td></tr>
 <tr class="separator:ac5eb21e05db8673c557bfb6ce88e63ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Tracks uptime across boots using a small persistent session record. The service stores checkpoints rather than writing flash every UI tick, so callers can report the previous session while limiting flash wear. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aa9c1b92e19aaab692b4cd3f7273c9e0b" name="aa9c1b92e19aaab692b4cd3f7273c9e0b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9c1b92e19aaab692b4cd3f7273c9e0b">&#9670;&#160;</a></span>begin()</h2>
 
@@ -118,8 +117,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Load prior-session metadata and begin tracking this boot session. </p>
+<p>Load prior-session metadata and start the current uptime counter. </p>
 
 </div>
 </div>
@@ -145,8 +143,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return the uptime recorded for the preceding session. </p>
+<p>Return the last persisted uptime, in seconds, from the previous boot. </p>
 
 </div>
 </div>
@@ -173,8 +170,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Persist session uptime when its reporting interval has elapsed. </p>
+<p>Persist a checkpoint only when the configured reporting interval elapsed. </p>
 
 </div>
 </div>

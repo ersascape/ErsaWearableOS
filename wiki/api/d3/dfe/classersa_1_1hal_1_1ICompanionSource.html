@@ -131,7 +131,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab047a74f6b50d684c12a4b9b059b0261" id="r_ab047a74f6b50d684c12a4b9b059b0261"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dfe/classersa_1_1hal_1_1ICompanionSource.html#ab047a74f6b50d684c12a4b9b059b0261">dismissNotification</a> (uint32_t uid)=0</td></tr>
 <tr class="separator:ab047a74f6b50d684c12a4b9b059b0261"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Semantic companion data and command contract independent of radio transport.</p>
+<p>BluetoothManager consumes this contract to normalize provider events and check capabilities before issuing commands. Source identity remains stable while availability and capabilities may change as peers connect or drop. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5fdb624c0d9f01243b4f1badb0350a76" name="a5fdb624c0d9f01243b4f1badb0350a76"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5fdb624c0d9f01243b4f1badb0350a76">&#9670;&#160;</a></span>~ICompanionSource()</h2>
 
@@ -154,6 +157,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Permit provider cleanup through the interface. </p>
 
 </div>
 </div>
@@ -180,6 +184,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Queue a request to answer the current incoming call. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#ab9bab33251abc193290ce0c9a26579ab">ersa::services::DummyBle</a>, <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#ab3ad6809a99793e2eefef83f33be6770">ersa::hal::Esp32Bluetooth</a>, and <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a2008712c6851d6bcc67d9ad50f32ea08">ersa::test::MockBluetooth</a>.</p>
 
@@ -207,6 +212,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return a by-value snapshot so callers cannot retain mutable provider state. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#ac38ae3896ca41f050661242f66afc73c">ersa::services::DummyBle</a>, <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a99d08fefe28e7e2f7bab87a2a2a97c6a">ersa::hal::Esp32Bluetooth</a>, and <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#ada9213fe3ee4e3ae95178c4ef48fd3c1">ersa::test::MockBluetooth</a>.</p>
 
@@ -235,6 +241,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Request dialing; the number format is provider-defined international text. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#aded5d937eb7d2aa96033cc3eb7839ab9">ersa::services::DummyBle</a>, <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a8d520ff58782179bc411c2863225b301">ersa::hal::Esp32Bluetooth</a>, and <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a84fa78817fb4febbc70d4d0d537904ce">ersa::test::MockBluetooth</a>.</p>
 
@@ -263,6 +270,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Request remote removal of one notification when the peer supports it. </p>
 
 <p>Implemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#af7eaa57e39db5c496ccadbfc4239fd0d">ersa::hal::Esp32Bluetooth</a>, <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a49e18a910ee410290c78aa52d500898a">ersa::test::MockBluetooth</a>, and <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#ab278b945ce97a32b9d01b903569794b6">ersa::services::DummyBle</a>.</p>
 
@@ -290,6 +298,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Queue a request to end the current active call. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#ac434ae5ee65a58de8dd038dfb634ae6d">ersa::services::DummyBle</a>, <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#aecce664e4fda24a642a0671254f58297">ersa::hal::Esp32Bluetooth</a>, and <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a4a0fe5647565a5903213773bade692a2">ersa::test::MockBluetooth</a>.</p>
 
@@ -317,6 +326,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Initialize provider state after the transport itself has initialized. </p>
 
 </div>
 </div>
@@ -342,6 +352,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Report whether commands/data are currently usable from the peer. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#ad67ef7fedd91287b8ff8da992b76a128">ersa::services::DummyBle</a>, <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#af4676469ad9ea7d30e5eb0bb76f879eb">ersa::hal::Esp32Bluetooth</a>, and <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a0d7e1d7c12fb2a4b8243e670f0987ec2">ersa::test::MockBluetooth</a>.</p>
 
@@ -370,6 +381,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Send a transport-neutral playback action after capability checks. </p>
 
 <p>Implemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a7c8a214d32fef5496c923de6bf3cd0a3">ersa::hal::Esp32Bluetooth</a>, <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a6111ee6f48cf9d9ea58f3de49c034511">ersa::test::MockBluetooth</a>, and <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#a556db9457c5aea2be4c2cd3dff691856">ersa::services::DummyBle</a>.</p>
 
@@ -397,6 +409,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Release provider-owned resources before OTA or other memory-heavy work. </p>
 
 <p>Reimplemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a94c25b3207912f38c5d8ad99bbabe226">ersa::hal::Esp32Bluetooth</a>.</p>
 
@@ -424,6 +437,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Queue a request to reject the current incoming call. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#aa84cd877e880014a30c6383144d1c285">ersa::services::DummyBle</a>, <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a35fb0401d76b470a182fe264ecdfe59c">ersa::hal::Esp32Bluetooth</a>, and <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a8f1e771956b66ae801ecda98a9867c9f">ersa::test::MockBluetooth</a>.</p>
 
@@ -451,6 +465,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Restore provider activity after maintenance; safe after partial pause. </p>
 
 <p>Reimplemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#afc40b181722103cc1ae9703b4554159f">ersa::hal::Esp32Bluetooth</a>.</p>
 
@@ -489,6 +504,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Install or clear a sink for provider availability transitions. </p>
 
 <p>Implemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#acea7cc0d670dfb01990c2cea1b8c56cf">ersa::hal::Esp32Bluetooth</a>, <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a96a698b96303c74fbddfaffbd08d3c37">ersa::test::MockBluetooth</a>, and <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#a071a0fc3dcf2f714c91f86bf93200f92">ersa::services::DummyBle</a>.</p>
 
@@ -527,6 +543,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Install or clear a sink for call-state transitions. </p>
 
 <p>Implemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#af9cda0d8343b6715acb420263f737cd8">ersa::hal::Esp32Bluetooth</a>, <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a7f099a4d4b2ba2afe22dfb7d4e845c6e">ersa::test::MockBluetooth</a>, and <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#a585ab6045680d1fcfb9d270f66ebbad8">ersa::services::DummyBle</a>.</p>
 
@@ -565,6 +582,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Install or clear a sink for media metadata/playback updates. </p>
 
 <p>Implemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#aeeb2adf22a4c8c85e86781635f00f155">ersa::hal::Esp32Bluetooth</a>, <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a3247a9cc6fc96d23abdff896fbbd0c27">ersa::test::MockBluetooth</a>, and <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#a062a981520d5049c334ae69fad377506">ersa::services::DummyBle</a>.</p>
 
@@ -603,6 +621,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Install or clear a sink for notification add/update/remove events. </p>
 
 <p>Implemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#af1fa08abd946ec0ffe661db58892804d">ersa::hal::Esp32Bluetooth</a>, <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a330873a9cca391abc3c7db85909a7598">ersa::test::MockBluetooth</a>, and <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#a28890fdf1e63048929cf62bcd2cf384f">ersa::services::DummyBle</a>.</p>
 
@@ -641,6 +660,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Install or clear a sink for a peer-provided current time. </p>
 
 <p>Implemented in <a class="el" href="../../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#adcb658e02bf17487cd3a00b8470f5650">ersa::hal::Esp32Bluetooth</a>, <a class="el" href="../../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a1dae818bf7d1833a11fc74ca445e4bd1">ersa::test::MockBluetooth</a>, and <a class="el" href="../../d2/d84/classersa_1_1services_1_1DummyBle.html#a2637d85cf98e27a22b431c58046553ad">ersa::services::DummyBle</a>.</p>
 
@@ -668,6 +688,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Stop workers and clear callbacks before provider destruction. </p>
 
 </div>
 </div>
@@ -720,6 +741,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Pump bounded deferred work; asynchronous providers may leave this empty. </p>
 
 </div>
 </div>

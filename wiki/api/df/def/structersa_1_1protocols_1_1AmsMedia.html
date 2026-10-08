@@ -98,7 +98,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a5030ff3f3cf446baac44a3544daf7a3f" id="r_a5030ff3f3cf446baac44a3544daf7a3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/def/structersa_1_1protocols_1_1AmsMedia.html#a5030ff3f3cf446baac44a3544daf7a3f">playing</a> {false}</td></tr>
 <tr class="separator:a5030ff3f3cf446baac44a3544daf7a3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Decoded AMS media state independent from BLE transport and device hardware. A protocol adapter parses notifications into this value, then the companion source publishes a semantic media update. Keeping parsing here allows the exact same byte handling to run in host tests and in the firmware. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ad894fbc797cca89af9430066c13813a2" name="ad894fbc797cca89af9430066c13813a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad894fbc797cca89af9430066c13813a2">&#9670;&#160;</a></span>update()</h2>
 
@@ -132,6 +134,14 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Apply one AMS Entity Update notification. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bytes</td><td>Notification payload beginning with entity/attribute IDs. </td></tr>
+    <tr><td class="paramname">length</td><td>Number of valid bytes in <code>bytes</code>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True only when a recognized supported field changed; false for incomplete, unsupported, or duplicate data. Strings are copied into bounded local buffers because BLE callback data is transient and must not be retained after the callback returns. </dd></dl>
 
 </div>
 </div>
@@ -147,6 +157,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Current artist name, truncated and null-terminated. </p>
 
 </div>
 </div>
@@ -161,6 +172,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Whether the player reports playback rather than paused/stopped state. </p>
 
 </div>
 </div>
@@ -175,6 +187,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Current title, truncated and null-terminated to fixed embedded storage. </p>
 
 </div>
 </div>

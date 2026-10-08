@@ -82,9 +82,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Key/value persistence contract used by settings and app state.  
- <a href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../db/d58/storage__service_8h_source.html">storage_service.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ersa::services::StorageService:</div>
@@ -97,31 +94,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad20519c1abdb25681612a275f1cfcae0" id="r_ad20519c1abdb25681612a275f1cfcae0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#ad20519c1abdb25681612a275f1cfcae0">~StorageService</a> ()=default</td></tr>
 <tr class="separator:ad20519c1abdb25681612a275f1cfcae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4f99cc8fe94b6948bd2b12b6c6a2805" id="r_aa4f99cc8fe94b6948bd2b12b6c6a2805"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#aa4f99cc8fe94b6948bd2b12b6c6a2805">init</a> ()=0</td></tr>
-<tr class="memdesc:aa4f99cc8fe94b6948bd2b12b6c6a2805"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the persistent storage backend.  <br /></td></tr>
 <tr class="separator:aa4f99cc8fe94b6948bd2b12b6c6a2805"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc8c7bcec5c4cba937511312994e623e" id="r_afc8c7bcec5c4cba937511312994e623e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#afc8c7bcec5c4cba937511312994e623e">setString</a> (std::string_view key, std::string_view value)=0</td></tr>
-<tr class="memdesc:afc8c7bcec5c4cba937511312994e623e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a UTF-8 string value for a key.  <br /></td></tr>
 <tr class="separator:afc8c7bcec5c4cba937511312994e623e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7032dda6a269355dfae3ee3704e94e8" id="r_af7032dda6a269355dfae3ee3704e94e8"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#af7032dda6a269355dfae3ee3704e94e8">getString</a> (std::string_view key, std::string_view defaultValue=&quot;&quot;)=0</td></tr>
-<tr class="memdesc:af7032dda6a269355dfae3ee3704e94e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string value, returning the supplied default when absent.  <br /></td></tr>
 <tr class="separator:af7032dda6a269355dfae3ee3704e94e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8224ec4d552964f1ce4cbd60982b877" id="r_aa8224ec4d552964f1ce4cbd60982b877"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#aa8224ec4d552964f1ce4cbd60982b877">setInt</a> (std::string_view key, int32_t value)=0</td></tr>
-<tr class="memdesc:aa8224ec4d552964f1ce4cbd60982b877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a signed 32-bit integer value for a key.  <br /></td></tr>
 <tr class="separator:aa8224ec4d552964f1ce4cbd60982b877"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe788d2a72ec0a70fe19c6963fd2ffb7" id="r_abe788d2a72ec0a70fe19c6963fd2ffb7"><td class="memItemLeft" align="right" valign="top">virtual int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#abe788d2a72ec0a70fe19c6963fd2ffb7">getInt</a> (std::string_view key, int32_t defaultValue=0)=0</td></tr>
-<tr class="memdesc:abe788d2a72ec0a70fe19c6963fd2ffb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a signed 32-bit integer value, returning the default when absent.  <br /></td></tr>
 <tr class="separator:abe788d2a72ec0a70fe19c6963fd2ffb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fb7db4ea2a890158c1529072cce7657" id="r_a3fb7db4ea2a890158c1529072cce7657"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a3fb7db4ea2a890158c1529072cce7657">setBool</a> (std::string_view key, bool value)=0</td></tr>
-<tr class="memdesc:a3fb7db4ea2a890158c1529072cce7657"><td class="mdescLeft">&#160;</td><td class="mdescRight">Store a boolean value for a key.  <br /></td></tr>
 <tr class="separator:a3fb7db4ea2a890158c1529072cce7657"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90fc769a2d354b53db9ab966cf4cd71f" id="r_a90fc769a2d354b53db9ab966cf4cd71f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a90fc769a2d354b53db9ab966cf4cd71f">getBool</a> (std::string_view key, bool defaultValue=false)=0</td></tr>
-<tr class="memdesc:a90fc769a2d354b53db9ab966cf4cd71f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a boolean value, returning the default when absent.  <br /></td></tr>
 <tr class="separator:a90fc769a2d354b53db9ab966cf4cd71f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3272a557a757f96f66d690052ec430cd" id="r_a3272a557a757f96f66d690052ec430cd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a3272a557a757f96f66d690052ec430cd">remove</a> (std::string_view key)=0</td></tr>
-<tr class="memdesc:a3272a557a757f96f66d690052ec430cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove one key and report whether the backend accepted the operation.  <br /></td></tr>
 <tr class="separator:a3272a557a757f96f66d690052ec430cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab995d66d6e71a4f052c30123e9679ff9" id="r_ab995d66d6e71a4f052c30123e9679ff9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#ab995d66d6e71a4f052c30123e9679ff9">clear</a> ()=0</td></tr>
-<tr class="memdesc:ab995d66d6e71a4f052c30123e9679ff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove all values managed by this storage backend.  <br /></td></tr>
 <tr class="separator:ab995d66d6e71a4f052c30123e9679ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -134,7 +122,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:ac0c1cc45fbbc2dfb26fb5f2bc1b7bf1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Key/value persistence contract used by settings and app state. </p>
+<div class="textblock"><p>Typed persistent key/value contract used by settings and app state.</p>
+<p>The interface avoids exposing NVS, filesystems, or host test storage details. Values are stored by key and implementations decide the physical medium; callers must inspect write results when persistence matters and use defaults when keys are absent, which supports first-boot and schema migration paths. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad20519c1abdb25681612a275f1cfcae0" name="ad20519c1abdb25681612a275f1cfcae0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad20519c1abdb25681612a275f1cfcae0">&#9670;&#160;</a></span>~StorageService()</h2>
@@ -184,8 +173,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Remove all values managed by this storage backend. </p>
+<p>Clear this service's namespace; use carefully because it removes all keys. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a0b478a399ddbd4c29048ce5abb96658e">ersa::services::MemoryStorageService</a>.</p>
 
@@ -224,8 +212,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Read a boolean value, returning the default when absent. </p>
+<p>Read a boolean setting or return <code>defaultValue</code> when the key is absent. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a713a41f6119a0d1903341d6d457fe7c1">ersa::services::MemoryStorageService</a>.</p>
 
@@ -264,8 +251,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Read a signed 32-bit integer value, returning the default when absent. </p>
+<p>Read a signed integer or return <code>defaultValue</code> for an absent key. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#af557ee79fe2ec531243bc76019cac9a3">ersa::services::MemoryStorageService</a>.</p>
 
@@ -304,8 +290,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Read a string value, returning the supplied default when absent. </p>
+<p>Return the stored value or a copy of <code>defaultValue</code> when key is absent. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#abcb360bfe30ed4305d0eb0cbd461adab">ersa::services::MemoryStorageService</a>.</p>
 
@@ -333,8 +318,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize the persistent storage backend. </p>
+<p>Mount/open the backend and prepare its namespace for reads and writes. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a9c430dd48f652e0efd3ec6c2515371b1">ersa::services::MemoryStorageService</a>.</p>
 
@@ -390,8 +374,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Remove one key and report whether the backend accepted the operation. </p>
+<p>Remove one key; false means no removal was made or the backend failed. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a802f98ed2f76e9f964efe5e53cc4cd9e">ersa::services::MemoryStorageService</a>.</p>
 
@@ -430,8 +413,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Store a boolean value for a key. </p>
+<p>Store a boolean setting; false indicates that persistence failed. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a3a1d5d06f272509741fd9f8ea4a98b43">ersa::services::MemoryStorageService</a>.</p>
 
@@ -498,8 +480,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Store a signed 32-bit integer value for a key. </p>
+<p>Store a signed integer using the backend's typed representation. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a7ecda61d1cc42b0326d754ce5fc18cb2">ersa::services::MemoryStorageService</a>.</p>
 
@@ -538,8 +519,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Store a UTF-8 string value for a key. </p>
+<p>Store a string; false reports backend failure or exhausted storage. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#afe843c6ec887b12e369370154767c858">ersa::services::MemoryStorageService</a>.</p>
 

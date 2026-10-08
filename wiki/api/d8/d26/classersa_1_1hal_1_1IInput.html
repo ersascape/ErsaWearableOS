@@ -81,9 +81,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Normalized board input events and button state.  
- <a href="../../d8/d26/classersa_1_1hal_1_1IInput.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../de/ded/input_8h_source.html">input.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
@@ -91,17 +88,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a12254742e8abb7cd9e5b5b6b2b720344" id="r_a12254742e8abb7cd9e5b5b6b2b720344"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d26/classersa_1_1hal_1_1IInput.html#a12254742e8abb7cd9e5b5b6b2b720344">~IInput</a> ()=default</td></tr>
 <tr class="separator:a12254742e8abb7cd9e5b5b6b2b720344"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adcbe18ff6d17b1c41cbd209e935174eb" id="r_adcbe18ff6d17b1c41cbd209e935174eb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d26/classersa_1_1hal_1_1IInput.html#adcbe18ff6d17b1c41cbd209e935174eb">init</a> ()=0</td></tr>
-<tr class="memdesc:adcbe18ff6d17b1c41cbd209e935174eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize configured input pins and event handling.  <br /></td></tr>
 <tr class="separator:adcbe18ff6d17b1c41cbd209e935174eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa84ef3a89bd5de9210f3656d162d761d" id="r_aa84ef3a89bd5de9210f3656d162d761d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d26/classersa_1_1hal_1_1IInput.html#aa84ef3a89bd5de9210f3656d162d761d">poll</a> ()=0</td></tr>
-<tr class="memdesc:aa84ef3a89bd5de9210f3656d162d761d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll hardware and enqueue any resulting normalized input events.  <br /></td></tr>
 <tr class="separator:aa84ef3a89bd5de9210f3656d162d761d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d8d77e9cc6c44e911ce99866d2ad349" id="r_a3d8d77e9cc6c44e911ce99866d2ad349"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d26/classersa_1_1hal_1_1IInput.html#a3d8d77e9cc6c44e911ce99866d2ad349">isPressed</a> (<a class="el" href="../../d2/d01/namespaceersa_1_1events.html#a56eb9938f9f9bd5a6c2fc5c820636d20">events::ButtonId</a> button) const =0</td></tr>
-<tr class="memdesc:a3d8d77e9cc6c44e911ce99866d2ad349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the requested logical button is currently pressed.  <br /></td></tr>
 <tr class="separator:a3d8d77e9cc6c44e911ce99866d2ad349"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Normalized board input events and button state. </p>
+<div class="textblock"><p>Normalized board input events and button state.</p>
+<p>The BSP supplies physical pin assignments and polarity; this interface exposes product-relative buttons and normalized events. As a result, apps never need to poll GPIO numbers or know whether a switch is active low. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a12254742e8abb7cd9e5b5b6b2b720344" name="a12254742e8abb7cd9e5b5b6b2b720344"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a12254742e8abb7cd9e5b5b6b2b720344">&#9670;&#160;</a></span>~IInput()</h2>
@@ -151,8 +146,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Initialize configured input pins and event handling. </p>
+<p>Configure board pins, debounce state, and event publication. </p>
 
 </div>
 </div>
@@ -179,8 +173,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether the requested logical button is currently pressed. </p>
+<p>Query current debounced state using a logical ButtonId. </p>
 
 </div>
 </div>
@@ -206,8 +199,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Poll hardware and enqueue any resulting normalized input events. </p>
+<p>Sample/debounce physical controls and post resulting events. Call regularly from the application task; hardware callbacks should not call app code directly. </p>
 
 </div>
 </div>

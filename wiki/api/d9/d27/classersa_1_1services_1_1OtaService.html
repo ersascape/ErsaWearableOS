@@ -86,9 +86,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Coordinates signed-metadata checks, OTA image install, and boot validation.  
- <a href="../../d9/d27/classersa_1_1services_1_1OtaService.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../da/de4/ota__service_8h_source.html">ota_service.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
@@ -108,19 +105,14 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa3c3ecc455f073fbdaa09abfa130cb86" id="r_aa3c3ecc455f073fbdaa09abfa130cb86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#aa3c3ecc455f073fbdaa09abfa130cb86">begin</a> ()</td></tr>
-<tr class="memdesc:aa3c3ecc455f073fbdaa09abfa130cb86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start rollback validation if the bootloader selected a new image.  <br /></td></tr>
 <tr class="separator:aa3c3ecc455f073fbdaa09abfa130cb86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8bca3085fd12ebb6f22b24fb63995547" id="r_a8bca3085fd12ebb6f22b24fb63995547"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#a8bca3085fd12ebb6f22b24fb63995547">tick</a> ()</td></tr>
-<tr class="memdesc:a8bca3085fd12ebb6f22b24fb63995547"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advance OTA validation and jobs from the application loop.  <br /></td></tr>
 <tr class="separator:a8bca3085fd12ebb6f22b24fb63995547"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2aab83633c9148e1b1eb894262190a08" id="r_a2aab83633c9148e1b1eb894262190a08"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#a2aab83633c9148e1b1eb894262190a08">checkForUpdate</a> ()</td></tr>
-<tr class="memdesc:a2aab83633c9148e1b1eb894262190a08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check the configured release manifest for a newer compatible image.  <br /></td></tr>
 <tr class="separator:a2aab83633c9148e1b1eb894262190a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a591cb568d613025f407b4beb4c2d04f1" id="r_a591cb568d613025f407b4beb4c2d04f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#a591cb568d613025f407b4beb4c2d04f1">installUpdate</a> ()</td></tr>
-<tr class="memdesc:a591cb568d613025f407b4beb4c2d04f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Download, validate, and install the available image into the other slot.  <br /></td></tr>
 <tr class="separator:a591cb568d613025f407b4beb4c2d04f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb70fe0cd83f2e9829259a3574408be0" id="r_adb70fe0cd83f2e9829259a3574408be0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#adb70fe0cd83f2e9829259a3574408be0">resumeAfterCheck</a> ()</td></tr>
-<tr class="memdesc:adb70fe0cd83f2e9829259a3574408be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resume radio and companion providers after a completed check.  <br /></td></tr>
 <tr class="separator:adb70fe0cd83f2e9829259a3574408be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb436d90d01397dd21a0738928245ae4" id="r_abb436d90d01397dd21a0738928245ae4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#a0dcad2d7ad614e63161dda4c6d0e5e46">UpdateState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#abb436d90d01397dd21a0738928245ae4">updateState</a> () const</td></tr>
 <tr class="memdesc:abb436d90d01397dd21a0738928245ae4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current update state.  <br /></td></tr>
@@ -150,7 +142,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac19857401dbff6f5da308b2e02ced8c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the alternate image passes bootability validation.  <br /></td></tr>
 <tr class="separator:ac19857401dbff6f5da308b2e02ced8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a544d4197916c907f514d152c6cb64e37" id="r_a544d4197916c907f514d152c6cb64e37"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#a544d4197916c907f514d152c6cb64e37">selectOtherSlot</a> ()</td></tr>
-<tr class="memdesc:a544d4197916c907f514d152c6cb64e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select a validated alternate image for the next boot.  <br /></td></tr>
 <tr class="separator:a544d4197916c907f514d152c6cb64e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -185,7 +176,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a95b534a25cbeee9fb9dd99d84cc6aa32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Coordinates signed-metadata checks, OTA image install, and boot validation. </p>
+<div class="textblock"><p>Coordinates release checks, inactive-slot image installation, and rollback safety.</p>
+<p>Network download runs outside the UI tick. The bootloader records whether an image is pending validation; this service confirms it only after firmware startup checks pass. Keeping slot selection and confirmation here prevents app code from writing arbitrary flash addresses or bypassing rollback. </p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a0dcad2d7ad614e63161dda4c6d0e5e46" name="a0dcad2d7ad614e63161dda4c6d0e5e46"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0dcad2d7ad614e63161dda4c6d0e5e46">&#9670;&#160;</a></span>UpdateState</h2>
@@ -206,6 +198,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>User-visible OTA lifecycle state, updated atomically by worker tasks. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a0dcad2d7ad614e63161dda4c6d0e5e46ae599161956d626eda4cb0a5ffb85271c" name="a0dcad2d7ad614e63161dda4c6d0e5e46ae599161956d626eda4cb0a5ffb85271c"></a>Idle&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a0dcad2d7ad614e63161dda4c6d0e5e46a195917574edc9b6bbeb5be9785b6a479" name="a0dcad2d7ad614e63161dda4c6d0e5e46a195917574edc9b6bbeb5be9785b6a479"></a>Checking&#160;</td><td class="fielddoc"></td></tr>
@@ -232,8 +225,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Start rollback validation if the bootloader selected a new image. </p>
+<p>Inspect boot metadata and begin the pending-image validation window. </p>
 
 </div>
 </div>
@@ -251,8 +243,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Check the configured release manifest for a newer compatible image. </p>
+<p>Start a bounded background manifest check; inspect <a class="el" href="../../d9/d27/classersa_1_1services_1_1OtaService.html#abb436d90d01397dd21a0738928245ae4" title="Return the current update state.">updateState()</a> for result. </p>
 
 </div>
 </div>
@@ -270,8 +261,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Download, validate, and install the available image into the other slot. </p>
+<p>Start image download and validation into the inactive OTA slot. The active image remains selected until bootloader metadata is updated. </p>
 
 </div>
 </div>
@@ -373,8 +363,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Resume radio and companion providers after a completed check. </p>
+<p>Resume suspended providers after check/install work releases resources. </p>
 
 </div>
 </div>
@@ -475,8 +464,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Select a validated alternate image for the next boot. </p>
+<p>Select the alternate slot only after verifying its image state is bootable. </p>
 
 </div>
 </div>
@@ -494,8 +482,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Advance OTA validation and jobs from the application loop. </p>
+<p>Confirm a healthy boot or apply worker completion without blocking UI. </p>
 
 </div>
 </div>

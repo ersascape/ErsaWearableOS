@@ -102,7 +102,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:adb83e46791201af7c1ab6a3f107576be" id="r_adb83e46791201af7c1ab6a3f107576be"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d91/structersa_1_1Error.html#adb83e46791201af7c1ab6a3f107576be">message</a> {&quot;&quot;}</td></tr>
 <tr class="separator:adb83e46791201af7c1ab6a3f107576be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Outcome code and optional diagnostic returned by a fallible operation. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af52d9a60436bc45c988a7c2181ca65f9" name="af52d9a60436bc45c988a7c2181ca65f9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af52d9a60436bc45c988a7c2181ca65f9">&#9670;&#160;</a></span>Error() <span class="overload">[1/2]</span></h2>
 
@@ -125,6 +127,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Construct a successful outcome, which is the default state. </p>
 
 </div>
 </div>
@@ -161,6 +164,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Construct an outcome from a category and optional diagnostic. </p>
 
 </div>
 </div>
@@ -187,6 +191,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return true for every non-success category. </p>
 
 </div>
 </div>
@@ -212,6 +217,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return true only for <a class="el" href="../../d5/d7f/namespaceersa.html#aabbced58ffeebe4fcea9e5159aa219f2aa60852f204ed8028c1c58808b746d115">ErrorCode::Ok</a>. </p>
 
 </div>
 </div>
@@ -227,6 +233,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Machine-readable result used for caller branching. </p>
 
 </div>
 </div>
@@ -241,6 +248,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Non-owning diagnostic string; implementations should use stable storage. </p>
 
 </div>
 </div>

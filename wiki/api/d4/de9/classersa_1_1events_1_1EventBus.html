@@ -137,7 +137,10 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a5708b1a529366de7e5937dc78825c3cf" id="r_a5708b1a529366de7e5937dc78825c3cf"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html#a5708b1a529366de7e5937dc78825c3cf">queueCount_</a> {0}</td></tr>
 <tr class="separator:a5708b1a529366de7e5937dc78825c3cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Fixed-memory event distribution for services, HAL adapters, and apps.</p>
+<p><code>publish</code> dispatches synchronously; <code>post</code> copies into a bounded queue for later dispatch by the application task. This split lets interrupt/radio callbacks hand off normalized events without running UI code on their thread, while avoiding heap allocation in the event path. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ace8051194caeaa03a42b28592b53a96c" name="ace8051194caeaa03a42b28592b53a96c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ace8051194caeaa03a42b28592b53a96c">&#9670;&#160;</a></span>EventBus()</h2>
 
@@ -152,6 +155,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Construct an empty bus with an empty queue and fresh subscription IDs. </p>
 
 </div>
 </div>
@@ -170,6 +174,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Clear all subscriptions and queued events, primarily for reinitialization/tests. </p>
 
 </div>
 </div>
@@ -187,6 +192,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Dispatch queued events in FIFO order and return the number processed. </p>
 
 </div>
 </div>
@@ -212,6 +218,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the process-wide default bus used by system services. </p>
 
 </div>
 </div>
@@ -230,6 +237,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Copy an event into the ring queue for later application-task delivery. </p><dl class="section return"><dt>Returns</dt><dd>False if the bounded queue is full; callers should handle loss. </dd></dl>
 
 </div>
 </div>
@@ -248,6 +256,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Immediately call matching subscribers on the caller's thread. </p>
 
 </div>
 </div>
@@ -282,6 +291,15 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Register a C-style callback for an event type. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td><a class="el" href="../../d4/db2/structersa_1_1events_1_1Event.html">Event</a> filter; <code>None</code> receives every event. </td></tr>
+    <tr><td class="paramname">callback</td><td>Function called synchronously during dispatch. </td></tr>
+    <tr><td class="paramname">userData</td><td>Opaque context forwarded to the callback. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Nonzero subscription handle, or zero when no slot is available. </dd></dl>
 
 </div>
 </div>
@@ -310,6 +328,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Register an object listener for an event type; see callback overload. </p>
 
 </div>
 </div>
@@ -328,6 +347,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Remove a registration by handle; unknown handles return false. </p>
 
 </div>
 </div>
@@ -351,6 +371,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Maximum queued events awaiting <a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html#a80d538825a9aca7aed3e9806e5bd4883">dispatchQueue()</a>. </p>
 
 </div>
 </div>
@@ -373,6 +394,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Maximum simultaneous callback/listener registrations. </p>
 
 </div>
 </div>

@@ -83,9 +83,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Severity-filtered logging contract for firmware and host implementations.  
- <a href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../db/d50/logging__service_8h_source.html">logging_service.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ersa::services::LoggingService:</div>
@@ -98,13 +95,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a821724282f980c23b029a68cd8d16114" id="r_a821724282f980c23b029a68cd8d16114"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#a821724282f980c23b029a68cd8d16114">~LoggingService</a> ()=default</td></tr>
 <tr class="separator:a821724282f980c23b029a68cd8d16114"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2963432af57c43af82eef97245e827d" id="r_ac2963432af57c43af82eef97245e827d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#ac2963432af57c43af82eef97245e827d">log</a> (<a class="el" href="../../de/dd9/namespaceersa_1_1services.html#afbb42a56f9eeb0cd92e1769dbe66a07a">LogLevel</a> level, const char *<a class="el" href="../../d1/d80/ota__service_8cpp.html#a553828add95c67b4dafa96541227c741">tag</a>, const char *format,...) __attribute__((format(printf</td></tr>
-<tr class="memdesc:ac2963432af57c43af82eef97245e827d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log a printf-style message when its severity meets the configured level.  <br /></td></tr>
 <tr class="separator:ac2963432af57c43af82eef97245e827d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a137965939949ec40e8186923dbcca367" id="r_a137965939949ec40e8186923dbcca367"><td class="memItemLeft" align="right" valign="top">virtual void virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#a137965939949ec40e8186923dbcca367">logv</a> (<a class="el" href="../../de/dd9/namespaceersa_1_1services.html#afbb42a56f9eeb0cd92e1769dbe66a07a">LogLevel</a> level, const char *<a class="el" href="../../d1/d80/ota__service_8cpp.html#a553828add95c67b4dafa96541227c741">tag</a>, const char *format, va_list args)=0</td></tr>
-<tr class="memdesc:a137965939949ec40e8186923dbcca367"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log a printf-style message from an existing variadic argument list.  <br /></td></tr>
 <tr class="separator:a137965939949ec40e8186923dbcca367"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b09446aae10414c59fd4a8f6e6f15f3" id="r_a8b09446aae10414c59fd4a8f6e6f15f3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#a8b09446aae10414c59fd4a8f6e6f15f3">setLevel</a> (<a class="el" href="../../de/dd9/namespaceersa_1_1services.html#afbb42a56f9eeb0cd92e1769dbe66a07a">LogLevel</a> level)</td></tr>
-<tr class="memdesc:a8b09446aae10414c59fd4a8f6e6f15f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the minimum severity that will be emitted.  <br /></td></tr>
 <tr class="separator:a8b09446aae10414c59fd4a8f6e6f15f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98a8e491ff3e5447771a415203431525" id="r_a98a8e491ff3e5447771a415203431525"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../de/dd9/namespaceersa_1_1services.html#afbb42a56f9eeb0cd92e1769dbe66a07a">LogLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#a98a8e491ff3e5447771a415203431525">getLevel</a> () const</td></tr>
 <tr class="memdesc:a98a8e491ff3e5447771a415203431525"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current minimum severity.  <br /></td></tr>
@@ -113,10 +107,8 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:adc3a92eeaba546c46900ffc13479693c" id="r_adc3a92eeaba546c46900ffc13479693c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html">LoggingService</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#adc3a92eeaba546c46900ffc13479693c">instance</a> ()</td></tr>
-<tr class="memdesc:adc3a92eeaba546c46900ffc13479693c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the installed process-wide logger.  <br /></td></tr>
 <tr class="separator:adc3a92eeaba546c46900ffc13479693c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accfcf83a2e6f022b0fade5bf1b4a102f" id="r_accfcf83a2e6f022b0fade5bf1b4a102f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#accfcf83a2e6f022b0fade5bf1b4a102f">setInstance</a> (<a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html">LoggingService</a> *<a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#adc3a92eeaba546c46900ffc13479693c">instance</a>)</td></tr>
-<tr class="memdesc:accfcf83a2e6f022b0fade5bf1b4a102f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Install the process-wide logger implementation.  <br /></td></tr>
 <tr class="separator:accfcf83a2e6f022b0fade5bf1b4a102f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
@@ -125,7 +117,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ab3c195dd2733713201327fed64560f8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Severity-filtered logging contract for firmware and host implementations. </p>
+<div class="textblock"><p>Severity-filtered logging contract for firmware and host implementations.</p>
+<p>The interface gives services one printf-style diagnostic sink on hardware and in tests. Backends decide where messages go (serial, ring buffer, or host output), while the severity threshold avoids constructing/forwarding routine messages when a deployment wants quieter logs. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a821724282f980c23b029a68cd8d16114" name="a821724282f980c23b029a68cd8d16114"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a821724282f980c23b029a68cd8d16114">&#9670;&#160;</a></span>~LoggingService()</h2>
@@ -202,8 +195,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return the installed process-wide logger. </p>
+<p>Return the logger installed during system composition. </p>
 
 </div>
 </div>
@@ -252,8 +244,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Log a printf-style message when its severity meets the configured level. </p>
+<p>Format and emit a message when severity is at least the configured level. <code>format</code> and arguments follow printf rules; <code>tag</code> identifies the source subsystem and should be a stable short label. </p>
 
 <p>Reimplemented in <a class="el" href="../../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#ac2a94cf7bd5b4d7290f76b3ff2c19a61">ersa::services::StandardLoggingService</a>.</p>
 
@@ -304,8 +295,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Log a printf-style message from an existing variadic argument list. </p>
+<p>Same filtering/format behavior as <a class="el" href="../../d5/db5/classersa_1_1services_1_1LoggingService.html#ac2963432af57c43af82eef97245e827d">log()</a>, accepting a va_list for adapters. </p>
 
 <p>Implemented in <a class="el" href="../../d4/dbb/classersa_1_1services_1_1StandardLoggingService.html#a631554ba05f1f8fa68f573dbecdeb7ee">ersa::services::StandardLoggingService</a>.</p>
 
@@ -334,8 +324,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Install the process-wide logger implementation. </p>
+<p>Install a non-owning logger implementation before services start. </p>
 
 </div>
 </div>
@@ -362,8 +351,7 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the minimum severity that will be emitted. </p>
+<p>Change the backend's severity threshold; lower levels are filtered out. </p>
 
 </div>
 </div>

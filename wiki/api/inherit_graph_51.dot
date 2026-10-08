@@ -5,7 +5,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node0 [id="Node000000",label="ersa::services::LoggingService",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d5/db5/classersa_1_1services_1_1LoggingService.html",tooltip="Severity-filtered logging contract for firmware and host implementations."];
+  Node0 [id="Node000000",label="ersa::services::LoggingService",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d5/db5/classersa_1_1services_1_1LoggingService.html",tooltip=" "];
   Node0 -> Node1 [id="edge19_Node000000_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node1 [id="Node000001",label="ersa::services::Standard\lLoggingService",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d4/dbb/classersa_1_1services_1_1StandardLoggingService.html",tooltip=" "];
 }

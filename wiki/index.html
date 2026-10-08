@@ -62,6 +62,14 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="" href="https://open.ersa.dev/wearable">Wearable project</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://pkgs-wearables.ersa.dev/">Package repository</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="HAL_ARCHITECTURE/">Architecture</a>
                 </li>
               </ul>
@@ -128,6 +136,9 @@ repository and labels planned integrations as planned.</p>
 <h2 id="start-here">Start here</h2>
 <ul>
 <li><a href="https://github.com/ersascape/ErsaWearableOS#readme">Project overview and build commands</a></li>
+<li><a href="https://pkgs-wearables.ersa.dev/wiki/api/">C++ API reference</a>: generated classes, methods, headers, and source documentation.</li>
+<li><a href="https://open.ersa.dev/wearable">Wearable project</a>: product and project landing page.</li>
+<li><a href="https://pkgs-wearables.ersa.dev/">Wearables package repository</a>: downloadable <code>ewctl</code> packages and releases.</li>
 <li><a href="HAL_ARCHITECTURE/">Architecture and hardware boundaries</a></li>
 <li><a href="BUILDING_APPS/">Build and register apps</a></li>
 <li><a href="ADDING_A_BOARD/">Add or port a board</a></li>
@@ -144,9 +155,11 @@ repository and labels planned integrations as planned.</p>
 <h2 id="api-reference">API reference</h2>
 <p>The <a href="https://pkgs-wearables.ersa.dev/wiki/api/">published C++ API reference</a>
 covers project headers, source, services, board support, platform HALs,
-peripheral drivers, and tests. Build it locally with <code>make docs</code>; the result is
-<code>api/index.html</code> in <code>.pio/wiki-site/</code>. Third-party Arduino and ESP-IDF SDK
-sources are maintained upstream and are not copied into this project reference.</p>
+peripheral drivers, and tests. Class and function pages explain their purpose,
+behavior, constraints, side effects, and design rationale. Build it locally
+with <code>make docs</code>; the result is <code>api/index.html</code> in <code>.pio/wiki-site/</code>.
+Third-party Arduino and ESP-IDF SDK sources are maintained upstream and are
+linked from the app-building guide rather than copied into this reference.</p>
 <h2 id="contributing-changes">Contributing changes</h2>
 <p>Run <code>make test</code>, <code>make firmware</code>, and <code>make docs</code> for changes that affect the
 firmware or its interfaces. Keep board wiring in the BSP, vendor APIs in the
@@ -204,5 +217,5 @@ when behavior changes.</p>
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-10-08 08:58:07.023275+00:00
+Build Date UTC : 2026-10-08 09:10:20.592710+00:00
 -->

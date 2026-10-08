@@ -82,9 +82,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Typed user settings backed by persistent key/value storage.  
- <a href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d5/d88/settings__service_8h_source.html">settings_service.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for ersa::services::SettingsService:</div>
@@ -97,34 +94,28 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a98f4fd43486f826f9131588a1fee68f8" id="r_a98f4fd43486f826f9131588a1fee68f8"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#a98f4fd43486f826f9131588a1fee68f8">~SettingsService</a> ()=default</td></tr>
 <tr class="separator:a98f4fd43486f826f9131588a1fee68f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb644a1ea6ed01f8b9fb10f0281ee1bd" id="r_abb644a1ea6ed01f8b9fb10f0281ee1bd"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#abb644a1ea6ed01f8b9fb10f0281ee1bd">init</a> ()=0</td></tr>
-<tr class="memdesc:abb644a1ea6ed01f8b9fb10f0281ee1bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load settings or initialize documented defaults.  <br /></td></tr>
 <tr class="separator:abb644a1ea6ed01f8b9fb10f0281ee1bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab401f3d119e9405f930a9e4370a88317" id="r_ab401f3d119e9405f930a9e4370a88317"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#ab401f3d119e9405f930a9e4370a88317">getWifiSsid</a> () const =0</td></tr>
 <tr class="memdesc:ab401f3d119e9405f930a9e4370a88317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the configured Wi-Fi network name.  <br /></td></tr>
 <tr class="separator:ab401f3d119e9405f930a9e4370a88317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39ecf37ea3f6b7ba20fcaf59200cc412" id="r_a39ecf37ea3f6b7ba20fcaf59200cc412"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#a39ecf37ea3f6b7ba20fcaf59200cc412">setWifiSsid</a> (const std::string &amp;ssid)=0</td></tr>
-<tr class="memdesc:a39ecf37ea3f6b7ba20fcaf59200cc412"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Wi-Fi network name.  <br /></td></tr>
 <tr class="separator:a39ecf37ea3f6b7ba20fcaf59200cc412"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a052c798115e1d3de977fdc2f299fee74" id="r_a052c798115e1d3de977fdc2f299fee74"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#a052c798115e1d3de977fdc2f299fee74">getWifiPass</a> () const =0</td></tr>
 <tr class="memdesc:a052c798115e1d3de977fdc2f299fee74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the configured Wi-Fi password.  <br /></td></tr>
 <tr class="separator:a052c798115e1d3de977fdc2f299fee74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad513f4bc50b18338af9e6f643716700c" id="r_ad513f4bc50b18338af9e6f643716700c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#ad513f4bc50b18338af9e6f643716700c">setWifiPass</a> (const std::string &amp;pass)=0</td></tr>
-<tr class="memdesc:ad513f4bc50b18338af9e6f643716700c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the Wi-Fi password.  <br /></td></tr>
 <tr class="separator:ad513f4bc50b18338af9e6f643716700c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ce86b1bf86b7d9d45d41e45a7092251" id="r_a8ce86b1bf86b7d9d45d41e45a7092251"><td class="memItemLeft" align="right" valign="top">virtual int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#a8ce86b1bf86b7d9d45d41e45a7092251">getTimezoneOffsetMin</a> () const =0</td></tr>
 <tr class="memdesc:a8ce86b1bf86b7d9d45d41e45a7092251"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the timezone offset in minutes from UTC.  <br /></td></tr>
 <tr class="separator:a8ce86b1bf86b7d9d45d41e45a7092251"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9cfa187a23b82364ebd00b6ab44987a7" id="r_a9cfa187a23b82364ebd00b6ab44987a7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#a9cfa187a23b82364ebd00b6ab44987a7">setTimezoneOffsetMin</a> (int16_t offset)=0</td></tr>
-<tr class="memdesc:a9cfa187a23b82364ebd00b6ab44987a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the timezone offset in minutes from UTC.  <br /></td></tr>
 <tr class="separator:a9cfa187a23b82364ebd00b6ab44987a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae4548c1ca59ea075627adabb9761234" id="r_aae4548c1ca59ea075627adabb9761234"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#aae4548c1ca59ea075627adabb9761234">isMilitaryTime</a> () const =0</td></tr>
 <tr class="memdesc:aae4548c1ca59ea075627adabb9761234"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the user selected 24-hour time display.  <br /></td></tr>
 <tr class="separator:aae4548c1ca59ea075627adabb9761234"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf6d4f0c7f6e7609c468fffce0317586" id="r_abf6d4f0c7f6e7609c468fffce0317586"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#abf6d4f0c7f6e7609c468fffce0317586">setMilitaryTime</a> (bool military)=0</td></tr>
-<tr class="memdesc:abf6d4f0c7f6e7609c468fffce0317586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set whether time should use a 24-hour display.  <br /></td></tr>
 <tr class="separator:abf6d4f0c7f6e7609c468fffce0317586"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae84e22691ada26f26b01a681849f54c0" id="r_ae84e22691ada26f26b01a681849f54c0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#ae84e22691ada26f26b01a681849f54c0">save</a> ()=0</td></tr>
-<tr class="memdesc:ae84e22691ada26f26b01a681849f54c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Persist pending settings changes.  <br /></td></tr>
 <tr class="separator:ae84e22691ada26f26b01a681849f54c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -137,7 +128,8 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a010d9135ed61f1c5866a2cdf5cecc7c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Typed user settings backed by persistent key/value storage. </p>
+<div class="textblock"><p>Typed user preferences exposed independently from persistent storage format.</p>
+<p>UI and service code use named settings rather than raw keys so defaults, validation, and future migrations remain centralized in the implementation. Setters update the service's in-memory view; <a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#ae84e22691ada26f26b01a681849f54c0">save()</a> is the explicit durable commit boundary for backends that buffer writes. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a98f4fd43486f826f9131588a1fee68f8" name="a98f4fd43486f826f9131588a1fee68f8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a98f4fd43486f826f9131588a1fee68f8">&#9670;&#160;</a></span>~SettingsService()</h2>
@@ -274,8 +266,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Load settings or initialize documented defaults. </p>
+<p>Load persisted values, validate ranges, and fill absent keys with defaults. </p>
 
 <p>Implemented in <a class="el" href="../../de/de7/classersa_1_1services_1_1MemorySettingsService.html#a3ad205a728f0bc81243a5766ab42e5b3">ersa::services::MemorySettingsService</a>.</p>
 
@@ -359,8 +350,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Persist pending settings changes. </p>
+<p>Commit pending setting changes to durable storage. </p>
 
 <p>Implemented in <a class="el" href="../../de/de7/classersa_1_1services_1_1MemorySettingsService.html#a98a0b656b55751b6d324316b3525a1bf">ersa::services::MemorySettingsService</a>.</p>
 
@@ -417,8 +407,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set whether time should use a 24-hour display. </p>
+<p>Update the display preference; formatting remains the view's responsibility. </p>
 
 <p>Implemented in <a class="el" href="../../de/de7/classersa_1_1services_1_1MemorySettingsService.html#a4a6769b29839a7523bfc6557ef8588c7">ersa::services::MemorySettingsService</a>.</p>
 
@@ -447,8 +436,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the timezone offset in minutes from UTC. </p>
+<p>Update offset minutes (east positive); persist with <a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#ae84e22691ada26f26b01a681849f54c0">save()</a>. </p>
 
 <p>Implemented in <a class="el" href="../../de/de7/classersa_1_1services_1_1MemorySettingsService.html#a66356d72ce605603ec146a1728fb304c">ersa::services::MemorySettingsService</a>.</p>
 
@@ -477,8 +465,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the Wi-Fi password. </p>
+<p>Update the pending passphrase; implementations must not log its value. </p>
 
 <p>Implemented in <a class="el" href="../../de/de7/classersa_1_1services_1_1MemorySettingsService.html#aae8bf43189fe1c1d755ac618de9b86e8">ersa::services::MemorySettingsService</a>.</p>
 
@@ -507,8 +494,7 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Set the Wi-Fi network name. </p>
+<p>Update the pending SSID; call <a class="el" href="../../dd/db5/classersa_1_1services_1_1SettingsService.html#ae84e22691ada26f26b01a681849f54c0">save()</a> to persist it. </p>
 
 <p>Implemented in <a class="el" href="../../de/de7/classersa_1_1services_1_1MemorySettingsService.html#a38e217139afc9750fe11260a062c38fd">ersa::services::MemorySettingsService</a>.</p>
 

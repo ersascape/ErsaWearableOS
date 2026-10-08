@@ -117,7 +117,11 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aed8702912a5ebc5742213b4278820b9f" id="r_aed8702912a5ebc5742213b4278820b9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/d91/structersa_1_1Error.html">Error</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d61/classersa_1_1Result.html#aed8702912a5ebc5742213b4278820b9f">error_</a> {<a class="el" href="../../d5/d7f/namespaceersa.html#aabbced58ffeebe4fcea9e5159aa219f2aa60852f204ed8028c1c58808b746d115">ErrorCode::Ok</a>}</td></tr>
 <tr class="separator:aed8702912a5ebc5742213b4278820b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+class ersa::Result&lt; T &gt;</div><p>Value-or-error return type for HAL and service operations.</p>
+<p>This keeps hardware and host implementations on one exception-free contract. A successful instance carries a value; a failed instance carries an <a class="el" href="../../d2/d91/structersa_1_1Error.html">Error</a>. Callers should inspect <a class="el" href="../../da/d61/classersa_1_1Result.html#a08e2d2431bdc8ac88dd6c6c67ee92a79">isOk()</a> before reading <a class="el" href="../../da/d61/classersa_1_1Result.html#a04910cd340e2a5c39aabbed284935709">value()</a>, because failed results retain only a default-constructed value for deterministic storage. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a365252b43a5fe1e093cb01b26823d0b0" name="a365252b43a5fe1e093cb01b26823d0b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a365252b43a5fe1e093cb01b26823d0b0">&#9670;&#160;</a></span>Result() <span class="overload">[1/4]</span></h2>
 
@@ -143,6 +147,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Create a successful result by copying <code>val</code>. </p>
 
 </div>
 </div>
@@ -171,6 +176,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Create a successful result by moving <code>val</code> into the result. </p>
 
 </div>
 </div>
@@ -199,6 +205,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Create a failed result from an <a class="el" href="../../d2/d91/structersa_1_1Error.html">Error</a> value. </p>
 
 </div>
 </div>
@@ -237,6 +244,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Create a failed result from a code and optional diagnostic. </p>
 
 </div>
 </div>
@@ -265,6 +273,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Inspect the outcome code and diagnostic for success or failure. </p>
 
 </div>
 </div>
@@ -292,6 +301,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Test whether the operation completed with an error. </p>
 
 </div>
 </div>
@@ -319,6 +329,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Test whether the operation completed successfully. </p>
 
 </div>
 </div>
@@ -346,6 +357,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Mutate the returned value; valid only when <a class="el" href="../../da/d61/classersa_1_1Result.html#a08e2d2431bdc8ac88dd6c6c67ee92a79">isOk()</a> is true. </p>
 
 </div>
 </div>
@@ -373,6 +385,7 @@ template&lt;typename T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Read the returned value; valid only when <a class="el" href="../../da/d61/classersa_1_1Result.html#a08e2d2431bdc8ac88dd6c6c67ee92a79">isOk()</a> is true. </p>
 
 </div>
 </div>

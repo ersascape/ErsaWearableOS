@@ -74,7 +74,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="autotoc_md0"></a> Ersa Wearable Platform (EWP) is an open source smartwatch firmware and embedded application framework. The current firmware target is <b>Ampere Terra</b>, built with a Seeed XIAO ESP32-C3, a 1.54-inch monochrome e-paper display, a DS3231 RTC, two buttons, and a LiPo battery monitor.</p>
-<p>The code is organized around portable services and hardware contracts. The selected board supplies <code><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#aeffbb38ed323e257f9d41e98d5e861b5" title="Return the Kconfig-selected board contract, available before device init.">ersa::board::Board::current()</a></code> at startup; its manufacturer, platform, and codename live under <code>src/bsp/</code>. Apps use interfaces such as <code>IDisplay</code>, <code>IBluetooth</code>, <code>IWifiRadio</code>, and <code>IPowerManagement</code>, while ESP32 and peripheral drivers stay behind those interfaces.</p>
+<p>The code is organized around portable services and hardware contracts. The selected board supplies <code><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#aeffbb38ed323e257f9d41e98d5e861b5">ersa::board::Board::current()</a></code> at startup; its manufacturer, platform, and codename live under <code>src/bsp/</code>. Apps use interfaces such as <code>IDisplay</code>, <code>IBluetooth</code>, <code>IWifiRadio</code>, and <code>IPowerManagement</code>, while ESP32 and peripheral drivers stay behind those interfaces.</p>
 <h1><a class="anchor" id="autotoc_md1"></a>
 What works today</h1>
 <ul>
@@ -95,6 +95,8 @@ Build and validate</h1>
 Documentation</h1>
 <ul>
 <li><a href="https://pkgs-wearables.ersa.dev/wiki/">Published wiki</a>, deployed from <code>master</code> to GitHub Pages on every successful workflow run.</li>
+<li><a href="https://open.ersa.dev/wearable">Wearable project</a> and <a href="https://pkgs-wearables.ersa.dev/">package repository</a></li>
+<li><a href="https://pkgs-wearables.ersa.dev/wiki/api/">Published C++ API reference</a></li>
 <li><a class="el" href="../../index.html#md_docs_2index">Wiki home</a>: start here for the developer and hardware guides.</li>
 <li><a class="el" href="../../de/df3/md_docs_2BUILDING__APPS.html">Build and register apps</a></li>
 <li><a class="el" href="../../d8/d4d/md_docs_2HAL__ARCHITECTURE.html">Architecture and HAL boundaries</a></li>

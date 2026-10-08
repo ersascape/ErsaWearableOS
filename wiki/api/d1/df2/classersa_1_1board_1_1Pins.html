@@ -98,7 +98,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac95bb1cbdc1482f1f9bc7e473ef889b4" id="r_ac95bb1cbdc1482f1f9bc7e473ef889b4"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="../../de/dbf/structersa_1_1board_1_1BatteryPins.html">BatteryPins</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df2/classersa_1_1board_1_1Pins.html#ac95bb1cbdc1482f1f9bc7e473ef889b4">battery</a> () const =0</td></tr>
 <tr class="separator:ac95bb1cbdc1482f1f9bc7e473ef889b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Board-specific pinctrl description consumed by platform setup code.</p>
+<p>Implement this once per BSP and return stable references to immutable signal groups. Grouping by peripheral gives bus/HAL initialization a typed contract; describing pull, direction, and active level here keeps electrical facts out of application logic and prevents a platform driver from guessing board pins. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa3d223130e8eeefb057d7ea9fefa84dd" name="aa3d223130e8eeefb057d7ea9fefa84dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3d223130e8eeefb057d7ea9fefa84dd">&#9670;&#160;</a></span>~Pins()</h2>
 
@@ -121,6 +124,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Permit destruction through the common pin-map contract. </p>
 
 </div>
 </div>
@@ -147,6 +151,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the analog battery-sense assignment. </p>
 
 </div>
 </div>
@@ -172,6 +177,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the logical top/bottom button assignments and polarity. </p>
 
 </div>
 </div>
@@ -197,6 +203,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the display's chip select and control signal assignments. </p>
 
 </div>
 </div>
@@ -222,6 +229,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the I2C clock/data assignment used by board peripherals. </p>
 
 </div>
 </div>
@@ -247,6 +255,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the shared SPI signal assignment used by display or storage. </p>
 
 </div>
 </div>

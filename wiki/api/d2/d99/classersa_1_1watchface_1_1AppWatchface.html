@@ -152,7 +152,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a630b6c2d61f7600af1509f245b21c2ee" id="r_a630b6c2d61f7600af1509f245b21c2ee"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d99/classersa_1_1watchface_1_1AppWatchface.html#a630b6c2d61f7600af1509f245b21c2ee">shownRtcHealthy_</a> {false}</td></tr>
 <tr class="separator:a630b6c2d61f7600af1509f245b21c2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Default clock face showing local time, date, and companion status. It observes normalized app events and requests only the dynamic region for ordinary minute/media/call changes; the fixed footer is preserved to avoid unnecessary e-paper refresh and ghosting. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acccfc809633d50c6883ce53ca3e5d579" name="acccfc809633d50c6883ce53ca3e5d579"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acccfc809633d50c6883ce53ca3e5d579">&#9670;&#160;</a></span>AppWatchface()</h2>
 
@@ -175,6 +177,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Initialize cached render keys so first paint includes every field. </p>
 
 </div>
 </div>
@@ -226,6 +229,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the stable registry ID used for watchface navigation. </p>
 
 <p>Implements <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a717fb4f65b724d1edca6b8da3bc30279">ersa::app::Application</a>.</p>
 
@@ -253,6 +257,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the smallest display rectangle that may have changed. The UI uses this to limit partial e-paper refreshes and reduce visible flashing; return the whole panel when the changed region cannot be bounded. The default describes the 200 by 200 reference canvas and is conservative for the current product; other geometries should provide their own. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#ab450e42f210b784cfb0299ac85773eee">ersa::app::Application</a>.</p>
 
@@ -280,6 +285,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the product-facing watchface label. </p>
 
 <p>Implements <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aa192e72ddde0963225dee51de671ad1f">ersa::app::Application</a>.</p>
 
@@ -307,6 +313,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the single static instance registered by the app registry. </p>
 
 </div>
 </div>
@@ -332,6 +339,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Mark the clock face active and request its initial render. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a5bfd2e5374d84285c99759022ced3cbf">ersa::app::Application</a>.</p>
 
@@ -360,6 +368,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Update cached display state for time, media, call, or notification events. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a568acc7ddfb4f59c8b599df161ca1a64">ersa::app::Application</a>.</p>
 
@@ -387,6 +396,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Stop face-specific observation when navigating to another app. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a48853e8a478e3e73279acad208fc7e75">ersa::app::Application</a>.</p>
 
@@ -425,6 +435,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Draw the clock and dynamic companion information using display HAL calls. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#afc8a6d6d37cebce281b67ce96ae6a53b">ersa::app::Application</a>.</p>
 

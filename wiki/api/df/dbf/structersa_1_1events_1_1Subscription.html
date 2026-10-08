@@ -103,7 +103,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a78c314559f3f3b2949f671b9a9f9952d" id="r_a78c314559f3f3b2949f671b9a9f9952d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/dbf/structersa_1_1events_1_1Subscription.html#a78c314559f3f3b2949f671b9a9f9952d">active</a> {false}</td></tr>
 <tr class="separator:a78c314559f3f3b2949f671b9a9f9952d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Data Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>One bounded <a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html">EventBus</a> registration. Callback and listener pointers are non-owning: the subscriber must unregister before its target is destroyed. </p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a78c314559f3f3b2949f671b9a9f9952d" name="a78c314559f3f3b2949f671b9a9f9952d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a78c314559f3f3b2949f671b9a9f9952d">&#9670;&#160;</a></span>active</h2>
 
@@ -115,6 +117,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>False means the fixed slot is unused and may be recycled. </p>
 
 </div>
 </div>
@@ -129,6 +132,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Optional C callback used instead of the listener interface. </p>
 
 </div>
 </div>
@@ -143,6 +147,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Handle returned to callers and used for unsubscribe(). </p>
 
 </div>
 </div>
@@ -157,6 +162,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Optional object listener used instead of the C callback. </p>
 
 </div>
 </div>
@@ -171,6 +177,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p><a class="el" href="../../d4/db2/structersa_1_1events_1_1Event.html">Event</a> filter; None matches every event type. </p>
 
 </div>
 </div>
@@ -185,6 +192,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Caller context passed back unchanged to <code>callback</code>. </p>
 
 </div>
 </div>

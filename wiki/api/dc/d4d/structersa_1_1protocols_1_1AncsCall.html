@@ -102,7 +102,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a92eb65a0f673a7ebf3218e329c68e955" id="r_a92eb65a0f673a7ebf3218e329c68e955"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d4d/structersa_1_1protocols_1_1AncsCall.html#a92eb65a0f673a7ebf3218e329c68e955">ringing</a> {false}</td></tr>
 <tr class="separator:a92eb65a0f673a7ebf3218e329c68e955"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Tracks an ANCS call notification and validates call actions against its UID. The phone may remove a notification while the UI is open; checking the UID and advertised action flags prevents stale controls from acting on another call or sending unsupported actions. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a5032cca18257d79e5186f307db891761" name="a5032cca18257d79e5186f307db891761"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5032cca18257d79e5186f307db891761">&#9670;&#160;</a></span>action()</h2>
 
@@ -142,6 +144,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Encode a supported positive/negative action for the matching live UID. </p><dl class="section return"><dt>Returns</dt><dd>False when stale, absent, or not advertised by the phone. </dd></dl>
 
 </div>
 </div>
@@ -168,6 +171,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Remove the currently tracked call only when the UID matches. </p>
 
 </div>
 </div>
@@ -204,6 +208,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Record a new active call notification and its supported action bits. </p>
 
 </div>
 </div>
@@ -219,6 +224,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Action bits advertised by the remote notification. </p>
 
 </div>
 </div>
@@ -233,6 +239,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Whether the tracked call notification is still present. </p>
 
 </div>
 </div>
@@ -247,6 +254,7 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Notification UID that owns the current call action flags. </p>
 
 </div>
 </div>

@@ -84,9 +84,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Coordinates RTC time, external time sources, and minute-boundary events.  
- <a href="../../de/deb/classersa_1_1services_1_1TimeService.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d1/daf/time__service_8h_source.html">time_service.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for ersa::services::TimeService:</div>
@@ -97,49 +94,35 @@ Collaboration diagram for ersa::services::TimeService:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a0c96d998f310b44dd3ea72fd69584e04" id="r_a0c96d998f310b44dd3ea72fd69584e04"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a0c96d998f310b44dd3ea72fd69584e04">TimeService</a> (<a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html">hal::IRtc</a> &amp;rtc, <a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html">events::EventBus</a> &amp;bus=<a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html#a166b87e734e250403548c1d33465d662">events::EventBus::instance</a>())</td></tr>
-<tr class="memdesc:a0c96d998f310b44dd3ea72fd69584e04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manage the supplied RTC and event bus.  <br /></td></tr>
 <tr class="separator:a0c96d998f310b44dd3ea72fd69584e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c0ad6e2cb237577e46b0e2afd6dfe66" id="r_a8c0ad6e2cb237577e46b0e2afd6dfe66"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a8c0ad6e2cb237577e46b0e2afd6dfe66">init</a> ()</td></tr>
-<tr class="memdesc:a8c0ad6e2cb237577e46b0e2afd6dfe66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the RTC and publish initial health state.  <br /></td></tr>
 <tr class="separator:a8c0ad6e2cb237577e46b0e2afd6dfe66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a198de4bd83bdeddcc092e35be73985e6" id="r_a198de4bd83bdeddcc092e35be73985e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a198de4bd83bdeddcc092e35be73985e6">tick</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="memdesc:a198de4bd83bdeddcc092e35be73985e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advance time-source and minute-event processing.  <br /></td></tr>
 <tr class="separator:a198de4bd83bdeddcc092e35be73985e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10f96692d2aea2c9552f5f13a8d4043f" id="r_a10f96692d2aea2c9552f5f13a8d4043f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d14/structersa_1_1hal_1_1TimePoint.html">hal::TimePoint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a10f96692d2aea2c9552f5f13a8d4043f">now</a> ()</td></tr>
-<tr class="memdesc:a10f96692d2aea2c9552f5f13a8d4043f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current local time after applying the configured offset.  <br /></td></tr>
 <tr class="separator:a10f96692d2aea2c9552f5f13a8d4043f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d7dedb81bf224b43ddef5a4937313ce" id="r_a5d7dedb81bf224b43ddef5a4937313ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a5d7dedb81bf224b43ddef5a4937313ce">setEpoch</a> (uint32_t epochSeconds)</td></tr>
-<tr class="memdesc:a5d7dedb81bf224b43ddef5a4937313ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the RTC using Unix epoch seconds.  <br /></td></tr>
 <tr class="separator:a5d7dedb81bf224b43ddef5a4937313ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca9174aff5562a0391edbbda2f6aed42" id="r_aca9174aff5562a0391edbbda2f6aed42"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#aca9174aff5562a0391edbbda2f6aed42">submitTime</a> (<a class="el" href="../../d2/d01/namespaceersa_1_1events.html#aa08b1a001251f330b47aa1b560a05c13">events::TimeSource</a> source, uint32_t epochSeconds)</td></tr>
-<tr class="memdesc:aca9174aff5562a0391edbbda2f6aed42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Submit a timestamp from the specified external source.  <br /></td></tr>
 <tr class="separator:aca9174aff5562a0391edbbda2f6aed42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a43bccb5759912d858483d4281fe6db" id="r_a1a43bccb5759912d858483d4281fe6db"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a1a43bccb5759912d858483d4281fe6db">adjust</a> (const <a class="el" href="../../d8/d14/structersa_1_1hal_1_1TimePoint.html">hal::TimePoint</a> &amp;time)</td></tr>
-<tr class="memdesc:a1a43bccb5759912d858483d4281fe6db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adjust the RTC to an explicit calendar time.  <br /></td></tr>
 <tr class="separator:a1a43bccb5759912d858483d4281fe6db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69ceca49b10fa345eba9e2d69a72efc1" id="r_a69ceca49b10fa345eba9e2d69a72efc1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a69ceca49b10fa345eba9e2d69a72efc1">isRtcHealthy</a> () const</td></tr>
-<tr class="memdesc:a69ceca49b10fa345eba9e2d69a72efc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the latest RTC health state.  <br /></td></tr>
 <tr class="separator:a69ceca49b10fa345eba9e2d69a72efc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c3ef9918c96d9ba5895a1299d38b99e" id="r_a3c3ef9918c96d9ba5895a1299d38b99e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a3c3ef9918c96d9ba5895a1299d38b99e">hasSynchronizedTime</a> () const</td></tr>
-<tr class="memdesc:a3c3ef9918c96d9ba5895a1299d38b99e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether a trusted external source has set time this boot.  <br /></td></tr>
 <tr class="separator:a3c3ef9918c96d9ba5895a1299d38b99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acb5c282d8cbc01d9347c56e0b0e6f155" id="r_acb5c282d8cbc01d9347c56e0b0e6f155"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#acb5c282d8cbc01d9347c56e0b0e6f155">lastMinute</a> () const</td></tr>
-<tr class="memdesc:acb5c282d8cbc01d9347c56e0b0e6f155"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the most recently published minute index.  <br /></td></tr>
 <tr class="separator:acb5c282d8cbc01d9347c56e0b0e6f155"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7a2a590cbaee7651941a8173b014333" id="r_af7a2a590cbaee7651941a8173b014333"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#af7a2a590cbaee7651941a8173b014333">setTimezoneOffset</a> (int16_t offsetMinutes)</td></tr>
-<tr class="memdesc:af7a2a590cbaee7651941a8173b014333"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the local timezone offset in minutes from UTC.  <br /></td></tr>
 <tr class="separator:af7a2a590cbaee7651941a8173b014333"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6dbd1e90ab47673c6aa20d5eca910a37" id="r_a6dbd1e90ab47673c6aa20d5eca910a37"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a6dbd1e90ab47673c6aa20d5eca910a37">getTimezoneOffset</a> () const</td></tr>
-<tr class="memdesc:a6dbd1e90ab47673c6aa20d5eca910a37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the configured local timezone offset in minutes.  <br /></td></tr>
 <tr class="separator:a6dbd1e90ab47673c6aa20d5eca910a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ac31a3b85708a915f835e632b3e49b61e" id="r_ac31a3b85708a915f835e632b3e49b61e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html">TimeService</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#ac31a3b85708a915f835e632b3e49b61e">instance</a> ()</td></tr>
-<tr class="memdesc:ac31a3b85708a915f835e632b3e49b61e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the installed process-wide time service.  <br /></td></tr>
 <tr class="separator:ac31a3b85708a915f835e632b3e49b61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adbb617c6a09f25190c7e41f6465d1bae" id="r_adbb617c6a09f25190c7e41f6465d1bae"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#adbb617c6a09f25190c7e41f6465d1bae">setInstance</a> (<a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html">TimeService</a> *<a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#ac31a3b85708a915f835e632b3e49b61e">instance</a>)</td></tr>
-<tr class="memdesc:adbb617c6a09f25190c7e41f6465d1bae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Install the process-wide time service for legacy service accessors.  <br /></td></tr>
 <tr class="separator:adbb617c6a09f25190c7e41f6465d1bae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
@@ -165,7 +148,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a2a19cf375e893a584a2ed375034c98c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Coordinates RTC time, external time sources, and minute-boundary events. </p>
+<div class="textblock"><p>Coordinates wall-clock state, source priority, and minute notifications.</p>
+<p>The RTC is the immediate timekeeper; this service validates all external timestamps before writing it and prevents lower-trust sources from undoing a stronger update. The default event subscription keeps BLE/network adapters decoupled from RTC hardware while producing one normalized minute event for watchfaces and apps. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0c96d998f310b44dd3ea72fd69584e04" name="a0c96d998f310b44dd3ea72fd69584e04"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0c96d998f310b44dd3ea72fd69584e04">&#9670;&#160;</a></span>TimeService()</h2>
@@ -200,8 +184,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Manage the supplied RTC and event bus. </p>
+<p>Bind an RTC HAL and event bus; no hardware is touched until <a class="el" href="../../de/deb/classersa_1_1services_1_1TimeService.html#a8c0ad6e2cb237577e46b0e2afd6dfe66">init()</a>. </p>
 
 </div>
 </div>
@@ -221,8 +204,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Adjust the RTC to an explicit calendar time. </p>
+<p>Adjust using calendar fields when no epoch value is supplied. </p>
 
 </div>
 </div>
@@ -240,8 +222,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return the configured local timezone offset in minutes. </p>
+<p>Read the configured local UTC offset, where east of UTC is positive. </p>
 
 </div>
 </div>
@@ -259,8 +240,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return whether a trusted external source has set time this boot. </p>
+<p>Return whether a valid manual, phone, or network timestamp was accepted since boot; a responding RTC alone does not count as synchronization. </p>
 
 </div>
 </div>
@@ -278,8 +258,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Initialize the RTC and publish initial health state. </p>
+<p>Initialize the RTC, seed minute tracking, and subscribe to time requests. </p>
 
 </div>
 </div>
@@ -305,8 +284,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return the installed process-wide time service. </p>
+<p>Return the process-wide service installed during board initialization. </p>
 
 </div>
 </div>
@@ -324,8 +302,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return the latest RTC health state. </p>
+<p>Return the RTC HAL's current health report without retrying initialization. </p>
 
 </div>
 </div>
@@ -343,8 +320,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return the most recently published minute index. </p>
+<p>Return floor(epoch/60) for the most recently observed or written time. </p>
 
 </div>
 </div>
@@ -362,8 +338,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return the current local time after applying the configured offset. </p>
+<p>Read current RTC wall time. The RTC stores the local wall clock chosen by this firmware, so the timezone offset is metadata for network conversions and display policy rather than an extra offset applied on every read. </p>
 
 </div>
 </div>
@@ -418,8 +393,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Set the RTC using Unix epoch seconds. </p>
+<p>Set time as a manual, highest-priority update after validating its range. </p>
 
 </div>
 </div>
@@ -446,8 +420,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Install the process-wide time service for legacy service accessors. </p>
+<p>Install a non-owning process-wide pointer for compatibility accessors. The caller must keep the service alive until it replaces or clears it. </p>
 
 </div>
 </div>
@@ -466,8 +439,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Set the local timezone offset in minutes from UTC. </p>
+<p>Configure local UTC offset used when converting network calendar values. </p>
 
 </div>
 </div>
@@ -496,8 +468,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Submit a timestamp from the specified external source. </p>
+<p>Validate and apply an external timestamp if its source has sufficient priority. Manual &gt; BLE/companion &gt; network prevents delayed NTP responses from replacing a newer phone-provided clock value. </p><dl class="section return"><dt>Returns</dt><dd>True when the RTC accepted and stored the timestamp. </dd></dl>
 
 </div>
 </div>
@@ -516,8 +487,12 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Advance time-source and minute-event processing. </p>
+<p>Poll the RTC at a bounded cadence and publish a MinuteTick on rollover. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">currentUptimeMs</td><td>Monotonic uptime used for interval tracking. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

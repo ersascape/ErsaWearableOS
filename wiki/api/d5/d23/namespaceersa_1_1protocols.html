@@ -139,6 +139,16 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Decode the Bluetooth SIG Current Time characteristic (UUID 0x2A2B).</p>
+<p>CTS reports local calendar fields rather than an absolute timezone-aware instant. The returned epoch encodes those fields in a UTC-shaped number so the watch RTC can preserve the wall-clock time shown by the phone. This function validates the complete 10-byte field set and has no BLE dependency, allowing malformed values and leap dates to be checked on a host. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Pointer to the characteristic bytes. </td></tr>
+    <tr><td class="paramname">size</td><td>Must equal the specification's 10-byte structure size. </td></tr>
+    <tr><td class="paramname">epoch</td><td>Receives encoded seconds only on success; unchanged on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>False for null, wrong length, invalid calendar fields, or overflow. </dd></dl>
 
 </div>
 </div>
@@ -165,6 +175,7 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Decode a four-byte little-endian integer from a validated input buffer. </p>
 
 </div>
 </div>
@@ -201,6 +212,7 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Encode a 32-bit integer as four little-endian bytes into caller storage. </p>
 
 </div>
 </div>

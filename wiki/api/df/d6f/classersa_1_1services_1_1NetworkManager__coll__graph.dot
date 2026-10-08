@@ -5,7 +5,7 @@ digraph "ersa::services::NetworkManager"
   edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
   node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
   rankdir="LR";
-  Node1 [id="Node000001",label="ersa::services::NetworkManager",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Coordinates Wi-Fi radio availability for foreground network operations."];
+  Node1 [id="Node000001",label="ersa::services::NetworkManager",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip=" "];
   Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" bus_",fontcolor="grey" ];
   Node2 [id="Node000002",label="ersa::events::EventBus",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d4/de9/classersa_1_1events_1_1EventBus.html",tooltip=" "];
   Node3 -> Node2 [id="edge2_Node000002_Node000003",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" subscribers_",fontcolor="grey" ];
@@ -30,5 +30,5 @@ digraph "ersa::services::NetworkManager"
   Node12 [id="Node000012",label="ersa::events::IEventListener",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d7/d9e/classersa_1_1events_1_1IEventListener.html",tooltip=" "];
   Node4 -> Node2 [id="edge12_Node000002_Node000004",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" queue_",fontcolor="grey" ];
   Node13 -> Node1 [id="edge13_Node000001_Node000013",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" wifi_",fontcolor="grey" ];
-  Node13 [id="Node000013",label="ersa::hal::IWifiRadio",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d7/d7e/classersa_1_1hal_1_1IWifiRadio.html",tooltip="Wi-Fi station and access-point radio control; networking protocols live above this interface."];
+  Node13 [id="Node000013",label="ersa::hal::IWifiRadio",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d7/d7e/classersa_1_1hal_1_1IWifiRadio.html",tooltip=" "];
 }

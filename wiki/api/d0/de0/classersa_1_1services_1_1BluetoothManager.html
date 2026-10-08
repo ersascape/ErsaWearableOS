@@ -87,9 +87,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Normalizes companion events and commands over separate BLE and source HALs.  
- <a href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../dc/daa/bluetooth__manager_8h_source.html">bluetooth_manager.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for ersa::services::BluetoothManager:</div>
@@ -105,28 +102,21 @@ Public Types</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abf362c3d2d84633a341fe7070a27eac1" id="r_abf362c3d2d84633a341fe7070a27eac1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#abf362c3d2d84633a341fe7070a27eac1">BluetoothManager</a> (<a class="el" href="../../d7/d52/classersa_1_1hal_1_1IBluetooth.html">hal::IBluetooth</a> &amp;ble, <a class="el" href="../../d3/dfe/classersa_1_1hal_1_1ICompanionSource.html">hal::ICompanionSource</a> &amp;source, <a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html">events::EventBus</a> &amp;bus)</td></tr>
-<tr class="memdesc:abf362c3d2d84633a341fe7070a27eac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose a BLE transport, companion source, and normalized event bus.  <br /></td></tr>
 <tr class="separator:abf362c3d2d84633a341fe7070a27eac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff3cf89d71d2133660a403c3e54592ab" id="r_aff3cf89d71d2133660a403c3e54592ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#aff3cf89d71d2133660a403c3e54592ab">init</a> ()</td></tr>
 <tr class="memdesc:aff3cf89d71d2133660a403c3e54592ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the transport, source, and event callbacks.  <br /></td></tr>
 <tr class="separator:aff3cf89d71d2133660a403c3e54592ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae53111652c4d5028fcfeddac986dbd83" id="r_ae53111652c4d5028fcfeddac986dbd83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#ae53111652c4d5028fcfeddac986dbd83">tick</a> ()</td></tr>
-<tr class="memdesc:ae53111652c4d5028fcfeddac986dbd83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process transport events and queued companion callbacks.  <br /></td></tr>
 <tr class="separator:ae53111652c4d5028fcfeddac986dbd83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af981c477693775c8137236d504f5dd53" id="r_af981c477693775c8137236d504f5dd53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#af981c477693775c8137236d504f5dd53">setWakeCallback</a> (<a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a44a1c44df18e2d60e2f79c29b9daa2c3">WakeCallback</a> callback, void *user)</td></tr>
-<tr class="memdesc:af981c477693775c8137236d504f5dd53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register the task-wake callback used for asynchronous BLE input.  <br /></td></tr>
 <tr class="separator:af981c477693775c8137236d504f5dd53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbede3e0d72da14eec06389f76ae84f5" id="r_acbede3e0d72da14eec06389f76ae84f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#acbede3e0d72da14eec06389f76ae84f5">canDial</a> () const</td></tr>
-<tr class="memdesc:acbede3e0d72da14eec06389f76ae84f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the active source accepts call dialing.  <br /></td></tr>
 <tr class="separator:acbede3e0d72da14eec06389f76ae84f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dd9ca4a6e8a9a3ed08dd58b221ef30e" id="r_a1dd9ca4a6e8a9a3ed08dd58b221ef30e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a1dd9ca4a6e8a9a3ed08dd58b221ef30e">canHangup</a> () const</td></tr>
-<tr class="memdesc:a1dd9ca4a6e8a9a3ed08dd58b221ef30e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the active source accepts call hangup.  <br /></td></tr>
 <tr class="separator:a1dd9ca4a6e8a9a3ed08dd58b221ef30e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5aacefc78544c31a8580fa9f82ecdd80" id="r_a5aacefc78544c31a8580fa9f82ecdd80"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a5aacefc78544c31a8580fa9f82ecdd80">notificationsReady</a> () const</td></tr>
-<tr class="memdesc:a5aacefc78544c31a8580fa9f82ecdd80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether companion notifications are currently available.  <br /></td></tr>
 <tr class="separator:a5aacefc78544c31a8580fa9f82ecdd80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa83bddf3ff8e6f9d0cc652187b10c7f" id="r_aaa83bddf3ff8e6f9d0cc652187b10c7f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#aaa83bddf3ff8e6f9d0cc652187b10c7f">mediaReady</a> () const</td></tr>
-<tr class="memdesc:aaa83bddf3ff8e6f9d0cc652187b10c7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether companion media controls are currently available.  <br /></td></tr>
 <tr class="separator:aaa83bddf3ff8e6f9d0cc652187b10c7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad314339f37c3961c72b4e1e05f49c846" id="r_ad314339f37c3961c72b4e1e05f49c846"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#ad314339f37c3961c72b4e1e05f49c846">companionSourceId</a> () const</td></tr>
 <tr class="memdesc:ad314339f37c3961c72b4e1e05f49c846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the active source's stable machine-readable identifier.  <br /></td></tr>
@@ -141,13 +131,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ac45d66485a4c9666d45a0492aef3373a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return BLE transport link state.  <br /></td></tr>
 <tr class="separator:ac45d66485a4c9666d45a0492aef3373a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c216c1b87921b50d35776d39fb93bc8" id="r_a5c216c1b87921b50d35776d39fb93bc8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a5c216c1b87921b50d35776d39fb93bc8">isConnected</a> () const</td></tr>
-<tr class="memdesc:a5c216c1b87921b50d35776d39fb93bc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the companion BLE connection is active.  <br /></td></tr>
 <tr class="separator:a5c216c1b87921b50d35776d39fb93bc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0dd4a6ce3fe5e59298d0515c42835d2" id="r_aa0dd4a6ce3fe5e59298d0515c42835d2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#aa0dd4a6ce3fe5e59298d0515c42835d2">isAdvertising</a> () const</td></tr>
 <tr class="memdesc:aa0dd4a6ce3fe5e59298d0515c42835d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return BLE advertising state.  <br /></td></tr>
 <tr class="separator:aa0dd4a6ce3fe5e59298d0515c42835d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b069f56a388eae15d963ff18a3ace02" id="r_a2b069f56a388eae15d963ff18a3ace02"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a2b069f56a388eae15d963ff18a3ace02">nextWakeDelayMs</a> (uint32_t nowMs) const</td></tr>
-<tr class="memdesc:a2b069f56a388eae15d963ff18a3ace02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return milliseconds until the next scheduled transport wake.  <br /></td></tr>
 <tr class="separator:a2b069f56a388eae15d963ff18a3ace02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cc9f7d72b9cb685f1f9594cfb80e2d1" id="r_a0cc9f7d72b9cb685f1f9594cfb80e2d1"><td class="memItemLeft" align="right" valign="top">const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a0cc9f7d72b9cb685f1f9594cfb80e2d1">getDeviceName</a> () const</td></tr>
 <tr class="memdesc:a0cc9f7d72b9cb685f1f9594cfb80e2d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the local BLE device name.  <br /></td></tr>
@@ -156,7 +144,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ab9cbf6a8c519596d4cf2d32378d84289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the local BLE address.  <br /></td></tr>
 <tr class="separator:ab9cbf6a8c519596d4cf2d32378d84289"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79f3ff2d7981ffa2523e9c7b3e6f2182" id="r_a79f3ff2d7981ffa2523e9c7b3e6f2182"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a79f3ff2d7981ffa2523e9c7b3e6f2182">restartAdvertising</a> ()</td></tr>
-<tr class="memdesc:a79f3ff2d7981ffa2523e9c7b3e6f2182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request that BLE advertising restart.  <br /></td></tr>
 <tr class="separator:a79f3ff2d7981ffa2523e9c7b3e6f2182"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a876e80bd0e2e16bd891b63ce5032cee3" id="r_a876e80bd0e2e16bd891b63ce5032cee3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dd9/namespaceersa_1_1services.html#a5c5a04b7674e4898cc270fd408000ff3">CallState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a876e80bd0e2e16bd891b63ce5032cee3">getCallState</a> () const</td></tr>
 <tr class="memdesc:a876e80bd0e2e16bd891b63ce5032cee3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return normalized call state.  <br /></td></tr>
@@ -171,19 +158,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae89bcbd3321b5f7422bfacbbadec1491"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return elapsed seconds for the current active call.  <br /></td></tr>
 <tr class="separator:ae89bcbd3321b5f7422bfacbbadec1491"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acadb41f9d20be5afd8395d0f59fe2e53" id="r_acadb41f9d20be5afd8395d0f59fe2e53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#acadb41f9d20be5afd8395d0f59fe2e53">acceptCall</a> ()</td></tr>
-<tr class="memdesc:acadb41f9d20be5afd8395d0f59fe2e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ask the companion source to accept the incoming call.  <br /></td></tr>
 <tr class="separator:acadb41f9d20be5afd8395d0f59fe2e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8d18281e79acddedd879b8119381635" id="r_ab8d18281e79acddedd879b8119381635"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#ab8d18281e79acddedd879b8119381635">rejectCall</a> ()</td></tr>
-<tr class="memdesc:ab8d18281e79acddedd879b8119381635"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ask the companion source to reject the incoming call.  <br /></td></tr>
 <tr class="separator:ab8d18281e79acddedd879b8119381635"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6dacc30a11bf7e5acede12099a168ef" id="r_ae6dacc30a11bf7e5acede12099a168ef"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#ae6dacc30a11bf7e5acede12099a168ef">hangupCall</a> ()</td></tr>
-<tr class="memdesc:ae6dacc30a11bf7e5acede12099a168ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ask the companion source to end the active call.  <br /></td></tr>
 <tr class="separator:ae6dacc30a11bf7e5acede12099a168ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a822a4324a1fed636889c0aec77ebdac2" id="r_a822a4324a1fed636889c0aec77ebdac2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a822a4324a1fed636889c0aec77ebdac2">dial</a> (const char *number, const char *name=nullptr)</td></tr>
-<tr class="memdesc:a822a4324a1fed636889c0aec77ebdac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ask the companion source to dial a number and optional display name.  <br /></td></tr>
 <tr class="separator:a822a4324a1fed636889c0aec77ebdac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3238b0a62a328d99a4c164ac5df0464" id="r_aa3238b0a62a328d99a4c164ac5df0464"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#aa3238b0a62a328d99a4c164ac5df0464">dialRecent</a> (size_t index=0)</td></tr>
-<tr class="memdesc:aa3238b0a62a328d99a4c164ac5df0464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dial a recent-call entry by index.  <br /></td></tr>
 <tr class="separator:aa3238b0a62a328d99a4c164ac5df0464"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad8216750a4312722588f5c7157cb76c" id="r_aad8216750a4312722588f5c7157cb76c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#aad8216750a4312722588f5c7157cb76c">getRecentCallCount</a> () const</td></tr>
 <tr class="memdesc:aad8216750a4312722588f5c7157cb76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of retained recent-call entries.  <br /></td></tr>
@@ -192,7 +174,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a461167c9cbd8b5e75e5eaf34ace5bf6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a recent-call entry by index.  <br /></td></tr>
 <tr class="separator:a461167c9cbd8b5e75e5eaf34ace5bf6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5a94e4bfc5b1edd9574e413278e3ac8" id="r_af5a94e4bfc5b1edd9574e413278e3ac8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#af5a94e4bfc5b1edd9574e413278e3ac8">addRecentCall</a> (const char *name, const char *number)</td></tr>
-<tr class="memdesc:af5a94e4bfc5b1edd9574e413278e3ac8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add or update a recent-call entry.  <br /></td></tr>
 <tr class="separator:af5a94e4bfc5b1edd9574e413278e3ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c051575c89d84af1f90bebbf2e75e5d" id="r_a9c051575c89d84af1f90bebbf2e75e5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a9c051575c89d84af1f90bebbf2e75e5d">isPlaying</a> () const</td></tr>
 <tr class="memdesc:a9c051575c89d84af1f90bebbf2e75e5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the latest companion media state is playing.  <br /></td></tr>
@@ -234,7 +215,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a1a9ea883294cc0fc226bb66d0f153ed5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a notification entry by index.  <br /></td></tr>
 <tr class="separator:a1a9ea883294cc0fc226bb66d0f153ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a051d0898c69195153373e68d1fb2c9de" id="r_a051d0898c69195153373e68d1fb2c9de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a051d0898c69195153373e68d1fb2c9de">dismissNotification</a> (size_t index)</td></tr>
-<tr class="memdesc:a051d0898c69195153373e68d1fb2c9de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dismiss a notification locally and request remote dismissal when supported.  <br /></td></tr>
 <tr class="separator:a051d0898c69195153373e68d1fb2c9de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f29e63a21923c9c416588aaf1934316" id="r_a5f29e63a21923c9c416588aaf1934316"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a5f29e63a21923c9c416588aaf1934316">addNotification</a> (const char *title, const char *message, const char *app, uint32_t uid, bool canDismissRemotely=false)</td></tr>
 <tr class="memdesc:a5f29e63a21923c9c416588aaf1934316"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add or update a notification entry.  <br /></td></tr>
@@ -323,7 +303,8 @@ Static Private Attributes</h2></td></tr>
 <tr class="separator:a8baee748241466e2cabcfc3fb2b027e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Normalizes companion events and commands over separate BLE and source HALs. </p>
+<div class="textblock"><p>Normalizes companion events and commands over separate transport/source HALs.</p>
+<p>The manager is the app-facing semantic layer: it copies callback strings, retains bounded recent-call/notification state, validates provider capabilities, and publishes normalized events. Transport link state and companion readiness remain separate because an encrypted BLE connection can exist before ANCS/AMS/CTS discovery finishes. </p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a44a1c44df18e2d60e2f79c29b9daa2c3" name="a44a1c44df18e2d60e2f79c29b9daa2c3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a44a1c44df18e2d60e2f79c29b9daa2c3">&#9670;&#160;</a></span>WakeCallback</h2>
@@ -371,8 +352,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Compose a BLE transport, companion source, and normalized event bus. </p>
+<p>Compose independently injected transport, provider, and event contracts. </p>
 
 </div>
 </div>
@@ -391,8 +371,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Ask the companion source to accept the incoming call. </p>
+<p>Ask the provider to answer the current call; false means unsupported/rejected. </p>
 
 </div>
 </div>
@@ -469,8 +448,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Add or update a recent-call entry. </p>
+<p>Insert or refresh a history record while respecting fixed history capacity. </p>
 
 </div>
 </div>
@@ -549,8 +527,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether the active source accepts call dialing. </p>
+<p>Check both provider availability and current dial capability. </p>
 
 </div>
 </div>
@@ -576,8 +553,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether the active source accepts call hangup. </p>
+<p>Check current hangup support rather than assuming all peers support it. </p>
 
 </div>
 </div>
@@ -706,8 +682,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Ask the companion source to dial a number and optional display name. </p>
+<p>Request dialing and optionally associate a display name locally. </p><dl class="section return"><dt>Returns</dt><dd>True if the provider accepted the command for processing. </dd></dl>
 
 </div>
 </div>
@@ -726,8 +701,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Dial a recent-call entry by index. </p>
+<p>Dial one retained history record, returning false for an invalid index. </p>
 
 </div>
 </div>
@@ -746,8 +720,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Dismiss a notification locally and request remote dismissal when supported. </p>
+<p>Remove a retained notification and request remote dismissal if its original provider session and capability still permit it. </p>
 
 </div>
 </div>
@@ -1051,8 +1024,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Ask the companion source to end the active call. </p>
+<p>End the current call through the provider; acceptance is not remote execution. </p>
 
 </div>
 </div>
@@ -1143,8 +1115,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return whether the companion BLE connection is active. </p>
+<p>Return link-up state; this is not equivalent to source readiness. </p>
 
 </div>
 </div>
@@ -1273,8 +1244,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether companion media controls are currently available. </p>
+<p>Report feature readiness independently of BLE link state. </p>
 
 </div>
 </div>
@@ -1320,8 +1290,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return milliseconds until the next scheduled transport wake. </p>
+<p>Forward transport maintenance deadline for low-power wait scheduling. </p>
 
 </div>
 </div>
@@ -1347,8 +1316,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether companion notifications are currently available. </p>
+<p>Report feature readiness after provider discovery completes. </p>
 
 </div>
 </div>
@@ -1620,8 +1588,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Ask the companion source to reject the incoming call. </p>
+<p>Reject the current incoming call when the provider supports the action. </p>
 
 </div>
 </div>
@@ -1639,8 +1606,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Request that BLE advertising restart. </p>
+<p>Request the transport to restart advertising after disconnect/recovery. </p>
 
 </div>
 </div>
@@ -1705,8 +1671,7 @@ Static Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Register the task-wake callback used for asynchronous BLE input. </p>
+<p>Register the wake callback used when a radio worker enqueues new data. The callback should notify a task only; it must not render UI directly. </p>
 
 </div>
 </div>
@@ -1826,8 +1791,7 @@ Static Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Process transport events and queued companion callbacks. </p>
+<p>Drain callbacks and run bounded provider/transport maintenance. </p>
 
 </div>
 </div>

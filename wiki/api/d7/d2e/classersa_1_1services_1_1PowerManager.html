@@ -85,9 +85,6 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Applies battery sampling, wake-lock, and service-level power policy.  
- <a href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="../../d9/db6/power__manager_8h_source.html">power_manager.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for ersa::services::PowerManager:</div>
@@ -98,25 +95,18 @@ Collaboration diagram for ersa::services::PowerManager:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:adb2ef0fd54fb7f444832c8fd908f5520" id="r_adb2ef0fd54fb7f444832c8fd908f5520"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#adb2ef0fd54fb7f444832c8fd908f5520">PowerManager</a> (<a class="el" href="../../de/d4a/classersa_1_1hal_1_1IBattery.html">hal::IBattery</a> &amp;battery, <a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html">events::EventBus</a> &amp;bus=<a class="el" href="../../d4/de9/classersa_1_1events_1_1EventBus.html#a166b87e734e250403548c1d33465d662">events::EventBus::instance</a>())</td></tr>
-<tr class="memdesc:adb2ef0fd54fb7f444832c8fd908f5520"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manage battery telemetry and power events from the supplied sources.  <br /></td></tr>
 <tr class="separator:adb2ef0fd54fb7f444832c8fd908f5520"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae32ab7d143bd4a48e2c77bb9c147019" id="r_aae32ab7d143bd4a48e2c77bb9c147019"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d61/classersa_1_1Result.html">Result</a>&lt; void &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#aae32ab7d143bd4a48e2c77bb9c147019">init</a> ()</td></tr>
-<tr class="memdesc:aae32ab7d143bd4a48e2c77bb9c147019"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize battery sampling and publish the initial power state.  <br /></td></tr>
 <tr class="separator:aae32ab7d143bd4a48e2c77bb9c147019"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e1df5e68f9dd160bab7476fba93faba" id="r_a3e1df5e68f9dd160bab7476fba93faba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a3e1df5e68f9dd160bab7476fba93faba">tick</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="memdesc:a3e1df5e68f9dd160bab7476fba93faba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update battery state and publish threshold transitions.  <br /></td></tr>
 <tr class="separator:a3e1df5e68f9dd160bab7476fba93faba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f13482e806f2a9ab13947ccee8fcf8c" id="r_a7f13482e806f2a9ab13947ccee8fcf8c"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a7f13482e806f2a9ab13947ccee8fcf8c">nextBatterySampleDelayMs</a> (uint32_t currentUptimeMs) const</td></tr>
-<tr class="memdesc:a7f13482e806f2a9ab13947ccee8fcf8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return milliseconds until the next battery sample is due.  <br /></td></tr>
 <tr class="separator:a7f13482e806f2a9ab13947ccee8fcf8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a096c1d7b42cb2f84e08a7f48f31d2064" id="r_a096c1d7b42cb2f84e08a7f48f31d2064"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/dd4/classersa_1_1services_1_1WakeLock.html">WakeLock</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a096c1d7b42cb2f84e08a7f48f31d2064">acquireWakeLock</a> (const char *<a class="el" href="../../d1/d80/ota__service_8cpp.html#a553828add95c67b4dafa96541227c741">tag</a>)</td></tr>
-<tr class="memdesc:a096c1d7b42cb2f84e08a7f48f31d2064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire an RAII wake lock.  <br /></td></tr>
 <tr class="separator:a096c1d7b42cb2f84e08a7f48f31d2064"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7b715483c9680a4c6831895d36e5205a" id="r_a7b715483c9680a4c6831895d36e5205a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a7b715483c9680a4c6831895d36e5205a">acquireWakeLockRaw</a> (const char *<a class="el" href="../../d1/d80/ota__service_8cpp.html#a553828add95c67b4dafa96541227c741">tag</a>)</td></tr>
-<tr class="memdesc:a7b715483c9680a4c6831895d36e5205a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a wake lock by tag for call sites that manage lifetime manually.  <br /></td></tr>
 <tr class="separator:a7b715483c9680a4c6831895d36e5205a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7332de53dfd00c30376b90c85ab78ebf" id="r_a7332de53dfd00c30376b90c85ab78ebf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a7332de53dfd00c30376b90c85ab78ebf">releaseWakeLockRaw</a> (const char *<a class="el" href="../../d1/d80/ota__service_8cpp.html#a553828add95c67b4dafa96541227c741">tag</a>)</td></tr>
-<tr class="memdesc:a7332de53dfd00c30376b90c85ab78ebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release one wake lock associated with the supplied tag.  <br /></td></tr>
 <tr class="separator:a7332de53dfd00c30376b90c85ab78ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47fbb1de8062931a5eabea6e5cf5e69c" id="r_a47fbb1de8062931a5eabea6e5cf5e69c"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a47fbb1de8062931a5eabea6e5cf5e69c">getActiveWakeLockCount</a> () const</td></tr>
 <tr class="memdesc:a47fbb1de8062931a5eabea6e5cf5e69c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of active wake locks.  <br /></td></tr>
@@ -125,10 +115,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a89814c1d4ca054cc67cbaaf01b1eb411"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether at least one wake lock blocks sleep.  <br /></td></tr>
 <tr class="separator:a89814c1d4ca054cc67cbaaf01b1eb411"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a047e6f3d38b286e9414c4fcd7f8de125" id="r_a047e6f3d38b286e9414c4fcd7f8de125"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a047e6f3d38b286e9414c4fcd7f8de125">noteActivity</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="memdesc:a047e6f3d38b286e9414c4fcd7f8de125"><td class="mdescLeft">&#160;</td><td class="mdescRight">Record user or service activity at the given uptime.  <br /></td></tr>
 <tr class="separator:a047e6f3d38b286e9414c4fcd7f8de125"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d7d4ca4e6295a3f739e379e10cc0837" id="r_a2d7d4ca4e6295a3f739e379e10cc0837"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a2d7d4ca4e6295a3f739e379e10cc0837">getIdleTimeMs</a> (uint32_t currentUptimeMs) const</td></tr>
-<tr class="memdesc:a2d7d4ca4e6295a3f739e379e10cc0837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return milliseconds since the most recent activity.  <br /></td></tr>
 <tr class="separator:a2d7d4ca4e6295a3f739e379e10cc0837"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6481671d26a1f103572ad645a3e181fb" id="r_a6481671d26a1f103572ad645a3e181fb"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a6481671d26a1f103572ad645a3e181fb">getBatteryMv</a> () const</td></tr>
 <tr class="memdesc:a6481671d26a1f103572ad645a3e181fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the latest battery voltage in millivolts.  <br /></td></tr>
@@ -149,7 +137,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa28ef0c9860997172ce1200ce47c5f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether external charging power is present.  <br /></td></tr>
 <tr class="separator:aa28ef0c9860997172ce1200ce47c5f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacc12aa71ca2de07063cef14ff23e348" id="r_aacc12aa71ca2de07063cef14ff23e348"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dd9/namespaceersa_1_1services.html#a48736255b5bd967b03e558176212dfa3">BatteryPowerLevel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#aacc12aa71ca2de07063cef14ff23e348">getBatteryPowerLevel</a> () const</td></tr>
-<tr class="memdesc:aacc12aa71ca2de07063cef14ff23e348"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current battery severity band.  <br /></td></tr>
 <tr class="separator:aacc12aa71ca2de07063cef14ff23e348"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1be0e76f2e37c40d7feb9f5b706e7a8" id="r_ac1be0e76f2e37c40d7feb9f5b706e7a8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dd9/namespaceersa_1_1services.html#a0008a00f66347fa218809d94d1ed9f1b">PowerState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#ac1be0e76f2e37c40d7feb9f5b706e7a8">getState</a> () const</td></tr>
 <tr class="memdesc:ac1be0e76f2e37c40d7feb9f5b706e7a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current service-level power state.  <br /></td></tr>
@@ -158,13 +145,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7badd319dd83c89bae1d2bc2618466b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the service-level power state.  <br /></td></tr>
 <tr class="separator:a7badd319dd83c89bae1d2bc2618466b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a29b9b4e797bdd71e60787405db1e26d6" id="r_a29b9b4e797bdd71e60787405db1e26d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a29b9b4e797bdd71e60787405db1e26d6">canSleep</a> () const</td></tr>
-<tr class="memdesc:a29b9b4e797bdd71e60787405db1e26d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether wake locks currently allow the system to sleep.  <br /></td></tr>
 <tr class="separator:a29b9b4e797bdd71e60787405db1e26d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7a58d51bda7e65413240773ca407ce7" id="r_ad7a58d51bda7e65413240773ca407ce7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#ad7a58d51bda7e65413240773ca407ce7">enterLightSleep</a> (uint64_t sleepTimeUs)</td></tr>
-<tr class="memdesc:ad7a58d51bda7e65413240773ca407ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegate light-sleep entry to the board power HAL.  <br /></td></tr>
 <tr class="separator:ad7a58d51bda7e65413240773ca407ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09d7d0ae83cebcbbb7aa9ea6837e7edb" id="r_a09d7d0ae83cebcbbb7aa9ea6837e7edb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d2e/classersa_1_1services_1_1PowerManager.html#a09d7d0ae83cebcbbb7aa9ea6837e7edb">enterDeepSleep</a> (uint64_t sleepTimeUs=0)</td></tr>
-<tr class="memdesc:a09d7d0ae83cebcbbb7aa9ea6837e7edb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delegate deep-sleep entry to the board power HAL.  <br /></td></tr>
 <tr class="separator:a09d7d0ae83cebcbbb7aa9ea6837e7edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
@@ -226,7 +210,7 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aa825b9ede080a7dd488c692d4c23cac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Applies battery sampling, wake-lock, and service-level power policy. </p>
+<div class="textblock"><p>Applies battery qualification, wake-lock accounting, and sleep eligibility. Product-level policy is kept here while IPowerManagement owns clocks, GPIO wake sources, and chip sleep APIs. This separation makes thresholds and activity decisions host-testable and keeps app code from bypassing radio coordination in the platform layer. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adb2ef0fd54fb7f444832c8fd908f5520" name="adb2ef0fd54fb7f444832c8fd908f5520"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb2ef0fd54fb7f444832c8fd908f5520">&#9670;&#160;</a></span>PowerManager()</h2>
@@ -261,8 +245,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Manage battery telemetry and power events from the supplied sources. </p>
+<p>Bind the battery HAL and event bus; neither is owned by the manager. </p>
 
 </div>
 </div>
@@ -282,8 +265,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Acquire an RAII wake lock. </p>
+<p>Prefer this scoped lease when the protected operation has lexical lifetime. </p>
 
 </div>
 </div>
@@ -302,8 +284,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Acquire a wake lock by tag for call sites that manage lifetime manually. </p>
+<p>Manually acquire a tagged lease for state spanning multiple callbacks. </p>
 
 </div>
 </div>
@@ -346,8 +327,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return whether wake locks currently allow the system to sleep. </p>
+<p>True only when no active feature lease blocks automatic sleep. </p>
 
 </div>
 </div>
@@ -366,8 +346,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Delegate deep-sleep entry to the board power HAL. </p>
+<p>Delegate deep sleep; zero timer leaves configured GPIO wakes as sources. </p>
 
 </div>
 </div>
@@ -386,8 +365,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Delegate light-sleep entry to the board power HAL. </p>
+<p>Delegate light sleep to the board HAL, which coordinates RTOS and radio locks. The service deliberately does not invoke chip sleep primitives. </p>
 
 </div>
 </div>
@@ -462,8 +440,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return the current battery severity band. </p>
+<p>Return the filtered battery band used by user alerts and sleep policy. </p>
 
 </div>
 </div>
@@ -510,8 +487,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return milliseconds since the most recent activity. </p>
+<p>Compute wrap-safe idle duration from the last recorded activity. </p>
 
 </div>
 </div>
@@ -594,8 +570,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Initialize battery sampling and publish the initial power state. </p>
+<p>Sample once, seed cached telemetry, and establish initial severity. </p>
 
 </div>
 </div>
@@ -679,8 +654,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Return milliseconds until the next battery sample is due. </p>
+<p>Return the sample deadline so the UI can sleep until useful work is due. </p>
 
 </div>
 </div>
@@ -699,8 +673,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Record user or service activity at the given uptime. </p>
+<p>Reset the idle reference point after interaction or foreground work. </p>
 
 </div>
 </div>
@@ -719,8 +692,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Release one wake lock associated with the supplied tag. </p>
+<p>Release one matching manual lease; false means the tag was not active. </p>
 
 </div>
 </div>
@@ -787,8 +759,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Update battery state and publish threshold transitions. </p>
+<p>Sample when due, apply hysteresis/critical qualification, and publish state transitions. The explicit uptime makes interval behavior testable without a hardware clock. </p>
 
 </div>
 </div>
@@ -988,6 +959,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Voltage threshold used to enter the critical battery band. </p>
 
 </div>
 </div>
@@ -1010,6 +982,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Percentage threshold used to enter the critical battery band. </p>
 
 </div>
 </div>
@@ -1054,6 +1027,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Idle interval relevant to legacy service-level deep-sleep transitions. </p>
 
 </div>
 </div>
@@ -1120,6 +1094,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Voltage threshold used to enter the low battery band. </p>
 
 </div>
 </div>
@@ -1142,6 +1117,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Percentage threshold used to enter the low battery band. </p>
 
 </div>
 </div>
@@ -1164,6 +1140,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Maximum active lock tags tracked without heap allocation. </p>
 
 </div>
 </div>

@@ -159,6 +159,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return a stable, unique, null-terminated navigation key. </p>
 
 <p>Implements <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a717fb4f65b724d1edca6b8da3bc30279">ersa::app::Application</a>.</p>
 
@@ -186,6 +187,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return the user-facing name shown by the app drawer. </p>
 
 <p>Implements <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aa192e72ddde0963225dee51de671ad1f">ersa::app::Application</a>.</p>
 
@@ -213,6 +215,8 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called once before this app is first shown.</p>
+<p>Establish durable model state here. Do not assume the display is active or block the UI task; the base implementation is empty so simple apps have no setup boilerplate. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aecfd76ce4a6422dab6cbaff5b70f4a30">ersa::app::Application</a>.</p>
 
@@ -240,6 +244,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called after <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#afb8a3a9d85d6bb6af27f2c9d5d0e155a">onPause()</a> when this app is foregrounded again. Revalidate transient state and resume paused work; durable model state normally remains intact across this temporary transition. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#aad1c88a84c58013ecf46a9e29bf81171">ersa::app::Application</a>.</p>
 
@@ -267,6 +272,7 @@ Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Called when the manager selects this app as the foreground screen. Start foreground-only work, such as app-specific event subscriptions or refresh requests. Pair subscriptions with pause/stop cleanup so hidden screens do not process events unnecessarily. </p>
 
 <p>Reimplemented from <a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html#a29f1cb06e0c03634e343ffdffa606b8d">ersa::app::Application</a>.</p>
 

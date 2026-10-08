@@ -131,7 +131,10 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a4f411505d5085244b478d9ec8179411e" id="r_a4f411505d5085244b478d9ec8179411e"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/da9/classersa_1_1protocols_1_1AncsAttributes.html#a4f411505d5085244b478d9ec8179411e">size_</a> {0}</td></tr>
 <tr class="separator:a4f411505d5085244b478d9ec8179411e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Transport-independent decoder for one ANCS notification-attribute response.</p>
+<p>The firmware issues at most one attribute request at a time, so this parser accumulates its fragments in one bounded buffer and verifies the UID before publishing text. It knows the ANCS wire format but not GATT callbacks; that split makes malformed/truncated packet behavior testable without a radio. </p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a7ceb5d58725472d89fb598d9e511d766" name="a7ceb5d58725472d89fb598d9e511d766"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7ceb5d58725472d89fb598d9e511d766">&#9670;&#160;</a></span>Result</h2>
 
@@ -151,6 +154,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Response parser state returned by <a class="el" href="../../d9/da9/classersa_1_1protocols_1_1AncsAttributes.html#a2b463b69a968b495e9dc32bba646fa51">feed()</a>. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7ceb5d58725472d89fb598d9e511d766ad3da97e2d9aee5c8fbe03156ad051c99" name="a7ceb5d58725472d89fb598d9e511d766ad3da97e2d9aee5c8fbe03156ad051c99"></a>More&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a7ceb5d58725472d89fb598d9e511d766aae94f80b3ce82062a5dd7815daa04f9d" name="a7ceb5d58725472d89fb598d9e511d766aae94f80b3ce82062a5dd7815daa04f9d"></a>Complete&#160;</td><td class="fielddoc"></td></tr>
@@ -193,6 +197,13 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Start collecting the response for <code>uid</code> and clear prior text. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uid</td><td>Notification identifier expected in the next response. </td></tr>
+    <tr><td class="paramname">includeNegativeAction</td><td>Also parse the optional action label. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -229,6 +240,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Append a response fragment and parse any complete requested attributes. </p><dl class="section return"><dt>Returns</dt><dd>More while bytes are incomplete, Complete for an exact valid response, or Invalid for overflow, wrong UID/order, or extra data. </dd></dl>
 
 </div>
 </div>
@@ -254,6 +266,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Return whether the optional negative action label means dismiss/clear. Whitespace and ASCII case are ignored to handle common provider variants. </p>
 
 </div>
 </div>
@@ -296,6 +309,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Encode the ANCS Get Notification Attributes command into caller storage. The output needs 11 bytes for title/message and 12 when action label is requested; caller supplies the correct capacity for the selected form. </p>
 
 </div>
 </div>
@@ -332,6 +346,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Convenience overload for the standard fixed 11-byte request. </p>
 
 </div>
 </div>
