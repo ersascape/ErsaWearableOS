@@ -31,10 +31,11 @@ var searchData=
   ['disconnectcalls_28',['disconnectCalls',['../d4/d6a/classersa_1_1test_1_1MockWifi.html#ad1b38509b0ac3ca51ae8534289514acf',1,'ersa::test::MockWifi']]],
   ['dismissedcount_5f_29',['dismissedCount_',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#abaa98cb5cceb1aaf269deeee3a5bd931',1,'ersa::services::BluetoothManager']]],
   ['dismisseduids_5f_30',['dismissedUids_',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a52762ac8384106597db1dc49a65338f3',1,'ersa::services::BluetoothManager']]],
-  ['display_31',['display',['../d2/d55/structersa_1_1board_1_1BoardConfig.html#ab061d27699eff4be4f84bde7af644820',1,'ersa::board::BoardConfig']]],
-  ['display_5f_32',['display_',['../d8/dad/classersa_1_1services_1_1DisplayManager.html#aed4c1780fd5c4e7f88a91c6eba16ac03',1,'ersa::services::DisplayManager']]],
-  ['displaybusy_33',['displayBusy',['../d2/d41/structersa_1_1runtime_1_1SleepEligibility.html#a2330ff78ea8d27b42aa7f8abe8a5c3dd',1,'ersa::runtime::SleepEligibility']]],
-  ['drawlinecalls_5f_34',['drawLineCalls_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a8ce137fca082217bb297f23ac48d9543',1,'ersa::test::MockDisplay']]],
-  ['driftmeasured_35',['driftMeasured',['../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html#a3f83793502f1fc9f47578e4e0810da20',1,'ersa::hal::RtcDiagnostics']]],
-  ['driftseconds_36',['driftSeconds',['../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html#a6df9c989a89808f8411355c81d692283',1,'ersa::hal::RtcDiagnostics']]]
+  ['dismisssucceeds_5f_31',['dismissSucceeds_',['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#ab642a10b9043dab48464a1030f774ebf',1,'ersa::test::MockBluetooth']]],
+  ['display_32',['display',['../d2/d55/structersa_1_1board_1_1BoardConfig.html#ab061d27699eff4be4f84bde7af644820',1,'ersa::board::BoardConfig']]],
+  ['display_5f_33',['display_',['../d8/dad/classersa_1_1services_1_1DisplayManager.html#aed4c1780fd5c4e7f88a91c6eba16ac03',1,'ersa::services::DisplayManager']]],
+  ['displaybusy_34',['displayBusy',['../d2/d41/structersa_1_1runtime_1_1SleepEligibility.html#a2330ff78ea8d27b42aa7f8abe8a5c3dd',1,'ersa::runtime::SleepEligibility']]],
+  ['drawlinecalls_5f_35',['drawLineCalls_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a8ce137fca082217bb297f23ac48d9543',1,'ersa::test::MockDisplay']]],
+  ['driftmeasured_36',['driftMeasured',['../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html#a3f83793502f1fc9f47578e4e0810da20',1,'ersa::hal::RtcDiagnostics']]],
+  ['driftseconds_37',['driftSeconds',['../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html#a6df9c989a89808f8411355c81d692283',1,'ersa::hal::RtcDiagnostics']]]
 ];

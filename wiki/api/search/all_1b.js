@@ -14,7 +14,7 @@ var searchData=
   ['updateifdirty_11',['updateIfDirty',['../d8/dad/classersa_1_1services_1_1DisplayManager.html#a1433d48fdf3ecd7ebc717cbc1cb63f6e',1,'ersa::services::DisplayManager']]],
   ['updatemessage_12',['updateMessage',['../d9/d27/classersa_1_1services_1_1OtaService.html#a9aafb186909376d571879ca7c0c4a2aa',1,'ersa::services::OtaService']]],
   ['updater_13',['Updater',['../da/d53/namespaceAppDrawer.html#ab437682649533f4c3e933d90683f16caa7bb30fdbb0e7406917f1937980529469',1,'AppDrawer']]],
-  ['updatestate_14',['updatestate',['../d9/d27/classersa_1_1services_1_1OtaService.html#a0dcad2d7ad614e63161dda4c6d0e5e46',1,'ersa::services::OtaService::UpdateState'],['../d9/d27/classersa_1_1services_1_1OtaService.html#abb436d90d01397dd21a0738928245ae4',1,'ersa::services::OtaService::updateState() const']]],
+  ['updatestate_14',['updatestate',['../d9/d27/classersa_1_1services_1_1OtaService.html#abb436d90d01397dd21a0738928245ae4',1,'ersa::services::OtaService::updateState() const'],['../d9/d27/classersa_1_1services_1_1OtaService.html#a0dcad2d7ad614e63161dda4c6d0e5e46',1,'ersa::services::OtaService::UpdateState']]],
   ['updatestate_5f_15',['updateState_',['../d9/d27/classersa_1_1services_1_1OtaService.html#a5e95295ca273f40c0cf4c0fbe217f197',1,'ersa::services::OtaService']]],
   ['updatetask_16',['updateTask',['../d9/d27/classersa_1_1services_1_1OtaService.html#a7fae713a5438024f5d093207ae924d79',1,'ersa::services::OtaService']]],
   ['updatetaskactive_5f_17',['updateTaskActive_',['../d9/d27/classersa_1_1services_1_1OtaService.html#a6caa4753afc5c767073889c72e0b62c5',1,'ersa::services::OtaService']]],
