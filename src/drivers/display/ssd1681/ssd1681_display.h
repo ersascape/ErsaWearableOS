@@ -111,7 +111,6 @@ private:
     bool initialized_{false};
     bool powered_{false};
     bool baselineValid_{false};
-    int64_t lastDeghostUs_{0};
     esp_err_t lastIoError_{ESP_OK};
     uint8_t framebuffer_[kBufferSize]{};
     Canvas canvas_;

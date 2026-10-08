@@ -76,11 +76,10 @@ storage, diagnostics, and OTA HAL contracts.
 
 The custom SSD1681 driver disables panel drive voltage after a refresh while the e-paper
 image remains visible. `DisplayManager` owns the 360-partial-frame full-waveform
-limit and refresh rate limit. The SSD1681 driver also forces a full waveform at
-least every five minutes, including when the UI requested only a small region.
-The manager does not send a redundant idle power-off or power-on request. The
-UI still identifies dirty bounds and forces a full waveform on the first
-frame, day change, or app transition. Movement within the current app keeps
+limit and refresh rate limit. The manager does not send a redundant idle
+power-off or power-on request. The UI still identifies dirty bounds and forces
+a full waveform on the first frame, day change, or app transition. Movement
+within the current app keeps
 using partial windows. BUSY completion remains a driver concern and is not
 coupled to button polling. This removes an incorrect manager power-state
 assumption; it does not reduce the panel's
