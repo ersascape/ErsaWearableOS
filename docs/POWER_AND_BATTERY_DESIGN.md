@@ -33,22 +33,32 @@ conservative starting points, not characterized limits for this assembled watch.
 
 ## BLE-preserving light sleep
 
-The current PlatformIO `framework = arduino` build runs on FreeRTOS, but its
-bundled ESP32-C3 `sdkconfig.h` does not enable `CONFIG_PM_ENABLE`,
-`CONFIG_FREERTOS_USE_TICKLESS_IDLE`, or Bluetooth controller modem sleep. The
-firmware therefore does not enter light sleep between connected BLE events.
-Calling `esp_light_sleep_start()` from the UI loop would interrupt the BLE link
-and is not a substitute. Espressif requires Bluetooth modem sleep plus automatic
-light sleep coordinated by power management and tickless idle to keep a
-connection alive.
+The PlatformIO `framework = arduino, espidf` build enables
+`CONFIG_PM_ENABLE`, `CONFIG_FREERTOS_USE_TICKLESS_IDLE`, and Bluetooth controller
+modem sleep in `sdkconfig.defaults`. The generated
+`.pio/build/ErsaWearable/config/sdkconfig.h` confirms these options are active
+for the firmware build. `Esp32PowerManagement::initialize()` calls
+`esp_pm_configure()` with `light_sleep_enable = true`; the UI releases its
+`ESP_PM_NO_LIGHT_SLEEP` lock after 30 seconds of inactivity when USB, display,
+network sync, and active-call constraints permit sleep. FreeRTOS tickless idle
+then coordinates automatic light sleep with task deadlines and power locks.
 
-Enabling this requires rebuilding the Arduino core with an ESP-IDF configuration
-that enables power management, FreeRTOS tickless idle, Bluetooth modem sleep,
-and a valid Bluetooth low-power clock. This board's separate DS3231 clock is not
-connected to the ESP32-C3 low-power clock pins, so the external 32 kHz Bluetooth
-clock option cannot be assumed. After that build change, confirm BLE stability,
-button wake latency, e-paper refresh, Wi-Fi sync, and current draw on hardware
-before making automatic light sleep the default.
+The Bluetooth controller uses modem sleep mode 1 and the main crystal as its
+low-power clock. `CONFIG_BT_CTRL_MAIN_XTAL_PU_DURING_LIGHT_SLEEP` is enabled, so
+the controller can use the main crystal during automatic light sleep without
+holding its `ESP_PM_NO_LIGHT_SLEEP` lock. The separate DS3231 clock is not
+connected to the ESP32-C3 low-power clock pins and is not used for this purpose.
+The code does not call `esp_light_sleep_start()` from the UI loop; manual sleep
+would bypass the controller's coordination.
+
+These build settings and code paths enable BLE-compatible automatic light sleep,
+but they do not prove that a particular device spends time in light sleep or
+that its BLE link remains stable under all negotiated connection parameters.
+Validate sleep residency, BLE stability, button wake latency, e-paper refresh,
+Wi-Fi sync, and current draw on hardware. The main-crystal clock choice favors
+BLE timing and link compatibility over the lowest possible sleep current.
+
+ESP-IDF references: [Power Management](https://docs.espressif.com/projects/esp-idf/en/v4.4/esp32c3/api-reference/system/power_management.html), [Bluetooth low-power clock Kconfig](https://github.com/espressif/esp-idf/blob/v4.4/components/bt/controller/esp32c3/Kconfig.in).
 
 ## HAL boundaries
 
