@@ -68,6 +68,9 @@ bool acquireLock(Profile profile, const char* reason) {
         ++state.users;
         if (profile == Profile::Compute) ++computeScopes;
         else ++interactiveScopes;
+        DebugLog::log("DVFS: acquire profile=%s users=%u reason=%s CPU=%lu MHz",
+                      state.name, unsigned(state.users), reason ? reason : "unspecified",
+                      static_cast<unsigned long>(cpuMHz()));
         logIfChanged(reason);
     }
     xSemaphoreGive(mutex);
@@ -85,6 +88,9 @@ void releaseLock(Profile profile, const char* reason) {
             DebugLog::log("DVFS: lock release failed profile=%u err=0x%x",
                           unsigned(profile), unsigned(result));
         }
+        DebugLog::log("DVFS: release profile=%s reason=%s CPU=%lu MHz; idle floor=40 MHz",
+                      state.name, reason ? reason : "unspecified",
+                      static_cast<unsigned long>(cpuMHz()));
         logIfChanged(reason);
     }
     xSemaphoreGive(mutex);

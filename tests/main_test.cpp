@@ -465,16 +465,15 @@ void test_display_manager() {
     TEST_ASSERT(display.fullRefreshes_ == 2 && displayMgr.getPartialFrameCount() == 0,
                 "display manager schedules a full waveform after the partial frame budget");
 
-    // Idle power off after 8000ms
-    displayMgr.noteActivity(1300);
-    displayMgr.tick(2000); // 700ms idle
-    TEST_ASSERT(display.isPowered(), "Display still powered");
-
-    displayMgr.tick(10000); // 8700ms idle
-    TEST_ASSERT(!display.isPowered(), "Display powered off after idle timeout");
-
-    displayMgr.noteActivity(11000);
-    TEST_ASSERT(display.isPowered(), "Display powers back on when user activity resumes");
+    // E-paper retains pixels without drive voltage; manager idle time must not
+    // blank the image or trigger a controller reset.
+    const uint32_t fullBeforeIdle = display.fullRefreshes_;
+    const uint32_t partialBeforeIdle = display.partialRefreshes_;
+    displayMgr.tick(1000000);
+    TEST_ASSERT(display.isPowered(), "Idle policy leaves e-paper image state untouched");
+    TEST_ASSERT(display.fullRefreshes_ == fullBeforeIdle &&
+                display.partialRefreshes_ == partialBeforeIdle,
+                "Idle does not submit a redundant display refresh");
 
     TEST_PASS();
 }

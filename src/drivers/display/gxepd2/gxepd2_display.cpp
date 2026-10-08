@@ -151,11 +151,8 @@ void GxEpd2Display::powerOff() {
 
 void GxEpd2Display::powerOn() {
     if (powered_) return;
-    // powerOff() only disables the panel's drive voltage; the controller and
-    // its RAM remain initialized. Resetting it here can strand BUSY and loses
-    // the controller's partial-update state. The next GxEPD2 refresh powers
-    // the panel as part of its update sequence.
-    SPI.begin(sck_, miso_, mosi_, cs_);
+    // powerOff() disables panel drive voltage; the controller remains
+    // initialized and GxEPD2 restores the drive voltage during the next refresh.
     powered_ = true;
 }
 

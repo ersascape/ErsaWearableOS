@@ -102,10 +102,12 @@ void Esp32PowerManagement::enterDeepSleep(uint64_t timerUs) {
 #endif
 }
 bool Esp32PowerManagement::acquirePerformance(PerformanceProfile profile, const char* reason) {
-    return Dvfs::acquire(profile == PerformanceProfile::Compute ? Dvfs::Profile::Compute : Dvfs::Profile::Interactive, reason);
+    const auto mapped = profile == PerformanceProfile::Compute ? Dvfs::Profile::Compute : Dvfs::Profile::Interactive;
+    return Dvfs::acquire(mapped, reason);
 }
 void Esp32PowerManagement::releasePerformance(PerformanceProfile profile, const char* reason) {
-    Dvfs::release(profile == PerformanceProfile::Compute ? Dvfs::Profile::Compute : Dvfs::Profile::Interactive, reason);
+    const auto mapped = profile == PerformanceProfile::Compute ? Dvfs::Profile::Compute : Dvfs::Profile::Interactive;
+    Dvfs::release(mapped, reason);
 }
 void Esp32PowerManagement::reportPowerModes() { Dvfs::reportPowerModes(); }
 bool Esp32PowerManagement::getPowerModeReport(char* b, size_t n) { return Dvfs::getPowerModeReport(b, n); }

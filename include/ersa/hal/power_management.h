@@ -8,7 +8,7 @@ namespace ersa::board { class Pins; }
 namespace ersa::hal {
 
 /** Workload class used to acquire temporary performance guarantees. */
-enum class PerformanceProfile : uint8_t { Interactive, Compute };
+enum class PerformanceProfile : uint8_t { Interactive, DisplayRefresh, Compute };
 
 /**
  * Platform contract for clock scaling, wake sources, and low-power states.

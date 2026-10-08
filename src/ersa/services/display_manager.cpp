@@ -1,5 +1,4 @@
 #include "ersa/services/display_manager.h"
-#include "ersa/common/logging.h"
 
 namespace ersa {
 namespace services {
@@ -21,7 +20,6 @@ Result<void> DisplayManager::init() {
     Result<void> res = display_.init();
     dirty_ = true;
     fullNeeded_ = true;
-    panelPowered_ = true;
     return res;
 }
 
@@ -36,15 +34,6 @@ bool DisplayManager::isDirty() const {
     return dirty_;
 }
 
-void DisplayManager::noteActivity(uint32_t currentUptimeMs) {
-    lastActivityTime_ = currentUptimeMs;
-    if (!panelPowered_) {
-        display_.powerOn();
-        panelPowered_ = display_.isPowered();
-        ERSA_LOG_INFO("DisplayManager: panel wake requested by activity (powered=%d)", panelPowered_);
-    }
-}
-
 void DisplayManager::refresh(bool full, uint32_t currentUptimeMs) {
     refreshRect(Rect{0, 0, display_.width(), display_.height()}, full, currentUptimeMs);
 }
@@ -54,7 +43,6 @@ void DisplayManager::refreshRect(const Rect& bounds, bool forceFull, uint32_t cu
     if (doFull) display_.refresh(true);
     else display_.refreshRect(bounds);
 
-    panelPowered_ = display_.isPowered();
     if (doFull) {
         partialFrames_ = 0;
     } else {
@@ -64,7 +52,6 @@ void DisplayManager::refreshRect(const Rect& bounds, bool forceFull, uint32_t cu
     dirty_ = false;
     fullNeeded_ = false;
     lastRefreshTime_ = currentUptimeMs;
-    lastActivityTime_ = currentUptimeMs;
 }
 
 bool DisplayManager::updateIfDirty(uint32_t currentUptimeMs) {
@@ -77,12 +64,9 @@ bool DisplayManager::updateIfDirty(uint32_t currentUptimeMs) {
 }
 
 void DisplayManager::tick(uint32_t currentUptimeMs) {
-    // If panel has been idle longer than timeout, shut it down to conserve battery
-    if (panelPowered_ && (currentUptimeMs - lastActivityTime_ >= IDLE_POWEROFF_TIMEOUT_MS)) {
-        display_.powerOff();
-        panelPowered_ = false;
-        ERSA_LOG_INFO("DisplayManager: panel powered down (idle)");
-    }
+    // The panel drive voltage is already disabled by the display driver after
+    // each refresh; e-paper retains its image while the MCU can enter light sleep.
+    (void)currentUptimeMs;
 }
 
 uint16_t DisplayManager::getPartialFrameCount() const {

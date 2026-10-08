@@ -34,6 +34,7 @@ bool shownRtcHealthy = false;
 uint32_t lastFrameEnd = 0;
 uint32_t lastActivityMs = 0;
 uint32_t lastUserInputMs = 0;
+uint32_t lastUiChangeMs = 0;
 bool firstFrame = true;
 bool watchfaceRectPending = false;
 ersa::Rect watchfaceRect{0, 0, 0, 0};
@@ -54,6 +55,7 @@ void queueWatchfaceMediaRefresh() {
 }
 
 void invalidateWatchface(const ersa::Rect& rect) {
+    lastUiChangeMs = board.getUptimeMs();
     if (watchfaceRectPending) {
         const int16_t x1 = (rect.x < watchfaceRect.x) ? rect.x : watchfaceRect.x;
         const int16_t y1 = (rect.y < watchfaceRect.y) ? rect.y : watchfaceRect.y;
@@ -77,6 +79,8 @@ void renderCurrentApp() {
     if (!activeApp) return;
 
     auto& display = board.getDisplay();
+    ersa::hal::PerformanceScope displayProfile(powerHal,
+        ersa::hal::PerformanceProfile::DisplayRefresh, "display-refresh");
 
     // Use a full waveform only for initial cleanup or a day transition. The
     // display manager owns periodic ghost-clearing cadence for partial frames.
@@ -212,9 +216,9 @@ void WatchUi::begin() {
             evt.type == ersa::events::EventType::TimeSync) {
             const uint32_t now = board.getUptimeMs();
             lastActivityMs = now;
-            displayManager.noteActivity(now);
             powerManager.noteActivity(now);
             powerHal.allowAutomaticSleep(false);
+            lastUiChangeMs = now;
         }
         if (mgr) {
             mgr->handleEvent(evt);
@@ -332,6 +336,7 @@ void WatchUi::begin() {
 }
 
 void WatchUi::tick() {
+    powerHal.tick();
     bluetoothManager.tick();
     const uint32_t buttonNow = board.getUptimeMs();
     const bool topPressed = board.getInput().isPressed(ersa::events::ButtonId::Button1);
@@ -354,9 +359,9 @@ void WatchUi::tick() {
         board.getInput().isPressed(ersa::events::ButtonId::Button2)) {
         lastActivityMs = board.getUptimeMs();
         lastUserInputMs = lastActivityMs;
-        displayManager.noteActivity(lastActivityMs);
         powerManager.noteActivity(lastActivityMs);
         powerHal.allowAutomaticSleep(false);
+        lastUiChangeMs = lastActivityMs;
     }
     eventBus.dispatchQueue();
     appManager.tick();
@@ -423,7 +428,9 @@ void WatchUi::tick() {
             lastBusyReportMs = nowMs;
         }
     }
-    if (appManager.isDirty() && !displayBusy && (timeSinceRender >= 20)) {
+    const bool uiChangeSettled = uint32_t(nowMs - lastUiChangeMs) >= 120;
+    if (appManager.isDirty() && !displayBusy && uiChangeSettled &&
+        (timeSinceRender >= ersa::services::DisplayManager::MIN_REFRESH_INTERVAL_MS)) {
         renderCurrentApp();
         appManager.clearDirty();
         nowMs = board.getUptimeMs();

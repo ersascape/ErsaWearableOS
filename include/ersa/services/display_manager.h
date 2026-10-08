@@ -8,10 +8,11 @@ namespace ersa {
 namespace services {
 
 /**
- * Coalesces drawing changes and applies panel-specific refresh/power policy.
+ * Coalesces drawing changes and applies panel-specific refresh policy.
  *
- * Apps only mark content dirty; this manager rate-limits physical refreshes,
- * tracks partial-frame counts, and powers the panel down after inactivity.
+ * Apps only mark content dirty; this manager rate-limits physical refreshes
+ * and tracks partial-frame counts. E-paper drivers disable panel drive voltage
+ * after each refresh while retaining the visible image.
  * Keeping those decisions here prevents fast UI events from causing excessive
  * e-paper flashing or shortening panel lifetime.
  */
@@ -19,8 +20,6 @@ class DisplayManager {
 public:
     /** Minimum delay between refresh submissions, protecting panel timing. */
     static constexpr uint32_t MIN_REFRESH_INTERVAL_MS = 500;
-    /** Idle duration before the display controller may power off. */
-    static constexpr uint32_t IDLE_POWEROFF_TIMEOUT_MS = 8000;
     /** Partial frames before policy requests a full ghost-clearing waveform. */
     static constexpr uint16_t FULL_REFRESH_FRAME_COUNT = 360;
 
@@ -29,7 +28,7 @@ public:
 
     /** Initialize the panel and seed refresh/idle bookkeeping. */
     Result<void> init();
-    /** Apply due refresh and idle-power transitions for the current uptime. */
+    /** Apply deferred display policy for the current uptime. */
     void tick(uint32_t currentUptimeMs);
 
     /**
@@ -59,10 +58,6 @@ public:
      */
     void refreshRect(const Rect& bounds, bool forceFull, uint32_t currentUptimeMs);
 
-    // User activity notification (keeps panel powered)
-    /** Reset the idle timer so interaction is not interrupted by power-off. */
-    void noteActivity(uint32_t currentUptimeMs);
-
     /** Read the ghosting-policy counter used to decide when to full-refresh. */
     uint16_t getPartialFrameCount() const;
     /// Reset the partial-frame refresh counter.
@@ -80,10 +75,8 @@ private:
     hal::IDisplay& display_;
     bool dirty_{true};
     bool fullNeeded_{true};
-    bool panelPowered_{false};
     uint16_t partialFrames_{0};
     uint32_t lastRefreshTime_{0};
-    uint32_t lastActivityTime_{0};
 };
 
 } // namespace services
