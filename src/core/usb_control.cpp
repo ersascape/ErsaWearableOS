@@ -437,6 +437,7 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
             WatchConfig::setWifi(ssid, pass);
             WatchConfig::setCalDav(davServer, davUser, davPass, davCalendar, davTodo);
             WatchConfig::setTimezone(static_cast<int16_t>(tz));
+            ersa::services::TimeService::instance().setTimezoneOffset(static_cast<int16_t>(tz));
             WatchConfig::setTimeFormat(military);
             WatchConfig::setApConfig(apSsid, apPass, static_cast<uint16_t>(apTimeout));
             if (WatchConfig::save())
@@ -447,10 +448,12 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
     } else if (strcmp(command, "time.status") == 0) {
         const auto rtc = ersa::board::Board::current().getRtc().diagnostics();
         char data[256];
-        snprintf(data, sizeof(data), "{\"epoch\":%lu,\"rtc_readable\":%s,\"rtc_healthy\":%s,\"oscillator_stopped\":%s,\"rtc_drift_seconds\":%ld}",
-                 static_cast<unsigned long>(rtc.time.epoch), rtc.hardwareReadable ? "true" : "false",
+        snprintf(data, sizeof(data), "{\"epoch\":%lu,\"chip_epoch\":%lu,\"rtc_readable\":%s,\"rtc_healthy\":%s,\"oscillator_stopped\":%s,\"drift_measured\":%s,\"rtc_drift_seconds\":%ld}",
+                 static_cast<unsigned long>(rtc.time.epoch), static_cast<unsigned long>(rtc.chipTime.epoch),
+                 rtc.hardwareReadable ? "true" : "false",
                  ersa::board::Board::current().getRtc().isHealthy() ? "true" : "false",
-                 rtc.oscillatorStopped ? "true" : "false", static_cast<long>(rtc.driftSeconds));
+                 rtc.oscillatorStopped ? "true" : "false", rtc.driftMeasured ? "true" : "false",
+                 static_cast<long>(rtc.driftSeconds));
         sendReply(id, true, nullptr, nullptr, data);
     } else if (strcmp(command, "time.set") == 0) {
         uint32_t epoch = 0;

@@ -36,6 +36,8 @@ private:
     uint32_t lastRtcPollMs_{0};
     bool online_{false};
     bool oscillatorStopped_{false};
+    bool driftMeasured_{false};
+    int32_t lastDriftSeconds_{0};
 
     static TimePoint toTimePoint(const DateTime& dt);
     static DateTime toDateTime(const TimePoint& tp);

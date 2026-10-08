@@ -12,6 +12,7 @@
 #include "apps/apps_registry.h"
 #include "apps/app_portal.h"
 #include "core/watch_clock.h"
+#include "core/watch_config.h"
 #include "core/debug_log.h"
 #include "core/net_sync.h"
 
@@ -169,6 +170,7 @@ void WatchUi::begin() {
     bluetoothManager.setWakeCallback([](void*) { board.getPowerManagement().notifyWake(); }, nullptr);
 
     const auto timeInit = timeService.init();
+    timeService.setTimezoneOffset(WatchConfig::get().timezoneOffsetMin);
     checkInit("rtc", timeInit.isOk() && timeService.isRtcHealthy(),
               timeInit.isOk() && !timeService.isRtcHealthy());
     ersa::services::TimeService::setInstance(&timeService);

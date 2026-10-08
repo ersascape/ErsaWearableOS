@@ -21,7 +21,7 @@ ewctl config set --ssid "Ersa" --password 'wifi secret' --timezone-offset-min 33
 ewctl config get
 ```
 
-`ewctl time status` reports the current wall-time epoch, whether the RTC is readable/healthy, whether its oscillator-stop flag is set, and the chip-to-software drift in seconds. `ewctl time set <epoch>` writes the watch wall time directly; the epoch is interpreted as the wall-clock value shown on the watch (the firmware stores the phone's local clock fields without applying a timezone conversion).
+`ewctl time status` reports the current software wall-time epoch, a direct chip readback epoch, whether the RTC is readable/healthy, whether its oscillator-stop flag is set, and the most recent chip-to-software drift measurement. Drift is marked unavailable until a periodic comparison has run. `ewctl time set <epoch>` writes the watch wall time directly; the epoch is interpreted as the wall-clock value shown on the watch (the firmware stores the phone's local clock fields without applying a timezone conversion).
 
 `ewctl debug bundle` creates a ZIP bug report with status snapshots and up to 16 recent logs. It redacts Wi-Fi SSIDs, tokens, and URLs from log lines. Add `--include-coredump` to decode and include the raw core; that opt-in dump may contain arbitrary task memory and should be reviewed before sharing.
 

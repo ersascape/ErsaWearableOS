@@ -69,6 +69,8 @@ Result<void> Esp32Rtc::adjust(const TimePoint& time) {
     if (!valid(value)) return Result<void>(ErrorCode::InvalidParam, "RTC timestamp is outside the supported range");
     cachedTime_ = value;
     lastReadMs_ = lastRtcPollMs_ = millis();
+    driftMeasured_ = false;
+    lastDriftSeconds_ = 0;
     if (online_ && responds()) {
         rtc_.adjust(value);
         oscillatorStopped_ = false;
@@ -94,10 +96,11 @@ RtcDiagnostics Esp32Rtc::diagnostics() {
     result.time = now();
     result.oscillatorStopped = oscillatorStopped_;
     result.hardwareReadable = online_ && responds();
-    if (result.hardwareReadable && !oscillatorStopped_) {
+    result.driftMeasured = driftMeasured_;
+    result.driftSeconds = lastDriftSeconds_;
+    if (result.hardwareReadable) {
         const DateTime chipTime = rtc_.now();
-        if (valid(chipTime))
-            result.driftSeconds = static_cast<int32_t>(int64_t(chipTime.unixtime()) - int64_t(result.time.epoch));
+        if (valid(chipTime)) result.chipTime = toTimePoint(chipTime);
         else
             result.hardwareReadable = false;
     }
@@ -138,6 +141,8 @@ void Esp32Rtc::reconcile(uint32_t nowMs, bool force) {
     if (!valid(rtcValue)) return;
     const DateTime softwareValue(cachedTime_.unixtime() + uint32_t(nowMs - lastReadMs_) / 1000);
     const int32_t driftSeconds = static_cast<int32_t>(int64_t(rtcValue.unixtime()) - int64_t(softwareValue.unixtime()));
+    lastDriftSeconds_ = driftSeconds;
+    driftMeasured_ = true;
     DebugLog::log("RTC poll: chip=%04u-%02u-%02u %02u:%02u:%02u software=%04u-%02u-%02u %02u:%02u:%02u drift=%ld s",
                   unsigned(rtcValue.year()), unsigned(rtcValue.month()), unsigned(rtcValue.day()),
                   unsigned(rtcValue.hour()), unsigned(rtcValue.minute()), unsigned(rtcValue.second()),

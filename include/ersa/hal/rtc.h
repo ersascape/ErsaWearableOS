@@ -30,8 +30,10 @@ struct TimePoint {
 /** Hardware and drift snapshot for field diagnostics and provisioning tools. */
 struct RtcDiagnostics {
     TimePoint time{};
+    TimePoint chipTime{};
     bool hardwareReadable{false};
     bool oscillatorStopped{false};
+    bool driftMeasured{false};
     int32_t driftSeconds{0};
 };
 
@@ -54,6 +56,7 @@ public:
     virtual RtcDiagnostics diagnostics() {
         RtcDiagnostics result{};
         result.time = now();
+        result.chipTime = result.time;
         result.hardwareReadable = isHealthy();
         return result;
     }
