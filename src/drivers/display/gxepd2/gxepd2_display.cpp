@@ -28,9 +28,11 @@ void GxEpd2Display::staticBusyCallback(const void* p) {
 }
 
 Result<void> GxEpd2Display::init() {
-    SPI.begin(sck_, miso_, mosi_, cs_);
     display_.epd2.selectSPI(SPI, SPISettings(4000000, MSBFIRST, SPI_MODE0));
     display_.init(0, true, 10, false);
+    // GxEPD2 calls SPI.begin() without pin arguments from init(). Restore the
+    // Terra routing after that call; ESP32-C3 has no default MISO mapping.
+    SPI.begin(sck_, miso_, mosi_, cs_);
     display_.epd2.setBusyCallback(staticBusyCallback);
     display_.setRotation(0);
     powered_ = true;
@@ -146,7 +148,13 @@ void GxEpd2Display::powerOff() {
 }
 
 void GxEpd2Display::powerOn() {
+    if (powered_) return;
+    // powerOff() leaves the controller recoverable but a fresh init resets it.
+    // Rebind the board's explicit SPI pins after GxEPD2's parameterless begin.
     display_.init(0, false, 10, false);
+    SPI.begin(sck_, miso_, mosi_, cs_);
+    display_.epd2.setBusyCallback(staticBusyCallback);
+    display_.setRotation(0);
     powered_ = true;
 }
 

@@ -40,7 +40,8 @@ void DisplayManager::noteActivity(uint32_t currentUptimeMs) {
     lastActivityTime_ = currentUptimeMs;
     if (!panelPowered_) {
         display_.powerOn();
-        panelPowered_ = true;
+        panelPowered_ = display_.isPowered();
+        ERSA_LOG_INFO("DisplayManager: panel wake requested by activity (powered=%d)", panelPowered_);
     }
 }
 
@@ -53,7 +54,7 @@ void DisplayManager::refreshRect(const Rect& bounds, bool forceFull, uint32_t cu
     if (doFull) display_.refresh(true);
     else display_.refreshRect(bounds);
 
-    panelPowered_ = true;
+    panelPowered_ = display_.isPowered();
     if (doFull) {
         partialFrames_ = 0;
     } else {

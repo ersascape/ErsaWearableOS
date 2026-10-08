@@ -121,6 +121,18 @@ class ProtocolTests(unittest.TestCase):
         output = parser.parse_args(["logs", "--output", "watch.log"])
         self.assertEqual(output.output, "watch.log")
 
+    def test_raw_log_capture_opens_usb_stream_read_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "watch.log"
+            with patch.object(ewctl.os, "open", return_value=17) as open_device, \
+                 patch.object(ewctl.select, "select", return_value=([17], [], [])), \
+                 patch.object(ewctl.os, "read", side_effect=[b"boot log\n", KeyboardInterrupt]), \
+                 patch.object(ewctl.os, "close"):
+                self.assertEqual(ewctl.capture_raw_logs("/dev/test", 115200, str(output)), 0)
+            flags = open_device.call_args.args[1]
+            self.assertEqual(flags & (ewctl.os.O_WRONLY | ewctl.os.O_RDWR), 0)
+            self.assertEqual(output.read_bytes(), b"boot log\n")
+
     def test_logs_follow_uses_raw_capture_without_bridge_requests(self):
         with patch.object(ewctl, "find_port", return_value="/dev/test"), \
              patch.object(ewctl, "Session", side_effect=AssertionError("control bridge selected")), \

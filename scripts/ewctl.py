@@ -10,6 +10,7 @@ import importlib.util
 import json
 import os
 import re
+import select
 import shutil
 import subprocess
 import sys
@@ -146,17 +147,14 @@ class Session:
 
 
 def capture_raw_logs(port: str, baud: int, output: Optional[str]) -> int:
-    """Copy the device's live console stream without sending bridge requests."""
-    try:
-        import serial
-    except ImportError as exc:
-        raise EwctlError("pyserial is required; install with: python3 -m pip install -r requirements-ewctl.txt") from exc
-
+    """Copy the console stream read-only, without touching USB reset lines."""
+    del baud  # Native USB Serial/JTAG ignores the configured UART baud rate.
     stream = None
+    fd = None
     try:
         if output:
             log_path = os.path.abspath(os.path.expanduser(output))
-            os.makedirs(os.path.dirname(log_path), exist_ok=True)
+            os.makedirs(os.path.dirname(log_path) or ".", exist_ok=True)
             stream = open(log_path, "wb", buffering=0)
             destination = stream
         else:
@@ -164,32 +162,36 @@ def capture_raw_logs(port: str, baud: int, output: Optional[str]) -> int:
             if destination is None:
                 raise EwctlError("raw log capture needs a binary stdout stream or --output PATH")
 
-        device = serial.Serial()
-        device.port = port
-        device.baudrate = baud
-        device.timeout = 0.25
-        # Match Session's pyserial defaults. Forcing these low during open can
-        # toggle USB modem-control lines on boards that wire them to reset.
-        device.open()
+        # Opening a serial port through pyserial changes DTR/RTS. On some
+        # USB Serial/JTAG boards those modem-control lines reset the ESP32 or
+        # select its ROM downloader. O_RDONLY leaves them untouched.
+        fd = os.open(port, os.O_RDONLY | os.O_NOCTTY | os.O_NONBLOCK)
         print(f"ewctl: capturing raw USB logs from {port}; press Ctrl-C to stop", file=sys.stderr)
         if output:
             print(f"ewctl: writing raw logs to {log_path}", file=sys.stderr)
         try:
             while True:
-                chunk = device.read(1024)
-                if chunk:
-                    destination.write(chunk)
-                    if not output:
-                        destination.flush()
+                readable, _, _ = select.select([fd], [], [], 0.25)
+                if not readable:
+                    continue
+                try:
+                    chunk = os.read(fd, 1024)
+                except BlockingIOError:
+                    continue
+                if not chunk:
+                    continue
+                destination.write(chunk)
+                if not output:
+                    destination.flush()
         except KeyboardInterrupt:
             return 0
-        finally:
-            device.close()
     except EwctlError:
         raise
     except OSError as exc:
         raise EwctlError(f"raw log capture failed on {port}: {exc}") from exc
     finally:
+        if fd is not None:
+            os.close(fd)
         if stream is not None:
             stream.close()
     return 0

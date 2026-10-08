@@ -473,6 +473,9 @@ void test_display_manager() {
     displayMgr.tick(10000); // 8700ms idle
     TEST_ASSERT(!display.isPowered(), "Display powered off after idle timeout");
 
+    displayMgr.noteActivity(11000);
+    TEST_ASSERT(display.isPowered(), "Display powers back on when user activity resumes");
+
     TEST_PASS();
 }
 
