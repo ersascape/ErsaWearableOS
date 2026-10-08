@@ -7,30 +7,51 @@ namespace ersa::board { class Pins; }
 
 namespace ersa::hal {
 
-/// Workload class used to acquire temporary performance guarantees.
+/** Workload class used to acquire temporary performance guarantees. */
 enum class PerformanceProfile : uint8_t { Interactive, Compute };
 
-/// Platform contract for clock scaling, sleep policy, wake sources, and sleep entry.
+/**
+ * Platform contract for clock scaling, wake sources, and low-power states.
+ *
+ * PowerManager decides when sleep is appropriate; this interface performs the
+ * chip/RTOS operation and coordinates peripheral locks. Keeping both policy
+ * and mechanism explicit prevents a direct sleep call from suspending BLE,
+ * losing GPIO wake configuration, or bypassing dynamic frequency scaling.
+ */
 class IPowerManagement {
 public:
     virtual ~IPowerManagement() = default;
-    /// Configure the platform power policy before radios and peripherals start.
+    /** Configure PM/tickless-idle policy before radio stacks acquire locks. */
     virtual bool initialize() = 0;
-    /// Run periodic platform power-management maintenance.
+    /** Sample or apply deferred PM work without blocking the application task. */
     virtual void tick() = 0;
     /// Configure GPIO/button wake sources from the selected board's pin map.
     virtual bool initializeWakeSources(const board::Pins& pins) = 0;
-    /// Allow or block automatic idle sleep.
+    /**
+     * Permit FreeRTOS automatic sleep when true; false holds the platform's
+     * no-light-sleep guard for display, network, USB, or active interaction.
+     */
     virtual void allowAutomaticSleep(bool allow) = 0;
-    /// Wait for a task wake notification or a timeout in milliseconds.
+    /** Block the UI task until notifyWake() or timeout to reduce active polling. */
     virtual void waitForWake(uint32_t timeoutMs) = 0;
-    /// Wake a task blocked in waitForWake.
+    /** Notify the task that new event/driver work is ready to process. */
     virtual void notifyWake() = 0;
-    /// Enter light sleep, optionally with a timer wake source in microseconds.
+    /**
+     * Enter coordinated light sleep; active BLE/PM locks may constrain entry.
+     * @param timerUs Optional timer wake deadline in microseconds; zero omits it.
+     */
     virtual void enterLightSleep(uint64_t timerUs) = 0;
-    /// Enter deep sleep, optionally with a timer wake source in microseconds.
+    /**
+     * Enter deep sleep after configuring enabled GPIO/timer sources.
+     * This normally restarts firmware on wake, unlike light sleep.
+     */
     virtual void enterDeepSleep(uint64_t timerUs) = 0;
-    /// Acquire a performance profile; return false when unsupported or unavailable.
+    /**
+     * Acquire a temporary CPU/APB minimum for latency-sensitive work.
+     * @param profile Workload class selecting the platform's performance guarantee.
+     * @param reason Short diagnostic label paired with releasePerformance().
+     * @return False when the profile is unsupported or the platform lock failed.
+     */
     virtual bool acquirePerformance(PerformanceProfile profile, const char* reason) = 0;
     /// Release a performance profile acquired earlier.
     virtual void releasePerformance(PerformanceProfile profile, const char* reason) = 0;
@@ -44,7 +65,7 @@ public:
     virtual unsigned testCpuFrequencyMHz() const = 0;
 };
 
-/// RAII lease for a temporary workload performance profile.
+/** RAII lease that balances one performance lock on all scope exit paths. */
 class PerformanceScope {
 public:
     /// Acquire a workload profile and release it when this scope ends.

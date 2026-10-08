@@ -7,6 +7,9 @@ repository and labels planned integrations as planned.
 ## Start here
 
 - [Project overview and build commands](https://github.com/ersascape/ErsaWearableOS#readme)
+- [C++ API reference](https://pkgs-wearables.ersa.dev/wiki/api/): generated classes, methods, headers, and source documentation.
+- [Wearable project](https://open.ersa.dev/wearable): product and project landing page.
+- [Wearables package repository](https://pkgs-wearables.ersa.dev/): downloadable `ewctl` packages and releases.
 - [Architecture and hardware boundaries](HAL_ARCHITECTURE.md)
 - [Build and register apps](BUILDING_APPS.md)
 - [Add or port a board](ADDING_A_BOARD.md)
@@ -24,9 +27,11 @@ repository and labels planned integrations as planned.
 
 The [published C++ API reference](https://pkgs-wearables.ersa.dev/wiki/api/)
 covers project headers, source, services, board support, platform HALs,
-peripheral drivers, and tests. Build it locally with `make docs`; the result is
-`api/index.html` in `.pio/wiki-site/`. Third-party Arduino and ESP-IDF SDK
-sources are maintained upstream and are not copied into this project reference.
+peripheral drivers, and tests. Class and function pages explain their purpose,
+behavior, constraints, side effects, and design rationale. Build it locally
+with `make docs`; the result is `api/index.html` in `.pio/wiki-site/`.
+Third-party Arduino and ESP-IDF SDK sources are maintained upstream and are
+linked from the app-building guide rather than copied into this reference.
 
 ## Contributing changes
 

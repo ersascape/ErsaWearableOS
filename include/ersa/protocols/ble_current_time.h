@@ -6,9 +6,19 @@
 namespace ersa {
 namespace protocols {
 
-// Decode the Bluetooth SIG Current Time characteristic (0x2A2B). CTS carries
-// local wall time; the returned epoch is a UTC-shaped encoding of those fields
-// so the watch can preserve the phone's displayed wall clock in its RTC.
+/**
+ * Decode the Bluetooth SIG Current Time characteristic (UUID 0x2A2B).
+ *
+ * CTS reports local calendar fields rather than an absolute timezone-aware
+ * instant. The returned epoch encodes those fields in a UTC-shaped number so
+ * the watch RTC can preserve the wall-clock time shown by the phone. This
+ * function validates the complete 10-byte field set and has no BLE dependency,
+ * allowing malformed values and leap dates to be checked on a host.
+ * @param value Pointer to the characteristic bytes.
+ * @param size Must equal the specification's 10-byte structure size.
+ * @param epoch Receives encoded seconds only on success; unchanged on failure.
+ * @return False for null, wrong length, invalid calendar fields, or overflow.
+ */
 inline bool decodeCurrentTime(const uint8_t* value, size_t size, uint32_t& epoch) {
     if (!value || size != 10) return false;
     const uint16_t year = uint16_t(value[0]) | (uint16_t(value[1]) << 8);

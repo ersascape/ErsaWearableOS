@@ -16,25 +16,36 @@ namespace ersa {
 namespace board {
 
 struct DeviceInfo {
+    /** User-facing product name, kept separate from implementation codename. */
     const char* name;
+    /** Stable product identifier used by firmware packaging and diagnostics. */
     const char* codename;
+    /** Manufacturer identifier for organizing related board products. */
     const char* manufacturer;
 };
 
-/// Composition contract for one selected board support package.
+/**
+ * Composition contract for one selected board support package.
+ *
+ * A BSP owns concrete driver instances and exposes them through generic HAL
+ * references. Firmware services depend on this contract instead of naming a
+ * specific watch or panel, allowing another board composition to replace the
+ * current one without changing application/service code. Returned references
+ * are borrowed and remain valid for the lifetime of the board object.
+ */
 class Board {
 public:
     virtual ~Board() = default;
 
-    /// Initialize board pin control and board-owned platform resources.
+    /** Configure pinctrl, buses, and board-owned resources before service init. */
     virtual Result<void> init() = 0;
-    /// Return the product name shown to users.
+    /** Return the stable user-facing product label. */
     virtual const char* getName() const = 0;
-    /// Return stable board identity metadata.
+    /** Return static manufacturer/platform/product identity for diagnostics. */
     virtual const DeviceInfo& getDeviceInfo() const = 0;
-    /// Return board capabilities and peripheral characteristics.
+    /** Return immutable capabilities and geometry used by generic policy. */
     virtual const BoardConfig& getConfig() const = 0;
-    /// Return this board's logical pin assignments.
+    /** Return the logical pin contract used by pinctrl and peripheral setup. */
     virtual const Pins& getPins() const = 0;
 
     /// Return the capability set declared by this board.
@@ -59,16 +70,23 @@ public:
     /// Return the platform power-management implementation selected by this BSP.
     virtual hal::IPowerManagement& getPowerManagement() = 0;
 
-    /// Return milliseconds since system startup.
+    /** Return monotonic milliseconds; values wrap according to uint32_t uptime. */
     virtual uint32_t getUptimeMs() const = 0;
-    /// Block the current task for the requested duration.
+    /** Delay the caller task; do not use this for UI-loop waits on long I/O. */
     virtual void delayMs(uint32_t ms) = 0;
-    /// Restart the device.
+    /** Request a platform restart, normally used for reset or OTA handoff. */
     virtual void restart() = 0;
 
-    /// Return the Kconfig-selected board contract, available before device init.
+    /**
+     * Return the build-selected board before initialization.
+     * Kconfig chooses the composition at compile time, avoiding a runtime
+     * factory and keeping invalid board/firmware combinations unrepresentable.
+     */
     static Board& current();
-    /// Return the selected board, or null in host tests without a BSP provider.
+    /**
+     * Return the selected board when one is installed, or null when host tests
+     * deliberately build without an embedded BSP provider.
+     */
     static Board* currentOrNull();
 };
 

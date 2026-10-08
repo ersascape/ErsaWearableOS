@@ -15,10 +15,20 @@ using hal::DisplayBusyCallback;
 using hal::FontFace;
 using hal::IDisplay;
 
+/**
+ * GxEPD2 monochrome panel driver adapted to the generic display HAL.
+ *
+ * This is the only layer that knows the selected GxEPD2 panel model, Adafruit
+ * GFX calls, and vendor font assets. BSP supplies control/SPI pins; UI code
+ * uses IDisplay so a different panel can replace this adapter without changing
+ * app drawing logic.
+ */
 class GxEpd2Display : public IDisplay {
 public:
+    /** Concrete library type selected for the current 1.54-inch panel. */
     using GxDisplayType = GxEPD2_BW<GxEPD2_154_GDEY0154D67, GxEPD2_154_GDEY0154D67::HEIGHT>;
 
+    /** Bind panel control pins and shared SPI signals from the BSP. */
     GxEpd2Display(int cs, int dc, int rst, int busy, int sck, int miso, int mosi);
     ~GxEpd2Display() override = default;
 

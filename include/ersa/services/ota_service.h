@@ -6,24 +6,35 @@
 namespace ersa {
 namespace services {
 
-/// Coordinates signed-metadata checks, OTA image install, and boot validation.
+/**
+ * Coordinates release checks, inactive-slot image installation, and rollback safety.
+ *
+ * Network download runs outside the UI tick. The bootloader records whether an
+ * image is pending validation; this service confirms it only after firmware
+ * startup checks pass. Keeping slot selection and confirmation here prevents
+ * app code from writing arbitrary flash addresses or bypassing rollback.
+ */
 class OtaService {
 public:
+    /** User-visible OTA lifecycle state, updated atomically by worker tasks. */
     enum class UpdateState : uint8_t {
         Idle, Checking, UpToDate, Available, Installing, Failed
     };
 
-    /// Start rollback validation if the bootloader selected a new image.
+    /** Inspect boot metadata and begin the pending-image validation window. */
     void begin();
 
-    /// Advance OTA validation and jobs from the application loop.
+    /** Confirm a healthy boot or apply worker completion without blocking UI. */
     void tick();
 
-    /// Check the configured release manifest for a newer compatible image.
+    /** Start a bounded background manifest check; inspect updateState() for result. */
     bool checkForUpdate();
-    /// Download, validate, and install the available image into the other slot.
+    /**
+     * Start image download and validation into the inactive OTA slot.
+     * The active image remains selected until bootloader metadata is updated.
+     */
     bool installUpdate();
-    /// Resume radio and companion providers after a completed check.
+    /** Resume suspended providers after check/install work releases resources. */
     void resumeAfterCheck();
     /// Return the current update state.
     UpdateState updateState() const { return updateState_.load(); }
@@ -43,7 +54,7 @@ public:
     const char* otherImageState() const;
     /// Return whether the alternate image passes bootability validation.
     bool otherSlotBootable() const;
-    /// Select a validated alternate image for the next boot.
+    /** Select the alternate slot only after verifying its image state is bootable. */
     bool selectOtherSlot();
     /// Return the installed process-wide OTA service.
     static OtaService& instance();

@@ -6,6 +6,11 @@
 namespace ersa {
 namespace events {
 
+/**
+ * Normalized system-event identifiers used by the event bus.
+ * Events describe intent and state changes, not the chipset callback that
+ * produced them, so services and apps can share the same code across boards.
+ */
 enum class EventType : uint16_t {
     None = 0,
     Boot,
@@ -47,12 +52,14 @@ enum class EventType : uint16_t {
     Custom
 };
 
+/** Product-relative button identity independent of GPIO numbering. */
 enum class ButtonId : uint8_t {
     Unknown = 0,
     Button1, // Top button (S2 on Ampere Works T1E)
     Button2  // Bottom button (S1 on Ampere Works T1E)
 };
 
+/** Provenance used by TimeService to resolve clock-update priority. */
 enum class TimeSource : uint8_t {
     Unknown = 0,
     Network,
@@ -61,11 +68,15 @@ enum class TimeSource : uint8_t {
     Manual
 };
 
+/** Button identity carried by press, release, click, and hold events. */
 struct ButtonPayload {
+    /** Logical button key, not its physical GPIO number. */
     ButtonId button{ButtonId::Unknown};
 };
 
+/** Calendar fields and source metadata carried by clock events. */
 struct TimePayload {
+    /** Unix epoch seconds using the firmware's local-wall-time convention. */
     uint32_t epoch{0};
     uint16_t year{2026};
     uint8_t month{1};
@@ -76,6 +87,7 @@ struct TimePayload {
     TimeSource source{TimeSource::Unknown};
 };
 
+/** Battery sample shared by battery-changed and low-battery events. */
 struct BatteryPayload {
     uint16_t millivolts{0};
     uint8_t percentage{100};
@@ -83,22 +95,26 @@ struct BatteryPayload {
     bool charging{false};
 };
 
+/** Station-network state carried by connection transition events. */
 struct NetworkPayload {
     bool connected{false};
 };
 
+/** Normalized call identity and state; strings are bounded inline copies. */
 struct CallPayload {
     char caller[32];
     char number[20];
     uint8_t state; // 0: Incoming, 1: Active, 2: Ended
 };
 
+/** Current companion media metadata and playback state. */
 struct MediaPayload {
     char title[32];
     char artist[32];
     bool playing;
 };
 
+/** Notification data copied into the event so provider buffers may be released. */
 struct NotificationPayload {
     char title[32];
     char message[64];
@@ -107,8 +123,18 @@ struct NotificationPayload {
     bool canDismissRemotely;
 };
 
+/**
+ * Fixed-size event envelope with a tagged, type-specific payload union.
+ *
+ * Creating and posting an Event copies all bounded text into the value. This
+ * lets asynchronous producers release callback-owned buffers immediately and
+ * avoids heap allocation; consumers must read only the union member associated
+ * with `type` because the payload storage is shared.
+ */
 struct Event {
+    /** Discriminator selecting the active payload member. */
     EventType type{EventType::None};
+    /** Monotonic device uptime at event creation, in milliseconds. */
     uint32_t timestampMs{0};
 
     union {
@@ -122,26 +148,31 @@ struct Event {
         void* customPayload;
     };
 
+    /** Construct an empty event whose button payload is initialized safely. */
     Event() : type(EventType::None), timestampMs(0) {
         button.button = ButtonId::Unknown;
     }
 
+    /** Construct an event envelope for `t` at an optional monotonic timestamp. */
     explicit Event(EventType t, uint32_t ts = 0) : type(t), timestampMs(ts) {
         button.button = ButtonId::Unknown;
     }
 
+    /** Build a button event with the requested subtype and logical button key. */
     static Event createButton(EventType t, ButtonId btn, uint32_t ts = 0) {
         Event e(t, ts);
         e.button.button = btn;
         return e;
     }
 
+    /** Build a minute-boundary event containing one RTC snapshot. */
     static Event createMinuteTick(const TimePayload& tp, uint32_t ts = 0) {
         Event e(EventType::MinuteTick, ts);
         e.time = tp;
         return e;
     }
 
+    /** Build a request to apply an external time value through TimeService. */
     static Event createTimeSync(uint32_t epoch, TimeSource source, uint32_t ts = 0) {
         Event e(EventType::TimeSync, ts);
         e.time.epoch = epoch;
@@ -149,6 +180,7 @@ struct Event {
         return e;
     }
 
+    /** Build a battery sample event, copying voltage, estimate, and status bits. */
     static Event createBatteryChanged(uint16_t mv, uint8_t pct, bool conn, bool chg, uint32_t ts = 0) {
         Event e(EventType::BatteryChanged, ts);
         e.battery.millivolts = mv;
@@ -158,6 +190,11 @@ struct Event {
         return e;
     }
 
+    /**
+     * Build a call transition with bounded copies of caller and number.
+     * Text is truncated to the inline payload capacity and null-terminated so
+     * later asynchronous consumers do not retain borrowed provider pointers.
+     */
     static Event createCall(EventType t, const char* caller, const char* number, uint8_t state, uint32_t ts = 0) {
         Event e(t, ts);
         e.call.state = state;
@@ -178,6 +215,7 @@ struct Event {
         return e;
     }
 
+    /** Build a media-track event with copied title, artist, and playback state. */
     static Event createMedia(const char* title, const char* artist, bool playing, uint32_t ts = 0) {
         Event e(EventType::MediaTrackChanged, ts);
         e.media.playing = playing;
@@ -198,6 +236,10 @@ struct Event {
         return e;
     }
 
+    /**
+     * Build a notification event with bounded text copies and remote-dismiss
+     * metadata. Fixed buffers make queued events self-contained and predictable.
+     */
     static Event createNotification(const char* title, const char* message, const char* app = "", uint32_t uid = 0, uint32_t ts = 0, bool canDismissRemotely = false) {
         Event e(EventType::NotificationReceived, ts);
         e.notification.uid = uid;

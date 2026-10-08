@@ -8,41 +8,67 @@
 namespace ersa {
 namespace services {
 
-/// Coordinates RTC time, external time sources, and minute-boundary events.
+/**
+ * Coordinates wall-clock state, source priority, and minute notifications.
+ *
+ * The RTC is the immediate timekeeper; this service validates all external
+ * timestamps before writing it and prevents lower-trust sources from undoing a
+ * stronger update. The default event subscription keeps BLE/network adapters
+ * decoupled from RTC hardware while producing one normalized minute event for
+ * watchfaces and apps.
+ */
 class TimeService {
 public:
-    /// Manage the supplied RTC and event bus.
+    /** Bind an RTC HAL and event bus; no hardware is touched until init(). */
     explicit TimeService(hal::IRtc& rtc, events::EventBus& bus = events::EventBus::instance());
 
-    /// Initialize the RTC and publish initial health state.
+    /** Initialize the RTC, seed minute tracking, and subscribe to time requests. */
     Result<void> init();
-    /// Advance time-source and minute-event processing.
+    /**
+     * Poll the RTC at a bounded cadence and publish a MinuteTick on rollover.
+     * @param currentUptimeMs Monotonic uptime used for interval tracking.
+     */
     void tick(uint32_t currentUptimeMs);
 
-    /// Return the current local time after applying the configured offset.
+    /**
+     * Read current RTC wall time. The RTC stores the local wall clock chosen by
+     * this firmware, so the timezone offset is metadata for network conversions
+     * and display policy rather than an extra offset applied on every read.
+     */
     hal::TimePoint now();
-    /// Set the RTC using Unix epoch seconds.
+    /** Set time as a manual, highest-priority update after validating its range. */
     Result<void> setEpoch(uint32_t epochSeconds);
-    /// Submit a timestamp from the specified external source.
+    /**
+     * Validate and apply an external timestamp if its source has sufficient
+     * priority. Manual > BLE/companion > network prevents delayed NTP responses
+     * from replacing a newer phone-provided clock value.
+     * @return True when the RTC accepted and stored the timestamp.
+     */
     bool submitTime(events::TimeSource source, uint32_t epochSeconds);
-    /// Adjust the RTC to an explicit calendar time.
+    /** Adjust using calendar fields when no epoch value is supplied. */
     Result<void> adjust(const hal::TimePoint& time);
 
-    /// Return the latest RTC health state.
+    /** Return the RTC HAL's current health report without retrying initialization. */
     bool isRtcHealthy() const;
-    /// Return whether a trusted external source has set time this boot.
+    /**
+     * Return whether a valid manual, phone, or network timestamp was accepted
+     * since boot; a responding RTC alone does not count as synchronization.
+     */
     bool hasSynchronizedTime() const;
-    /// Return the most recently published minute index.
+    /** Return floor(epoch/60) for the most recently observed or written time. */
     uint32_t lastMinute() const;
 
-    /// Set the local timezone offset in minutes from UTC.
+    /** Configure local UTC offset used when converting network calendar values. */
     void setTimezoneOffset(int16_t offsetMinutes);
-    /// Return the configured local timezone offset in minutes.
+    /** Read the configured local UTC offset, where east of UTC is positive. */
     int16_t getTimezoneOffset() const;
 
-    /// Return the installed process-wide time service.
+    /** Return the process-wide service installed during board initialization. */
     static TimeService& instance();
-    /// Install the process-wide time service for legacy service accessors.
+    /**
+     * Install a non-owning process-wide pointer for compatibility accessors.
+     * The caller must keep the service alive until it replaces or clears it.
+     */
     static void setInstance(TimeService* instance);
 
 private:

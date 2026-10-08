@@ -10,6 +10,8 @@ nav:
   - Home: index.md
   - Build and register apps: BUILDING_APPS.md
   - C++ API reference: https://pkgs-wearables.ersa.dev/wiki/api/
+  - Wearable project: https://open.ersa.dev/wearable
+  - Package repository: https://pkgs-wearables.ersa.dev/
   - Architecture: HAL_ARCHITECTURE.md
   - Board support: ADDING_A_BOARD.md
   - Features: FEATURES.md

@@ -8,8 +8,14 @@
 namespace ersa {
 namespace hal {
 
+/**
+ * ESP32 I2C adapter for the Terra DS3231 real-time clock.
+ * RTClib types are confined to this platform implementation; services exchange
+ * `TimePoint` values and can therefore use a host fake or another RTC driver.
+ */
 class Esp32Rtc : public IRtc {
 public:
+    /** Bind SDA/SCL pins from the board pin map before calling init(). */
     Esp32Rtc(int sda = 6, int scl = 7);
     ~Esp32Rtc() override = default;
 

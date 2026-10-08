@@ -7,8 +7,10 @@
 namespace ersa {
 namespace hal {
 
+/** ESP32 Arduino Wi-Fi adapter implementing only radio and link control. */
 class Esp32Wifi final : public IWifiRadio {
 public:
+    /** Initialize Wi-Fi in a known radio state before station/AP requests. */
     Result<void> init() override;
     void enableStation() override;
     void connectStation(const char* ssid, const char* password, bool powerSave) override;

@@ -13,17 +13,19 @@ class NetworkManager;
 
 class NetworkHandle {
 public:
-    /// Create an inactive handle.
+    /** Construct an empty handle that holds no radio lease. */
     NetworkHandle();
-    /// Create an active handle and acquire a network wake lease.
+    /** Acquire one manager lease; move semantics ensure exactly-once release. */
     explicit NetworkHandle(NetworkManager* mgr);
-    /// Release the network wake lease if still active.
+    /** Release the held lease during scope cleanup. */
     ~NetworkHandle();
 
     NetworkHandle(const NetworkHandle&) = delete;
     NetworkHandle& operator=(const NetworkHandle&) = delete;
 
+    /** Transfer a live lease without changing the manager's reference count. */
     NetworkHandle(NetworkHandle&& other) noexcept;
+    /** Release this lease, then take ownership of the source lease. */
     NetworkHandle& operator=(NetworkHandle&& other) noexcept;
 
     /// Return whether this handle currently owns a network lease.
@@ -36,23 +38,30 @@ private:
     bool active_{false};
 };
 
-/// Coordinates Wi-Fi radio availability for foreground network operations.
+/**
+ * Coordinates Wi-Fi availability with independent service clients.
+ *
+ * Each NetworkHandle is a scoped radio-use lease. The manager keeps the radio
+ * active while at least one lease exists and powers it down after the final
+ * lease and idle policy permit. This makes resource lifetime explicit and
+ * avoids one app disconnecting Wi-Fi while another service still needs it.
+ */
 class NetworkManager {
 public:
-    /// Manage a radio and event bus; a null radio keeps host use hardware-free.
+    /** Bind a radio and event bus; null radio provides a no-hardware host mode. */
     explicit NetworkManager(events::EventBus& bus = events::EventBus::instance(),
                             hal::IWifiRadio* wifi = nullptr);
 
-    /// Initialize network event handling and radio state.
+    /** Subscribe to link transitions and initialize radio state if available. */
     Result<void> init();
-    /// Advance connection and radio-idle policy.
+    /** Apply deferred link events and idle power-off using monotonic uptime. */
     void tick(uint32_t currentUptimeMs);
 
-    /// Acquire a scoped lease that keeps station connectivity available.
+    /** Acquire an RAII lease; connectivity remains active until release. */
     NetworkHandle requestInternet();
-    /// Acquire an unscoped network lease for legacy call sites.
+    /** Increment an unscoped reference count for legacy/manual lifetime code. */
     void acquire();
-    /// Release an unscoped network lease.
+    /** Decrement a prior raw acquisition; unmatched releases are ignored. */
     void release();
 
     /// Return whether station networking is connected.

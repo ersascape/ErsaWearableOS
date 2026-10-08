@@ -9,6 +9,7 @@
 namespace ersa {
 namespace services {
 
+/** Coarse service state; the board power HAL performs physical sleep entry. */
 enum class PowerState : uint8_t {
     Active = 0,
     Idle,
@@ -16,6 +17,7 @@ enum class PowerState : uint8_t {
     DeepSleep
 };
 
+/** Hysteresis-filtered severity band used by battery and sleep policy. */
 enum class BatteryPowerLevel : uint8_t {
     Normal = 0,
     Low,
@@ -24,23 +26,28 @@ enum class BatteryPowerLevel : uint8_t {
 
 class PowerManager;
 
-/// RAII lease that prevents the system power policy from sleeping.
+/**
+ * RAII lease that prevents automatic sleep while a feature is active.
+ * The tag is diagnostic and must remain valid until release. Scope-based use
+ * makes cleanup reliable on early returns; move operations transfer the lease
+ * without incrementing the manager's active-lock count.
+ */
 class WakeLock {
 public:
-    /// Acquire a wake lock associated with a diagnostic tag.
+    /** Acquire one sleep-prevention lease for a feature or operation. */
     explicit WakeLock(const char* tag);
-    /// Release this wake lock if it remains active.
+    /** Release the lease during destruction; repeated explicit release is safe. */
     ~WakeLock();
 
     WakeLock(const WakeLock&) = delete;
     WakeLock& operator=(const WakeLock&) = delete;
 
-    /// Move a wake-lock lease without changing the active lease count.
+    /** Transfer lease ownership; the moved-from object becomes inactive. */
     WakeLock(WakeLock&& other) noexcept;
-    /// Release this lease, then take ownership of another lease.
+    /** Release the current lease, then transfer the source object's lease. */
     WakeLock& operator=(WakeLock&& other) noexcept;
 
-    /// Release the wake lock early.
+    /** Release before scope exit when work completes early. */
     void release();
 
 private:
@@ -48,41 +55,57 @@ private:
     bool active_{false};
 };
 
-/// Applies battery sampling, wake-lock, and service-level power policy.
+/**
+ * Applies battery qualification, wake-lock accounting, and sleep eligibility.
+ * Product-level policy is kept here while IPowerManagement owns clocks, GPIO
+ * wake sources, and chip sleep APIs. This separation makes thresholds and
+ * activity decisions host-testable and keeps app code from bypassing radio
+ * coordination in the platform layer.
+ */
 class PowerManager {
 public:
+    /** Maximum active lock tags tracked without heap allocation. */
     static constexpr size_t MAX_WAKE_LOCKS = 16;
+    /** Idle interval relevant to legacy service-level deep-sleep transitions. */
     static constexpr uint32_t DEEP_SLEEP_TIMEOUT_MS = 60000;
+    /** Percentage threshold used to enter the low battery band. */
     static constexpr uint8_t LOW_BATTERY_PERCENT = 20;
+    /** Voltage threshold used to enter the low battery band. */
     static constexpr uint16_t LOW_BATTERY_MV = 3600;
+    /** Percentage threshold used to enter the critical battery band. */
     static constexpr uint8_t CRITICAL_BATTERY_PERCENT = 3;
+    /** Voltage threshold used to enter the critical battery band. */
     static constexpr uint16_t CRITICAL_BATTERY_MV = 3350;
 
-    /// Manage battery telemetry and power events from the supplied sources.
+    /** Bind the battery HAL and event bus; neither is owned by the manager. */
     explicit PowerManager(hal::IBattery& battery, events::EventBus& bus = events::EventBus::instance());
 
-    /// Initialize battery sampling and publish the initial power state.
+    /** Sample once, seed cached telemetry, and establish initial severity. */
     Result<void> init();
-    /// Update battery state and publish threshold transitions.
+    /**
+     * Sample when due, apply hysteresis/critical qualification, and publish
+     * state transitions. The explicit uptime makes interval behavior testable
+     * without a hardware clock.
+     */
     void tick(uint32_t currentUptimeMs);
-    /// Return milliseconds until the next battery sample is due.
+    /** Return the sample deadline so the UI can sleep until useful work is due. */
     uint32_t nextBatterySampleDelayMs(uint32_t currentUptimeMs) const;
 
     // WakeLock API (Section 10)
-    /// Acquire an RAII wake lock.
+    /** Prefer this scoped lease when the protected operation has lexical lifetime. */
     WakeLock acquireWakeLock(const char* tag);
-    /// Acquire a wake lock by tag for call sites that manage lifetime manually.
+    /** Manually acquire a tagged lease for state spanning multiple callbacks. */
     bool acquireWakeLockRaw(const char* tag);
-    /// Release one wake lock associated with the supplied tag.
+    /** Release one matching manual lease; false means the tag was not active. */
     bool releaseWakeLockRaw(const char* tag);
     /// Return the number of active wake locks.
     size_t getActiveWakeLockCount() const;
     /// Return whether at least one wake lock blocks sleep.
     bool hasWakeLocks() const;
 
-    /// Record user or service activity at the given uptime.
+    /** Reset the idle reference point after interaction or foreground work. */
     void noteActivity(uint32_t currentUptimeMs);
-    /// Return milliseconds since the most recent activity.
+    /** Compute wrap-safe idle duration from the last recorded activity. */
     uint32_t getIdleTimeMs(uint32_t currentUptimeMs) const;
 
     /// Return the latest battery voltage in millivolts.
@@ -97,7 +120,7 @@ public:
     bool isBatteryConnected() const;
     /// Return whether external charging power is present.
     bool isCharging() const;
-    /// Return the current battery severity band.
+    /** Return the filtered battery band used by user alerts and sleep policy. */
     BatteryPowerLevel getBatteryPowerLevel() const;
 
     /// Return the current service-level power state.
@@ -105,11 +128,14 @@ public:
     /// Set the service-level power state.
     void requestState(PowerState state);
 
-    /// Return whether wake locks currently allow the system to sleep.
+    /** True only when no active feature lease blocks automatic sleep. */
     bool canSleep() const;
-    /// Delegate light-sleep entry to the board power HAL.
+    /**
+     * Delegate light sleep to the board HAL, which coordinates RTOS and radio
+     * locks. The service deliberately does not invoke chip sleep primitives.
+     */
     void enterLightSleep(uint64_t sleepTimeUs);
-    /// Delegate deep-sleep entry to the board power HAL.
+    /** Delegate deep sleep; zero timer leaves configured GPIO wakes as sources. */
     void enterDeepSleep(uint64_t sleepTimeUs = 0);
 
     /// Return the installed process-wide power manager.

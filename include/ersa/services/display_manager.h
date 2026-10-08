@@ -7,44 +7,60 @@
 namespace ersa {
 namespace services {
 
-/// Coalesces UI invalidations and schedules safe panel refresh/power transitions.
+/**
+ * Coalesces drawing changes and applies panel-specific refresh/power policy.
+ *
+ * Apps only mark content dirty; this manager rate-limits physical refreshes,
+ * tracks partial-frame counts, and powers the panel down after inactivity.
+ * Keeping those decisions here prevents fast UI events from causing excessive
+ * e-paper flashing or shortening panel lifetime.
+ */
 class DisplayManager {
 public:
+    /** Minimum delay between refresh submissions, protecting panel timing. */
     static constexpr uint32_t MIN_REFRESH_INTERVAL_MS = 500;
+    /** Idle duration before the display controller may power off. */
     static constexpr uint32_t IDLE_POWEROFF_TIMEOUT_MS = 8000;
+    /** Partial frames before policy requests a full ghost-clearing waveform. */
     static constexpr uint8_t FULL_REFRESH_FRAME_COUNT = 25;
 
-    /// Manage the supplied display contract.
+    /** Bind the generic display; manager does not own the driver object. */
     explicit DisplayManager(hal::IDisplay& display);
 
-    /// Initialize the display and manager state.
+    /** Initialize the panel and seed refresh/idle bookkeeping. */
     Result<void> init();
-    /// Advance refresh and idle-power policy using current uptime.
+    /** Apply due refresh and idle-power transitions for the current uptime. */
     void tick(uint32_t currentUptimeMs);
 
-    /// Mark buffered content as changed and optionally request a full refresh.
+    /**
+     * Record invalidated framebuffer content; repeated marks coalesce into one
+     * future refresh. A full request is sticky until serviced.
+     */
     void markDirty(bool fullRefresh = false);
     /// Return whether the panel needs a refresh.
     bool isDirty() const;
 
     // Trigger a refresh if dirty and interval has elapsed
-    /// Refresh pending content when the minimum interval allows it.
+    /**
+     * Submit one pending update only after the minimum refresh interval.
+     * @return True when a panel refresh was submitted this call.
+     */
     bool updateIfDirty(uint32_t currentUptimeMs);
 
     // Explicit force refresh
-    /// Force a panel refresh, optionally using the full waveform.
+    /** Bypass dirty scheduling for explicit refresh requests, such as redraw. */
     void refresh(bool full = false, uint32_t currentUptimeMs = 0);
 
     // User activity notification (keeps panel powered)
-    /// Record user activity to keep the panel powered through interaction.
+    /** Reset the idle timer so interaction is not interrupted by power-off. */
     void noteActivity(uint32_t currentUptimeMs);
 
-    /// Return the number of partial frames since the last full refresh.
+    /** Read the ghosting-policy counter used to decide when to full-refresh. */
     uint8_t getPartialFrameCount() const;
     /// Reset the partial-frame refresh counter.
     void resetPartialFrameCount();
 
-    /// Return the display contract managed by this service.
+    /** Return the borrowed display HAL so coordinated services share one panel. */
     hal::IDisplay& getDisplay();
 
     /// Return the installed process-wide display manager.

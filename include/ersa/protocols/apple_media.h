@@ -4,11 +4,28 @@
 #include <string.h>
 
 namespace ersa { namespace protocols {
-// AMS Entity Update decoding has no dependency on the BLE stack or device.
+/**
+ * Decoded AMS media state independent from BLE transport and device hardware.
+ * A protocol adapter parses notifications into this value, then the companion
+ * source publishes a semantic media update. Keeping parsing here allows the
+ * exact same byte handling to run in host tests and in the firmware.
+ */
 struct AmsMedia {
+    /** Current title, truncated and null-terminated to fixed embedded storage. */
     char title[32]{};
+    /** Current artist name, truncated and null-terminated. */
     char artist[32]{};
+    /** Whether the player reports playback rather than paused/stopped state. */
     bool playing{false};
+    /**
+     * Apply one AMS Entity Update notification.
+     * @param bytes Notification payload beginning with entity/attribute IDs.
+     * @param length Number of valid bytes in `bytes`.
+     * @return True only when a recognized supported field changed; false for
+     *         incomplete, unsupported, or duplicate data.
+     * Strings are copied into bounded local buffers because BLE callback data
+     * is transient and must not be retained after the callback returns.
+     */
     bool update(const uint8_t* bytes, size_t length) {
         if (length < 3) return false;
         const uint8_t entity = bytes[0], attribute = bytes[1];

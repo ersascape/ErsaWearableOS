@@ -46,6 +46,8 @@ layout.
 ## Documentation
 
 - [Published wiki](https://pkgs-wearables.ersa.dev/wiki/), deployed from `master` to GitHub Pages on every successful workflow run.
+- [Wearable project](https://open.ersa.dev/wearable) and [package repository](https://pkgs-wearables.ersa.dev/)
+- [Published C++ API reference](https://pkgs-wearables.ersa.dev/wiki/api/)
 - [Wiki home](docs/index.md): start here for the developer and hardware guides.
 - [Build and register apps](docs/BUILDING_APPS.md)
 - [Architecture and HAL boundaries](docs/HAL_ARCHITECTURE.md)

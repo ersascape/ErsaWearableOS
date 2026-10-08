@@ -6,16 +6,26 @@
 namespace ersa {
 namespace hal {
 
-/// Normalized board input events and button state.
+/**
+ * Normalized board input events and button state.
+ *
+ * The BSP supplies physical pin assignments and polarity; this interface
+ * exposes product-relative buttons and normalized events. As a result, apps
+ * never need to poll GPIO numbers or know whether a switch is active low.
+ */
 class IInput {
 public:
     virtual ~IInput() = default;
 
-    /// Initialize configured input pins and event handling.
+    /** Configure board pins, debounce state, and event publication. */
     virtual Result<void> init() = 0;
-    /// Poll hardware and enqueue any resulting normalized input events.
+    /**
+     * Sample/debounce physical controls and post resulting events.
+     * Call regularly from the application task; hardware callbacks should not
+     * call app code directly.
+     */
     virtual void poll() = 0;
-    /// Return whether the requested logical button is currently pressed.
+    /** Query current debounced state using a logical ButtonId. */
     virtual bool isPressed(events::ButtonId button) const = 0;
 };
 

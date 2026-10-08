@@ -7,12 +7,21 @@
 namespace ersa {
 namespace hal {
 
-// The T1E composition currently provides an ESP32 BLE transport and an Apple
-// companion source in one driver object. Core services inject the two contracts
-// separately so another source can replace Apple without changing the HAL API.
+/**
+ * ESP32 BLE transport and current Apple companion-source composition.
+ *
+ * The implementation currently satisfies both independent contracts because
+ * this product uses one radio/client stack. BluetoothManager receives the
+ * IBluetooth and ICompanionSource base references separately, so a future
+ * Android, Linux, or test provider can replace companion semantics without
+ * changing the transport interface. The pImpl keeps the large vendor BLE
+ * implementation out of this header and reduces SDK coupling for consumers.
+ */
 class Esp32Bluetooth : public IBluetooth, public ICompanionSource {
 public:
+    /** Create the vendor stack lazily; init() performs hardware setup. */
     Esp32Bluetooth();
+    /** Stop callbacks/workers and release the opaque ESP32 implementation. */
     ~Esp32Bluetooth() override;
 
     Result<void> init() override;

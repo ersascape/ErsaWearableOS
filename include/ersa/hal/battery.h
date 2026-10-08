@@ -6,18 +6,25 @@
 namespace ersa {
 namespace hal {
 
-/// Board-level battery telemetry and sampling contract.
+/**
+ * Board-level battery telemetry and sampling contract.
+ *
+ * Sampling is explicit so PowerManager can adapt its cadence to battery health
+ * instead of performing ADC work on every UI tick. Implementations cache the
+ * most recent measurement; getters therefore return a coherent last sample
+ * without initiating potentially expensive hardware conversions.
+ */
 class IBattery {
 public:
     virtual ~IBattery() = default;
 
-    /// Initialize the battery measurement backend.
+    /** Configure ADC/gauge resources and report whether the backend is usable. */
     virtual Result<void> init() = 0;
-    /// Take a new battery sample and update cached measurements.
+    /** Refresh cached telemetry; implementations should keep this bounded. */
     virtual void sample() = 0;
     /// Return the latest measured voltage in millivolts.
     virtual uint16_t millivolts() const = 0;
-    /// Return the estimated remaining capacity as a percentage from 0 to 100.
+    /** Return a bounded estimate; voltage-only boards must not imply precision. */
     virtual uint8_t percentage() const = 0;
     /// Report whether a usable battery is connected.
     virtual bool isConnected() const = 0;
