@@ -13,6 +13,7 @@
 #include "hal/esp32/esp32_power_management.h"
 #include "hal/esp32/esp32_usb_console.h"
 #include "hal/esp32/esp32_web_server.h"
+#include "hal/esp32/esp32_network_client.h"
 
 namespace ersa {
 namespace board {
@@ -94,6 +95,8 @@ public:
     hal::IConsole& getConsole() override { return console_; }
     hal::IHttpServer& getHttpServer() override { return web_; }
     hal::IDnsServer& getDnsServer() override { return web_; }
+    hal::IHttpClient& getHttpClient() override { return httpClient_; }
+    hal::INtpTimeSource& getNtpTimeSource() override { return ntpTimeSource_; }
 
     /** Return monotonic ESP32 uptime in milliseconds. */
     uint32_t getUptimeMs() const override;
@@ -117,6 +120,8 @@ private:
     hal::Esp32PowerManagement powerManagement_;
     hal::Esp32UsbConsole console_;
     hal::Esp32WebServer web_;
+    hal::Esp32HttpClient httpClient_;
+    hal::Esp32NtpTimeSource ntpTimeSource_;
 };
 
 } // namespace board

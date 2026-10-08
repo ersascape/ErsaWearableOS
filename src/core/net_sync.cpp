@@ -7,14 +7,12 @@
 #include "ersa/services/time_service.h"
 #include "ersa/services/storage_service.h"
 #include "ersa/board/board.h"
-#include <Arduino.h>
-#include <HTTPClient.h>
-#include <WiFiClientSecure.h>
 #include <time.h>
 #include <ctype.h>
 #include <atomic>
-#include <esp_sntp.h>
 #include <esp_heap_caps.h>
+#include <esp_system.h>
+#include <string>
 
 namespace NetSync {
 
@@ -129,10 +127,10 @@ bool connectWiFi(const WatchConfig::Config& cfg, bool updateStatus = true) {
     auto& wifi = ersa::board::Board::current().getWifi();
     wifi.connectStation(cfg.wifiSsid, cfg.wifiPass, true);
 
-    const uint32_t startMs = millis();
+    const uint32_t startMs = ersa::board::Board::current().getUptimeMs();
     while (wifi.state() != ersa::hal::WifiState::Connected &&
-           (millis() - startMs) < ersa::config::WIFI_CONNECT_TIMEOUT_MS) {
-        delay(200);
+           (ersa::board::Board::current().getUptimeMs() - startMs) < ersa::config::WIFI_CONNECT_TIMEOUT_MS) {
+        ersa::board::Board::current().delayMs(200);
     }
 
     if (wifi.state() != ersa::hal::WifiState::Connected) {
@@ -153,41 +151,34 @@ void disconnectWiFi() {
     DebugLog::log("NET: WiFi turned off (power save)");
 }
 
-String buildCalDavUrl(const WatchConfig::Config& cfg, const char* calendarName,
-                      bool encodeAt = false, bool tasksOnly = false) {
-    String s = String(cfg.caldavServer);
-    s.trim();
-    if (s.isEmpty()) return "";
-
-    // Support webcal:// URLs by converting to https://
-    if (s.startsWith("webcal://")) {
-        s = "https://" + s.substring(9);
-    }
-
-    // Direct ICS file links do not support SabreDAV export filters.
-    if (s.endsWith(".ics") || s.indexOf(".ics?") != -1) {
-        return s;
-    }
-
-    while (s.endsWith("/")) s.remove(s.length() - 1);
-    const int queryStart = s.indexOf('?');
-    if (queryStart >= 0) s.remove(queryStart);
-
-    const bool calendarEndpoint = s.indexOf("/calendars/") != -1;
-
-    if (s.indexOf("/remote.php/dav") == -1) {
-        s += "/remote.php/dav";
-    }
-
+std::string buildCalDavUrl(const WatchConfig::Config& cfg, const char* calendarName,
+                           bool encodeAt = false, bool tasksOnly = false) {
+    std::string s(cfg.caldavServer);
+    const size_t first = s.find_first_not_of(" \t\r\n");
+    if (first == std::string::npos) return {};
+    const size_t last = s.find_last_not_of(" \t\r\n");
+    s = s.substr(first, last - first + 1);
+    if (s.rfind("webcal://", 0) == 0) s.replace(0, 9, "https://");
+    if (s.find(".ics?") != std::string::npos ||
+        (s.size() >= 4 && s.compare(s.size() - 4, 4, ".ics") == 0)) return s;
+    while (!s.empty() && s.back() == '/') s.pop_back();
+    const size_t queryStart = s.find('?');
+    if (queryStart != std::string::npos) s.erase(queryStart);
+    const bool calendarEndpoint = s.find("/calendars/") != std::string::npos;
+    if (s.find("/remote.php/dav") == std::string::npos) s += "/remote.php/dav";
     if (!calendarEndpoint && cfg.caldavUser[0] != '\0') {
         s += "/calendars/";
-        String u = String(cfg.caldavUser);
-        if (encodeAt) u.replace("@", "%40");
-        s += u;
+        std::string user(cfg.caldavUser);
+        std::string calendar = (calendarName && calendarName[0]) ? calendarName : "personal";
+        if (encodeAt) {
+            size_t at = 0;
+            while ((at = user.find('@', at)) != std::string::npos) { user.replace(at, 1, "%40"); at += 3; }
+            at = 0;
+            while ((at = calendar.find('@', at)) != std::string::npos) { calendar.replace(at, 1, "%40"); at += 3; }
+        }
+        s += user;
         s += "/";
-        String c = (calendarName && calendarName[0] != '\0') ? String(calendarName) : String("personal");
-        if (encodeAt) c.replace("@", "%40");
-        s += c;
+        s += calendar;
         // SabreDAV's export endpoint can filter event exports by time range.
         // Query timestamps are UTC; WatchClock keeps local wall time as epoch.
         const DateTime now = WatchClock::now();
@@ -200,8 +191,8 @@ String buildCalDavUrl(const WatchConfig::Config& cfg, const char* calendarName,
         if (tasksOnly) {
             s += "&componentType=VTODO";
         } else {
-            s += "&start=" + String(static_cast<unsigned long>(start));
-            s += "&end=" + String(static_cast<unsigned long>(end));
+            s += "&start=" + std::to_string(static_cast<unsigned long>(start));
+            s += "&end=" + std::to_string(static_cast<unsigned long>(end));
             s += "&expand=1";
         }
     }
@@ -217,8 +208,8 @@ String buildCalDavUrl(const WatchConfig::Config& cfg, const char* calendarName,
         if (tasksOnly) {
             s += "&componentType=VTODO";
         } else {
-            s += "&start=" + String(static_cast<unsigned long>(utcDayStart - 3LL * 86400LL));
-            s += "&end=" + String(static_cast<unsigned long>(utcDayStart + 4LL * 86400LL));
+            s += "&start=" + std::to_string(static_cast<unsigned long>(utcDayStart - 3LL * 86400LL));
+            s += "&end=" + std::to_string(static_cast<unsigned long>(utcDayStart + 4LL * 86400LL));
             s += "&expand=1";
         }
     }
@@ -260,96 +251,96 @@ uint32_t parseIcsDateTimeToEpoch(const char* dt, int tzOffsetMin) {
     return epoch;
 }
 
-static String s_caldavCookie = "";
+static std::string s_caldavCookie;
 
-bool fetchAndParseIcs(WiFiClientSecure& client, HTTPClient& https, const String& url,
+bool fetchAndParseIcs(ersa::hal::IHttpClient& client, const std::string& url,
                       const WatchConfig::Config& cfg,
                       size_t& outEvents, size_t& outTodos) {
-    if (url.isEmpty()) return false;
+    if (url.empty()) return false;
     DebugLog::log("NET: Fetching ICS heap=%lu largest=%lu",
-                  static_cast<unsigned long>(ESP.getFreeHeap()),
+                  static_cast<unsigned long>(esp_get_free_heap_size()),
                   static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
 
-    client.setTimeout(ersa::config::CALDAV_HTTP_TIMEOUT_MS / 1000);
-    if (!https.begin(client, url)) {
+    if (client.begin(url, true).isError()) {
         DebugLog::log("NET: HTTPClient begin failed");
         return false;
     }
 
-    https.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+    client.setFollowRedirects(true);
     if (cfg.caldavUser[0] != '\0' && cfg.caldavPass[0] != '\0') {
-        https.setAuthorization(cfg.caldavUser, cfg.caldavPass);
+        client.setBasicAuth(cfg.caldavUser, cfg.caldavPass);
     }
-    https.setTimeout(ersa::config::CALDAV_HTTP_TIMEOUT_MS);
+    client.setTimeout(ersa::config::CALDAV_HTTP_TIMEOUT_MS);
 
     // Essential Nextcloud / SabreDAV API headers to bypass CSRF strict cookie check
-    https.addHeader("OCS-APIRequest", "true");
-    https.addHeader("X-Requested-With", "XMLHttpRequest");
-    https.addHeader("User-Agent", "ErsaWearable/1.0 (CalDAV client)");
-    https.addHeader("Accept", "text/calendar, text/plain, */*");
+    client.addHeader("OCS-APIRequest", "true");
+    client.addHeader("X-Requested-With", "XMLHttpRequest");
+    client.addHeader("User-Agent", "ErsaWearable/1.0 (CalDAV client)");
+    client.addHeader("Accept", "text/calendar, text/plain, */*");
 
-    if (s_caldavCookie.length() > 0) {
-        https.addHeader("Cookie", s_caldavCookie.c_str());
+    if (!s_caldavCookie.empty()) {
+        client.addHeader("Cookie", s_caldavCookie);
     }
 
-    const char* headerKeys[] = {"Set-Cookie", "Content-Type"};
-    https.collectHeaders(headerKeys, 2);
+    client.collectHeader("Set-Cookie");
+    client.collectHeader("Content-Type");
 
-    int code = https.GET();
+    int code = client.get();
     DebugLog::log("NET: ICS GET code=%d", code);
 
     if (code < 0) {
         char tlsError[96] = {};
-        const int tlsErrorCode = client.lastError(tlsError, sizeof(tlsError));
+        const int tlsErrorCode = client.lastTransportError(tlsError, sizeof(tlsError));
         DebugLog::log("NET: CalDAV transport error=%d TLS=%d (%s) free_heap=%lu",
                       code, tlsErrorCode, tlsError,
-                      static_cast<unsigned long>(ESP.getFreeHeap()));
+                      static_cast<unsigned long>(esp_get_free_heap_size()));
         // mbedTLS -0x7F00 is MBEDTLS_ERR_SSL_ALLOC_FAILED. Repeating the same
         // handshake with URL spelling/task-path fallbacks cannot recover RAM.
         if (tlsErrorCode == -0x7F00 || strstr(tlsError, "CTR_DRBG") != nullptr ||
             strstr(tlsError, "allocation") != nullptr) {
             tlsAllocationFailed = true;
         }
-        https.end();
+        client.end();
         return false;
     }
 
-    if (https.hasHeader("Set-Cookie")) {
-        String sc = https.header("Set-Cookie");
-        int semi = sc.indexOf(';');
-        s_caldavCookie = (semi != -1) ? sc.substring(0, semi) : sc;
+    if (client.hasHeader("Set-Cookie")) {
+        const std::string sc = client.header("Set-Cookie");
+        const size_t semi = sc.find(';');
+        s_caldavCookie = (semi != std::string::npos) ? sc.substr(0, semi) : sc;
         DebugLog::log("NET: Captured session cookie: %s", s_caldavCookie.c_str());
     }
 
     // If Nextcloud returned 412 (Strict Cookie missing) and sent a cookie, retry with the cookie
-    if (code == 412 && s_caldavCookie.length() > 0) {
-        https.end();
-        if (https.begin(client, url)) {
-            https.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+    if (code == 412 && !s_caldavCookie.empty()) {
+        client.end();
+        if (client.begin(url, true).isOk()) {
+            client.setFollowRedirects(true);
             if (cfg.caldavUser[0] != '\0' && cfg.caldavPass[0] != '\0') {
-                https.setAuthorization(cfg.caldavUser, cfg.caldavPass);
+                client.setBasicAuth(cfg.caldavUser, cfg.caldavPass);
             }
-            https.setTimeout(ersa::config::CALDAV_HTTP_TIMEOUT_MS);
-            https.addHeader("OCS-APIRequest", "true");
-            https.addHeader("X-Requested-With", "XMLHttpRequest");
-            https.addHeader("User-Agent", "ErsaWearable/1.0 (CalDAV client)");
-            https.addHeader("Accept", "text/calendar, text/plain, */*");
-            https.addHeader("Cookie", s_caldavCookie.c_str());
-            code = https.GET();
+            client.setTimeout(ersa::config::CALDAV_HTTP_TIMEOUT_MS);
+            client.addHeader("OCS-APIRequest", "true");
+            client.addHeader("X-Requested-With", "XMLHttpRequest");
+            client.addHeader("User-Agent", "ErsaWearable/1.0 (CalDAV client)");
+            client.addHeader("Accept", "text/calendar, text/plain, */*");
+            client.addHeader("Cookie", s_caldavCookie);
+            client.collectHeader("Set-Cookie");
+            client.collectHeader("Content-Type");
+            code = client.get();
             DebugLog::log("NET: ICS GET retry code=%d", code);
         }
     }
 
     if (code != 200) {
-        String err = https.getString();
-        if (err.length() > 0) {
-            DebugLog::log("NET: ICS error body: %s", err.substring(0, 100).c_str());
+        const std::string err = client.body();
+        if (!err.empty()) {
+            DebugLog::log("NET: ICS error body: %s", err.substr(0, 100).c_str());
         }
-        https.end();
+        client.end();
         return false;
     }
 
-    WiFiClient* stream = https.getStreamPtr();
     bool inEvent = false;
     bool inTodo = false;
     char curSummary[48] = "";
@@ -370,9 +361,8 @@ bool fetchAndParseIcs(WiFiClientSecure& client, HTTPClient& https, const String&
     const uint32_t cacheStartSec = dayStartSec - 3U * 86400U;
     const uint32_t cacheEndSec = dayStartSec + 4U * 86400U;
 
-    while (https.connected() && stream->available()) {
-        String line = stream->readStringUntil('\n');
-        line.trim();
+    while (client.connected() && client.available()) {
+        const std::string line = client.readLine();
 
         if (line == "BEGIN:VEVENT") {
             inEvent = true;
@@ -386,24 +376,24 @@ bool fetchAndParseIcs(WiFiClientSecure& client, HTTPClient& https, const String&
             inEvent = false;
             curSummary[0] = '\0';
             isCompleted = false;
-        } else if (line.startsWith("SUMMARY")) {
-            int colon = line.indexOf(':');
-            if (colon != -1) {
-                safeCopy(curSummary, line.substring(colon + 1).c_str(), sizeof(curSummary));
+        } else if (line.rfind("SUMMARY", 0) == 0) {
+            const size_t colon = line.find(':');
+            if (colon != std::string::npos) {
+                safeCopy(curSummary, line.substr(colon + 1).c_str(), sizeof(curSummary));
             }
-        } else if (inEvent && line.startsWith("DTSTART")) {
-            int colon = line.indexOf(':');
-            if (colon != -1) {
-                safeCopy(curDt, line.substring(colon + 1).c_str(), sizeof(curDt));
+        } else if (inEvent && line.rfind("DTSTART", 0) == 0) {
+            const size_t colon = line.find(':');
+            if (colon != std::string::npos) {
+                safeCopy(curDt, line.substr(colon + 1).c_str(), sizeof(curDt));
             }
-        } else if (inEvent && line.startsWith("DTEND")) {
-            int colon = line.indexOf(':');
-            if (colon != -1) {
-                safeCopy(curDtEnd, line.substring(colon + 1).c_str(), sizeof(curDtEnd));
+        } else if (inEvent && line.rfind("DTEND", 0) == 0) {
+            const size_t colon = line.find(':');
+            if (colon != std::string::npos) {
+                safeCopy(curDtEnd, line.substr(colon + 1).c_str(), sizeof(curDtEnd));
             }
-        } else if (inEvent && line.startsWith("RRULE:")) {
+        } else if (inEvent && line.rfind("RRULE:", 0) == 0) {
             safeCopy(curRrule, line.c_str(), sizeof(curRrule));
-        } else if (inTodo && (line.indexOf("STATUS:COMPLETED") != -1 || line.startsWith("COMPLETED:"))) {
+        } else if (inTodo && (line.find("STATUS:COMPLETED") != std::string::npos || line.rfind("COMPLETED:", 0) == 0)) {
             isCompleted = true;
         } else if (line == "END:VEVENT") {
             if (inEvent && curSummary[0] != '\0' && outEvents < MAX_EVENTS) {
@@ -491,7 +481,7 @@ bool fetchAndParseIcs(WiFiClientSecure& client, HTTPClient& https, const String&
         }
     }
 
-    https.end();
+    client.end();
 
     // Fill todos array with open tasks first, then completed tasks if space remains
     outTodos = 0;
@@ -588,22 +578,21 @@ time_t parseHttpDateToEpoch(const char* str) {
 }
 
 bool fetchHttpUtc(time_t& outUtc, uint32_t timeoutMs = ersa::config::HTTP_TIME_TIMEOUT_MS) {
-    HTTPClient http;
-    const char* headerKeys[] = {"Date"};
+    auto& http = ersa::board::Board::current().getHttpClient();
 
     for (size_t i = 0; i < ersa::config::NUM_HTTP_TIME_ENDPOINTS; ++i) {
         const char* endpoint = ersa::config::DEFAULT_HTTP_TIME_ENDPOINTS[i];
         DebugLog::log("NET: Trying HTTP time fallback [%u]: %s", unsigned(i), endpoint);
 
-        if (!http.begin(endpoint)) continue;
+        if (http.begin(endpoint, false).isError()) continue;
         http.setTimeout(timeoutMs);
-        http.collectHeaders(headerKeys, 1);
-        http.setFollowRedirects(HTTPC_STRICT_FOLLOW_REDIRECTS);
+        http.collectHeader("Date");
+        http.setFollowRedirects(true);
 
-        const int httpCode = http.GET();
+        const int httpCode = http.get();
         if (httpCode > 0) {
             if (http.hasHeader("Date")) {
-                String dateHdr = http.header("Date");
+                const std::string dateHdr = http.header("Date");
                 DebugLog::log("NET: HTTP %s returned code %d, Date: '%s'", endpoint, httpCode, dateHdr.c_str());
                 time_t parsedUtc = parseHttpDateToEpoch(dateHdr.c_str());
                 if (parsedUtc >= 1700000000) {
@@ -614,10 +603,10 @@ bool fetchHttpUtc(time_t& outUtc, uint32_t timeoutMs = ersa::config::HTTP_TIME_T
             }
 
             // Check JSON for unixtime
-            if (httpCode == 200 && http.getSize() > 0) {
-                String body = http.getString();
-                int idx = body.indexOf("\"unixtime\":");
-                if (idx != -1) {
+            if (httpCode == 200) {
+                const std::string body = http.body();
+                const size_t idx = body.find("\"unixtime\":");
+                if (idx != std::string::npos) {
                     const char* numPtr = body.c_str() + idx + 11;
                     while (*numPtr == ' ') numPtr++;
                     uint32_t unixTime = strtoul(numPtr, nullptr, 10);
@@ -634,42 +623,11 @@ bool fetchHttpUtc(time_t& outUtc, uint32_t timeoutMs = ersa::config::HTTP_TIME_T
     return false;
 }
 
-static volatile bool s_sntpSynced = false;
-void sntpTimeSyncNotification(struct timeval* tv) {
-    (void)tv;
-    s_sntpSynced = true;
-    DebugLog::log("NET: SNTP packet received and processed");
-}
-
 bool fetchNtpUtc(time_t& outUtc, uint32_t timeoutMs = ersa::config::NTP_SYNC_TIMEOUT_MS) {
-    s_sntpSynced = false;
-    if (esp_sntp_enabled()) {
-        esp_sntp_stop();
-    }
-    esp_sntp_setoperatingmode(ESP_SNTP_OPMODE_POLL);
-    for (size_t i = 0; i < ersa::config::NUM_NTP_SERVERS && i < 3; ++i) {
-        esp_sntp_setservername(i, ersa::config::DEFAULT_NTP_SERVERS[i]);
-        DebugLog::log("NET: Set NTP server[%u] = %s", unsigned(i), ersa::config::DEFAULT_NTP_SERVERS[i]);
-    }
-    sntp_set_sync_mode(SNTP_SYNC_MODE_IMMED);
-    sntp_set_sync_status(SNTP_SYNC_STATUS_RESET);
-    sntp_set_time_sync_notification_cb(sntpTimeSyncNotification);
-    esp_sntp_init();
-
-    const uint32_t startMs = millis();
-    while ((millis() - startMs) < timeoutMs) {
-        if (s_sntpSynced || sntp_get_sync_status() == SNTP_SYNC_STATUS_COMPLETED) {
-            outUtc = time(nullptr);
-            if (outUtc >= 1700000000) return true;
-        }
-        time_t tNow = time(nullptr);
-        if (tNow >= 1700000000) {
-            outUtc = tNow;
-            return true;
-        }
-        delay(100);
-    }
-    return false;
+    uint32_t epoch = 0;
+    if (!ersa::board::Board::current().getNtpTimeSource().synchronizeUtc(timeoutMs, epoch)) return false;
+    outUtc = static_cast<time_t>(epoch);
+    return true;
 }
 
 bool fetchTimeWithFallbacks(time_t& outUtc, bool& isHttpFallback, bool updateStatus = true) {
@@ -841,42 +799,40 @@ bool syncAll() {
         DebugLog::log("NET: Querying CalDAV (srv='%s', user='%s', cal='%s', todo='%s')",
                       cfg.caldavServer, cfg.caldavUser, cfg.caldavCalendar, cfg.caldavTodoPath);
 
-        WiFiClientSecure client;
-        client.setInsecure(); // Skip TLS cert validation to save flash/RAM
-        HTTPClient https;
+        auto& http = ersa::board::Board::current().getHttpClient();
 
         size_t parsedEvents = 0;
         size_t parsedTodos = 0;
 
         // Step A: Fetch events calendar
-        String eventsUrl = buildCalDavUrl(cfg, cfg.caldavCalendar, false, false);
-        bool ok = fetchAndParseIcs(client, https, eventsUrl, cfg, parsedEvents, parsedTodos);
-        if (!ok && !tlsAllocationFailed && eventsUrl.indexOf("@") != -1) {
-            String retryUrl = buildCalDavUrl(cfg, cfg.caldavCalendar, true, false);
-            ok = fetchAndParseIcs(client, https, retryUrl, cfg, parsedEvents, parsedTodos);
+        std::string eventsUrl = buildCalDavUrl(cfg, cfg.caldavCalendar, false, false);
+        bool ok = fetchAndParseIcs(http, eventsUrl, cfg, parsedEvents, parsedTodos);
+        if (!ok && !tlsAllocationFailed && eventsUrl.find('@') != std::string::npos) {
+            std::string retryUrl = buildCalDavUrl(cfg, cfg.caldavCalendar, true, false);
+            ok = fetchAndParseIcs(http, retryUrl, cfg, parsedEvents, parsedTodos);
         }
 
         // Step B: Fetch tasks calendar if different from events calendar
         bool okTasks = false;
         if (!tlsAllocationFailed && cfg.caldavTodoPath[0] != '\0') {
-            String tasksUrl = buildCalDavUrl(cfg, cfg.caldavTodoPath, false, true);
+            std::string tasksUrl = buildCalDavUrl(cfg, cfg.caldavTodoPath, false, true);
             size_t extraEvents = 0;
             size_t extraTodos = parsedTodos;
-            okTasks = fetchAndParseIcs(client, https, tasksUrl, cfg, extraEvents, extraTodos);
-            if (!okTasks && !tlsAllocationFailed && tasksUrl.indexOf("@") != -1) {
-                String retryTasksUrl = buildCalDavUrl(cfg, cfg.caldavTodoPath, true, true);
-                okTasks = fetchAndParseIcs(client, https, retryTasksUrl, cfg, extraEvents, extraTodos);
+            okTasks = fetchAndParseIcs(http, tasksUrl, cfg, extraEvents, extraTodos);
+            if (!okTasks && !tlsAllocationFailed && tasksUrl.find('@') != std::string::npos) {
+                std::string retryTasksUrl = buildCalDavUrl(cfg, cfg.caldavTodoPath, true, true);
+                okTasks = fetchAndParseIcs(http, retryTasksUrl, cfg, extraEvents, extraTodos);
             }
             // If configured tasks path returned 404 or failed, fallback to standard Nextcloud "personal" calendar
             if (!okTasks && !tlsAllocationFailed &&
                 strcmp(cfg.caldavTodoPath, ersa::config::FALLBACK_CALDAV_TODO) != 0) {
                 DebugLog::log("NET: Tasks at '%s' failed/404; trying fallback '%s'",
                               cfg.caldavTodoPath, ersa::config::FALLBACK_CALDAV_TODO);
-                String fallbackTasksUrl = buildCalDavUrl(cfg, ersa::config::FALLBACK_CALDAV_TODO, false, true);
-                okTasks = fetchAndParseIcs(client, https, fallbackTasksUrl, cfg, extraEvents, extraTodos);
-                if (!okTasks && !tlsAllocationFailed && fallbackTasksUrl.indexOf("@") != -1) {
-                    String retryFallback = buildCalDavUrl(cfg, ersa::config::FALLBACK_CALDAV_TODO, true, true);
-                    okTasks = fetchAndParseIcs(client, https, retryFallback, cfg, extraEvents, extraTodos);
+                std::string fallbackTasksUrl = buildCalDavUrl(cfg, ersa::config::FALLBACK_CALDAV_TODO, false, true);
+                okTasks = fetchAndParseIcs(http, fallbackTasksUrl, cfg, extraEvents, extraTodos);
+                if (!okTasks && !tlsAllocationFailed && fallbackTasksUrl.find('@') != std::string::npos) {
+                    std::string retryFallback = buildCalDavUrl(cfg, ersa::config::FALLBACK_CALDAV_TODO, true, true);
+                    okTasks = fetchAndParseIcs(http, retryFallback, cfg, extraEvents, extraTodos);
                 }
             }
             if (okTasks) {

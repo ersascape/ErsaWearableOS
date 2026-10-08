@@ -59,13 +59,19 @@ code are migration work, not a desired layer dependency.
   response and DNS responder contracts. The ESP32 adapter owns Arduino
   `WebServer`, `DNSServer`, and `IPAddress`; the app owns its HTML and settings
   behavior without including those framework types.
+- **Outbound network transport:** CalDAV and time sync now depend on generic
+  streaming HTTP and NTP client contracts. The ESP32 adapters own
+  `HTTPClient`, `WiFiClientSecure`, and ESP-IDF SNTP. `NetSync` retains product
+  policy, response parsing, timeout decisions, and task orchestration; its
+  remaining FreeRTOS task and heap diagnostics calls are platform migration
+  work.
 - **RTC:** `Esp32Rtc` now owns `Wire`, the DS3231 driver, and its bounded
   software-time interpolation/reconciliation. The old `WatchClock` functions
   are compatibility wrappers over the generic `IRtc`; their `DateTime` return
   type still leaks RTClib into callers and can be replaced by `TimePoint` in a
   later API migration.
-- **Still to migrate:** network sync still performs
-  HTTP/NTP operations in `src/core/net_sync.cpp`; USB control still uses ESP-IDF OTA,
+- **Still to migrate:** network sync still uses FreeRTOS task controls and
+  ESP-IDF heap diagnostics in `src/core/net_sync.cpp`; USB control still uses ESP-IDF OTA,
   partition, reset, heap, and CPU-frequency APIs; OTA transfer implementation
   still uses Arduino/ESP-IDF in the service. Move these behind network/time-sync,
   portal, OTA, and platform-diagnostics contracts respectively.

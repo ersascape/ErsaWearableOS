@@ -13,6 +13,7 @@
 #include "ersa/hal/power_management.h"
 #include "ersa/hal/console.h"
 #include "ersa/hal/http_server.h"
+#include "ersa/hal/network_client.h"
 
 namespace ersa {
 namespace board {
@@ -77,6 +78,10 @@ public:
     virtual hal::IHttpServer& getHttpServer() = 0;
     /// Return the board's captive DNS responder adapter.
     virtual hal::IDnsServer& getDnsServer() = 0;
+    /// Return platform HTTP transport for portable sync and provisioning services.
+    virtual hal::IHttpClient& getHttpClient() = 0;
+    /// Return the platform NTP synchronization adapter.
+    virtual hal::INtpTimeSource& getNtpTimeSource() = 0;
 
     /** Return monotonic milliseconds; values wrap according to uint32_t uptime. */
     virtual uint32_t getUptimeMs() const = 0;
