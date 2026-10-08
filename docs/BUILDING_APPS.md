@@ -83,7 +83,14 @@ not have room for a conventional app store.
 
 The generated [C++ API reference](https://pkgs-wearables.ersa.dev/wiki/api/)
 documents project headers and implementation, including HALs, services, app
-contracts, and board support. Third-party SDKs such as Arduino and ESP-IDF are
-downloaded by PlatformIO at their pinned versions; their own documentation is
-the authoritative reference for those APIs. The app contract deliberately
-keeps vendor SDK headers out of application code.
+contracts, and board support. It is built from the same source headers the app
+compiler uses; Doxygen comments on declarations provide the function
+reference.
+
+PlatformIO pins the current firmware to ESP-IDF 4.4.7 and Arduino-ESP32 2.0.17.
+Use the upstream [ESP-IDF 4.4 API reference](https://docs.espressif.com/projects/esp-idf/en/v4.4/esp32c3/api-reference/index.html)
+and [Arduino-ESP32 documentation](https://docs.espressif.com/projects/arduino-esp32/en/2.0.17/)
+for those vendor APIs. Their SDK headers and implementations are downloaded
+into PlatformIO's package cache; this project's Doxygen site documents Ersa
+code and links to the matching vendor references instead of duplicating SDK
+documentation.
