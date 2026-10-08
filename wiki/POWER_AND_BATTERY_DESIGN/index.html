@@ -193,11 +193,9 @@ The code does not call <code>esp_light_sleep_start()</code> from the UI loop; ma
 would bypass the controller's coordination.</p>
 <p>The e-paper driver switches off panel drive voltage after each refresh while
 retaining the visible image. The display manager handles refresh timing and
-forces a full waveform after 360 partial frames. The SSD1681 driver also
-forces a full waveform at least every five minutes, even if the changed region
-is small. A display-refresh performance scope holds the platform frequency
-lock only around rendering and the physical waveform, then releases it for
-automatic frequency management.</p>
+forces a full waveform after 360 partial frames. A display-refresh performance
+scope holds the platform frequency lock only around rendering and the physical
+waveform, then releases it for automatic frequency management.</p>
 <p>These build settings and code paths enable BLE-compatible automatic light sleep,
 but they do not prove that a particular device spends time in light sleep or
 that its BLE link remains stable under all negotiated connection parameters.
