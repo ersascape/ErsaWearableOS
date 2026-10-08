@@ -73,11 +73,22 @@ Result<void> Esp32Rtc::adjust(const TimePoint& time) {
     lastDriftSeconds_ = 0;
     if (online_ && responds()) {
         rtc_.adjust(value);
-        oscillatorStopped_ = false;
-        DebugLog::log("RTC adjusted to %04u-%02u-%02u %02u:%02u:%02u",
-                      unsigned(value.year()), unsigned(value.month()), unsigned(value.day()),
-                      unsigned(value.hour()), unsigned(value.minute()), unsigned(value.second()));
+        const DateTime written = rtc_.now();
+        const int64_t writeDelta = valid(written)
+            ? int64_t(written.unixtime()) - int64_t(value.unixtime())
+            : INT64_MAX;
+        if (writeDelta >= -2 && writeDelta <= 2) {
+            oscillatorStopped_ = false;
+            DebugLog::log("RTC adjusted and verified: %04u-%02u-%02u %02u:%02u:%02u",
+                          unsigned(written.year()), unsigned(written.month()), unsigned(written.day()),
+                          unsigned(written.hour()), unsigned(written.minute()), unsigned(written.second()));
+        } else {
+            online_ = false;
+            DebugLog::log("RTC write verification failed; chip readback delta=%lld s, software time retained",
+                          static_cast<long long>(writeDelta));
+        }
     } else {
+        online_ = false;
         DebugLog::log("RTC adjust I2C unreachable; software time set");
     }
     return Result<void>();
@@ -114,7 +125,10 @@ bool Esp32Rtc::valid(const DateTime& time) {
 bool Esp32Rtc::responds() const {
     Wire.beginTransmission(0x68);
     const uint8_t error = Wire.endTransmission();
-    if (error) DebugLog::log("RTC address=0x68 I2C error=%u", unsigned(error));
+    if (error) {
+        DebugLog::log("RTC address=0x68 I2C error=%u (SDA GPIO%d=%d SCL GPIO%d=%d)",
+                      unsigned(error), sda_, digitalRead(sda_), scl_, digitalRead(scl_));
+    }
     return error == 0;
 }
 
