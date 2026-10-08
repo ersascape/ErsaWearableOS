@@ -72,6 +72,7 @@ public:
     QueueHandle_t callQueue_{nullptr};
     QueueHandle_t queue_{nullptr};
     std::atomic<uint32_t> ancsEpoch_{0}, droppedHistory_{0}, droppedOther_{0};
+    uint32_t unreportedHistoryDrops_{0}, unreportedOtherDrops_{0};
     TaskHandle_t task_{nullptr};
     portMUX_TYPE controlMux_ = portMUX_INITIALIZER_UNLOCKED;
     esp_bd_addr_t peer_{};
@@ -269,15 +270,15 @@ public:
             return;
         }
         const bool incoming = data[2] == 1;
-        if (incoming)
-            DebugLog::log("ANCS: incoming-call event=%u flags=0x%02x uid=%08lx",
-                          unsigned(data[0]), unsigned(data[1]), static_cast<unsigned long>(uid));
         for (auto& target : dismissTargets_) if (target.uid == uid) target.allowed = false;
         if (incoming) {
             const bool fresh = !call_.ringing || call_.uid != uid;
             call_.update(uid, data[1]);
             publishedCallUid_ = uid;
-            if (fresh && callCb_) callCb_(CompanionCallAction::Incoming, "", "", callUserData_);
+            if (fresh) {
+                DebugLog::log("ANCS: incoming call detected");
+                if (callCb_) callCb_(CompanionCallAction::Incoming, "", "", callUserData_);
+            }
         }
         // Coalesce queued modifications without mixing attributes across UIDs.
         for (size_t i = 0; i < pendingCount_; ++i) {
@@ -558,6 +559,7 @@ public:
         for (auto& target : dismissTargets_) target = {};
         attributesBlocked_ = false; recoveryAttempts_ = 0;
         ++ancsEpoch_; droppedHistory_ = 0; droppedOther_ = 0;
+        unreportedHistoryDrops_ = 0; unreportedOtherDrops_ = 0;
         requestTraceLogged_ = false; responseTraceLogged_ = false;
         xQueueReset(sourceQueue_); xQueueReset(callQueue_);
         call_ = {}; publishedCallUid_ = 0;
@@ -642,9 +644,19 @@ public:
                 // Apply removals before validating a queued button action.
                 if (received) process(packet);
                 const auto dropped = droppedHistory_.exchange(0);
-                if (dropped) DebugLog::log("ANCS: history burst, skipped %lu records; BLE stays connected", (unsigned long)dropped);
+                unreportedHistoryDrops_ += dropped;
                 const auto other = droppedOther_.exchange(0);
-                if (other) DebugLog::log("BLE-Apple: dropped %lu queued updates", (unsigned long)other);
+                unreportedOtherDrops_ += other;
+                if (!hasQueuedWork()) {
+                    if (unreportedHistoryDrops_)
+                        DebugLog::log("ANCS: burst complete, skipped %lu history records; BLE stays connected",
+                                      static_cast<unsigned long>(unreportedHistoryDrops_));
+                    if (unreportedOtherDrops_)
+                        DebugLog::log("BLE-Apple: burst complete, dropped %lu non-history updates",
+                                      static_cast<unsigned long>(unreportedOtherDrops_));
+                    unreportedHistoryDrops_ = 0;
+                    unreportedOtherDrops_ = 0;
+                }
                 if (overflow_.exchange(false)) {
                     DebugLog::log("ANCS: attribute stream lost uid=%lu; recovering subscriptions, keeping BLE", (unsigned long)active_.uid);
                     // A malformed or dropped fragment makes this response

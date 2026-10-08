@@ -389,10 +389,6 @@ void BluetoothManager::apply(const events::Event& event) {
             }
             break;
         case EventType::NotificationReceived:
-#if defined(ARDUINO)
-            DebugLog::log("ANCS: notification attributes received uid=%08lx",
-                          static_cast<unsigned long>(event.notification.uid));
-#endif
             for (size_t i = 0; i < dismissedCount_; ++i)
                 if (dismissedUids_[i] == event.notification.uid) return;
             addNotification(event.notification.title, event.notification.message,
@@ -502,12 +498,7 @@ void BluetoothManager::onSourceNotification(const char* title, const char* messa
 
     events::Event evt = events::Event::createNotification(title, message, app, uid, millis(), canDismissRemotely);
     if (!title && !message) evt.type = app ? events::EventType::NotificationRemoved : events::EventType::NotificationsCleared;
-    else {
-#if defined(ARDUINO)
-        DebugLog::log("ANCS: notification callback uid=%08lx dismiss=%u",
-                      static_cast<unsigned long>(uid), unsigned(canDismissRemotely));
-#endif
-    }
+
     self->receive(evt);
 }
 
