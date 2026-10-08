@@ -3,7 +3,6 @@
 #include "core/debug_log.h"
 #include "ersa/config/ui_strings.h"
 #include "ui/text_layout.h"
-#include <Arduino.h>
 #include <string.h>
 
 namespace AppAgenda {

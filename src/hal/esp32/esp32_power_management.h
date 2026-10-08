@@ -11,8 +11,7 @@ namespace ersa::hal {
 
 /**
  * ESP-IDF power backend for automatic sleep, wake sources, and CPU profiles.
- * It coordinates FreeRTOS tickless idle and PM locks with BLE/radio policy;
- * direct light-sleep entry from app code would bypass that coordination.
+ * It coordinates FreeRTOS tickless idle and PM locks with BLE/radio policy.
  */
 class Esp32PowerManagement final : public IPowerManagement {
 public:
@@ -25,7 +24,6 @@ public:
     void allowAutomaticSleep(bool allow) override;
     void waitForWake(uint32_t timeoutMs) override;
     void notifyWake() override;
-    void enterLightSleep(uint64_t timerUs) override;
     void enterDeepSleep(uint64_t timerUs) override;
     bool acquirePerformance(PerformanceProfile profile, const char* reason) override;
     void releasePerformance(PerformanceProfile profile, const char* reason) override;

@@ -1,5 +1,3 @@
-#include <Arduino.h>
-#include "core/watch_clock.h"
 #include "core/watch_config.h"
 #include "core/debug_log.h"
 #include "core/usb_control.h"
@@ -35,11 +33,9 @@ void setup() {
 }
 
 void loop() {
-    WatchClock::tick();
     ersa::board::Board::current().getPowerManagement().tick();
     DebugLog::tick();
     UsbControl::tick();
     WatchUi::tick();
     ersa::services::OtaService::instance().tick();
-    delay(5);
 }

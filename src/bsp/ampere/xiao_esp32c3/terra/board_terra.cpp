@@ -26,8 +26,8 @@ BoardTerra::BoardTerra()
                pins_.display().reset.number, pins_.display().busy.number,
                pins_.spi().clock.number, pins_.spi().controllerIn.number, pins_.spi().controllerOut.number),
       rtc_(pins_.i2c().sda.number, pins_.i2c().scl.number),
-      battery_(pins_.battery().adc.number),
-      input_(pins_.buttons().top.number, pins_.buttons().bottom.number) {
+      battery_(pins_.battery()),
+      input_(pins_.buttons()) {
     config_.name = getDeviceInfo().name;
     config_.capabilities.wifi = true;
     config_.capabilities.bluetooth = true;

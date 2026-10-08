@@ -45,8 +45,13 @@ void DisplayManager::noteActivity(uint32_t currentUptimeMs) {
 }
 
 void DisplayManager::refresh(bool full, uint32_t currentUptimeMs) {
-    const bool doFull = full || fullNeeded_ || (partialFrames_ >= FULL_REFRESH_FRAME_COUNT);
-    display_.refresh(doFull);
+    refreshRect(Rect{0, 0, display_.width(), display_.height()}, full, currentUptimeMs);
+}
+
+void DisplayManager::refreshRect(const Rect& bounds, bool forceFull, uint32_t currentUptimeMs) {
+    const bool doFull = forceFull || fullNeeded_ || (partialFrames_ >= FULL_REFRESH_FRAME_COUNT);
+    if (doFull) display_.refresh(true);
+    else display_.refreshRect(bounds);
 
     panelPowered_ = true;
     if (doFull) {
@@ -79,7 +84,7 @@ void DisplayManager::tick(uint32_t currentUptimeMs) {
     }
 }
 
-uint8_t DisplayManager::getPartialFrameCount() const {
+uint16_t DisplayManager::getPartialFrameCount() const {
     return partialFrames_;
 }
 

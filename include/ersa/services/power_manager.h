@@ -130,11 +130,6 @@ public:
 
     /** True only when no active feature lease blocks automatic sleep. */
     bool canSleep() const;
-    /**
-     * Delegate light sleep to the board HAL, which coordinates RTOS and radio
-     * locks. The service deliberately does not invoke chip sleep primitives.
-     */
-    void enterLightSleep(uint64_t sleepTimeUs);
     /** Delegate deep sleep; zero timer leaves configured GPIO wakes as sources. */
     void enterDeepSleep(uint64_t sleepTimeUs = 0);
 
@@ -160,6 +155,7 @@ private:
     uint8_t criticalSampleCount_{0};
 
     const char* wakeLockTags_[MAX_WAKE_LOCKS];
+    uint16_t wakeLockReferences_[MAX_WAKE_LOCKS];
     size_t activeWakeLocks_{0};
 };
 

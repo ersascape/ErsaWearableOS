@@ -13,11 +13,12 @@ nav:
   - Wearable project: https://open.ersa.dev/wearable
   - Package repository: https://pkgs-wearables.ersa.dev/
   - Architecture: HAL_ARCHITECTURE.md
+  - Platform runtime: PLATFORM_RUNTIME_ARCHITECTURE.md
   - Board support: ADDING_A_BOARD.md
   - Features: FEATURES.md
   - Power and battery: POWER_AND_BATTERY_DESIGN.md
   - Timekeeping: TIMEKEEPING.md
-  - Firmware power audit: FIRMWARE_POWER_AUDIT.md
+  - Architecture and power audit: ARCHITECTURE_AND_POWER_AUDIT.md
   - Apple connectivity: apple-connectivity.md
   - USB control and ewctl: ewctl-control-bridge.md
   - PCB pin map: pcb-pin-map.md

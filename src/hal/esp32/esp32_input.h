@@ -3,6 +3,7 @@
 #if defined(ARDUINO)
 
 #include "ersa/hal/input.h"
+#include "ersa/board/pins.h"
 #include "ersa/events/event_bus.h"
 
 namespace ersa {
@@ -16,15 +17,17 @@ namespace hal {
 class Esp32Input : public IInput {
 public:
     /** Bind logical top/bottom GPIO numbers and the event destination. */
-    Esp32Input(int topPin, int bottomPin, events::EventBus& bus = events::EventBus::instance());
+    explicit Esp32Input(const board::ButtonPins& pins,
+                        events::EventBus& bus = events::EventBus::instance());
     ~Esp32Input() override = default;
 
     Result<void> init() override;
     void poll() override;
     bool isPressed(events::ButtonId button) const override;
+    bool hasPendingEvents() const override;
 
 private:
-    int topPin_, bottomPin_;
+    board::ButtonPins pins_;
     events::EventBus& bus_;
 };
 

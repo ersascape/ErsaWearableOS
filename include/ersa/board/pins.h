@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 namespace ersa {
 namespace board {
 
@@ -34,8 +36,15 @@ struct SpiPins { Pin clock; Pin controllerOut; Pin controllerIn; };
 struct DisplayPins { Pin chipSelect; Pin dataCommand; Pin reset; Pin busy; };
 /** User-visible button pins, in top and bottom product positions. */
 struct ButtonPins { Pin top; Pin bottom; };
-/** Analog input used to sample the battery divider or fuel-gauge signal. */
-struct BatteryPins { Pin adc; };
+/** Analog input and board scaling used to interpret a battery sense signal. */
+struct BatteryPins {
+    /** ADC input routed to the divider or fuel-gauge output. */
+    Pin adc;
+    /** Multiplier applied to measured ADC voltage to recover battery voltage. */
+    uint8_t voltageScaleNumerator{1};
+    /** Divisor paired with voltageScaleNumerator; must be nonzero. */
+    uint8_t voltageScaleDenominator{1};
+};
 
 /**
  * Board-specific pinctrl description consumed by platform setup code.

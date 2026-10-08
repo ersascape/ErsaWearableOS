@@ -11,6 +11,7 @@
 #include "hal/esp32/esp32_bluetooth.h"
 #include "hal/esp32/esp32_wifi.h"
 #include "hal/esp32/esp32_power_management.h"
+#include "hal/esp32/esp32_usb_console.h"
 
 namespace ersa {
 namespace board {
@@ -43,7 +44,7 @@ private:
                                {9, PinFunction::Gpio, PinPull::None, PinActiveLevel::High, PinDirection::Input}};
     const ButtonPins buttons_{{4, PinFunction::Gpio, PinPull::Up, PinActiveLevel::Low, PinDirection::Input},
                               {3, PinFunction::Gpio, PinPull::Up, PinActiveLevel::Low, PinDirection::Input}};
-    const BatteryPins battery_{{2, PinFunction::Adc, PinPull::None, PinActiveLevel::High, PinDirection::Input}};
+    const BatteryPins battery_{{2, PinFunction::Adc, PinPull::None, PinActiveLevel::High, PinDirection::Input}, 2, 1};
 };
 
 /**
@@ -88,6 +89,8 @@ public:
     hal::IWifiRadio& getWifi() override { return wifi_; }
     /** Return ESP32 clock, sleep, performance, and wake-source control. */
     hal::IPowerManagement& getPowerManagement() override { return powerManagement_; }
+    /** Return the USB Serial/JTAG diagnostics and control transport. */
+    hal::IConsole& getConsole() override { return console_; }
 
     /** Return monotonic ESP32 uptime in milliseconds. */
     uint32_t getUptimeMs() const override;
@@ -109,6 +112,7 @@ private:
     hal::Esp32Bluetooth bluetooth_;
     hal::Esp32Wifi wifi_;
     hal::Esp32PowerManagement powerManagement_;
+    hal::Esp32UsbConsole console_;
 };
 
 } // namespace board

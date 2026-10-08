@@ -22,7 +22,7 @@ public:
     /** Idle duration before the display controller may power off. */
     static constexpr uint32_t IDLE_POWEROFF_TIMEOUT_MS = 8000;
     /** Partial frames before policy requests a full ghost-clearing waveform. */
-    static constexpr uint8_t FULL_REFRESH_FRAME_COUNT = 25;
+    static constexpr uint16_t FULL_REFRESH_FRAME_COUNT = 360;
 
     /** Bind the generic display; manager does not own the driver object. */
     explicit DisplayManager(hal::IDisplay& display);
@@ -51,12 +51,20 @@ public:
     /** Bypass dirty scheduling for explicit refresh requests, such as redraw. */
     void refresh(bool full = false, uint32_t currentUptimeMs = 0);
 
+    /**
+     * Refresh an invalidated region and centralize full-waveform cadence.
+     * @param bounds Changed framebuffer area; ignored for a full waveform.
+     * @param forceFull Request a full waveform for first frame or known day change.
+     * @param currentUptimeMs Monotonic time used to update panel bookkeeping.
+     */
+    void refreshRect(const Rect& bounds, bool forceFull, uint32_t currentUptimeMs);
+
     // User activity notification (keeps panel powered)
     /** Reset the idle timer so interaction is not interrupted by power-off. */
     void noteActivity(uint32_t currentUptimeMs);
 
     /** Read the ghosting-policy counter used to decide when to full-refresh. */
-    uint8_t getPartialFrameCount() const;
+    uint16_t getPartialFrameCount() const;
     /// Reset the partial-frame refresh counter.
     void resetPartialFrameCount();
 
@@ -73,7 +81,7 @@ private:
     bool dirty_{true};
     bool fullNeeded_{true};
     bool panelPowered_{false};
-    uint8_t partialFrames_{0};
+    uint16_t partialFrames_{0};
     uint32_t lastRefreshTime_{0};
     uint32_t lastActivityTime_{0};
 };

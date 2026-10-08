@@ -24,15 +24,23 @@ public:
     Result<void> adjust(const TimePoint& time) override;
     Result<void> setEpoch(uint32_t epochSeconds) override;
     bool isHealthy() const override;
-
-    DateTime getRtcLibNow();
-    void adjustRtcLib(const DateTime& dt);
+    /** Re-read the DS3231 after automatic sleep may have paused MCU uptime. */
+    void resync() override;
 
 private:
     int sda_, scl_;
+    RTC_DS3231 rtc_;
+    DateTime cachedTime_{2026, 9, 28, 0, 0, 0};
+    uint32_t lastReadMs_{0};
+    uint32_t lastRtcPollMs_{0};
+    bool online_{false};
+    bool oscillatorStopped_{false};
 
     static TimePoint toTimePoint(const DateTime& dt);
     static DateTime toDateTime(const TimePoint& tp);
+    static bool valid(const DateTime& time);
+    bool responds() const;
+    void reconcile(uint32_t nowMs, bool force);
 };
 
 } // namespace hal

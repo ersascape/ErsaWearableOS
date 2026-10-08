@@ -1,7 +1,6 @@
 #include "app_calendar.h"
 #include "core/debug_log.h"
 #include "ersa/config/ui_strings.h"
-#include <Arduino.h>
 
 namespace AppCalendar {
 

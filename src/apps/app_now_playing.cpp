@@ -3,7 +3,6 @@
 #include "ersa/app/application_manager.h"
 #include "ui/text_layout.h"
 #include "core/debug_log.h"
-#include <Arduino.h>
 
 namespace AppNowPlaying {
 

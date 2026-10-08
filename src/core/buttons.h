@@ -2,6 +2,7 @@
 #include <stdint.h>
 
 namespace Buttons {
+enum class Pull : uint8_t { None, Up, Down };
 enum class Event : uint8_t {
     None = 0,
     Next,        // Top single click: Next screen
@@ -12,11 +13,10 @@ enum class Event : uint8_t {
     ActionLong   // Bottom long press: Context trigger (e.g. WiFi sync)
 };
 
-void begin();
+void begin(int topPin, int bottomPin, Pull topPull, Pull bottomPull,
+           bool topActiveLow, bool bottomActiveLow);
 void tick();
 Event takeEvent();
-bool isPressed();
-bool bothPressed();
 bool hasPendingEvents();
 const char* name(Event event);
 }

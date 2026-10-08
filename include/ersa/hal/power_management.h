@@ -13,10 +13,9 @@ enum class PerformanceProfile : uint8_t { Interactive, Compute };
 /**
  * Platform contract for clock scaling, wake sources, and low-power states.
  *
- * PowerManager decides when sleep is appropriate; this interface performs the
- * chip/RTOS operation and coordinates peripheral locks. Keeping both policy
- * and mechanism explicit prevents a direct sleep call from suspending BLE,
- * losing GPIO wake configuration, or bypassing dynamic frequency scaling.
+ * Power policy decides when automatic sleep is appropriate; this interface
+ * configures the chip/RTOS and coordinates peripheral locks. The normal idle
+ * path waits on the RTOS so automatic sleep can honor BLE and PM constraints.
  */
 class IPowerManagement {
 public:
@@ -36,11 +35,6 @@ public:
     virtual void waitForWake(uint32_t timeoutMs) = 0;
     /** Notify the task that new event/driver work is ready to process. */
     virtual void notifyWake() = 0;
-    /**
-     * Enter coordinated light sleep; active BLE/PM locks may constrain entry.
-     * @param timerUs Optional timer wake deadline in microseconds; zero omits it.
-     */
-    virtual void enterLightSleep(uint64_t timerUs) = 0;
     /**
      * Enter deep sleep after configuring enabled GPIO/timer sources.
      * This normally restarts firmware on wake, unlike light sleep.

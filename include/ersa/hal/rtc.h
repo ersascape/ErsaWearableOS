@@ -42,6 +42,8 @@ public:
     virtual Result<void> setEpoch(uint32_t epochSeconds) = 0;
     /** Report backend health; this does not guarantee the wall time is accurate. */
     virtual bool isHealthy() const = 0;
+    /** Force reconciliation with hardware after a wake where uptime paused. */
+    virtual void resync() {}
 };
 
 } // namespace hal

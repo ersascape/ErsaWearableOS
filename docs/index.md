@@ -11,6 +11,7 @@ repository and labels planned integrations as planned.
 - [Wearable project](https://open.ersa.dev/wearable): product and project landing page.
 - [Wearables package repository](https://pkgs-wearables.ersa.dev/): downloadable `ewctl` packages and releases.
 - [Architecture and hardware boundaries](HAL_ARCHITECTURE.md)
+- [Platform layers and runtime scheduler](PLATFORM_RUNTIME_ARCHITECTURE.md)
 - [Build and register apps](BUILDING_APPS.md)
 - [Add or port a board](ADDING_A_BOARD.md)
 - [Feature catalog](FEATURES.md)
@@ -18,7 +19,7 @@ repository and labels planned integrations as planned.
 ## Firmware and hardware
 
 - [Power and battery design](POWER_AND_BATTERY_DESIGN.md)
-- [Firmware power audit](FIRMWARE_POWER_AUDIT.md)
+- [Current architecture and power audit](ARCHITECTURE_AND_POWER_AUDIT.md)
 - [PCB pin map](pcb-pin-map.md)
 - [Apple Bluetooth connectivity](apple-connectivity.md)
 - [USB developer control and `ewctl`](ewctl-control-bridge.md)

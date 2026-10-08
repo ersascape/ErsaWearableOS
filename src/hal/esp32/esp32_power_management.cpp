@@ -91,16 +91,6 @@ void Esp32PowerManagement::notifyWake() {
     if (uiTask_) xTaskNotifyGive(uiTask_);
 #endif
 }
-void Esp32PowerManagement::enterLightSleep(uint64_t timerUs) {
-#if defined(ARDUINO) && defined(CONFIG_IDF_TARGET_ESP32C3) && defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
-    if (timerUs) esp_sleep_enable_timer_wakeup(timerUs);
-    esp_light_sleep_start();
-    const auto cause = esp_sleep_get_wakeup_cause();
-    DebugLog::log("PWR: light sleep wake cause=%d", int(cause));
-#else
-    (void)timerUs;
-#endif
-}
 void Esp32PowerManagement::enterDeepSleep(uint64_t timerUs) {
 #if defined(ARDUINO) && defined(CONFIG_IDF_TARGET_ESP32C3) && defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
     if (timerUs) esp_sleep_enable_timer_wakeup(timerUs);

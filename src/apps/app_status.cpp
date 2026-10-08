@@ -1,7 +1,7 @@
 #include "app_status.h"
 #include "core/watch_clock.h"
 #include "core/debug_log.h"
-#include "core/battery.h"
+#include "ersa/services/power_manager.h"
 #include "core/net_sync.h"
 #include "ersa/services/bluetooth_manager.h"
 #include "ersa/services/ota_service.h"
@@ -47,10 +47,11 @@ void render(ersa::hal::IDisplay& display) {
     display.setCursor(leftX, startY + rowHeight);
     display.print("battery");
     display.setCursor(valX, startY + rowHeight);
-    if (Battery::isConnected()) {
+    auto& power = ersa::services::PowerManager::instance();
+    if (power.isBatteryConnected()) {
         char battBuf[20];
         snprintf(battBuf, sizeof(battBuf), "%u%% (%u mV)",
-                 Battery::percentage(), Battery::millivolts());
+                 power.getBatteryPercent(), power.getBatteryMv());
         display.print(battBuf);
     } else {
         display.print(ersa::strings::MSG_USB_POWER);

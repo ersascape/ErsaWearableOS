@@ -3,13 +3,10 @@
 
 namespace WatchClock {
 
-void begin();
-void tick();
-// Refresh the software cache from the DS3231 after a light-sleep wake.
+// Refresh the selected RTC HAL after a wake where platform uptime may pause.
 void resync();
 DateTime now();
 bool healthy();
-bool setAtBoot();
 
 // Real-time synchronization (NTP or BLE phone time sync)
 void setEpoch(uint32_t epochSeconds);

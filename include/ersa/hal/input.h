@@ -27,6 +27,8 @@ public:
     virtual void poll() = 0;
     /** Query current debounced state using a logical ButtonId. */
     virtual bool isPressed(events::ButtonId button) const = 0;
+    /** Report queued normalized input events that still need application dispatch. */
+    virtual bool hasPendingEvents() const = 0;
 };
 
 } // namespace hal

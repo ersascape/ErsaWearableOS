@@ -34,6 +34,24 @@ jobs:
         run: sudo apt-get install --yes doxygen
       - name: Build wiki and API reference
         run: make docs
+      - name: Check C++ documentation coverage
+        run: |
+          set +e
+          python3 scripts/check_doc_coverage.py \
+            --xml-dir .pio/doxygen/xml \
+            --report .pio/doc-coverage.md \
+            --fail-under 100
+          coverage_status=$?
+          cat .pio/doc-coverage.md >> "$GITHUB_STEP_SUMMARY"
+          exit "$coverage_status"
+      - name: Upload documentation coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpp-documentation-coverage-${{ github.sha }}
+          path: .pio/doc-coverage.md
+          if-no-files-found: ignore
+          retention-days: 30
       - name: Upload wiki site
         uses: actions/upload-artifact@v4
         with:

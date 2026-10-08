@@ -59,6 +59,7 @@ PowerManager::PowerManager(hal::IBattery& battery, events::EventBus& bus)
     : battery_(battery), bus_(bus) {
     for (size_t i = 0; i < MAX_WAKE_LOCKS; ++i) {
         wakeLockTags_[i] = nullptr;
+        wakeLockReferences_[i] = 0;
     }
 }
 
@@ -81,12 +82,16 @@ bool PowerManager::acquireWakeLockRaw(const char* tag) {
     if (!tag) return false;
     for (size_t i = 0; i < MAX_WAKE_LOCKS; ++i) {
         if (wakeLockTags_[i] && strcmp(wakeLockTags_[i], tag) == 0) {
-            return true; // Already acquired
+            if (wakeLockReferences_[i] == UINT16_MAX) return false;
+            ++wakeLockReferences_[i];
+            ++activeWakeLocks_;
+            return true;
         }
     }
     for (size_t i = 0; i < MAX_WAKE_LOCKS; ++i) {
         if (!wakeLockTags_[i]) {
             wakeLockTags_[i] = tag;
+            wakeLockReferences_[i] = 1;
             activeWakeLocks_++;
             return true;
         }
@@ -98,8 +103,10 @@ bool PowerManager::releaseWakeLockRaw(const char* tag) {
     if (!tag) return false;
     for (size_t i = 0; i < MAX_WAKE_LOCKS; ++i) {
         if (wakeLockTags_[i] && strcmp(wakeLockTags_[i], tag) == 0) {
-            wakeLockTags_[i] = nullptr;
+            if (wakeLockReferences_[i] == 0) return false;
+            --wakeLockReferences_[i];
             if (activeWakeLocks_ > 0) activeWakeLocks_--;
+            if (wakeLockReferences_[i] == 0) wakeLockTags_[i] = nullptr;
             return true;
         }
     }
@@ -221,19 +228,6 @@ void PowerManager::requestState(PowerState state) {
 bool PowerManager::canSleep() const {
     if (hasWakeLocks()) return false;
     return true;
-}
-
-void PowerManager::enterLightSleep(uint64_t sleepTimeUs) {
-    state_ = PowerState::LightSleep;
-#if defined(ARDUINO)
-    ersa::board::Board::current().getPowerManagement().enterLightSleep(sleepTimeUs);
-#endif
-#if !defined(ARDUINO)
-    (void)sleepTimeUs;
-#endif
-#if defined(ARDUINO)
-    state_ = PowerState::Active;
-#endif
 }
 
 void PowerManager::enterDeepSleep(uint64_t sleepTimeUs) {

@@ -214,11 +214,12 @@ void flushReply() {
         responseOffset = responseLength = 0;
         return;
     }
-    const int writable = Serial.availableForWrite();
-    if (writable <= 0) return;
+    auto& console = ersa::board::Board::current().getConsole();
+    const size_t writable = console.availableForWrite();
+    if (!writable) return;
     const size_t remaining = responseLength - responseOffset;
-    const size_t chunk = remaining < size_t(writable) ? remaining : size_t(writable);
-    const size_t sent = Serial.write(reinterpret_cast<const uint8_t*>(responseBuffer + responseOffset), chunk);
+    const size_t chunk = remaining < writable ? remaining : writable;
+    const size_t sent = console.write(reinterpret_cast<const uint8_t*>(responseBuffer + responseOffset), chunk);
     responseOffset += sent;
     if (responseOffset >= responseLength) responseOffset = responseLength = 0;
 }
@@ -385,7 +386,7 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
         snprintf(data, sizeof(data), "{\"state\":\"%s\",\"power_locks_clear\":%s,\"cpu_mhz\":%u,\"cpu_test_override_mhz\":%u,\"usb_blocks_sleep\":%s}",
                  powerStateName(power.getState()), power.canSleep() ? "true" : "false", unsigned(getCpuFrequencyMhz()),
                  ersa::board::Board::current().getPowerManagement().testCpuFrequencyMHz(),
-                 bool(Serial) ? "true" : "false");
+                 ersa::board::Board::current().getConsole().isAttached() ? "true" : "false");
         sendReply(id, true, nullptr, nullptr, data);
     } else if (strcmp(command, "power.cpu-freq-get") == 0) {
         char data[128];
@@ -464,7 +465,8 @@ void begin() {
 
 void tick() {
     if (!initialized) begin();
-    if (!Serial) {
+    auto& console = ersa::board::Board::current().getConsole();
+    if (!console.isAttached()) {
         DebugLog::setProtocolMode(false);
         requestLength = 0;
         droppingLongRequest = false;
@@ -482,8 +484,8 @@ void tick() {
     // replies framed and avoids blocking the watch loop on USB backpressure.
     if (responseLength) return;
     // Bound the work performed in the main loop to preserve UI/BLE latency.
-    for (unsigned budget = 0; budget < 64 && Serial.available(); ++budget) {
-        const int incoming = Serial.read();
+    for (unsigned budget = 0; budget < 64 && console.available(); ++budget) {
+        const int incoming = console.read();
         if (incoming < 0) break;
         const char ch = char(incoming);
         if (ch == '\r') continue;

@@ -1,10 +1,9 @@
 #include "watchface_clock.h"
 #include "core/watch_clock.h"
-#include "core/battery.h"
+#include "ersa/services/power_manager.h"
 #include "core/net_sync.h"
 #include "ersa/config/ui_strings.h"
 #include "ersa/services/bluetooth_manager.h"
-#include <Arduino.h>
 
 namespace WatchfaceClock {
 
@@ -154,7 +153,8 @@ void render(ersa::hal::IDisplay& display, const DateTime& time, bool full) {
         display.setFont(ersa::hal::FontFace::MiSansRegular8);
         display.setCursor(leftX, 134);
         display.print(ersa::strings::MSG_SYNCING);
-    } else if (Battery::isConnected() && Battery::percentage() <= 20) {
+    } else if (ersa::services::PowerManager::instance().isBatteryConnected() &&
+               ersa::services::PowerManager::instance().getBatteryPercent() <= 20) {
         display.setFont(ersa::hal::FontFace::MiSansRegular8);
         display.setCursor(leftX, 134);
         display.print(ersa::strings::MSG_LOW_BATT);

@@ -8,11 +8,17 @@
 namespace ersa {
 namespace hal {
 
-Esp32Input::Esp32Input(int topPin, int bottomPin, events::EventBus& bus)
-    : topPin_(topPin), bottomPin_(bottomPin), bus_(bus) {}
+Esp32Input::Esp32Input(const board::ButtonPins& pins, events::EventBus& bus)
+    : pins_(pins), bus_(bus) {}
 
 Result<void> Esp32Input::init() {
-    Buttons::begin();
+    Buttons::begin(pins_.top.number, pins_.bottom.number,
+                   pins_.top.pull == board::PinPull::Up ? Buttons::Pull::Up :
+                       pins_.top.pull == board::PinPull::Down ? Buttons::Pull::Down : Buttons::Pull::None,
+                   pins_.bottom.pull == board::PinPull::Up ? Buttons::Pull::Up :
+                       pins_.bottom.pull == board::PinPull::Down ? Buttons::Pull::Down : Buttons::Pull::None,
+                   pins_.top.activeLevel == board::PinActiveLevel::Low,
+                   pins_.bottom.activeLevel == board::PinActiveLevel::Low);
     return Result<void>();
 }
 
@@ -21,7 +27,7 @@ void Esp32Input::poll() {
     const auto legacy = Buttons::takeEvent();
     if (legacy == Buttons::Event::None) return;
     // A simultaneous hold is reserved for the forced-restart gesture.
-    if (Buttons::bothPressed()) return;
+    if (isPressed(events::ButtonId::Button1) && isPressed(events::ButtonId::Button2)) return;
 
     events::EventType type = events::EventType::None;
     events::ButtonId btn = events::ButtonId::Unknown;
@@ -62,11 +68,17 @@ void Esp32Input::poll() {
 
 bool Esp32Input::isPressed(events::ButtonId button) const {
     if (button == events::ButtonId::Button1) {
-        return digitalRead(topPin_) == LOW;
+        return digitalRead(pins_.top.number) ==
+            (pins_.top.activeLevel == board::PinActiveLevel::Low ? LOW : HIGH);
     } else if (button == events::ButtonId::Button2) {
-        return digitalRead(bottomPin_) == LOW;
+        return digitalRead(pins_.bottom.number) ==
+            (pins_.bottom.activeLevel == board::PinActiveLevel::Low ? LOW : HIGH);
     }
     return false;
+}
+
+bool Esp32Input::hasPendingEvents() const {
+    return Buttons::hasPendingEvents();
 }
 
 } // namespace hal

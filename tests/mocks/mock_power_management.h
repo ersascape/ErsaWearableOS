@@ -11,7 +11,6 @@ public:
     void allowAutomaticSleep(bool allow) override { sleepAllowed = allow; }
     void waitForWake(uint32_t timeoutMs) override { lastWaitMs = timeoutMs; }
     void notifyWake() override { ++wakeNotifications; }
-    void enterLightSleep(uint64_t timerUs) override { lastLightSleepUs = timerUs; }
     void enterDeepSleep(uint64_t timerUs) override { lastDeepSleepUs = timerUs; }
     bool acquirePerformance(hal::PerformanceProfile, const char*) override { ++performanceAcquires; return true; }
     void releasePerformance(hal::PerformanceProfile, const char*) override { ++performanceReleases; }
@@ -24,7 +23,6 @@ public:
     bool sleepAllowed{false};
     uint32_t lastWaitMs{0};
     uint32_t wakeNotifications{0};
-    uint64_t lastLightSleepUs{0};
     uint64_t lastDeepSleepUs{0};
     uint32_t performanceAcquires{0};
     uint32_t performanceReleases{0};

@@ -51,10 +51,11 @@ layout.
 - [Wiki home](docs/index.md): start here for the developer and hardware guides.
 - [Build and register apps](docs/BUILDING_APPS.md)
 - [Architecture and HAL boundaries](docs/HAL_ARCHITECTURE.md)
+- [Platform runtime and scheduler](docs/PLATFORM_RUNTIME_ARCHITECTURE.md)
 - [Adding a board](docs/ADDING_A_BOARD.md)
 - [Feature catalog](docs/FEATURES.md)
 - [Power and battery design](docs/POWER_AND_BATTERY_DESIGN.md)
-- [Firmware power audit](docs/FIRMWARE_POWER_AUDIT.md)
+- [Current architecture and power audit](docs/ARCHITECTURE_AND_POWER_AUDIT.md)
 - [Apple connectivity](docs/apple-connectivity.md)
 - [USB control bridge and `ewctl`](docs/ewctl-control-bridge.md)
 - [PCB pin map](docs/pcb-pin-map.md)

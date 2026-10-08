@@ -11,6 +11,7 @@
 #include "ersa/hal/companion_source.h"
 #include "ersa/hal/wifi.h"
 #include "ersa/hal/power_management.h"
+#include "ersa/hal/console.h"
 
 namespace ersa {
 namespace board {
@@ -69,6 +70,8 @@ public:
     virtual hal::IWifiRadio& getWifi() = 0;
     /// Return the platform power-management implementation selected by this BSP.
     virtual hal::IPowerManagement& getPowerManagement() = 0;
+    /// Return the platform debug/control console selected by this BSP.
+    virtual hal::IConsole& getConsole() = 0;
 
     /** Return monotonic milliseconds; values wrap according to uint32_t uptime. */
     virtual uint32_t getUptimeMs() const = 0;

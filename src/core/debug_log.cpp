@@ -7,11 +7,7 @@
 #include <Preferences.h>
 #include <string.h>
 
-// Serial must resolve to USB Serial/JTAG, never UART0 on EPD GPIO20/21.
-#if !ARDUINO_USB_CDC_ON_BOOT || !ARDUINO_USB_MODE
-#error "Watch logging requires ARDUINO_USB_MODE=1 and ARDUINO_USB_CDC_ON_BOOT=1"
-#endif
-
+// The selected console HAL must use USB Serial/JTAG, never UART0 on EPD GPIO20/21.
 namespace {
 constexpr uint32_t HEARTBEAT_INTERVAL_MS = 10000;
 // Keep a short actionable history without reserving excessive RAM for logs.
@@ -80,10 +76,8 @@ void recordBoot() {
 
 void DebugLog::begin() {
     recordBoot();
-    Serial.setTxBufferSize(512);
-    Serial.begin(115200);
-    Serial.setTxTimeoutMs(0);
-    // No while (!Serial): the watch must run with no USB monitor attached.
+    ersa::board::Board::current().getConsole().begin(115200);
+    // Do not block startup waiting for a USB host; the watch runs untethered.
 }
 
 void DebugLog::log(const char* format, ...) {
@@ -103,10 +97,11 @@ void DebugLog::log(const char* format, ...) {
     record.text[length] = '\0';
     const bool machineProtocol = protocolMode;
     portEXIT_CRITICAL(&logMux);
-    if (!Serial || machineProtocol) return;
+    auto& console = ersa::board::Board::current().getConsole();
+    if (!console.isAttached() || machineProtocol) return;
     // Drop a line rather than block buttons/display if the host stops reading.
-    if (Serial.availableForWrite() >= static_cast<int>(length))
-        Serial.write(reinterpret_cast<const uint8_t*>(text), length);
+    if (console.availableForWrite() >= length)
+        console.write(reinterpret_cast<const uint8_t*>(text), length);
 }
 
 void DebugLog::setProtocolMode(bool enabled) {
@@ -142,7 +137,7 @@ uint32_t DebugLog::latestSequence() {
 void DebugLog::tick() {
     static bool attached = false;
     static uint32_t lastReport = 0;
-    const bool connected = bool(Serial);
+    const bool connected = ersa::board::Board::current().getConsole().isAttached();
     if (!connected) setProtocolMode(false);
     if (connected && !attached) {
         log("ErsaWearable boot=%lu reset=%s(%d) saved=%d; display shows HH:MM only",
@@ -157,18 +152,18 @@ void DebugLog::tick() {
     if (uint32_t(millis() - lastReport) < HEARTBEAT_INTERVAL_MS) return;
     lastReport = millis();
     const DateTime time = WatchClock::now();
+    auto& board = ersa::board::Board::current();
+    const bool button1Pressed = board.getInput().isPressed(ersa::events::ButtonId::Button1);
+    const bool button2Pressed = board.getInput().isPressed(ersa::events::ButtonId::Button2);
     log("LOOP boot=%lu time=%02u:%02u:%02u rtc=%s B1=%d B2=%d EPD_BUSY=%d heap=%u",
         (unsigned long)history.count,
         unsigned(time.hour()), unsigned(time.minute()), unsigned(time.second()),
         WatchClock::healthy() ? "online" : "offline",
-        digitalRead(ersa::board::Board::current().getPins().buttons().top.number), digitalRead(ersa::board::Board::current().getPins().buttons().bottom.number),
-        digitalRead(ersa::board::Board::current().getPins().display().busy.number), unsigned(ESP.getFreeHeap()));
+        button1Pressed, button2Pressed, board.getDisplay().isBusy(), unsigned(ESP.getFreeHeap()));
 }
 
 void DebugLog::flush() {
-    if (Serial) {
-        Serial.flush();
-    }
+    ersa::board::Board::current().getConsole().flush();
 }
 
 uint32_t DebugLog::bootCount() { return history.count; }

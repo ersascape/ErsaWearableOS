@@ -3,6 +3,7 @@
 #if defined(ARDUINO)
 
 #include "ersa/hal/battery.h"
+#include "ersa/board/pins.h"
 
 namespace ersa {
 namespace hal {
@@ -11,7 +12,7 @@ namespace hal {
 class Esp32Battery : public IBattery {
 public:
     /** Bind the ADC channel supplied by the selected BSP pin map. */
-    explicit Esp32Battery(int adcPin = 2);
+    explicit Esp32Battery(const board::BatteryPins& pins);
     ~Esp32Battery() override = default;
 
     Result<void> init() override;
@@ -22,7 +23,11 @@ public:
     bool isCharging() const override;
 
 private:
-    int adcPin_;
+    board::BatteryPins pins_;
+    uint16_t cachedMillivolts_{0};
+    uint8_t cachedPercentage_{0};
+    bool connected_{false};
+    bool hasVoltageSample_{false};
 };
 
 } // namespace hal

@@ -16,6 +16,7 @@
 #include "ersa/services/logging_service.h"
 #include "ersa/services/bluetooth_manager.h"
 #include "ersa/services/session_stats.h"
+#include "ersa/runtime/scheduler.h"
 #include "ersa/system.h"
 #include "mocks/mock_display.h"
 #include "mocks/mock_rtc.h"
@@ -23,6 +24,7 @@
 #include "mocks/mock_bluetooth.h"
 #include "mocks/mock_wifi.h"
 #include "mocks/mock_power_management.h"
+#include "mocks/mock_console.h"
 
 using namespace ersa;
 
@@ -65,13 +67,51 @@ void test_display_hal_contract() {
     TEST_PASS();
 }
 
+void test_runtime_scheduler() {
+    runtime::SleepEligibility eligible{true, false, true, false, false, false, false, false};
+    TEST_ASSERT(eligible.maySleep(), "sleep is allowed when all owners are idle");
+    eligible.featureLeaseHeld = true;
+    TEST_ASSERT(!eligible.maySleep(), "a feature lease blocks automatic sleep");
+    eligible.featureLeaseHeld = false;
+    eligible.pendingWork = true;
+    TEST_ASSERT(!eligible.maySleep(), "pending work blocks automatic sleep");
+    eligible.pendingWork = false;
+    eligible.foregroundWorkActive = true;
+    TEST_ASSERT(!eligible.maySleep(), "active foreground work blocks automatic sleep");
+
+    runtime::WakeDeadlineSet deadlines(60000);
+    deadlines.includeDelay(20000);
+    deadlines.includeDelay(500);
+    deadlines.includeDelay(10000);
+    TEST_ASSERT(deadlines.delayMs() == 500, "scheduler selects the earliest service deadline");
+    deadlines.includeDelay(0);
+    TEST_ASSERT(deadlines.delayMs() == 0, "due work requests an immediate wake");
+    TEST_PASS();
+}
+
+void test_console_hal_contract() {
+    test::MockConsole implementation;
+    hal::IConsole& console = implementation;
+    console.begin(115200);
+    const uint8_t message[] = {'o', 'k'};
+    TEST_ASSERT(console.isAttached() && implementation.baudRate_ == 115200,
+                "console exposes attachment state and configured transport speed");
+    TEST_ASSERT(console.write(message, sizeof(message)) == sizeof(message) &&
+                implementation.output_ == "ok", "console writes through the generic byte contract");
+    implementation.input_ = "x";
+    TEST_ASSERT(console.available() == 1 && console.read() == 'x',
+                "console exposes bounded host input through the generic contract");
+    console.flush();
+    TEST_ASSERT(implementation.flushCount_ == 1, "console flush request reaches its backend");
+    TEST_PASS();
+}
+
 void test_power_management_hal_contract() {
     test::MockPowerManagement implementation;
     hal::IPowerManagement& power = implementation;
     power.allowAutomaticSleep(true);
     power.waitForWake(1200);
     power.notifyWake();
-    power.enterLightSleep(500000);
     power.enterDeepSleep(900000);
     {
         hal::PerformanceScope scope(power, hal::PerformanceProfile::Compute, "test");
@@ -79,8 +119,8 @@ void test_power_management_hal_contract() {
     }
     TEST_ASSERT(implementation.sleepAllowed && implementation.lastWaitMs == 1200,
                 "sleep policy and timed wake wait are exposed by HAL");
-    TEST_ASSERT(implementation.wakeNotifications == 1 && implementation.lastLightSleepUs == 500000 &&
-                implementation.lastDeepSleepUs == 900000, "wake and sleep requests reach HAL");
+    TEST_ASSERT(implementation.wakeNotifications == 1 && implementation.lastDeepSleepUs == 900000,
+                "wake and deep-sleep requests reach HAL");
     TEST_ASSERT(implementation.performanceReleases == 1, "performance scope releases through HAL");
     TEST_PASS();
 }
@@ -338,6 +378,17 @@ void test_power_manager() {
     }
     TEST_ASSERT(!power.hasWakeLocks(), "All wake locks released automatically via RAII");
 
+    {
+        services::WakeLock first = power.acquireWakeLock("shared-operation");
+        services::WakeLock second = power.acquireWakeLock("shared-operation");
+        TEST_ASSERT(power.getActiveWakeLockCount() == 2,
+                    "same-tag wake lock acquisitions are counted independently");
+        first.release();
+        TEST_ASSERT(!power.canSleep() && power.getActiveWakeLockCount() == 1,
+                    "releasing one same-tag lease keeps the other sleep constraint active");
+    }
+    TEST_ASSERT(power.canSleep(), "all same-tag leases release independently");
+
     // Activity tracking
     power.noteActivity(5000);
     TEST_ASSERT(power.getIdleTimeMs(5000) == 0, "Zero idle right after activity");
@@ -350,9 +401,6 @@ void test_power_manager() {
         TEST_ASSERT(!power.canSleep(), "Cannot sleep while wake lock held");
     }
     TEST_ASSERT(power.canSleep(), "Can sleep after wake lock released");
-
-    power.enterLightSleep(1000000);
-    TEST_ASSERT(power.getState() == services::PowerState::LightSleep, "State changed to LightSleep");
 
     power.enterDeepSleep(0);
     TEST_ASSERT(power.getState() == services::PowerState::DeepSleep, "State changed to DeepSleep");
@@ -391,6 +439,15 @@ void test_display_manager() {
     bool updatedOnTime = displayMgr.updateIfDirty(1300); // 600ms elapsed
     TEST_ASSERT(updatedOnTime, "Updated after min refresh interval");
     TEST_ASSERT(display.partialRefreshes_ == 2, "Second partial refresh count");
+
+    for (uint16_t frame = 3; frame <= services::DisplayManager::FULL_REFRESH_FRAME_COUNT; ++frame) {
+        displayMgr.refreshRect(ersa::Rect{0, 0, 20, 20}, false, 1300 + frame * 500);
+    }
+    TEST_ASSERT(displayMgr.getPartialFrameCount() == services::DisplayManager::FULL_REFRESH_FRAME_COUNT,
+                "display manager tracks partial waveforms to its configured ghosting limit");
+    displayMgr.refreshRect(ersa::Rect{0, 0, 20, 20}, false, 200000);
+    TEST_ASSERT(display.fullRefreshes_ == 2 && displayMgr.getPartialFrameCount() == 0,
+                "display manager schedules a full waveform after the partial frame budget");
 
     // Idle power off after 8000ms
     displayMgr.noteActivity(1300);
@@ -827,6 +884,8 @@ int main() {
     printf("==================================================\n");
 
     test_apple_protocols();
+    test_runtime_scheduler();
+    test_console_hal_contract();
     test_display_hal_contract();
     test_power_management_hal_contract();
     test_event_bus();
