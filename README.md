@@ -47,6 +47,7 @@ layout.
 
 - [Published wiki](https://pkgs-wearables.ersa.dev/wiki/), deployed from `master` to GitHub Pages on every successful workflow run.
 - [Wiki home](docs/index.md): start here for the developer and hardware guides.
+- [Build and register apps](docs/BUILDING_APPS.md)
 - [Architecture and HAL boundaries](docs/HAL_ARCHITECTURE.md)
 - [Adding a board](docs/ADDING_A_BOARD.md)
 - [Feature catalog](docs/FEATURES.md)

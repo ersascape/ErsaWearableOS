@@ -257,6 +257,7 @@ void test_time_service() {
 
     TEST_ASSERT(timeService.init().isOk(), "TimeService init ok");
     TEST_ASSERT(timeService.isRtcHealthy(), "Mock RTC healthy");
+    TEST_ASSERT(!timeService.hasSynchronizedTime(), "RTC boot time is not an external sync");
 
     // Initial tick
     timeService.tick(0);
@@ -280,6 +281,7 @@ void test_time_service() {
     const uint32_t bleTime = networkTime + 120;
     const uint32_t laterNetworkTime = networkTime + 300;
     TEST_ASSERT(timeService.submitTime(events::TimeSource::Network, networkTime), "network time accepted initially");
+    TEST_ASSERT(timeService.hasSynchronizedTime(), "network time marks clock synchronized");
     TEST_ASSERT(timeService.submitTime(events::TimeSource::BleCurrentTime, bleTime), "BLE time supersedes network time");
     TEST_ASSERT(!timeService.submitTime(events::TimeSource::Network, laterNetworkTime), "network time cannot supersede BLE time");
     TEST_ASSERT(rtc.now().epoch == bleTime, "RTC retains BLE-priority time");

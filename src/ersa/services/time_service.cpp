@@ -101,6 +101,10 @@ bool TimeService::isRtcHealthy() const {
     return rtc_.isHealthy();
 }
 
+bool TimeService::hasSynchronizedTime() const {
+    return selectedSource_ != events::TimeSource::Unknown;
+}
+
 uint32_t TimeService::lastMinute() const {
     return lastMinute_;
 }

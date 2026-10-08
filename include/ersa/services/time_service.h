@@ -30,6 +30,8 @@ public:
 
     /// Return the latest RTC health state.
     bool isRtcHealthy() const;
+    /// Return whether a trusted external source has set time this boot.
+    bool hasSynchronizedTime() const;
     /// Return the most recently published minute index.
     uint32_t lastMinute() const;
 

@@ -47,6 +47,7 @@ constexpr uint32_t BOTH_BUTTON_RESET_HOLD_MS = 3000;
 
 auto& powerHal = board.getPowerManagement();
 bool automaticSleepReady = false;
+bool bootTimeFallbackConsidered = false;
 
 void queueWatchfaceMediaRefresh() {
     watchfaceMediaPending = true;
@@ -413,6 +414,14 @@ void WatchUi::tick() {
 
     uint32_t nowMs = board.getUptimeMs();
     timeService.tick(nowMs);
+    NetSync::tick();
+    if (!bootTimeFallbackConsidered && nowMs >= 15000) {
+        if (timeService.hasSynchronizedTime()) {
+            bootTimeFallbackConsidered = true;
+        } else if (NetSync::startBootTimeSync()) {
+            bootTimeFallbackConsidered = true;
+        }
+    }
     powerManager.tick(nowMs);
     ersa::services::SessionStats::tick(nowMs);
 

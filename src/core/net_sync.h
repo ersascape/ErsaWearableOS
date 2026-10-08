@@ -25,6 +25,10 @@ constexpr size_t MAX_TODOS = 12;
 void begin();
 bool syncNtp();
 bool syncAll();
+/// Start a non-blocking boot fallback when no phone/manual time has arrived.
+bool startBootTimeSync();
+/// Apply any completed boot sync from the main/UI task.
+void tick();
 
 size_t eventCount();
 const CalEvent& getEvent(size_t index);

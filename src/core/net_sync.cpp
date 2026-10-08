@@ -12,6 +12,7 @@
 #include <Preferences.h>
 #include <time.h>
 #include <ctype.h>
+#include <atomic>
 #include <esp_sntp.h>
 #include <esp_heap_caps.h>
 
@@ -24,7 +25,12 @@ size_t numEvents = 0;
 CalTodo todos[MAX_TODOS];
 size_t numTodos = 0;
 
-bool syncing = false;
+std::atomic<bool> syncing{false};
+std::atomic<bool> bootSyncRequested{false};
+std::atomic<bool> bootSyncFinished{false};
+std::atomic<bool> bootSyncFailed{false};
+std::atomic<bool> bootSyncHttpFallback{false};
+std::atomic<uint32_t> pendingBootLocalEpoch{0};
 bool tlsAllocationFailed = false;
 char statusMsg[48] = "Ready";
 Preferences cachePrefs;
@@ -117,14 +123,14 @@ void loadCache() {
     }
 }
 
-bool connectWiFi(const WatchConfig::Config& cfg) {
+bool connectWiFi(const WatchConfig::Config& cfg, bool updateStatus = true) {
     if (cfg.wifiSsid[0] == '\0') {
-        safeCopy(statusMsg, ersa::strings::MSG_WIFI_NO_SSID, sizeof(statusMsg));
+        if (updateStatus) safeCopy(statusMsg, ersa::strings::MSG_WIFI_NO_SSID, sizeof(statusMsg));
         DebugLog::log("NET: WiFi SSID empty; configure via Hotspot");
         return false;
     }
 
-    safeCopy(statusMsg, ersa::strings::MSG_WIFI_CONNECTING, sizeof(statusMsg));
+    if (updateStatus) safeCopy(statusMsg, ersa::strings::MSG_WIFI_CONNECTING, sizeof(statusMsg));
     DebugLog::log("NET: Connecting to '%s'", cfg.wifiSsid);
     // Wi-Fi and BLE coexistence on this ESP32-C3 requires STA modem sleep.
     // Disabling it while the BLE controller is enabled triggers an IDF abort.
@@ -138,7 +144,7 @@ bool connectWiFi(const WatchConfig::Config& cfg) {
     }
 
     if (wifi.state() != ersa::hal::WifiState::Connected) {
-        safeCopy(statusMsg, ersa::strings::MSG_WIFI_FAILED, sizeof(statusMsg));
+        if (updateStatus) safeCopy(statusMsg, ersa::strings::MSG_WIFI_FAILED, sizeof(statusMsg));
         DebugLog::log("NET: WiFi connect timeout");
         wifi.disconnect(true);
         return false;
@@ -538,7 +544,7 @@ void toggleTodo(size_t index) {
     }
 }
 
-bool isSyncing() { return syncing; }
+bool isSyncing() { return syncing.load(std::memory_order_acquire); }
 const char* lastStatus() { return statusMsg; }
 
 time_t parseHttpDateToEpoch(const char* str) {
@@ -674,9 +680,9 @@ bool fetchNtpUtc(time_t& outUtc, uint32_t timeoutMs = ersa::config::NTP_SYNC_TIM
     return false;
 }
 
-bool fetchTimeWithFallbacks(time_t& outUtc, bool& isHttpFallback) {
+bool fetchTimeWithFallbacks(time_t& outUtc, bool& isHttpFallback, bool updateStatus = true) {
     isHttpFallback = false;
-    safeCopy(statusMsg, ersa::strings::MSG_SYNCING_NTP, sizeof(statusMsg));
+    if (updateStatus) safeCopy(statusMsg, ersa::strings::MSG_SYNCING_NTP, sizeof(statusMsg));
 
     DebugLog::log("NET: Step 1: Trying SNTP pool sync (UDP port 123)...");
     if (fetchNtpUtc(outUtc, ersa::config::NTP_SYNC_TIMEOUT_MS)) {
@@ -695,9 +701,94 @@ bool fetchTimeWithFallbacks(time_t& outUtc, bool& isHttpFallback) {
     return false;
 }
 
+namespace {
+void bootTimeSyncTask(void*) {
+    const auto& cfg = WatchConfig::get();
+    bool success = false;
+    bool usedHttp = false;
+    time_t utcEpoch = 0;
+
+    // Two bounded attempts cover transient Wi-Fi/NTP startup failures without
+    // delaying the display or starving BLE callbacks.
+    for (unsigned attempt = 0; attempt < 2 && !success; ++attempt) {
+        if (connectWiFi(cfg, false)) {
+            success = fetchTimeWithFallbacks(utcEpoch, usedHttp, false);
+            disconnectWiFi();
+        }
+        if (!success && attempt == 0) vTaskDelay(pdMS_TO_TICKS(30000));
+    }
+
+    if (success) {
+        const int64_t localEpoch = int64_t(utcEpoch) + int64_t(cfg.timezoneOffsetMin) * 60;
+        if (localEpoch >= 1704067200LL && localEpoch < 4102444800LL) {
+            pendingBootLocalEpoch.store(static_cast<uint32_t>(localEpoch), std::memory_order_release);
+            bootSyncHttpFallback.store(usedHttp, std::memory_order_release);
+        } else {
+            success = false;
+        }
+    }
+
+    bootSyncFailed.store(!success, std::memory_order_release);
+    bootSyncFinished.store(true, std::memory_order_release);
+    vTaskDelete(nullptr);
+}
+} // namespace
+
+bool startBootTimeSync() {
+    if (bootSyncRequested.exchange(true, std::memory_order_acq_rel)) return true;
+    const auto& cfg = WatchConfig::get();
+    if (cfg.wifiSsid[0] == '\0') {
+        DebugLog::log("NET: boot time fallback skipped; Wi-Fi is not configured");
+        bootSyncFailed.store(true, std::memory_order_release);
+        bootSyncFinished.store(true, std::memory_order_release);
+        return true;
+    }
+
+    bool expected = false;
+    if (!syncing.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) {
+        bootSyncRequested.store(false, std::memory_order_release);
+        return false;
+    }
+    safeCopy(statusMsg, ersa::strings::MSG_SYNCING_NTP, sizeof(statusMsg));
+    bootSyncFinished.store(false, std::memory_order_release);
+    bootSyncFailed.store(false, std::memory_order_release);
+    pendingBootLocalEpoch.store(0, std::memory_order_release);
+    DebugLog::log("NET: boot time fallback scheduled (two bounded Wi-Fi/NTP attempts)");
+    if (xTaskCreate(bootTimeSyncTask, "time_sync", 6144, nullptr, 1, nullptr) != pdPASS) {
+        syncing.store(false, std::memory_order_release);
+        bootSyncRequested.store(false, std::memory_order_release);
+        DebugLog::log("NET: could not start boot time fallback task");
+        return false;
+    }
+    return true;
+}
+
+void tick() {
+    if (!bootSyncFinished.exchange(false, std::memory_order_acq_rel)) return;
+    const uint32_t localEpoch = pendingBootLocalEpoch.exchange(0, std::memory_order_acq_rel);
+    if (localEpoch) {
+        const bool applied = ersa::services::TimeService::instance().submitTime(
+            ersa::events::TimeSource::Network, localEpoch);
+        const bool usedHttp = bootSyncHttpFallback.load(std::memory_order_acquire);
+        if (applied) {
+            safeCopy(statusMsg, usedHttp ? ersa::strings::MSG_HTTP_TIME_SYNCED : ersa::strings::MSG_NTP_SYNCED,
+                     sizeof(statusMsg));
+            DebugLog::log("NET: boot time fallback applied source=%s local=%lu",
+                          usedHttp ? "HTTP" : "SNTP", (unsigned long)localEpoch);
+        } else {
+            DebugLog::log("NET: boot network time ignored; higher-priority source already set the clock");
+        }
+    } else if (bootSyncFailed.load(std::memory_order_acquire)) {
+        safeCopy(statusMsg, ersa::strings::MSG_TIME_SYNC_FAILED, sizeof(statusMsg));
+        DebugLog::log("NET: boot time fallback failed; keeping RTC/phone time");
+    }
+    syncing.store(false, std::memory_order_release);
+}
+
 bool syncNtp() {
     const auto& cfg = WatchConfig::get();
-    syncing = true;
+    bool expected = false;
+    if (!syncing.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return false;
 
     if (!connectWiFi(cfg)) {
         syncing = false;
@@ -728,7 +819,8 @@ bool syncNtp() {
 
 bool syncAll() {
     const auto& cfg = WatchConfig::get();
-    syncing = true;
+    bool expected = false;
+    if (!syncing.compare_exchange_strong(expected, true, std::memory_order_acq_rel)) return false;
     tlsAllocationFailed = false;
 
     if (!connectWiFi(cfg)) {
