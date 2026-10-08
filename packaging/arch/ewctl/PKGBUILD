@@ -1,5 +1,6 @@
 # Maintainer: Ersa Wearable Platform contributors
 pkgname=ewctl
+# scripts/package_ewctl_arch.sh sets this to latest-stable.rRUN.aATTEMPT.gSHA.
 pkgver=0.2.1
 pkgrel=1
 pkgdesc='USB command-line diagnostics and control for Ersa Wearable watches'
@@ -8,7 +9,7 @@ url='https://github.com/ersascape/ErsaWearableOS'
 license=('MIT')
 depends=('python' 'python-pyserial' 'python-rich' 'esptool' 'python-construct' 'python-pygdbmi')
 provides=('ewctl')
-source=("ErsaWearableOS::git+https://github.com/ersascape/ErsaWearableOS.git#tag=ewp-${pkgver}")
+source=('ErsaWearableOS::git+https://github.com/ersascape/ErsaWearableOS.git#branch=master')
 sha256sums=('SKIP')
 
 package() {
