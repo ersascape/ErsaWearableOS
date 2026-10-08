@@ -149,12 +149,11 @@ void GxEpd2Display::powerOff() {
 
 void GxEpd2Display::powerOn() {
     if (powered_) return;
-    // powerOff() leaves the controller recoverable but a fresh init resets it.
-    // Rebind the board's explicit SPI pins after GxEPD2's parameterless begin.
-    display_.init(0, false, 10, false);
+    // powerOff() only disables the panel's drive voltage; the controller and
+    // its RAM remain initialized. Resetting it here can strand BUSY and loses
+    // the controller's partial-update state. The next GxEPD2 refresh powers
+    // the panel as part of its update sequence.
     SPI.begin(sck_, miso_, mosi_, cs_);
-    display_.epd2.setBusyCallback(staticBusyCallback);
-    display_.setRotation(0);
     powered_ = true;
 }
 

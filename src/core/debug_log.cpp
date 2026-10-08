@@ -30,7 +30,7 @@ bool historySaved = false;
 bool isRoutineLog(const char* format) {
     // These fire continuously during normal use and drown out useful events.
     static constexpr const char* QUIET_PREFIXES[] = {
-        "LOOP boot=", "BUTTON raw ", "EPD begin ", "EPD end duration=",
+        "LOOP boot=", "BUTTON raw ",
     };
     for (const char* prefix : QUIET_PREFIXES) {
         if (strncmp(format, prefix, strlen(prefix)) == 0) return true;

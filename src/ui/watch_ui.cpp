@@ -413,6 +413,16 @@ void WatchUi::tick() {
 
     const bool displayBusy = board.getDisplay().isBusy();
     const uint32_t timeSinceRender = (nowMs >= lastFrameEnd) ? (nowMs - lastFrameEnd) : 0;
+    if (appManager.isDirty() && displayBusy) {
+        static uint32_t lastBusyReportMs = 0;
+        if (uint32_t(nowMs - lastBusyReportMs) >= 1000) {
+            const auto* waitingApp = appManager.getActiveApp();
+            DebugLog::log("EPD: refresh pending app=%s busy=%d powered=%d",
+                          waitingApp ? waitingApp->getId() : "none",
+                          displayBusy, board.getDisplay().isPowered());
+            lastBusyReportMs = nowMs;
+        }
+    }
     if (appManager.isDirty() && !displayBusy && (timeSinceRender >= 20)) {
         renderCurrentApp();
         appManager.clearDirty();
