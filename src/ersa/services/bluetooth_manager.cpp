@@ -2,7 +2,6 @@
 #include "ersa/board/board.h"
 #include "ersa/services/storage_service.h"
 #include "core/debug_log.h"
-#include "core/dvfs.h"
 #include <string.h>
 
 #if defined(ARDUINO)
@@ -320,7 +319,8 @@ void BluetoothManager::tick() {
 #if defined(ARDUINO)
     events::Event event;
     if (incomingQueue_ && xQueueReceive(static_cast<QueueHandle_t>(incomingQueue_), &event, 0) == pdTRUE) {
-        Dvfs::Scope frequency(Dvfs::Profile::Interactive, "ble-event-dispatch");
+        hal::PerformanceScope frequency(board::Board::current().getPowerManagement(),
+                                        hal::PerformanceProfile::Interactive, "ble-event-dispatch");
         do {
             apply(event);
         } while (xQueueReceive(static_cast<QueueHandle_t>(incomingQueue_), &event, 0) == pdTRUE);

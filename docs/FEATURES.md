@@ -1,8 +1,9 @@
 # Ersa Wearable Platform Feature Catalog
 
-This catalog describes features present in the firmware represented by the
-`ewp-0.2.0` release. It distinguishes implemented behavior from planned
-integrations and calls out areas that still need measurements on the watch.
+This catalog describes features in the current repository source. It
+distinguishes implemented behavior from planned integrations and calls out
+areas that still need measurements on the watch. Release tags define the exact
+contents of a published firmware build.
 
 ## Watch apps and interaction
 

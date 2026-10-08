@@ -1,10 +1,7 @@
 #include "ersa/services/power_manager.h"
 #include <string.h>
 
-#if defined(ARDUINO) && defined(CONFIG_IDF_TARGET_ESP32C3)
-#include <Arduino.h>
-#include <esp_sleep.h>
-#include <driver/gpio.h>
+#if defined(ARDUINO)
 #include "ersa/board/board.h"
 #include "core/debug_log.h"
 #endif
@@ -227,58 +224,23 @@ bool PowerManager::canSleep() const {
 }
 
 void PowerManager::enterLightSleep(uint64_t sleepTimeUs) {
-#if defined(ARDUINO) && defined(CONFIG_IDF_TARGET_ESP32C3)
     state_ = PowerState::LightSleep;
-
-    // Wake on the board's active-low buttons.
-    gpio_wakeup_enable(static_cast<gpio_num_t>(ersa::board::Board::current().getPins().buttons().top.number), GPIO_INTR_LOW_LEVEL);
-    gpio_wakeup_enable(static_cast<gpio_num_t>(ersa::board::Board::current().getPins().buttons().bottom.number), GPIO_INTR_LOW_LEVEL);
-    esp_sleep_enable_gpio_wakeup();
-
-    if (sleepTimeUs > 0) {
-        esp_sleep_enable_timer_wakeup(sleepTimeUs);
-    }
-
-    DebugLog::log("PWR: entering light sleep (max %llu s)", (unsigned long long)(sleepTimeUs / 1000000ULL));
-    DebugLog::flush();
-
-    esp_light_sleep_start();
-
-    // CPU execution resumes directly after wakeup
-    state_ = PowerState::Active;
-    const esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
-    if (cause == ESP_SLEEP_WAKEUP_GPIO) {
-        DebugLog::log("PWR: woke from light sleep by GPIO");
-        noteActivity(millis());
-    } else if (cause == ESP_SLEEP_WAKEUP_TIMER) {
-        DebugLog::log("PWR: woke from light sleep by TIMER");
-    } else {
-        DebugLog::log("PWR: woke from light sleep cause=%d", int(cause));
-    }
-#else
-    state_ = PowerState::LightSleep;
+#if defined(ARDUINO)
+    ersa::board::Board::current().getPowerManagement().enterLightSleep(sleepTimeUs);
+#endif
+#if !defined(ARDUINO)
     (void)sleepTimeUs;
+#endif
+#if defined(ARDUINO)
+    state_ = PowerState::Active;
 #endif
 }
 
 void PowerManager::enterDeepSleep(uint64_t sleepTimeUs) {
-#if defined(ARDUINO) && defined(CONFIG_IDF_TARGET_ESP32C3)
     state_ = PowerState::DeepSleep;
-
-    DebugLog::log("PWR: entering deep sleep...");
-    DebugLog::flush();
-
-    // Enable deep sleep wakeup on the board's active-low buttons.
-    const uint64_t pinMask = (1ULL << ersa::board::Board::current().getPins().buttons().top.number) | (1ULL << ersa::board::Board::current().getPins().buttons().bottom.number);
-    esp_deep_sleep_enable_gpio_wakeup(pinMask, ESP_GPIO_WAKEUP_GPIO_LOW);
-
-    if (sleepTimeUs > 0) {
-        esp_sleep_enable_timer_wakeup(sleepTimeUs);
-    }
-
-    esp_deep_sleep_start();
+#if defined(ARDUINO)
+    ersa::board::Board::current().getPowerManagement().enterDeepSleep(sleepTimeUs);
 #else
-    state_ = PowerState::DeepSleep;
     (void)sleepTimeUs;
 #endif
 }

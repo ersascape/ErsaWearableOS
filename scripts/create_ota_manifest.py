@@ -13,15 +13,16 @@ DEVICE_INFO_PATTERN = re.compile(
     r'"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\}',
     re.DOTALL,
 )
-SELECTED_BSP_PATTERN = re.compile(r'#include\s+"bsp/(.+?)/board_[^"/]+\.h"')
+BOARD_PROVIDER_PATTERN = re.compile(r'Board&\s+boardImplementation\s*\(')
 
 
 def selected_device_info(project_root: Path) -> Path:
-    board_factory = project_root / "src/ersa/board_factory.cpp"
-    matches = SELECTED_BSP_PATTERN.findall(board_factory.read_text(encoding="utf-8"))
+    bsp_root = project_root / "src/bsp"
+    matches = [source for source in bsp_root.glob("**/board_*.cpp")
+               if BOARD_PROVIDER_PATTERN.search(source.read_text(encoding="utf-8"))]
     if len(matches) != 1:
-        raise ValueError(f"expected one selected BSP in {board_factory}, found {matches!r}")
-    source = project_root / "src" / "bsp" / Path(matches[0]) / "device_info.cpp"
+        raise ValueError(f"expected one selected Board implementation under {bsp_root}, found {matches!r}")
+    source = matches[0].parent / "device_info.cpp"
     if not source.is_file():
         raise ValueError(f"selected BSP has no device identity source: {source}")
     return source
@@ -59,7 +60,7 @@ def main() -> int:
     parser.add_argument("firmware", type=Path)
     parser.add_argument("--tag", required=True)
     parser.add_argument("--project-root", type=Path, default=Path("."),
-                        help="project root; active BSP is selected from src/ui/watch_ui.cpp")
+                        help="project root; active BSP provides the Board contract under src/bsp")
     parser.add_argument("--site-root", required=True, type=Path,
                         help="write firmware/<codename>/<tag>.bin and ota/<codename>/ota.json here")
     args = parser.parse_args()

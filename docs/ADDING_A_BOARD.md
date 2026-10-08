@@ -1,252 +1,79 @@
-# Adding Board Support to Ersa Wearable Platform
+# Adding a board
 
-This guide walks you through adding support for a new hardware target or development board to the **Ersa Wearable Platform (EWP)**.
-
----
-
-## 1. Architectural Overview
-
-Ersa Wearable Platform is built with strict boundary layering to keep applications, system services, and UI components completely decoupled from underlying hardware:
+This guide describes the project’s BSP conventions and the steps required to
+bring up another board. The BSP path is
+`src/bsp/<manufacturer>/<platform>/<codename>/`:
 
 ```text
-┌───────────────────────────────────────────────┐
-│ Applications & Watchfaces                     │
-│ (Only depend on ersa::app, ersa::ui::Canvas)  │
-└───────────────────────────────────────────────┘
-                       │
-┌───────────────────────────────────────────────┐
-│ Ersa System Services & Application Manager    │
-│ (TimeService, PowerManager, NetworkManager)   │
-└───────────────────────────────────────────────┘
-                       │
-┌───────────────────────────────────────────────┐
-│ Ersa Platform HAL Interfaces                  │
-│ (IDisplay, IRtc, IBattery, IInput, INetwork)  │
-└───────────────────────────────────────────────┘
-                       │
-┌───────────────────────────────────────────────┐
-│ Board Support Package (BSP)                   │
-│ (Subclasses ersa::board::Board)               │
-└───────────────────────────────────────────────┘
+src/bsp/ampere/xiao_esp32c3/terra/
+├── board_terra.h
+├── board_terra.cpp
+└── device_info.cpp
 ```
 
-When porting Ersa Wearable Platform to a new board:
-- You **do not** modify applications or services.
-- You **implement a Board class** that describes the board's capabilities, pins, and display geometry, and binds concrete HAL driver instances.
-- If your board uses existing supported components (e.g. ESP32-C3 + DS3231 + GxEPD2 e-paper), you simply instantiate the existing HAL drivers with your board's pin definitions.
-- If your board introduces new peripherals (e.g. an ST7789 LCD or an internal nRF52 RTC), you implement the corresponding HAL interface.
+The manufacturer identifies the board vendor, platform identifies its shared
+compute module or platform family, and codename identifies the product. This is
+the EWP directory convention, not a universal C++ standard.
 
----
+## Board contract and selection
 
-## 2. Directory Layout for a BSP
+Implement `ersa::board::Board` and a board-specific `Pins` subclass. The
+selected BSP provides `ersa::board::boardImplementation()` and returns its
+static board instance as a `Board&`. `Board::current()` is available before
+peripheral initialization, so startup and services never need to include a
+concrete board class. The selected BSP provider is guarded by its Kconfig board
+symbol; exactly one provider must be enabled.
 
-Use `manufacturer/platform/codename` below `src/bsp/`. The manufacturer is the
-board vendor, platform is the shared module or compute platform, and codename
-identifies the product/board variant. This is a project convention rather than
-a universal C++ standard; it scales better than a flat list and keeps closely
-related boards together.
+The board implementation owns composition: pin maps, board capabilities, and
+instances of the platform and peripheral drivers used by the product. It
+returns generic interfaces (`IDisplay`, `IRtc`, `IBattery`, `IInput`,
+`IBluetooth`, `ICompanionSource`, `IWifiRadio`, and `IPowerManagement`). Keep
+concrete driver names out of application and service APIs.
 
-`ersa::board::Pins` groups signals into I2C, SPI, display, buttons, and battery
-pin groups. A board subclasses it and supplies those groups. Each `Pin` carries
-its platform pin number, function, pull, and active level. Platform code applies
-the electrical settings and routes bus pins when it initializes each peripheral;
-board code owns the mapping, while reusable HAL drivers receive the resolved
-pin numbers. This is the embedded equivalent of a pinctrl description, not a
-Linux Device Tree pinctrl implementation.
+## Pins and pin control
 
-```
-src/bsp/
-├── ampere/
-│   └── xiao_esp32c3/
-│       └── terra/                 # Ampere Terra on Seeed XIAO ESP32-C3
-│           ├── board_terra.h
-│           ├── board_terra.cpp
-│           └── device_info.cpp    # DeviceInfo: name, codename, manufacturer
-└── <manufacturer>/<platform>/<codename>/
-    ├── board_<your_board>.h
-    └── board_<your_board>.cpp
-```
+`include/ersa/board/pins.h` groups pin records by I2C, SPI, display, buttons,
+and battery. Each pin carries its number, function, direction, pull, and active
+level. Put physical assignments in the BSP’s `Pins` subclass, then let the
+platform pin controller apply electrical settings and configure buses.
 
----
+This typed C++ pin contract is the project’s pinctrl description. Device Tree
+is useful when the selected RTOS/build system consumes DTS bindings; this
+Arduino/ESP-IDF configuration does not, so an unconsumed DTS file would not
+configure hardware. ESP-IDF Kconfig selects the board and required driver
+options.
 
-## 3. Step-by-Step Implementation
+## HAL and driver placement
 
-### Step 1: Subclass `ersa::board::Board`
+- Add a platform-neutral contract under `include/ersa/hal/` when code needs a
+  hardware capability. Examples are `IDisplay`, `IBluetooth`, `IWifiRadio`,
+  and `IPowerManagement`.
+- Put MCU, RTOS, GPIO controller, clock, and vendor SDK adapters under
+  `src/hal/<platform>/`.
+- Put chip or peripheral implementations under `src/drivers/<domain>/`.
+- Compose and inject those objects from the selected BSP.
 
-Create a board class in `src/bsp/<manufacturer>/<platform>/<codename>/`. Derive it from `ersa::board::Board`, provide its `Pins` implementation and `BoardConfig`, then compose generic HAL interfaces with platform HAL and peripheral driver implementations. For example, Terra exposes `hal::IDisplay&` while internally composing the GxEPD2 driver. Application code should depend on the interface returned by `Board`, never on a concrete panel driver.
+The display contract must not expose GxEPD2 or Adafruit GFX types. The same
+principle applies to Bluetooth stacks, bus libraries, storage backends, and
+power APIs. Create an audio contract when the product has real audio hardware
+and an implementation to bind; do not add an unused placeholder interface.
 
----
+## Bring-up checklist
 
-### Step 2: Configure Pins, Capabilities & Peripherals
+1. Add `board_<codename>.h/.cpp`, `device_info.cpp`, and a `Pins` subclass in
+   the manufacturer/platform/codename directory.
+2. Add the board Kconfig symbol in `src/Kconfig`; guard the BSP’s
+   `boardImplementation()` definition with that symbol and keep exactly one
+   provider selected.
+3. Implement every required `Board` method and return generic HAL interfaces.
+   Initialize board pin control before polling buttons or starting peripheral
+   services.
+4. Add or reuse platform and peripheral drivers under their respective
+   directories. Keep pin numbers and board identity out of generic HAL
+   contracts.
+5. Add mock coverage for new contracts and update the feature, architecture,
+   and board documentation.
+6. Run `make test`, `make firmware`, and `make docs`. Verify button polarity,
+   display refresh, radios, sleep/wake sources, and current draw on hardware.
 
-In `src/bsp/<manufacturer>/<platform>/<codename>/board_<codename>.cpp`:
-
-```cpp
-#if defined(ARDUINO)
-
-#include "bsp/<manufacturer>/<platform>/<codename>/board_<codename>.h"
-#include <Arduino.h>
-
-namespace ersa {
-namespace board {
-
-BoardMyWatch& BoardMyWatch::instance() {
-    static BoardMyWatch s_board;
-    return s_board;
-}
-
-BoardMyWatch::BoardMyWatch()
-    : display_(/* CS */ 5, /* DC */ 20, /* RST */ 21, /* BUSY */ 9,
-               /* SCK */ 8, /* MISO */ -1, /* MOSI */ 10),
-      rtc_(/* SDA */ 6, /* SCL */ 7),
-      battery_(/* ADC Pin */ 2),
-      input_(/* Button1 */ 4, /* Button2 */ 3) {
-
-    // 1. Board Name & Capabilities
-    config_.name = "My Custom Watch";
-    config_.capabilities.wifi = true;
-    config_.capabilities.bluetooth = true;
-    config_.capabilities.rtc = true;
-    config_.capabilities.batteryGauge = true;
-    config_.capabilities.buttons = true;
-    config_.capabilities.haptics = false;
-    config_.capabilities.touch = false;
-
-    // 2. Display Characteristics
-    config_.display.width = 200;
-    config_.display.height = 200;
-    config_.display.partialRefresh = true;
-    config_.display.isEpaper = true;
-
-    // 3. Pin Map Record (used by diagnostics and settings)
-    // Keep GPIO assignments in a board-specific Pins subclass. Expose it
-    // through Board::getPins() and pass its values to platform HAL drivers.
-}
-
-Result<void> BoardMyWatch::init() {
-    Board::setCurrent(this);
-
-    // Initialize hardware drivers
-    rtc_.init();
-    display_.init();
-    battery_.init();
-    input_.init();
-
-    return Result<void>();
-}
-
-uint32_t BoardMyWatch::getUptimeMs() const {
-    return millis();
-}
-
-void BoardMyWatch::delayMs(uint32_t ms) {
-    delay(ms);
-}
-
-} // namespace board
-} // namespace ersa
-
-#endif // ARDUINO
-```
-
----
-
-## 4. Implementing New HAL Drivers (If Needed)
-
-If your board uses a peripheral not yet supported by an existing driver, implement the corresponding abstract interface in `include/ersa/hal/`:
-
-### Display Interface (`include/ersa/hal/display.h`)
-```cpp
-class IDisplay {
-public:
-    virtual ~IDisplay() = default;
-    virtual Result<void> init() = 0;
-    virtual void powerOff() = 0;
-    virtual void powerOn() = 0;
-    virtual uint16_t getWidth() const = 0;
-    virtual uint16_t getHeight() const = 0;
-    virtual void clear(uint16_t color = 0) = 0;
-    virtual void display(bool fullRefresh = false) = 0;
-};
-```
-
-### Real-Time Clock Interface (`include/ersa/hal/rtc.h`)
-```cpp
-class IRtc {
-public:
-    virtual ~IRtc() = default;
-    virtual Result<void> init() = 0;
-    virtual bool isOnline() const = 0;
-    virtual uint32_t getEpoch() = 0;
-    virtual Result<void> setEpoch(uint32_t epochSeconds) = 0;
-};
-```
-
-### Battery Gauge Interface (`include/ersa/hal/battery.h`)
-```cpp
-class IBattery {
-public:
-    virtual ~IBattery() = default;
-    virtual Result<void> init() = 0;
-    virtual uint16_t getMillivolts() = 0;
-    virtual uint8_t getPercentage() = 0;
-    virtual bool isConnected() = 0;
-};
-```
-
-### Input Interface (`include/ersa/hal/input.h`)
-```cpp
-class IInput {
-public:
-    virtual ~IInput() = default;
-    virtual Result<void> init() = 0;
-    virtual void poll() = 0;
-};
-```
-
----
-
-## 5. Adding a Target to `platformio.ini`
-
-Add your target board environment to `platformio.ini`:
-
-```ini
-[env:my_custom_watch]
-platform = espressif32@6.12.0
-board = seeed_xiao_esp32c3     ; Or esp32-s3-devkitc-1, etc.
-framework = arduino
-build_unflags = -std=gnu++11
-build_flags =
-    -std=gnu++17
-    -DARDUINO_USB_MODE=1
-    -DARDUINO_USB_CDC_ON_BOOT=1
-    -Iinclude
-    -Isrc
-lib_deps =
-    zinggjm/GxEPD2 @ ^1.6.9
-    adafruit/Adafruit GFX Library @ ^1.12.6
-    adafruit/RTClib @ ^2.1.4
-    mathertel/OneButton @ ^2.6.2
-```
-
----
-
-## 6. Testing & Verifying Your Board
-
-### Run Host Unit Tests
-Verify your changes did not break core system services or the application lifecycle:
-```bash
-make test
-```
-
-### Compile Firmware
-Build your firmware target with PlatformIO:
-```bash
-./scripts/pio.sh run -e my_custom_watch
-```
-
-### Flash and Monitor
-```bash
-./scripts/pio.sh run -e my_custom_watch --target upload
-./scripts/pio.sh device monitor
-```
+For architecture boundaries, see [HAL and board architecture](HAL_ARCHITECTURE.md).

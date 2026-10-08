@@ -3,13 +3,10 @@
 #include "core/watch_config.h"
 #include "core/debug_log.h"
 #include "core/usb_control.h"
-#include "core/dvfs.h"
+#include "ersa/board/board.h"
 #include "ersa/services/ota_service.h"
 #include "ui/watch_ui.h"
 
-#if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
-#include <esp_pm.h>
-#endif
 #include <esp_log.h>
 
 #if !defined(CONFIG_IDF_TARGET_ESP32C3)
@@ -28,31 +25,8 @@ void setup() {
     esp_log_level_set("*", ESP_LOG_WARN);
     DebugLog::log("BOOT starting config");
     WatchConfig::begin();
-#if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
-    const unsigned testProfileMHz = Dvfs::testCpuFrequencyMHz();
-    // Apply test profiles before Bluetooth or any peripheral PM locks exist.
-    // 40 MHz uses an 80 MHz ceiling because ESP-IDF permits 80/160 MHz maxima;
-    // radio APB locks may therefore raise the live CPU clock to 80 MHz.
-    const int maxMHz = testProfileMHz == 80 ? 80 :
-                       testProfileMHz == 160 ? 160 :
-                       testProfileMHz == 40 ? 80 : 160;
-    const int minMHz = testProfileMHz == 80 ? 80 :
-                       testProfileMHz == 160 ? 160 : 40;
-    const esp_pm_config_esp32c3_t pmConfig = {
-        .max_freq_mhz = maxMHz,
-        .min_freq_mhz = minMHz,
-        // BLE modem sleep keeps advertising/connections alive while the
-        // FreeRTOS tickless idle task places the CPU in light sleep.
-        .light_sleep_enable = true
-    };
-    const esp_err_t pmResult = esp_pm_configure(&pmConfig);
-    DebugLog::log("PWR: CPU profile=%u MHz (%s) light sleep status=0x%x",
-                  testProfileMHz, testProfileMHz ? "test" : "automatic", unsigned(pmResult));
-    if (pmResult == ESP_OK && !Dvfs::begin())
-        DebugLog::log("DVFS: lock manager unavailable; idle clock remains 40 MHz");
-#else
-    DebugLog::log("PWR: automatic light sleep unavailable (PM/tickless-idle config missing)");
-#endif
+    auto& powerHal = ersa::board::Board::current().getPowerManagement();
+    powerHal.initialize();
     DebugLog::log("BOOT starting display");
     WatchUi::begin();
     UsbControl::begin();
@@ -62,7 +36,7 @@ void setup() {
 
 void loop() {
     WatchClock::tick();
-    Dvfs::tick();
+    ersa::board::Board::current().getPowerManagement().tick();
     DebugLog::tick();
     UsbControl::tick();
     WatchUi::tick();

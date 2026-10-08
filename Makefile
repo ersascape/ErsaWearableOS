@@ -1,4 +1,4 @@
-.PHONY: all firmware test clean
+.PHONY: all firmware test docs clean
 
 CXX ?= g++
 CXXFLAGS ?= -std=c++17 -Wall -Wextra -I include -I src -I tests
@@ -29,6 +29,9 @@ firmware:
 
 test: $(TEST_BIN)
 	./$(TEST_BIN)
+
+docs:
+	./scripts/build_docs.sh
 
 $(TEST_BIN): $(TEST_SRCS) $(HEADERS)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_SRCS)

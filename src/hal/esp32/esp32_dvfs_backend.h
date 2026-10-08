@@ -9,6 +9,8 @@ enum class Profile : unsigned char {
 };
 
 bool begin();
+bool acquire(Profile profile, const char* reason);
+void release(Profile profile, const char* reason);
 void tick(); // Samples CPU frequency while application code is running.
 void reportPowerModes(); // One-time ESP-IDF PM lock and frequency residency report.
 bool getPowerModeReport(char* buffer, size_t capacity);

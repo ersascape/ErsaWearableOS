@@ -1,0 +1,18 @@
+site_name: Ersa Wearable Platform
+site_description: Developer wiki and API reference for EWP firmware
+site_url: https://open.ersa.dev/wearable/wiki/
+repo_url: https://github.com/ersascape/ErsaWearableOS
+docs_dir: docs
+site_dir: .pio/wiki-site
+theme:
+  name: readthedocs
+nav:
+  - Home: index.md
+  - Architecture: HAL_ARCHITECTURE.md
+  - Board support: ADDING_A_BOARD.md
+  - Features: FEATURES.md
+  - Power and battery: POWER_AND_BATTERY_DESIGN.md
+  - Firmware power audit: FIRMWARE_POWER_AUDIT.md
+  - Apple connectivity: apple-connectivity.md
+  - USB control and ewctl: ewctl-control-bridge.md
+  - PCB pin map: pcb-pin-map.md

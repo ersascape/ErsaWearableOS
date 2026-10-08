@@ -2,6 +2,7 @@
 
 #include "bsp/ampere/xiao_esp32c3/terra/board_terra.h"
 #include "hal/esp32/esp32_pin_controller.h"
+#include <sdkconfig.h>
 #include <Arduino.h>
 
 namespace ersa {
@@ -13,6 +14,12 @@ BoardTerra& BoardTerra::instance() {
     static BoardTerra s_board;
     return s_board;
 }
+
+#if defined(CONFIG_ERSA_BSP_AMPERE_TERRA) && CONFIG_ERSA_BSP_AMPERE_TERRA
+Board& boardImplementation() {
+    return BoardTerra::instance();
+}
+#endif
 
 BoardTerra::BoardTerra()
     : display_(pins_.display().chipSelect.number, pins_.display().dataCommand.number,
@@ -41,7 +48,6 @@ const DeviceInfo& BoardTerra::getDeviceInfo() const {
 }
 
 Result<void> BoardTerra::init() {
-    Board::setCurrent(this);
     hal::Esp32PinController::apply(pins_);
     display_.setBusyCallback([](void* context) {
         static_cast<hal::IInput*>(context)->poll();

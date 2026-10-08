@@ -15,17 +15,24 @@ enum class LogLevel : uint8_t {
     Fatal
 };
 
+/// Severity-filtered logging contract for firmware and host implementations.
 class LoggingService {
 public:
     virtual ~LoggingService() = default;
 
+    /// Log a printf-style message when its severity meets the configured level.
     virtual void log(LogLevel level, const char* tag, const char* format, ...) __attribute__((format(printf, 4, 5))) = 0;
+    /// Log a printf-style message from an existing variadic argument list.
     virtual void logv(LogLevel level, const char* tag, const char* format, va_list args) = 0;
 
+    /// Set the minimum severity that will be emitted.
     virtual void setLevel(LogLevel level) { minLevel_ = level; }
+    /// Return the current minimum severity.
     virtual LogLevel getLevel() const { return minLevel_; }
 
+    /// Return the installed process-wide logger.
     static LoggingService& instance();
+    /// Install the process-wide logger implementation.
     static void setInstance(LoggingService* instance);
 
 protected:

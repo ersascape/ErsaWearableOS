@@ -22,6 +22,7 @@
 #include "mocks/mock_battery.h"
 #include "mocks/mock_bluetooth.h"
 #include "mocks/mock_wifi.h"
+#include "mocks/mock_power_management.h"
 
 using namespace ersa;
 
@@ -61,6 +62,26 @@ void test_display_hal_contract() {
     TEST_ASSERT(implementation.lastText_ == "generic display",
                 "Text is accepted through the generic display contract");
 
+    TEST_PASS();
+}
+
+void test_power_management_hal_contract() {
+    test::MockPowerManagement implementation;
+    hal::IPowerManagement& power = implementation;
+    power.allowAutomaticSleep(true);
+    power.waitForWake(1200);
+    power.notifyWake();
+    power.enterLightSleep(500000);
+    power.enterDeepSleep(900000);
+    {
+        hal::PerformanceScope scope(power, hal::PerformanceProfile::Compute, "test");
+        TEST_ASSERT(implementation.performanceAcquires == 1, "performance scope acquires through HAL");
+    }
+    TEST_ASSERT(implementation.sleepAllowed && implementation.lastWaitMs == 1200,
+                "sleep policy and timed wake wait are exposed by HAL");
+    TEST_ASSERT(implementation.wakeNotifications == 1 && implementation.lastLightSleepUs == 500000 &&
+                implementation.lastDeepSleepUs == 900000, "wake and sleep requests reach HAL");
+    TEST_ASSERT(implementation.performanceReleases == 1, "performance scope releases through HAL");
     TEST_PASS();
 }
 
@@ -805,6 +826,7 @@ int main() {
 
     test_apple_protocols();
     test_display_hal_contract();
+    test_power_management_hal_contract();
     test_event_bus();
     test_application_manager();
     test_time_service();

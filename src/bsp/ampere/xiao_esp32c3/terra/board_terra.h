@@ -10,6 +10,7 @@
 #include "hal/esp32/esp32_input.h"
 #include "hal/esp32/esp32_bluetooth.h"
 #include "hal/esp32/esp32_wifi.h"
+#include "hal/esp32/esp32_power_management.h"
 
 namespace ersa {
 namespace board {
@@ -52,6 +53,7 @@ public:
     hal::IBluetooth& getBluetooth() override { return bluetooth_; }
     hal::ICompanionSource& getCompanionSource() override { return bluetooth_; }
     hal::IWifiRadio& getWifi() override { return wifi_; }
+    hal::IPowerManagement& getPowerManagement() override { return powerManagement_; }
 
     uint32_t getUptimeMs() const override;
     void delayMs(uint32_t ms) override;
@@ -68,6 +70,7 @@ private:
     hal::Esp32Input input_;
     hal::Esp32Bluetooth bluetooth_;
     hal::Esp32Wifi wifi_;
+    hal::Esp32PowerManagement powerManagement_;
 };
 
 } // namespace board

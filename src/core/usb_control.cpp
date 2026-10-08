@@ -1,6 +1,5 @@
 #include "core/usb_control.h"
 #include "core/debug_log.h"
-#include "core/dvfs.h"
 #include "core/watch_clock.h"
 #include "ersa/app/application_manager.h"
 #include "ersa/services/bluetooth_manager.h"
@@ -362,7 +361,7 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
         }
     } else if (strcmp(command, "power.get-dvfs-state") == 0) {
         char report[1400];
-        const bool complete = Dvfs::getPowerModeReport(report, sizeof(report));
+        const bool complete = ersa::board::Board::current().getPowerManagement().getPowerModeReport(report, sizeof(report));
         char data[RESPONSE_LIMIT];
         size_t pos = size_t(snprintf(data, sizeof(data), "{\"complete\":%s,\"cpu_mhz\":%u,\"report\":\"",
                                      complete ? "true" : "false", unsigned(getCpuFrequencyMhz())));
@@ -385,20 +384,20 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
         char data[200];
         snprintf(data, sizeof(data), "{\"state\":\"%s\",\"power_locks_clear\":%s,\"cpu_mhz\":%u,\"cpu_test_override_mhz\":%u,\"usb_blocks_sleep\":%s}",
                  powerStateName(power.getState()), power.canSleep() ? "true" : "false", unsigned(getCpuFrequencyMhz()),
-                 Dvfs::testCpuFrequencyMHz(),
+                 ersa::board::Board::current().getPowerManagement().testCpuFrequencyMHz(),
                  bool(Serial) ? "true" : "false");
         sendReply(id, true, nullptr, nullptr, data);
     } else if (strcmp(command, "power.cpu-freq-get") == 0) {
         char data[128];
         snprintf(data, sizeof(data), "{\"cpu_mhz\":%u,\"test_override_mhz\":%u,\"automatic\":%s}",
-                 unsigned(getCpuFrequencyMhz()), Dvfs::testCpuFrequencyMHz(),
-                 Dvfs::testCpuFrequencyMHz() == 0 ? "true" : "false");
+                 unsigned(getCpuFrequencyMhz()), ersa::board::Board::current().getPowerManagement().testCpuFrequencyMHz(),
+                 ersa::board::Board::current().getPowerManagement().testCpuFrequencyMHz() == 0 ? "true" : "false");
         sendReply(id, true, nullptr, nullptr, data);
     } else if (strcmp(command, "power.cpu-freq-set") == 0) {
         uint32_t mhz = UINT32_MAX;
         if (!requestUnsignedArg(request, "cpu_mhz", mhz) || (mhz != 0 && mhz != 40 && mhz != 80 && mhz != 160)) {
             sendReply(id, false, "invalid_argument", "cpu_mhz must be 0, 40, 80, or 160", nullptr);
-        } else if (!Dvfs::setTestCpuFrequencyMHz(unsigned(mhz))) {
+        } else if (!ersa::board::Board::current().getPowerManagement().setTestCpuFrequencyMHz(unsigned(mhz))) {
             sendReply(id, false, "unavailable", "DVFS is not initialized or ESP-IDF rejected the test frequency", nullptr);
         } else {
             char data[128];

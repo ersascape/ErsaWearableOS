@@ -20,11 +20,20 @@ src/drivers/<domain>/   peripheral controller/device implementations
 src/bsp/<manufacturer>/<platform>/<codename>/
 ```
 
-The BSP owns pin maps and constructs implementations. It returns interfaces
+The selected BSP provides `Board::current()` through its
+`boardImplementation()` provider before peripherals initialize. The BSP owns
+pin maps and constructs implementations. It returns interfaces
 such as `IDisplay`, `IBluetooth`, `IRtc`, `IBattery`, `IInput`, and
 `IWifiRadio`; apps and services should not cast those references to concrete
 drivers. Peripheral-specific behavior belongs under `src/drivers`, while
 platform adapters belong under `src/hal/<platform>`.
+
+Power policy uses `IPowerManagement`. It owns CPU frequency setup and DVFS
+locks, idle-sleep gating, task wake waits, GPIO and timer wake sources, and
+light/deep sleep entry. UI code provides the board pin map and asks the HAL to
+arm wake sources; it does not call ESP-IDF power, sleep, GPIO interrupt, or
+FreeRTOS notification APIs directly. Bluetooth has the separate `IBluetooth`
+and `ICompanionSource` contracts, implemented by the ESP32 Bluetooth adapter.
 
 `IDisplay` contains the graphics operations used by the UI, with logical font
 and color values. The Terra BSP selects `GxEpd2Display`; that driver alone
@@ -39,7 +48,8 @@ signals through the platform bus APIs. This keeps pin ownership in the BSP
 without introducing Linux Device Tree into an ESP-IDF build that does not
 consume DTS bindings.
 
-ESP-IDF Kconfig selects the board product and its required drivers. Keep
+ESP-IDF Kconfig selects the board product and its required drivers. The BSP
+provider is guarded by the selected board symbol. Keep
 `sdkconfig.defaults` as the reproducible default configuration and use
 `menuconfig` for local tuning. The Terra BSP selects its required GxEPD2 panel
 driver, and the component build compiles only that panel's sources.

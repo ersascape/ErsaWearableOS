@@ -1,5 +1,5 @@
 #include "ui/watch_ui.h"
-#include "ersa/board/board_factory.h"
+#include "ersa/board/board.h"
 #include "ersa/events/event_bus.h"
 #include "ersa/app/application_manager.h"
 #include "ersa/services/time_service.h"
@@ -14,19 +14,11 @@
 #include "core/debug_log.h"
 #include "core/buttons.h"
 #include "core/net_sync.h"
-#include "core/dvfs.h"
 #include <Arduino.h>
-#if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
-#include <esp_pm.h>
-#include <esp_sleep.h>
-#include <driver/gpio.h>
-#include <freertos/FreeRTOS.h>
-#include <freertos/task.h>
-#endif
 
 namespace {
 
-ersa::board::Board& board = ersa::board::BoardFactory::selected();
+ersa::board::Board& board = ersa::board::Board::current();
 ersa::events::EventBus& eventBus = ersa::events::EventBus::instance();
 ersa::app::ApplicationManager& appManager = ersa::app::ApplicationManager::instance();
 
@@ -53,38 +45,8 @@ uint32_t bothButtonsPressedAt = 0;
 bool bothButtonResetTriggered = false;
 constexpr uint32_t BOTH_BUTTON_RESET_HOLD_MS = 3000;
 
-#if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
-TaskHandle_t uiTaskHandle = nullptr;
-esp_pm_lock_handle_t uiNoSleepLock = nullptr;
+auto& powerHal = board.getPowerManagement();
 bool automaticSleepReady = false;
-bool noSleepLockHeld = false;
-
-void notifyUiTask(void*) {
-    if (uiTaskHandle) xTaskNotifyGive(uiTaskHandle);
-}
-
-void IRAM_ATTR buttonWakeIsr() {
-    if (!uiTaskHandle) return;
-    BaseType_t higherPriorityTaskWoken = pdFALSE;
-    vTaskNotifyGiveFromISR(uiTaskHandle, &higherPriorityTaskWoken);
-    if (higherPriorityTaskWoken) portYIELD_FROM_ISR();
-}
-
-void setSleepAllowed(bool allowed) {
-    if (!automaticSleepReady || !uiNoSleepLock) return;
-    if (allowed && noSleepLockHeld) {
-        esp_pm_lock_release(uiNoSleepLock);
-        noSleepLockHeld = false;
-    } else if (!allowed && !noSleepLockHeld) {
-        esp_pm_lock_acquire(uiNoSleepLock);
-        noSleepLockHeld = true;
-    }
-}
-#else
-bool automaticSleepReady = false;
-void notifyUiTask(void*) {}
-void setSleepAllowed(bool) {}
-#endif
 
 void queueWatchfaceMediaRefresh() {
     watchfaceMediaPending = true;
@@ -150,7 +112,7 @@ void renderCurrentApp() {
     display.setTextColor(1);
     display.setTextWrap(false);
     {
-        Dvfs::Scope frequency(Dvfs::Profile::Compute, "app-render");
+        ersa::hal::PerformanceScope frequency(powerHal, ersa::hal::PerformanceProfile::Compute, "app-render");
         activeApp->render(display, true);
     }
     if (strcmp(activeApp->getId(), "watchface_clock") == 0) {
@@ -222,23 +184,12 @@ void WatchUi::begin() {
     const auto networkInit = networkManager.init();
     checkInit("network", networkInit.isOk());
 
-#if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
-    uiTaskHandle = xTaskGetCurrentTaskHandle();
-    if (esp_pm_lock_create(ESP_PM_NO_LIGHT_SLEEP, 0, "ui-active", &uiNoSleepLock) == ESP_OK &&
-        esp_pm_lock_acquire(uiNoSleepLock) == ESP_OK) {
-        automaticSleepReady = true;
-        noSleepLockHeld = true;
-        gpio_wakeup_enable(static_cast<gpio_num_t>(board.getPins().buttons().top.number), GPIO_INTR_LOW_LEVEL);
-        gpio_wakeup_enable(static_cast<gpio_num_t>(board.getPins().buttons().bottom.number), GPIO_INTR_LOW_LEVEL);
-        esp_sleep_enable_gpio_wakeup();
-        attachInterrupt(digitalPinToInterrupt(board.getPins().buttons().top.number), buttonWakeIsr, CHANGE);
-        attachInterrupt(digitalPinToInterrupt(board.getPins().buttons().bottom.number), buttonWakeIsr, CHANGE);
+    automaticSleepReady = powerHal.initializeWakeSources(board.getPins());
+    if (automaticSleepReady)
         DebugLog::log("PWR: light sleep armed after 30s inactivity; wake sources BLE, minute timer, buttons");
-    } else {
-        DebugLog::log("PWR: cannot create active-state sleep lock");
-    }
-#endif
-    bluetoothManager.setWakeCallback(notifyUiTask, nullptr);
+    else
+        DebugLog::log("PWR: cannot initialize automatic sleep wake sources");
+    bluetoothManager.setWakeCallback([](void*) { board.getPowerManagement().notifyWake(); }, nullptr);
 
     const auto timeInit = timeService.init();
     checkInit("rtc", timeInit.isOk() && timeService.isRtcHealthy(),
@@ -284,7 +235,7 @@ void WatchUi::begin() {
             lastActivityMs = now;
             displayManager.noteActivity(now);
             powerManager.noteActivity(now);
-            setSleepAllowed(false);
+            powerHal.allowAutomaticSleep(false);
         }
         if (mgr) {
             mgr->handleEvent(evt);
@@ -408,7 +359,7 @@ void WatchUi::onButton(Buttons::Event legacyEvent) {
     lastUserInputMs = lastActivityMs;
     displayManager.noteActivity(lastActivityMs);
     powerManager.noteActivity(lastActivityMs);
-    setSleepAllowed(false);
+    powerHal.allowAutomaticSleep(false);
 
     // Quick dial on watchface: holding B1 dials top recent contact
     if (appManager.getActiveApp() != nullptr &&
@@ -455,7 +406,7 @@ void WatchUi::tick() {
         lastUserInputMs = lastActivityMs;
         displayManager.noteActivity(lastActivityMs);
         powerManager.noteActivity(lastActivityMs);
-        setSleepAllowed(false);
+        powerHal.allowAutomaticSleep(false);
     }
     eventBus.dispatchQueue();
     appManager.tick();
@@ -524,11 +475,10 @@ void WatchUi::tick() {
     const bool sleepEligible = automaticSleepReady && !usbConsoleAttached &&
                                userIdleMs >= 30000 && !appBusy &&
                                !NetSync::isSyncing() && !board.getDisplay().isBusy();
-    setSleepAllowed(sleepEligible);
+    powerHal.allowAutomaticSleep(sleepEligible);
 
     if (!appManager.isDirty() && !Buttons::hasPendingEvents() && sleepEligible) {
-#if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
-        Dvfs::reportPowerModes();
+        powerHal.reportPowerModes();
         // Sleep until the earliest real deadline: minute refresh, pending media
         // redraw, or a scheduled BLE advertising retry.
         const uint32_t secondsToMinute = 60 - WatchClock::now().second();
@@ -542,15 +492,10 @@ void WatchUi::tick() {
             const uint32_t mediaWaitMs = elapsed >= 500 ? 0 : 500 - elapsed;
             if (mediaWaitMs < waitMs) waitMs = mediaWaitMs;
         }
-        TickType_t waitTicks = pdMS_TO_TICKS(waitMs);
-        if (!waitTicks) waitTicks = 1;
-        ulTaskNotifyTake(pdTRUE, waitTicks ? waitTicks : 1);
+        powerHal.waitForWake(waitMs);
         // board.getUptimeMs() can pause during light sleep on this target. Re-anchor the
         // software clock to the DS3231 before calculating the next refresh.
         WatchClock::resync();
-#else
-        board.delayMs(25);
-#endif
     } else if (!appManager.isDirty() && !Buttons::hasPendingEvents()) {
         board.delayMs(25);
     } else {

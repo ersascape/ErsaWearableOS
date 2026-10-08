@@ -21,14 +21,20 @@ struct TimePoint {
         : year(y), month(m), day(d), hour(h), minute(min), second(s), dayOfWeek(dow), epoch(ep) {}
 };
 
+/// Real-time clock contract using transport-neutral calendar values.
 class IRtc {
 public:
     virtual ~IRtc() = default;
 
+    /// Initialize and validate the RTC backend.
     virtual Result<void> init() = 0;
+    /// Read the current calendar time.
     virtual TimePoint now() = 0;
+    /// Set the RTC calendar time.
     virtual Result<void> adjust(const TimePoint& time) = 0;
+    /// Set the RTC from Unix epoch seconds.
     virtual Result<void> setEpoch(uint32_t epochSeconds) = 0;
+    /// Return whether the RTC is initialized and reporting valid time.
     virtual bool isHealthy() const = 0;
 };
 

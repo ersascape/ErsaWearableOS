@@ -1,4 +1,4 @@
-#include "dvfs.h"
+#include "hal/esp32/esp32_dvfs_backend.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -57,7 +57,7 @@ void logIfChanged(const char* reason) {
     }
 }
 
-bool acquire(Profile profile, const char* reason) {
+bool acquireLock(Profile profile, const char* reason) {
     if (!ready || !mutex) return false;
     if (xSemaphoreTake(mutex, portMAX_DELAY) != pdTRUE) return false;
     LockState& state = stateFor(profile);
@@ -74,7 +74,7 @@ bool acquire(Profile profile, const char* reason) {
     return acquired;
 }
 
-void release(Profile profile, const char* reason) {
+void releaseLock(Profile profile, const char* reason) {
     if (!ready || !mutex || xSemaphoreTake(mutex, portMAX_DELAY) != pdTRUE) return;
     LockState& state = stateFor(profile);
     if (state.users == 0) {
@@ -128,6 +128,9 @@ bool begin() {
                   testFrequencyMHz, static_cast<unsigned long>(cpuMHz()));
     return true;
 }
+
+bool acquire(Profile profile, const char* reason) { return acquireLock(profile, reason); }
+void release(Profile profile, const char* reason) { releaseLock(profile, reason); }
 
 void tick() {
     if (!ready || uint32_t(millis() - lastSampleMs) < 1000) return;
@@ -210,10 +213,10 @@ bool setTestCpuFrequencyMHz(unsigned mhz) {
 unsigned testCpuFrequencyMHz() { return testFrequencyMHz; }
 
 Scope::Scope(Profile profile, const char* reason)
-    : profile_(profile), reason_(reason), acquired_(acquire(profile, reason)) {}
+    : profile_(profile), reason_(reason), acquired_(acquireLock(profile, reason)) {}
 
 Scope::~Scope() {
-    if (acquired_) release(profile_, reason_);
+    if (acquired_) releaseLock(profile_, reason_);
 }
 
 } // namespace Dvfs
@@ -222,6 +225,8 @@ Scope::~Scope() {
 
 namespace Dvfs {
 bool begin() { return false; }
+bool acquire(Profile, const char*) { return false; }
+void release(Profile, const char*) {}
 void tick() {}
 void reportPowerModes() {}
 bool getPowerModeReport(char* buffer, size_t capacity) {
