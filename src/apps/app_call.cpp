@@ -36,7 +36,7 @@ bool onButton(Buttons::Event event) {
             ersa::app::ApplicationManager::instance().switchTo("watchface_clock");
             return true;
         } else if (event == Buttons::Event::Home) {
-            ersa::app::ApplicationManager::instance().switchTo("watchface_clock");
+            ersa::app::ApplicationManager::instance().switchTo("app_drawer");
             return true;
         }
     } else if (state == ersa::services::CallState::Active) {
@@ -47,8 +47,7 @@ bool onButton(Buttons::Event event) {
             ersa::app::ApplicationManager::instance().switchTo("watchface_clock");
             return true;
         } else if (event == Buttons::Event::Home) {
-            // Hold B1 to minimize the active call to the watchface.
-            ersa::app::ApplicationManager::instance().switchTo("watchface_clock");
+            ersa::app::ApplicationManager::instance().switchTo("app_drawer");
             return true;
         }
     } else {
@@ -118,7 +117,7 @@ void render(ersa::hal::IDisplay& display) {
                                !ble.canDial() ? "connect phone to dial" : "hold b2: dial";
         WatchText::line(display, "b1 up   b2 down", 18, 153, 166);
         WatchText::line(display, dialHint, 18, 168, 166);
-        WatchText::line(display, "hold b1: menu", 18, 186, 166);
+        WatchText::line(display, "hold b1: drawer", 18, 186, 166);
         return;
     }
 
@@ -140,7 +139,7 @@ void render(ersa::hal::IDisplay& display) {
         WatchText::line(display, "b2: decline", 18, 186, 166);
     } else if (state == CallState::Active) {
         WatchText::line(display, ble.canHangup() ? "b2: end call" : "manage call on phone", 18, 168, 166);
-        WatchText::line(display, "b1: menu", 18, 186, 166);
+        WatchText::line(display, "hold b1: drawer", 18, 186, 166);
     }
 }
 

@@ -4,6 +4,7 @@
 #include "fonts/misans_fonts.h"
 #include <driver/gpio.h>
 #include <esp_log.h>
+#include <esp_timer.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <string.h>
@@ -15,6 +16,7 @@ namespace {
 
 constexpr const char* kTag = "SSD1681";
 constexpr uint8_t kWidthBytes = 25;
+constexpr int64_t kDeghostIntervalUs = 5LL * 60LL * 1000000LL;
 
 // Differential SSD1681 waveform for the Terra GDEY0154D67 panel, ported from
 // T1E firmware V2a. The LUT bypasses the controller's OTP partial waveform.
@@ -106,12 +108,11 @@ Result<void> Ssd1681Display::init() {
     if (error != ESP_OK) return Result<void>(ErrorCode::HardwareFault, esp_err_to_name(error));
 
     if (!initPanel()) {
-        reportIoError("initialize panel");
+        reportIoError();
         return Result<void>(ErrorCode::HardwareFault, "SSD1681 initialization failed");
     }
     initialized_ = true;
     powered_ = true;
-    ESP_LOGI(kTag, "GDEY0154D67 initialized on SPI2 (4 MHz)");
     return Result<void>();
 }
 
@@ -190,10 +191,10 @@ void Ssd1681Display::refresh(bool full) {
     if (!initialized_) return;
     lastIoError_ = ESP_OK;
     const bool ok = full ? refreshFull() : refreshWindow(0, 0, kWidth, kHeight);
-    if (!ok) reportIoError(full ? "full refresh" : "partial refresh");
+    if (!ok) reportIoError();
     else {
         powered_ = true;
-        if (!full && !powerOffPanel()) reportIoError("power off after partial refresh");
+        if (!full && !powerOffPanel()) reportIoError();
         powered_ = false;
     }
 }
@@ -211,10 +212,10 @@ void Ssd1681Display::refreshRect(const Rect& rect) {
     const uint16_t w = (alignedRight > kWidth ? kWidth : alignedRight) - x;
     lastIoError_ = ESP_OK;
     if (!refreshWindow(x, uint16_t(top), w, uint16_t(bottom - top))) {
-        reportIoError("window refresh");
+        reportIoError();
         return;
     }
-    if (!powerOffPanel()) reportIoError("power off after window refresh");
+    if (!powerOffPanel()) reportIoError();
     powered_ = false;
 }
 
@@ -230,7 +231,7 @@ void Ssd1681Display::setBusyCallback(hal::DisplayBusyCallback cb, void* userData
 void Ssd1681Display::powerOff() {
     if (initialized_ && powered_) {
         lastIoError_ = ESP_OK;
-        if (!powerOffPanel()) reportIoError("power off");
+        if (!powerOffPanel()) reportIoError();
     }
     powered_ = false;
 }
@@ -266,6 +267,7 @@ bool Ssd1681Display::refreshFull() {
     if (!writeFull(0x24) || !writeFull(0x26) || !writeCommandByte(0x22, 0xF7) ||
         !writeCommand(0x20) || !waitBusy()) return false;
     baselineValid_ = true;
+    lastDeghostUs_ = esp_timer_get_time();
     return true;
 }
 
@@ -273,6 +275,12 @@ bool Ssd1681Display::refreshWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t 
     if (!baselineValid_) return refreshFull();
     if (!w || !h) return true;
     if (x >= kWidth || y >= kHeight || x + w > kWidth || y + h > kHeight) return false;
+
+    // Partial waveforms leave a small amount of pigment residue. Use the
+    // controller's full waveform periodically, even when only a small region
+    // changed, so the panel receives a regular ghost-clearing refresh.
+    if (esp_timer_get_time() - lastDeghostUs_ >= kDeghostIntervalUs)
+        return refreshFull();
 
     // The first 153 bytes are the waveform table; the remaining bytes program
     // its border and panel voltages. Hardware reset is intentionally avoided
@@ -393,8 +401,8 @@ bool Ssd1681Display::powerOffPanel() {
     return true;
 }
 
-void Ssd1681Display::reportIoError(const char* operation) {
-    ESP_LOGE(kTag, "%s failed: %s", operation, esp_err_to_name(lastIoError_));
+void Ssd1681Display::reportIoError() {
+    ESP_LOGE(kTag, "IO error 0x%x", unsigned(lastIoError_));
 }
 
 } // namespace display

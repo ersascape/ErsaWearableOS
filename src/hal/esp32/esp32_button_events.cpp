@@ -31,8 +31,10 @@ void push(Event event) {
 }
 
 void onTopClick() { push(Event::Next); }
+void onTopDoubleClick() { push(Event::Previous); }
 void onTopLongPress() { push(Event::Home); }
 void onBottomClick() { push(Event::Action); }
+void onBottomDoubleClick() { push(Event::ActionAlt); }
 void onBottomLongPress() { push(Event::ActionLong); }
 } // namespace
 
@@ -66,12 +68,15 @@ void begin(int topPinNumber, int bottomPinNumber, Pull topPull, Pull bottomPull,
     bottomButton.setup(bottomPin, pinModeFor(bottomPull), bottomActiveLow);
     for (OneButton* button : {&topButton, &bottomButton}) {
         button->setDebounceMs(20);
-        button->setClickMs(15);
+        // Give a second tap enough time to form a reliable double-click.
+        button->setClickMs(250);
         button->setPressMs(450);
     }
     topButton.attachClick(onTopClick);
+    topButton.attachDoubleClick(onTopDoubleClick);
     topButton.attachLongPressStart(onTopLongPress);
     bottomButton.attachClick(onBottomClick);
+    bottomButton.attachDoubleClick(onBottomDoubleClick);
     bottomButton.attachLongPressStart(onBottomLongPress);
     head = tail = 0;
     DebugLog::log("BUTTON: input initialized GPIO%d=%d GPIO%d=%d (LOW=pressed)",

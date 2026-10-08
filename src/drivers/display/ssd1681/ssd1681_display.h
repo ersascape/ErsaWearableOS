@@ -111,6 +111,7 @@ private:
     bool initialized_{false};
     bool powered_{false};
     bool baselineValid_{false};
+    int64_t lastDeghostUs_{0};
     esp_err_t lastIoError_{ESP_OK};
     uint8_t framebuffer_[kBufferSize]{};
     Canvas canvas_;
@@ -128,7 +129,7 @@ private:
     bool setRamArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h);
     bool waitBusy(uint32_t timeoutMs = 5000);
     bool powerOffPanel();
-    void reportIoError(const char* operation);
+    void reportIoError();
 };
 
 } // namespace display

@@ -160,7 +160,7 @@ public:
         gfx.setFont(ersa::hal::FontFace::MiSansRegular8);
         gfx.setCursor(16, 170);
         gfx.print(service().updateState() == ersa::services::OtaService::UpdateState::Available
-                      ? "B2 install   B1 back" : "B2 check   B1 back");
+                      ? "B2 install   hold B1 drawer" : "B2 check   hold B1 drawer");
         gfx.setCursor(16, 190);
         gfx.print(service().otherSlotBootable() ? "B2x2 boot other slot" : "other slot not bootable");
 #else

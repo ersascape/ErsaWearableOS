@@ -29,7 +29,7 @@ bool onButton(Buttons::Event event) {
         bleMgr.mediaPrevious();
         return true;
     } else if (event == Buttons::Event::Home) {
-        // B1 Long = Exit to Drawer
+        // Holding B1 returns to the drawer that launched this app.
         ersa::app::ApplicationManager::instance().switchTo("app_drawer");
         return true;
     } else if (event == Buttons::Event::ActionLong) {
@@ -62,7 +62,7 @@ void render(ersa::hal::IDisplay& display) {
     display.setFont(ersa::hal::FontFace::MiSansRegular8);
     WatchText::line(display, track ? ble.getMediaArtist() : "play music on phone", 18, 114, 164);
     display.drawFastHLine(18, 135, 164, 1);
-    WatchText::line(display, "hold b1: back", 18, 153, 164);
+    WatchText::line(display, "hold b1: drawer", 18, 153, 164);
 
     display.setFont(ersa::hal::FontFace::MiSansRegular8);
     WatchText::line(display, "b1: next / hold b2: prev", 18, 168, 166);

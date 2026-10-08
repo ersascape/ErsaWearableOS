@@ -50,7 +50,9 @@ code are migration work, not a desired layer dependency.
   under `src/hal/esp32/`; the BSP supplies each pin's number, pull, and active
   level at initialization.
   Apps still use a legacy button-action enum while they migrate to normalized
-  `events::Event` handling.
+  `events::Event` handling. Single and double clicks use a 250 ms recognition
+  window; holding the top button emits HOME, which returns an app launched from
+  the drawer to the drawer.
 - **USB console transport:** UI sleep policy, debug logs, and the USB control
   bridge now use `IConsole`; the USB Serial/JTAG implementation is
   `Esp32UsbConsole`. Reset, heap, NVS, and OTA metadata access in the control

@@ -64,7 +64,7 @@ bool onButton(Buttons::Event event) {
         }
     } else if (event == Buttons::Event::Action || event == Buttons::Event::ActionAlt) {
         if (total == 0) {
-            ersa::app::ApplicationManager::instance().switchTo("watchface_clock");
+            ersa::app::ApplicationManager::instance().switchTo("app_drawer");
             return true;
         }
         if (currentIndex >= total) currentIndex = 0;
@@ -77,7 +77,7 @@ bool onButton(Buttons::Event event) {
         }
         return true;
     } else if (event == Buttons::Event::ActionLong || event == Buttons::Event::Home) {
-        ersa::app::ApplicationManager::instance().switchTo("watchface_clock");
+        ersa::app::ApplicationManager::instance().switchTo("app_drawer");
         return true;
     }
 
@@ -141,7 +141,7 @@ void render(ersa::hal::IDisplay& display, bool full) {
     if (total > 1) {
         WatchText::line(display, "b1: next", 18, 168, 164);
     } else {
-        WatchText::line(display, "hold b1: back", 18, 168, 164);
+        WatchText::line(display, "hold b1: drawer", 18, 168, 164);
     }
     WatchText::line(display, notif.canDismissRemotely ? "b2: dismiss on phone" : "b2: dismiss", 18, 186, 164);
 }

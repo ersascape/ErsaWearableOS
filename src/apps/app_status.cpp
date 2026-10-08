@@ -97,7 +97,7 @@ void render(ersa::hal::IDisplay& display) {
 
     // Clean footer
     WatchText::line(display, ble.isConnected() ? "ble connected" : "b1: reconnect ble", leftX, 168, 166);
-    WatchText::line(display, "b2: sync / hold b1: back", leftX, 186, 166);
+    WatchText::line(display, "b2: sync / hold b1: drawer", leftX, 186, 166);
 }
 
 bool onButton(Buttons::Event event) {

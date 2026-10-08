@@ -40,11 +40,11 @@ inline constexpr const char* APP_DRAWER_HEADER     = "apps";
 
 // Navigation & Button Hints
 inline constexpr const char* NAV_DRAWER_FOOTER     = "scroll B1   select B2";
-inline constexpr const char* NAV_CALENDAR_FOOTER   = "+1 mo B1   today B2";
-inline constexpr const char* NAV_AGENDA_FOOTER     = "scroll B1   sync B2";
-inline constexpr const char* NAV_AGENDA_EMPTY_FOOT = "sync B2   menu hold B1";
-inline constexpr const char* NAV_TODO_FOOTER       = "scroll B1   toggle B2";
-inline constexpr const char* NAV_TODO_EMPTY_FOOT   = "sync B2   menu hold B1";
+inline constexpr const char* NAV_CALENDAR_FOOTER   = "B1 +month / hold drawer   B2 today";
+inline constexpr const char* NAV_AGENDA_FOOTER     = "B1 scroll / hold drawer   B2 sync";
+inline constexpr const char* NAV_AGENDA_EMPTY_FOOT = "B2 sync   hold B1 drawer";
+inline constexpr const char* NAV_TODO_FOOTER       = "B1 scroll / hold drawer   B2 toggle";
+inline constexpr const char* NAV_TODO_EMPTY_FOOT   = "B2 sync   hold B1 drawer";
 inline constexpr const char* NAV_STATUS_FOOTER     = "sync B2   menu B1";
 
 } // namespace strings

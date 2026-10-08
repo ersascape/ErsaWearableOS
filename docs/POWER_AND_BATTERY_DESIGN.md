@@ -57,10 +57,11 @@ would bypass the controller's coordination.
 
 The e-paper driver switches off panel drive voltage after each refresh while
 retaining the visible image. The display manager handles refresh timing and
-ghost-clearing cadence; it does not need a second idle power-off call. A
-display-refresh performance scope holds the platform frequency lock only
-around rendering and the physical waveform, then releases it for automatic
-frequency management.
+forces a full waveform after 360 partial frames. The SSD1681 driver also
+forces a full waveform at least every five minutes, even if the changed region
+is small. A display-refresh performance scope holds the platform frequency
+lock only around rendering and the physical waveform, then releases it for
+automatic frequency management.
 
 These build settings and code paths enable BLE-compatible automatic light sleep,
 but they do not prove that a particular device spends time in light sleep or
