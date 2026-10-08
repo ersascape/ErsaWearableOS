@@ -326,9 +326,9 @@ public:
 
     void onEvent(const events::Event& event) override {
         const auto legacy = toLegacyButtonEvent(event);
-        if (AppNowPlaying::onButton(legacy)) {
-            ApplicationManager::instance().markDirty(false);
-        }
+        // Media values update asynchronously; WatchUi coalesces the resulting
+        // BLE events before scheduling one partial refresh.
+        AppNowPlaying::onButton(legacy);
     }
 
     void render(hal::IDisplay& display, bool fullRefresh) override {

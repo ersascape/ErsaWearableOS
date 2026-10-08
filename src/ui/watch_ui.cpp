@@ -19,6 +19,7 @@
 namespace {
 
 constexpr uint32_t LIGHT_SLEEP_IDLE_THRESHOLD_MS = 5000;
+constexpr uint32_t MEDIA_APP_REFRESH_DEBOUNCE_MS = 500;
 
 ersa::board::Board& board = ersa::board::Board::current();
 ersa::events::EventBus& eventBus = ersa::events::EventBus::instance();
@@ -42,6 +43,8 @@ bool watchfaceRectPending = false;
 ersa::Rect watchfaceRect{0, 0, 0, 0};
 bool watchfaceMediaPending = false;
 uint32_t watchfaceMediaChangedAt = 0;
+bool mediaAppRefreshPending = false;
+uint32_t mediaAppChangedAt = 0;
 char renderedWatchfaceMediaTitle[32] = {0};
 uint32_t bothButtonsPressedAt = 0;
 bool bothButtonResetTriggered = false;
@@ -54,6 +57,11 @@ bool bootTimeFallbackConsidered = false;
 void queueWatchfaceMediaRefresh() {
     watchfaceMediaPending = true;
     watchfaceMediaChangedAt = board.getUptimeMs();
+}
+
+void queueMediaAppRefresh() {
+    mediaAppRefreshPending = true;
+    mediaAppChangedAt = board.getUptimeMs();
 }
 
 void invalidateWatchface(const ersa::Rect& rect) {
@@ -84,11 +92,12 @@ void renderCurrentApp() {
     ersa::hal::PerformanceScope displayProfile(powerHal,
         ersa::hal::PerformanceProfile::DisplayRefresh, "display-refresh");
 
-    // App transitions replace most of the page and are a useful ghost-clearing
-    // boundary. Routine scrolling/redraws remain partial updates.
+    // Use full waveforms on boot and at the day boundary. App switches update
+    // the full image area with the faster partial waveform to avoid a long
+    // visible flash on every navigation action.
     const bool appSwitched = appManager.isAppSwitched();
     const bool dayChanged = (shownDay != 0 && time.day() != shownDay);
-    const bool hardwareFull = firstFrame || dayChanged || appSwitched;
+    const bool hardwareFull = firstFrame || dayChanged;
 
     DebugLog::log("EPD begin app=%s hwFull=%d time=%02u:%02u:%02u",
                   activeApp->getId(), hardwareFull,
@@ -114,6 +123,9 @@ void renderCurrentApp() {
     if (hardwareFull) {
         displayManager.refreshRect(ersa::Rect{0, 0, display.width(), display.height()}, true, board.getUptimeMs());
         firstFrame = false;
+    } else if (appSwitched) {
+        displayManager.refreshRect(ersa::Rect{0, 0, display.width(), display.height()}, false,
+                                  board.getUptimeMs());
     } else {
         // Let the display HAL honor the app's invalidated area. The old path
         // sent a 200x200 partial update for every redraw, flashing the entire
@@ -223,7 +235,11 @@ void WatchUi::begin() {
             if (evt.type == ersa::events::EventType::ButtonClicked ||
                 evt.type == ersa::events::EventType::ButtonDoubleClicked ||
                 evt.type == ersa::events::EventType::ButtonLongPressed) {
-                mgr->markDirty(false);
+                const auto* active = mgr->getActiveApp();
+                // Media controls redraw after the phone reports the resulting
+                // playback state; redrawing on the button event is redundant.
+                if (!active || strcmp(active->getId(), "app_media") != 0)
+                    mgr->markDirty(false);
             }
         }
     }, &appManager);
@@ -244,7 +260,7 @@ void WatchUi::begin() {
         if (mgr && mgr->getActiveApp()) {
             const char* id = mgr->getActiveApp()->getId();
             if (strcmp(id, "app_media") == 0) {
-                mgr->markDirty(false);
+                queueMediaAppRefresh();
             } else if (strcmp(id, "watchface_clock") == 0) {
                 const auto callState = bluetoothManager.getCallState();
                 const char* title = (evt.media.title[0] == '\0' || strcmp(evt.media.title, "No Media") == 0)
@@ -263,7 +279,7 @@ void WatchUi::begin() {
         if (mgr && mgr->getActiveApp()) {
             const char* id = mgr->getActiveApp()->getId();
             if (strcmp(id, "app_media") == 0) {
-                mgr->markDirty(false);
+                queueMediaAppRefresh();
             }
         }
     }, &appManager);
@@ -414,6 +430,14 @@ void WatchUi::tick() {
             invalidateWatchface(ersa::Rect{0, 128, 200, 32});
     }
 
+    if (mediaAppRefreshPending &&
+        uint32_t(nowMs - mediaAppChangedAt) >= MEDIA_APP_REFRESH_DEBOUNCE_MS) {
+        mediaAppRefreshPending = false;
+        const auto* active = appManager.getActiveApp();
+        if (active && strcmp(active->getId(), "app_media") == 0)
+            appManager.markDirty(false);
+    }
+
     const bool displayBusy = board.getDisplay().isBusy();
     const uint32_t timeSinceRender = (nowMs >= lastFrameEnd) ? (nowMs - lastFrameEnd) : 0;
     if (appManager.isDirty() && displayBusy) {
@@ -473,6 +497,11 @@ void WatchUi::tick() {
         if (watchfaceMediaPending) {
             const uint32_t elapsed = uint32_t(waitNowMs - watchfaceMediaChangedAt);
             deadlines.includeDelay(elapsed >= 500 ? 0 : 500 - elapsed);
+        }
+        if (mediaAppRefreshPending) {
+            const uint32_t elapsed = uint32_t(waitNowMs - mediaAppChangedAt);
+            deadlines.includeDelay(elapsed >= MEDIA_APP_REFRESH_DEBOUNCE_MS
+                                       ? 0 : MEDIA_APP_REFRESH_DEBOUNCE_MS - elapsed);
         }
     }
     const auto schedule = ersa::runtime::RuntimeScheduler::plan(
