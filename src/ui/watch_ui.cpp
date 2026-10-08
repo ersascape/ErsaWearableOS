@@ -92,9 +92,9 @@ void renderCurrentApp() {
     ersa::hal::PerformanceScope displayProfile(powerHal,
         ersa::hal::PerformanceProfile::DisplayRefresh, "display-refresh");
 
-    // Use full waveforms on boot and at the day boundary. App switches update
-    // the full image area with the faster partial waveform to avoid a long
-    // visible flash on every navigation action.
+    // Use full waveforms on boot and at the day boundary. Navigation replaces
+    // the framebuffer, so it needs a panel-wide partial update to keep the
+    // controller's old-image RAM synchronized without a full waveform flash.
     const bool appSwitched = appManager.isAppSwitched();
     const bool dayChanged = (shownDay != 0 && time.day() != shownDay);
     const bool hardwareFull = firstFrame || dayChanged;
