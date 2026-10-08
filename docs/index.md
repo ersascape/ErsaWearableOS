@@ -7,6 +7,7 @@ repository and labels planned integrations as planned.
 ## Start here
 
 - [Project overview and build commands](https://github.com/ersascape/ErsaWearableOS#readme)
+- [Latest release notes](https://github.com/ersascape/ErsaWearableOS/blob/master/release-notes/ewp-0.3.0.md)
 - [C++ API reference](https://pkgs-wearables.ersa.dev/wiki/api/): generated classes, methods, headers, and source documentation.
 - [Wearable project](https://open.ersa.dev/wearable): product and project landing page.
 - [Wearables package repository](https://pkgs-wearables.ersa.dev/): downloadable `ewctl` packages and releases.
@@ -19,6 +20,7 @@ repository and labels planned integrations as planned.
 ## Firmware and hardware
 
 - [Power and battery design](POWER_AND_BATTERY_DESIGN.md)
+- [Release history](https://github.com/ersascape/ErsaWearableOS/blob/master/CHANGELOG.md)
 - [Current architecture and power audit](ARCHITECTURE_AND_POWER_AUDIT.md)
 - [PCB pin map](pcb-pin-map.md)
 - [Apple Bluetooth connectivity](apple-connectivity.md)

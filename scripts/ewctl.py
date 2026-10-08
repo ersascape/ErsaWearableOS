@@ -258,6 +258,30 @@ def build_parser() -> argparse.ArgumentParser:
     config_set.add_argument("--ap-ssid")
     config_set.add_argument("--ap-password")
     config_set.add_argument("--ap-timeout-sec", type=int)
+    wifi = config_actions.add_parser("wifi", help="configure Wi-Fi credentials")
+    wifi_actions = wifi.add_subparsers(dest="config_group_action", required=True)
+    wifi_set = wifi_actions.add_parser("set", help="save Wi-Fi credentials")
+    wifi_set.add_argument("--ssid")
+    wifi_set.add_argument("--password")
+    caldav = config_actions.add_parser("caldav", help="configure calendar and task sync")
+    caldav_actions = caldav.add_subparsers(dest="config_group_action", required=True)
+    caldav_set = caldav_actions.add_parser("set", help="save CalDAV account and collection settings")
+    caldav_set.add_argument("--server", dest="caldav_server")
+    caldav_set.add_argument("--user", dest="caldav_user")
+    caldav_set.add_argument("--password", dest="caldav_password")
+    caldav_set.add_argument("--calendar", dest="caldav_calendar")
+    caldav_set.add_argument("--todo-path", dest="caldav_todo_path")
+    clock_config = config_actions.add_parser("time", help="configure timezone and display format")
+    clock_actions = clock_config.add_subparsers(dest="config_group_action", required=True)
+    clock_set = clock_actions.add_parser("set", help="save timezone and display format")
+    clock_set.add_argument("--timezone-offset-min", type=int)
+    clock_set.add_argument("--time-format", choices=("12h", "24h"))
+    hotspot = config_actions.add_parser("hotspot", help="configure the setup hotspot")
+    hotspot_actions = hotspot.add_subparsers(dest="config_group_action", required=True)
+    hotspot_set = hotspot_actions.add_parser("set", help="save hotspot name, password, and timeout")
+    hotspot_set.add_argument("--ssid", dest="ap_ssid")
+    hotspot_set.add_argument("--password", dest="ap_password")
+    hotspot_set.add_argument("--timeout-sec", dest="ap_timeout_sec", type=int)
     clock = sub.add_parser("time", help="inspect or set the watch RTC over USB")
     clock_actions = clock.add_subparsers(dest="time_action", required=True)
     clock_actions.add_parser("status", help="show current epoch, RTC health, and chip drift")
@@ -761,7 +785,7 @@ def run(args: argparse.Namespace) -> int:
         elif args.operation == "config":
             command = "config.get" if args.config_action == "get" else "config.set"
             command_args = None
-            if args.config_action == "set":
+            if args.config_action == "set" or getattr(args, "config_group_action", None) == "set":
                 field_map = {
                     "ssid": "ssid", "password": "password", "caldav_server": "caldav_server",
                     "caldav_user": "caldav_user", "caldav_password": "caldav_password",
@@ -769,8 +793,8 @@ def run(args: argparse.Namespace) -> int:
                     "timezone_offset_min": "timezone_offset_min", "ap_ssid": "ap_ssid",
                     "ap_password": "ap_password", "ap_timeout_sec": "ap_timeout_sec",
                 }
-                command_args = {key: getattr(args, key) for key in field_map if getattr(args, key) is not None}
-                if args.time_format is not None:
+                command_args = {key: getattr(args, key, None) for key in field_map if getattr(args, key, None) is not None}
+                if getattr(args, "time_format", None) is not None:
                     command_args["military_time"] = args.time_format == "24h"
                 if not command_args:
                     raise EwctlError("config set requires at least one setting option")
@@ -788,7 +812,13 @@ def run(args: argparse.Namespace) -> int:
         elif args.operation == "ota" and args.ota_action:
             title = f"ota {args.ota_action}"
         elif args.operation in ("config", "time"):
-            title = f"{args.operation} {args.config_action if args.operation == 'config' else args.time_action}"
+            if args.operation == "config":
+                suffix = args.config_action
+                if getattr(args, "config_group_action", None):
+                    suffix += f" {args.config_group_action}"
+                title = f"config {suffix}"
+            else:
+                title = f"time {args.time_action}"
         else:
             title = args.operation if args.operation != "command" else command
         display_reply(reply, title, args.json)

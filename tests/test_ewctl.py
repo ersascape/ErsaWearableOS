@@ -79,6 +79,19 @@ class ProtocolTests(unittest.TestCase):
         clock = ewctl.build_parser().parse_args(["time", "set", "1791475200"])
         self.assertEqual((clock.operation, clock.time_action, clock.epoch), ("time", "set", 1791475200))
 
+    def test_grouped_config_commands(self):
+        parser = ewctl.build_parser()
+        wifi = parser.parse_args(["config", "wifi", "set", "--ssid", "Ersa", "--password", "secret"])
+        self.assertEqual((wifi.operation, wifi.config_action, wifi.config_group_action), ("config", "wifi", "set"))
+        self.assertEqual((wifi.ssid, wifi.password), ("Ersa", "secret"))
+        caldav = parser.parse_args(["config", "caldav", "set", "--server", "https://dav.example", "--todo-path", "tasks"])
+        self.assertEqual(caldav.caldav_server, "https://dav.example")
+        self.assertEqual(caldav.caldav_todo_path, "tasks")
+        clock = parser.parse_args(["config", "time", "set", "--timezone-offset-min", "330", "--time-format", "24h"])
+        self.assertEqual((clock.timezone_offset_min, clock.time_format), (330, "24h"))
+        hotspot = parser.parse_args(["config", "hotspot", "set", "--ssid", "Ersa Setup", "--timeout-sec", "600"])
+        self.assertEqual((hotspot.ap_ssid, hotspot.ap_timeout_sec), ("Ersa Setup", 600))
+
     def test_flash_command_accepts_an_image_or_local_default(self):
         parser = ewctl.build_parser()
         self.assertEqual(parser.parse_args(["flash", "firmware.bin"]).target, "firmware.bin")

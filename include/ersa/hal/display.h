@@ -172,11 +172,14 @@ public:
     virtual void setBusyCallback(DisplayBusyCallback cb, void* userData = nullptr) = 0;
 
     // Power management
-    /** Put the panel controller into low power without discarding framebuffer data. */
+    /**
+     * Put the panel or driver into its supported low-power state.
+     * Visible-image retention and controller-state retention are device-specific.
+     */
     virtual void powerOff() = 0;
-    /** Restore panel-controller power before a refresh or status query. */
+    /** Restore a state usable for drawing or refresh; implementations may reinitialize hardware. */
     virtual void powerOn() = 0;
-    /// Return whether the panel controller is currently powered.
+    /** Return the driver's current powered state; this does not imply the image is visible. */
     virtual bool isPowered() const = 0;
 
     // Direct framebuffer access if available

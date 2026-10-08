@@ -60,6 +60,7 @@ layout.
 - [USB control bridge and `ewctl`](docs/ewctl-control-bridge.md)
 - [PCB pin map](docs/pcb-pin-map.md)
 - [C++ API reference setup](docs/index.md#api-reference), generated with Doxygen
+- Latest release notes: <release-notes/ewp-0.3.0.md>
 
 Build the documentation site and API reference locally with:
 

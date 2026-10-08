@@ -17,7 +17,15 @@ public:
     bool setString(std::string_view key, std::string_view value) override {
         if (!ensureOpen()) return false;
         const std::string k(key), v(value);
-        return prefs_.putString(k.c_str(), v.c_str()) > 0;
+        const size_t written = prefs_.putString(k.c_str(), v.c_str());
+        if (!value.empty()) return written == value.size();
+
+        // Arduino Preferences reports strlen(value), so a successful empty
+        // string write returns zero just like a failed write. Verify the
+        // persisted value to distinguish the successful empty-string case.
+        if (written != 0) return false;
+        const String stored = prefs_.getString(k.c_str(), "\x01");
+        return stored.length() == 0;
     }
     std::string getString(std::string_view key, std::string_view fallback) override {
         if (!ensureOpen()) return std::string(fallback);

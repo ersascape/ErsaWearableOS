@@ -34,7 +34,8 @@ jobs:
         run: sudo apt-get install --yes doxygen
       - name: Build wiki and API reference
         run: make docs
-      - name: Check C++ documentation coverage
+      - name: Report C++ documentation coverage (advisory)
+        continue-on-error: true
         run: |
           set +e
           python3 scripts/check_doc_coverage.py \

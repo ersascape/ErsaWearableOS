@@ -39,9 +39,13 @@ modem sleep in `sdkconfig.defaults`. The generated
 `.pio/build/ErsaWearable/config/sdkconfig.h` confirms these options are active
 for the firmware build. `Esp32PowerManagement::initialize()` calls
 `esp_pm_configure()` with `light_sleep_enable = true`; the UI releases its
-`ESP_PM_NO_LIGHT_SLEEP` lock after 30 seconds of inactivity when USB, display,
-network sync, and active-call constraints permit sleep. FreeRTOS tickless idle
-then coordinates automatic light sleep with task deadlines and power locks.
+`ESP_PM_NO_LIGHT_SLEEP` lock after 5 seconds without button activity when USB,
+display, network sync, foreground work, pending input, and feature-lease
+constraints permit sleep. USB console attachment intentionally blocks light
+sleep so the control connection remains available. FreeRTOS tickless idle then
+coordinates automatic light sleep with task deadlines and power locks. GPIO
+interrupts wake the UI task, so idle waits can use the next real service
+deadline instead of polling buttons every 10 ms.
 
 The Bluetooth controller uses modem sleep mode 1 and the main crystal as its
 low-power clock. `CONFIG_BT_CTRL_MAIN_XTAL_PU_DURING_LIGHT_SLEEP` is enabled, so
@@ -50,6 +54,13 @@ holding its `ESP_PM_NO_LIGHT_SLEEP` lock. The separate DS3231 clock is not
 connected to the ESP32-C3 low-power clock pins and is not used for this purpose.
 The code does not call `esp_light_sleep_start()` from the UI loop; manual sleep
 would bypass the controller's coordination.
+
+The e-paper driver switches off panel drive voltage after each refresh while
+retaining the visible image. The display manager handles refresh timing and
+ghost-clearing cadence; it does not need a second idle power-off call. A
+display-refresh performance scope holds the platform frequency lock only
+around rendering and the physical waveform, then releases it for automatic
+frequency management.
 
 These build settings and code paths enable BLE-compatible automatic light sleep,
 but they do not prove that a particular device spends time in light sleep or

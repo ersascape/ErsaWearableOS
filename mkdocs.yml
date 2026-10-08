@@ -8,6 +8,8 @@ theme:
   name: readthedocs
 nav:
   - Home: index.md
+  - Release history: https://github.com/ersascape/ErsaWearableOS/blob/master/CHANGELOG.md
+  - Latest release: https://github.com/ersascape/ErsaWearableOS/blob/master/release-notes/ewp-0.3.0.md
   - Build and register apps: BUILDING_APPS.md
   - C++ API reference: https://pkgs-wearables.ersa.dev/wiki/api/
   - Wearable project: https://open.ersa.dev/wearable

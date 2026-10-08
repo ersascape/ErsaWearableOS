@@ -1,7 +1,8 @@
 # Architecture and power audit — 2026-10-08
 
 This replaces the dated 2026-09-29 audit with a review of the current source
-tree. It is a source and build-configuration review, not a measurement of
+tree, including the runtime scheduler and e-paper idle policy. It is a source
+and build-configuration review, not a measurement of
 battery life or a claim that the firmware has been validated on hardware.
 
 ## Summary
@@ -17,12 +18,12 @@ executor and sleep scheduler.
 
 Power-management Kconfig enables ESP-IDF PM, FreeRTOS tickless idle, and
 Bluetooth modem sleep. The ESP32 power HAL configures automatic light sleep,
-holds an `ESP_PM_NO_LIGHT_SLEEP` lock while active, and releases it after the
-UI's 30-second inactivity policy allows sleep. The UI waits for the earliest
-of its minute refresh, BLE retry, battery sampling, and media redraw deadlines.
-These facts establish that the firmware is configured to attempt coordinated
-BLE-compatible sleep; they do not establish sleep residency, reconnect quality,
-or battery endurance on a physical watch.
+holds an `ESP_PM_NO_LIGHT_SLEEP` lock while active, and releases it after five
+seconds without button activity when all other blockers are clear. The UI waits
+for the earliest service or application deadline; GPIO and BLE notifications
+wake it between deadlines. These facts establish that the firmware is
+configured to attempt coordinated BLE-compatible sleep; they do not establish
+sleep residency, reconnect quality, or battery endurance on a physical watch.
 
 ## Findings
 
@@ -71,15 +72,16 @@ divider scaling. `WatchClock` remains a compatibility facade whose public
 still have direct platform-library usage. Keep moving those behind network,
 storage, diagnostics, and OTA HAL contracts.
 
-### 5. Display refresh ownership is partly centralized
+### 5. E-paper retains its image while its drive voltage is off
 
-**Partially resolved:** `DisplayManager` now owns the 360-partial-frame
-ghost-clearing cadence and its idle panel power-off policy runs from the UI
-tick. The UI still identifies dirty bounds and forces a full waveform on the
-first frame or day change. A future display request object can move those
-remaining refresh choices behind the manager while preserving app-specific
-invalidation regions. BUSY completion remains a driver concern and should not
-be coupled to button polling.
+`GxEpd2Display` disables panel drive voltage after a refresh while the e-paper
+image remains visible. `DisplayManager` owns the 360-partial-frame
+ghost-clearing cadence and refresh rate limit; it no longer sends a redundant
+idle power-off or power-on request. The UI still identifies dirty bounds and
+forces a full waveform on the first frame or day change. BUSY completion
+remains a driver concern and is not coupled to button polling. This removes an
+incorrect manager power-state assumption; it does not reduce the panel's
+refresh-waveform duration.
 
 ### 6. Battery state is an estimate, not fuel-gauge telemetry
 
@@ -102,16 +104,14 @@ measure these properties.
 
 ## Recommended work order
 
-1. Define the runtime scheduler contract for next-work deadlines and wake
-   constraints, then migrate UI-owned deadlines into the services that own
-   them.
+1. Move deadline ownership from `WatchUi` into the services that own the
+   deadlines, preserving the tested fixed-capacity scheduler.
 2. Move dirty-region and full-waveform requests behind a display refresh
-   policy API; retain the current per-app invalidation bounds.
-3. Move remaining raw Arduino/GPIO use
-   behind platform HALs.
-4. Run host/platform tests, compile firmware, then collect on-device BLE,
-   residency, wake-latency, and current measurements before claiming power
-   savings.
+   policy API while retaining per-app invalidation bounds.
+3. Move remaining raw Arduino/ESP-IDF calls in network sync, USB control, and
+   OTA behind platform diagnostics and transport contracts.
+4. Collect on-device BLE, residency, wake-latency, and battery-current
+   measurements before claiming power savings.
 
 ## Review limits
 

@@ -1,5 +1,34 @@
 # Changelog
 
+## ewp-0.3.0
+
+- Reorganized board composition under manufacturer/platform/codename, expanded
+  board pinctrl contracts, and moved display, input, power, RTC, battery,
+  network, portal, storage, console, and diagnostics access behind explicit
+  HAL boundaries.
+- Added a deadline-driven runtime scheduler. GPIO interrupts and service
+  deadlines wake the UI task; idle waits no longer poll every 10 ms. Automatic
+  BLE-coordinated light sleep becomes eligible after 5 seconds without button
+  activity, provided USB, display, network, app, and feature-lease blockers are
+  clear.
+- Corrected e-paper idle handling: the driver releases panel drive voltage
+  after refresh while the image remains visible; the display manager no longer
+  issues a redundant idle power-off or controller reset. Display refreshes use
+  a dedicated performance scope.
+- Verified RTC writes and improved I²C timeout diagnostics, timezone handling,
+  and clock reconciliation after light sleep.
+- Reduced normal ANCS and DVFS log volume. Notification queue loss is summarized
+  after bursts, while clock changes, recovery, and failures remain visible.
+- Added USB provisioning and RTC diagnostics through `ewctl`, expanded the app
+  SDK and C++ API documentation, added Doxygen coverage reporting, and publish
+  the wiki/API reference through GitHub Pages.
+- Added grouped USB provisioning commands: `config wifi set`,
+  `config caldav set`, `config time set`, and `config hotspot set`; the flat
+  `config set` form remains supported for existing scripts.
+
+See [release notes](release-notes/ewp-0.3.0.md) for upgrade and validation
+details.
+
 ## ewp-0.2.1
 
 - Retry BLE advertising after unexpected radio stops, release stalled links after

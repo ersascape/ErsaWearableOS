@@ -1,8 +1,8 @@
 # Platform and runtime architecture
 
-This page records the target boundary for platform code and the scheduler work
-underway. The firmware is being migrated in small steps so each move can be
-built and tested independently.
+This page describes the current platform boundary and runtime scheduler. The
+firmware is still being migrated in small steps so each move can be built and
+tested independently.
 
 ## Layer ownership
 
@@ -96,23 +96,35 @@ sequence:
 2. Run services and apps whose deadlines are due.
 3. Render once when content is dirty and the panel is ready.
 4. Ask one sleep coordinator whether active work or a lease blocks sleep.
-5. Wait for an event or the earliest registered deadline.
+5. Block until an event or the earliest registered deadline.
 
 `runtime::SleepEligibility` combines console, interaction, active-app,
 network, display, lease, and pending-work constraints. `RuntimeScheduler`
 turns that policy into one sleep/wait plan, while `WakeDeadlineSet` selects the
-earliest delay without dynamic allocation. The UI currently
-contributes the RTC minute, BLE retry, battery sample, boot-time fallback,
-transient-screen timeout, and media debounce deadlines. The next step is to
-have each service expose its own next deadline and move app timeout policy out
-of `WatchUi::tick()`.
+earliest delay without dynamic allocation. Once eligible, the task waits for
+the actual next deadline; it does not wake every 10 ms to poll buttons. GPIO
+interrupts notify the task on button transitions, and BLE/network callbacks
+notify it when queued work arrives. A held button keeps the loop awake so
+debounce, click, and hold behavior continues to progress.
+
+Automatic light sleep becomes eligible after 5 seconds without deliberate
+button activity. USB console attachment, foreground portal/call work, network
+sync, display BUSY, wake-lock leases, or pending UI/input work keep the
+no-light-sleep guard held. Passive BLE traffic wakes the task but does not
+restart the user-idle timer. After each wake the software clock is reconciled
+with the DS3231 before the next minute deadline is calculated. The display
+driver cuts e-paper drive voltage after a refresh; the visible image remains
+without a separate display-manager idle transition.
+
+The UI still collects service deadlines and owns screen timeout policy. The
+next runtime step is to have each service expose its own next deadline and move
+app timeout policy out of `WatchUi::tick()`.
 
 Keep the scheduler fixed-capacity and allocation-free. Add one deadline at a
 time with a host test proving that it wakes early enough; notifications remain
-the fast path for asynchronous BLE, input, and network completion. The
-ESP32 power HAL continues to use FreeRTOS tickless idle for automatic
-BLE-coordinated light sleep instead of directly calling a chip sleep function
-from the UI loop.
+the fast path for asynchronous BLE, input, and network completion. The ESP32
+power HAL uses FreeRTOS tickless idle for automatic BLE-coordinated light
+sleep instead of directly calling a chip sleep function from the UI loop.
 
 ## Validation
 

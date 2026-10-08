@@ -132,26 +132,37 @@ void setApConfig(const char* ssid, const char* pass, uint16_t timeoutSec) {
 
 bool save() {
     auto& store = storage();
-    const bool ok = store.setString("c_ssid", activeConfig.wifiSsid) &&
-        store.setString("c_pass", activeConfig.wifiPass) &&
-        store.setString("c_srv", activeConfig.caldavServer) &&
-        store.setString("c_usr", activeConfig.caldavUser) &&
-        store.setString("c_pwd", activeConfig.caldavPass) &&
-        store.setString("c_cal", activeConfig.caldavCalendar) &&
-        store.setString("c_tod", activeConfig.caldavTodoPath) &&
-        store.setInt("c_tz", activeConfig.timezoneOffsetMin) &&
-        store.setBool("c_24h", activeConfig.militaryTime) &&
-        store.setInt("c_fref", activeConfig.fullRefreshInterval) &&
-        store.setString("c_aps", activeConfig.apSsid) &&
-        store.setString("c_app", activeConfig.apPass) &&
-        store.setInt("c_apt", activeConfig.apTimeoutSec);
-    if (ok) {
-        DebugLog::log("CONFIG saved to NVS");
-        return true;
-    } else {
-        DebugLog::log("CONFIG error committing settings to storage");
+    auto writeString = [&](const char* key, const char* value) {
+        if (store.setString(key, value)) return true;
+        DebugLog::log("CONFIG NVS write failed key=%s", key);
         return false;
-    }
+    };
+    auto writeInt = [&](const char* key, int32_t value) {
+        if (store.setInt(key, value)) return true;
+        DebugLog::log("CONFIG NVS write failed key=%s", key);
+        return false;
+    };
+    auto writeBool = [&](const char* key, bool value) {
+        if (store.setBool(key, value)) return true;
+        DebugLog::log("CONFIG NVS write failed key=%s", key);
+        return false;
+    };
+
+    const bool ok = writeString("c_ssid", activeConfig.wifiSsid) &&
+        writeString("c_pass", activeConfig.wifiPass) &&
+        writeString("c_srv", activeConfig.caldavServer) &&
+        writeString("c_usr", activeConfig.caldavUser) &&
+        writeString("c_pwd", activeConfig.caldavPass) &&
+        writeString("c_cal", activeConfig.caldavCalendar) &&
+        writeString("c_tod", activeConfig.caldavTodoPath) &&
+        writeInt("c_tz", activeConfig.timezoneOffsetMin) &&
+        writeBool("c_24h", activeConfig.militaryTime) &&
+        writeInt("c_fref", activeConfig.fullRefreshInterval) &&
+        writeString("c_aps", activeConfig.apSsid) &&
+        writeString("c_app", activeConfig.apPass) &&
+        writeInt("c_apt", activeConfig.apTimeoutSec);
+    if (ok) DebugLog::log("CONFIG saved to NVS");
+    return ok;
 }
 
 } // namespace WatchConfig

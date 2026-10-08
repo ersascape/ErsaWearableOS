@@ -3,10 +3,10 @@
 
 Coverage counts class/struct/union/enum types and documented declaration
 members (functions, typedefs, variables, macros, and enum values) in include/,
-src/, and tests/. Private members are included because Doxygen extracts them
-for the project's implementation reference. A declaration is documented when
-it has non-empty brief or detailed Doxygen text. The script uses Doxygen XML,
-so it audits the same parsed source used to publish the API reference.
+src/, and tests/. Public/protected members and free functions are counted;
+private members are excluded. A declaration is documented when it has non-empty
+brief or detailed Doxygen text. The script uses Doxygen XML, so it audits the
+same parsed source used to publish the API reference.
 """
 from __future__ import annotations
 

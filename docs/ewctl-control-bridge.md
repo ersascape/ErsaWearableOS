@@ -14,12 +14,19 @@ The host client lives at `scripts/ewctl.py` and uses Python, `pyserial`, and Ric
 
 `ewctl power get-dvfs-state` captures ESP-IDF's current PM lock and CPU residency report on demand. It reports the measured CPU clock, lock counts/timing, and time in each PM mode, including sleep. `ewctl power log` samples battery voltage, CPU frequency, power state, BLE state, uptime, and heap to a timestamped CSV. Set `--interval 30 --duration 7200 --output run.csv`; duration `0` records until Ctrl-C. USB monitoring blocks the watch's normal sleep policy, so this helps compare telemetry but does not measure normal battery life.
 
-Provision settings over USB with `ewctl config get` and `ewctl config set`. The getter reports which passwords are present without returning their values. The setter accepts any combination of `--ssid`, `--password`, `--caldav-server`, `--caldav-user`, `--caldav-password`, `--caldav-calendar`, `--caldav-todo-path`, `--timezone-offset-min`, `--time-format 12h|24h`, `--ap-ssid`, `--ap-password`, and `--ap-timeout-sec`. This uses the same persisted settings as the hotspot form. For example:
+Provision settings over USB with `ewctl config get`. The getter reports which passwords are present without returning their values. Set each group independently with `config wifi`, `config caldav`, `config time`, or `config hotspot`; these commands write the same persisted settings used by the setup portal. The previous flat `config set` form remains available for scripts that already use it:
 
 ```sh
-ewctl config set --ssid "Ersa" --password 'wifi secret' --timezone-offset-min 330 --time-format 24h
+ewctl config wifi set --ssid "Ersa" --password 'wifi secret'
+ewctl config caldav set --server 'https://dav.example/remote.php/dav' --user 'watch' --password 'dav secret' --calendar 'personal' --todo-path 'tasks'
+ewctl config time set --timezone-offset-min 330 --time-format 24h
+ewctl config hotspot set --ssid 'Ersa Setup' --password 'setup secret' --timeout-sec 600
 ewctl config get
 ```
+
+Passwords are sent over the USB control bridge and are never returned by
+`config get`. Avoid putting secrets directly in shell commands on shared hosts
+because shells may save command history.
 
 `ewctl time status` reports the current software wall-time epoch, a direct chip readback epoch, whether the RTC is readable/healthy, whether its oscillator-stop flag is set, and the most recent chip-to-software drift measurement. Drift is marked unavailable until a periodic comparison has run. `ewctl time set <epoch>` writes the watch wall time directly; the epoch is interpreted as the wall-clock value shown on the watch (the firmware stores the phone's local clock fields without applying a timezone conversion).
 
