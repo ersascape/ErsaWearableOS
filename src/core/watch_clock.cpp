@@ -1,5 +1,5 @@
 #include "watch_clock.h"
-#include "board_pins.h"
+#include "ersa/board/board.h"
 #include "debug_log.h"
 #include <Wire.h>
 
@@ -26,7 +26,7 @@ bool responds() {
 } // namespace
 
 void WatchClock::begin() {
-    Wire.begin(Pins::SDA, Pins::SCL);
+    Wire.begin(ersa::board::Board::current().getPins().i2c().sda.number, ersa::board::Board::current().getPins().i2c().scl.number);
     Wire.setClock(100000);
     Wire.setTimeOut(50);
 

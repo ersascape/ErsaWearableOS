@@ -1,10 +1,10 @@
 #include "ersa/services/ota_service.h"
+#include "ersa/board/board.h"
 
 #include "core/debug_log.h"
 #include "core/watch_config.h"
 #include "ersa/board/board.h"
 #include <Arduino.h>
-#include <WiFi.h>
 #include <esp_heap_caps.h>
 #include <esp_image_format.h>
 #include <esp_ota_ops.h>
@@ -417,28 +417,26 @@ bool connectWifi() {
     const auto& config = WatchConfig::get();
     if (!config.wifiSsid[0]) return false;
     DebugLog::log("OTA: starting Wi-Fi association timeout_ms=%lu", static_cast<unsigned long>(WIFI_CONNECT_TIMEOUT_MS));
-    WiFi.mode(WIFI_STA);
-    WiFi.setSleep(true); // Required for ESP32-C3 Wi-Fi/BLE coexistence.
-    WiFi.begin(config.wifiSsid, config.wifiPass);
+    auto& wifi = board::Board::current().getWifi();
+    wifi.connectStation(config.wifiSsid, config.wifiPass, true);
     const uint32_t started = millis();
     uint32_t lastReport = started;
-    while (WiFi.status() != WL_CONNECTED && millis() - started < WIFI_CONNECT_TIMEOUT_MS) {
+    while (wifi.state() != hal::WifiState::Connected && millis() - started < WIFI_CONNECT_TIMEOUT_MS) {
         vTaskDelay(pdMS_TO_TICKS(200));
         if (uint32_t(millis() - lastReport) >= 4000) {
             DebugLog::log("OTA: waiting for Wi-Fi status=%d elapsed_ms=%lu",
-                          int(WiFi.status()), static_cast<unsigned long>(millis() - started));
+                          int(wifi.state()), static_cast<unsigned long>(millis() - started));
             lastReport = millis();
         }
     }
-    DebugLog::log("OTA: Wi-Fi status=%d heap=%lu largest=%lu", int(WiFi.status()),
+    DebugLog::log("OTA: Wi-Fi status=%d heap=%lu largest=%lu", int(wifi.state()),
                   static_cast<unsigned long>(ESP.getFreeHeap()),
                   static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
-    return WiFi.status() == WL_CONNECTED;
+    return wifi.state() == hal::WifiState::Connected;
 }
 
 void disconnectWifi() {
-    WiFi.disconnect(true);
-    WiFi.mode(WIFI_OFF);
+    board::Board::current().getWifi().disconnect(true);
 }
 } // namespace
 
@@ -678,6 +676,11 @@ const char* OtaService::runningImageState() const {
     esp_ota_img_states_t state;
     return partition && esp_ota_get_state_partition(partition, &state) == ESP_OK
                ? imageStateName(state) : "unavailable";
+}
+
+const char* OtaService::runningVersion() const {
+    const esp_app_desc_t* descriptor = esp_ota_get_app_description();
+    return descriptor ? descriptor->version : "unknown";
 }
 
 const char* OtaService::otherSlot() const {

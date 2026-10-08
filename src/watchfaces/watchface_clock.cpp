@@ -2,7 +2,6 @@
 #include "core/watch_clock.h"
 #include "core/battery.h"
 #include "core/net_sync.h"
-#include "fonts/misans_fonts.h"
 #include "ersa/config/ui_strings.h"
 #include "ersa/services/bluetooth_manager.h"
 #include <Arduino.h>
@@ -72,7 +71,7 @@ void timeToWords(uint8_t hour, uint8_t min, const char*& line1, const char*& lin
     }
 }
 
-void drawRightAlignedText(Adafruit_GFX& display, const char* text, int16_t rightX, int16_t y, const GFXfont* font) {
+void drawRightAlignedText(ersa::hal::IDisplay& display, const char* text, int16_t rightX, int16_t y, ersa::hal::FontFace font) {
     display.setFont(font);
     display.setTextSize(1);
     int16_t x1, y1;
@@ -82,7 +81,7 @@ void drawRightAlignedText(Adafruit_GFX& display, const char* text, int16_t right
     display.print(text);
 }
 
-void drawMusicNote(Adafruit_GFX& display, int16_t x, int16_t y) {
+void drawMusicNote(ersa::hal::IDisplay& display, int16_t x, int16_t y) {
     // Compact double eighth-note mark, independent of font glyph coverage.
     display.fillCircle(x + 2, y + 12, 2, 1);
     display.fillCircle(x + 8, y + 9, 2, 1);
@@ -93,7 +92,7 @@ void drawMusicNote(Adafruit_GFX& display, int16_t x, int16_t y) {
 
 } // namespace
 
-void render(Adafruit_GFX& display, const DateTime& time, bool full) {
+void render(ersa::hal::IDisplay& display, const DateTime& time, bool full) {
     (void)full;
     // 1. Full solid black canvas
     display.fillScreen(0);      // 0 = GxEPD_BLACK
@@ -117,19 +116,19 @@ void render(Adafruit_GFX& display, const DateTime& time, bool full) {
         if (strlen(callBuf) > 20) {
             callBuf[17] = '.'; callBuf[18] = '.'; callBuf[19] = '.'; callBuf[20] = '\0';
         }
-        drawRightAlignedText(display, callBuf, 184, 150, &MiSansLatin_Bold8pt7b);
+        drawRightAlignedText(display, callBuf, 184, 150, ersa::hal::FontFace::MiSansBold8);
     } else if (callState == ersa::services::CallState::Active) {
         char callBuf[32];
         uint32_t sec = bleMgr.getCallDurationSec();
         snprintf(callBuf, sizeof(callBuf), "in call %02u:%02u", unsigned(sec / 60), unsigned(sec % 60));
-        drawRightAlignedText(display, callBuf, 184, 150, &MiSansLatin_Bold8pt7b);
+        drawRightAlignedText(display, callBuf, 184, 150, ersa::hal::FontFace::MiSansBold8);
     } else {
         const char* title = bleMgr.getMediaTitle();
         if (title && title[0] != '\0' && strcmp(title, "No Media") != 0) {
             char mediaBuf[32];
             snprintf(mediaBuf, sizeof(mediaBuf), "%s", title);
             // Reserve a generous left inset and leave the note clear on the right.
-            display.setFont(&MiSansLatin_Regular8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular8);
             int16_t boundsX, boundsY;
             uint16_t textWidth, textHeight;
             display.getTextBounds(mediaBuf, 0, 0, &boundsX, &boundsY, &textWidth, &textHeight);
@@ -141,22 +140,22 @@ void render(Adafruit_GFX& display, const DateTime& time, bool full) {
                 mediaBuf[length - 1] = '\0';
                 display.getTextBounds(mediaBuf, 0, 0, &boundsX, &boundsY, &textWidth, &textHeight);
             }
-            drawRightAlignedText(display, mediaBuf, 164, 150, &MiSansLatin_Regular8pt7b);
+            drawRightAlignedText(display, mediaBuf, 164, 150, ersa::hal::FontFace::MiSansRegular8);
             drawMusicNote(display, 174, 136);
         }
     }
 
-    drawRightAlignedText(display, daysLower[dow], 184, 168, &MiSansLatin_Regular8pt7b);
-    drawRightAlignedText(display, dateBuf, 184, 184, &MiSansLatin_Regular8pt7b);
+    drawRightAlignedText(display, daysLower[dow], 184, 168, ersa::hal::FontFace::MiSansRegular8);
+    drawRightAlignedText(display, dateBuf, 184, 184, ersa::hal::FontFace::MiSansRegular8);
 
     // Keep status clear of the full-width date on the bottom row.
     constexpr int16_t leftX = 18;
     if (NetSync::isSyncing()) {
-        display.setFont(&MiSansLatin_Regular8pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansRegular8);
         display.setCursor(leftX, 134);
         display.print(ersa::strings::MSG_SYNCING);
     } else if (Battery::isConnected() && Battery::percentage() <= 20) {
-        display.setFont(&MiSansLatin_Regular8pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansRegular8);
         display.setCursor(leftX, 134);
         display.print(ersa::strings::MSG_LOW_BATT);
     }
@@ -171,11 +170,11 @@ void render(Adafruit_GFX& display, const DateTime& time, bool full) {
 
     if (l3[0] != '\0') {
         // 3 lines layout
-        display.setFont(&MiSansLatin_Bold17pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansBold17);
         display.setCursor(leftX, 48);
         display.print(l1);
 
-        display.setFont(&MiSansLatin_Light17pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansLight17);
         display.setCursor(leftX, 80);
         display.print(l2);
 
@@ -183,11 +182,11 @@ void render(Adafruit_GFX& display, const DateTime& time, bool full) {
         display.print(l3);
     } else {
         // 2 lines layout: elegant vertical centering
-        display.setFont(&MiSansLatin_Bold17pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansBold17);
         display.setCursor(leftX, 58);
         display.print(l1);
 
-        display.setFont(&MiSansLatin_Light17pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansLight17);
         display.setCursor(leftX, 94);
         display.print(l2);
     }

@@ -26,6 +26,7 @@ public:
     const char* updateMessage() const;
     const char* runningSlot() const;
     const char* runningImageState() const;
+    const char* runningVersion() const;
     const char* otherSlot() const;
     const char* otherImageState() const;
     bool otherSlotBootable() const;

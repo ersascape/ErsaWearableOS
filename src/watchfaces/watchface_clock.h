@@ -1,9 +1,9 @@
 #pragma once
 #include <RTClib.h>
-#include <Adafruit_GFX.h>
+#include "ersa/hal/display.h"
 
 namespace WatchfaceClock {
 
-void render(Adafruit_GFX& display, const DateTime& time, bool full = true);
+void render(ersa::hal::IDisplay& display, const DateTime& time, bool full = true);
 
 } // namespace WatchfaceClock

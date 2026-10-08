@@ -4,11 +4,10 @@
 #include "core/battery.h"
 #include "core/net_sync.h"
 #include "ersa/services/bluetooth_manager.h"
+#include "ersa/services/ota_service.h"
+#include "ersa/board/board.h"
 #include "ui/text_layout.h"
-#include "fonts/misans_fonts.h"
 #include "ersa/config/ui_strings.h"
-#include <Arduino.h>
-#include <esp_ota_ops.h>
 
 namespace AppStatus {
 
@@ -22,16 +21,16 @@ static void formatUptime(char* output, size_t capacity, uint32_t seconds) {
                   (unsigned long)(seconds % 60U));
 }
 
-void render(Adafruit_GFX& display) {
+void render(ersa::hal::IDisplay& display) {
     display.fillScreen(0);   // Solid black
     display.setTextColor(1); // White
 
     // Clean lowercase header
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(18, 24);
     display.print(ersa::strings::APP_TITLE_STATUS);
 
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
 
     constexpr int16_t leftX = 18;
     constexpr int16_t valX = 86;
@@ -59,7 +58,7 @@ void render(Adafruit_GFX& display) {
 
     // 3. Current boot uptime
     char uptime[20];
-    formatUptime(uptime, sizeof(uptime), millis() / 1000U);
+    formatUptime(uptime, sizeof(uptime), ersa::board::Board::current().getUptimeMs() / 1000U);
     display.setCursor(leftX, startY + rowHeight * 2);
     display.print("uptime");
     display.setCursor(valX, startY + rowHeight * 2);
@@ -90,10 +89,9 @@ void render(Adafruit_GFX& display) {
 
     // The app descriptor is compiled into this exact image and distinguishes
     // release firmware from local test builds.
-    const esp_app_desc_t* appDescription = esp_ota_get_app_description();
     display.setCursor(leftX, startY + rowHeight * 7);
     display.print("version");
-    WatchText::line(display, appDescription ? appDescription->version : "unknown",
+    WatchText::line(display, ersa::services::OtaService::instance().runningVersion(),
                     valX, startY + rowHeight * 7, 98);
 
     // Clean footer

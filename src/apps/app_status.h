@@ -1,10 +1,10 @@
 #pragma once
-#include <Adafruit_GFX.h>
+#include "ersa/hal/display.h"
 #include "core/buttons.h"
 
 namespace AppStatus {
 
-void render(Adafruit_GFX& display);
+void render(ersa::hal::IDisplay& display);
 bool onButton(Buttons::Event event);
 
 } // namespace AppStatus

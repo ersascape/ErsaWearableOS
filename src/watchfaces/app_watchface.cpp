@@ -6,7 +6,6 @@
 #include "core/debug_log.h"
 
 #if defined(ARDUINO)
-#include "hal/esp32/esp32_display.h"
 #endif
 
 namespace ersa {
@@ -58,14 +57,11 @@ void AppWatchface::onEvent(const events::Event& event) {
 
 void AppWatchface::render(hal::IDisplay& display, bool fullRefresh) {
 #if defined(ARDUINO)
-    auto* espDisplay = static_cast<hal::Esp32Display*>(&display);
-    if (espDisplay) {
-        DateTime time = WatchClock::now();
-        WatchfaceClock::render(espDisplay->getGfx(), time, fullRefresh);
-        shownMinute_ = time.unixtime() / 60;
-        shownDay_ = time.day();
-        shownRtcHealthy_ = WatchClock::healthy();
-    }
+    DateTime time = WatchClock::now();
+    WatchfaceClock::render(display, time, fullRefresh);
+    shownMinute_ = time.unixtime() / 60;
+    shownDay_ = time.day();
+    shownRtcHealthy_ = WatchClock::healthy();
 #else
     (void)display; (void)fullRefresh;
 #endif

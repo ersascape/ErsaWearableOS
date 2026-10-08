@@ -1,7 +1,6 @@
 #include "app_todo.h"
 #include "core/net_sync.h"
 #include "core/debug_log.h"
-#include "fonts/misans_fonts.h"
 #include "ersa/config/ui_strings.h"
 #include <Arduino.h>
 
@@ -12,7 +11,7 @@ size_t selectedIndex = 0;
 size_t topVisibleIndex = 0;
 constexpr size_t VISIBLE_ITEMS = 4;
 
-void drawRight(Adafruit_GFX& display, const char* text, int16_t rightX, int16_t y, const GFXfont* font) {
+void drawRight(ersa::hal::IDisplay& display, const char* text, int16_t rightX, int16_t y, ersa::hal::FontFace font) {
     display.setFont(font);
     display.setTextSize(1);
     int16_t x1, y1;
@@ -59,13 +58,13 @@ bool onButton(Buttons::Event event) {
     return false;
 }
 
-void render(Adafruit_GFX& display, bool full) {
+void render(ersa::hal::IDisplay& display, bool full) {
     (void)full;
     display.fillScreen(0);   // Solid black
     display.setTextColor(1); // White
 
     // Clean lowercase header
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(18, 24);
     display.print(ersa::strings::APP_TITLE_TASKS);
 
@@ -73,24 +72,24 @@ void render(Adafruit_GFX& display, bool full) {
     if (total > 0) {
         char countBuf[20];
         snprintf(countBuf, sizeof(countBuf), "%u tasks", unsigned(total));
-        drawRight(display, countBuf, 184, 24, &MiSansLatin_Regular8pt7b);
+        drawRight(display, countBuf, 184, 24, ersa::hal::FontFace::MiSansRegular8);
     } else {
-        drawRight(display, NetSync::lastStatus(), 184, 24, &MiSansLatin_Regular8pt7b);
+        drawRight(display, NetSync::lastStatus(), 184, 24, ersa::hal::FontFace::MiSansRegular8);
     }
 
     // Clean minimal footer
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     display.setCursor(18, 186);
     display.print((total == 0) ? ersa::strings::NAV_TODO_EMPTY_FOOT : ersa::strings::NAV_TODO_FOOTER);
 
     display.setTextColor(1);
 
     if (total == 0) {
-        display.setFont(&MiSansLatin_Regular10pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansRegular10);
         display.setCursor(18, 70);
         display.print(ersa::strings::MSG_NO_TASKS);
 
-        display.setFont(&MiSansLatin_Regular8pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansRegular8);
         display.setCursor(18, 96);
         display.print(ersa::strings::MSG_PRESS_SYNC_CALDAV);
         return;
@@ -122,12 +121,12 @@ void render(Adafruit_GFX& display, bool full) {
         if (isSelected) {
             display.fillRoundRect(14, rowY - 17, 168, 22, 4, 1);
             display.setTextColor(0); // Black text on white capsule
-            display.setFont(&MiSansLatin_Bold8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansBold8);
             display.setCursor(20, rowY - 1);
             display.print(lineBuf);
             display.setTextColor(1); // Reset White
         } else {
-            display.setFont(&MiSansLatin_Regular8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular8);
             display.setCursor(20, rowY - 1);
             display.print(lineBuf);
         }

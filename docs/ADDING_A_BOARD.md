@@ -40,15 +40,29 @@ When porting Ersa Wearable Platform to a new board:
 
 ## 2. Directory Layout for a BSP
 
-Each board target lives in its own subdirectory under `src/bsp/`:
+Use `manufacturer/platform/codename` below `src/bsp/`. The manufacturer is the
+board vendor, platform is the shared module or compute platform, and codename
+identifies the product/board variant. This is a project convention rather than
+a universal C++ standard; it scales better than a flat list and keeps closely
+related boards together.
+
+`ersa::board::Pins` groups signals into I2C, SPI, display, buttons, and battery
+pin groups. A board subclasses it and supplies those groups. Each `Pin` carries
+its platform pin number, function, pull, and active level. Platform code applies
+the electrical settings and routes bus pins when it initializes each peripheral;
+board code owns the mapping, while reusable HAL drivers receive the resolved
+pin numbers. This is the embedded equivalent of a pinctrl description, not a
+Linux Device Tree pinctrl implementation.
 
 ```
 src/bsp/
-├── terra/                         # Reference BSP (watch name: Ampere Terra)
-│   ├── board_terra.h
-│   ├── board_terra.cpp
-│   └── device_info.cpp            # DeviceInfo: name, codename, manufacturer
-└── <your_board_name>/            # Your new board BSP
+├── ampere/
+│   └── xiao_esp32c3/
+│       └── terra/                 # Ampere Terra on Seeed XIAO ESP32-C3
+│           ├── board_terra.h
+│           ├── board_terra.cpp
+│           └── device_info.cpp    # DeviceInfo: name, codename, manufacturer
+└── <manufacturer>/<platform>/<codename>/
     ├── board_<your_board>.h
     └── board_<your_board>.cpp
 ```
@@ -59,66 +73,18 @@ src/bsp/
 
 ### Step 1: Subclass `ersa::board::Board`
 
-Create `src/bsp/<your_board>/board_<your_board>.h`:
-
-```cpp
-#pragma once
-
-#if defined(ARDUINO)
-
-#include "ersa/board/board.h"
-#include "ersa/board/board_config.h"
-#include "hal/esp32/esp32_display.h"
-#include "hal/esp32/esp32_rtc.h"
-#include "hal/esp32/esp32_battery.h"
-#include "hal/esp32/esp32_input.h"
-
-namespace ersa {
-namespace board {
-
-class BoardMyWatch : public Board {
-public:
-    BoardMyWatch();
-    ~BoardMyWatch() override = default;
-
-    Result<void> init() override;
-    const char* getName() const override { return "My Custom Watch"; }
-    const BoardConfig& getConfig() const override { return config_; }
-
-    hal::IDisplay& getDisplay() override { return display_; }
-    hal::IRtc& getRtc() override { return rtc_; }
-    hal::IBattery& getBattery() override { return battery_; }
-    hal::IInput& getInput() override { return input_; }
-
-    uint32_t getUptimeMs() const override;
-    void delayMs(uint32_t ms) override;
-
-    static BoardMyWatch& instance();
-
-private:
-    BoardConfig config_;
-    hal::Esp32Display display_;
-    hal::Esp32Rtc rtc_;
-    hal::Esp32Battery battery_;
-    hal::Esp32Input input_;
-};
-
-} // namespace board
-} // namespace ersa
-
-#endif // ARDUINO
-```
+Create a board class in `src/bsp/<manufacturer>/<platform>/<codename>/`. Derive it from `ersa::board::Board`, provide its `Pins` implementation and `BoardConfig`, then compose generic HAL interfaces with platform HAL and peripheral driver implementations. For example, Terra exposes `hal::IDisplay&` while internally composing the GxEPD2 driver. Application code should depend on the interface returned by `Board`, never on a concrete panel driver.
 
 ---
 
 ### Step 2: Configure Pins, Capabilities & Peripherals
 
-In `src/bsp/<your_board>/board_<your_board>.cpp`:
+In `src/bsp/<manufacturer>/<platform>/<codename>/board_<codename>.cpp`:
 
 ```cpp
 #if defined(ARDUINO)
 
-#include "bsp/<your_board>/board_<your_board>.h"
+#include "bsp/<manufacturer>/<platform>/<codename>/board_<codename>.h"
 #include <Arduino.h>
 
 namespace ersa {
@@ -153,18 +119,8 @@ BoardMyWatch::BoardMyWatch()
     config_.display.isEpaper = true;
 
     // 3. Pin Map Record (used by diagnostics and settings)
-    config_.pins.sda = 6;
-    config_.pins.scl = 7;
-    config_.pins.sck = 8;
-    config_.pins.mosi = 10;
-    config_.pins.miso = -1;
-    config_.pins.epdCs = 5;
-    config_.pins.epdDc = 20;
-    config_.pins.epdRst = 21;
-    config_.pins.epdBusy = 9;
-    config_.pins.button1 = 4;
-    config_.pins.button2 = 3;
-    config_.pins.batteryAdc = 2;
+    // Keep GPIO assignments in a board-specific Pins subclass. Expose it
+    // through Board::getPins() and pass its values to platform HAL drivers.
 }
 
 Result<void> BoardMyWatch::init() {

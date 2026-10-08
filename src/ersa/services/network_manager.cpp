@@ -1,10 +1,6 @@
 #include "ersa/services/network_manager.h"
 #include "ersa/common/logging.h"
 
-#if defined(ARDUINO)
-#include <WiFi.h>
-#endif
-
 namespace ersa {
 namespace services {
 
@@ -57,8 +53,8 @@ void NetworkManager::setInstance(NetworkManager* instance) {
     s_networkManagerInstance = instance;
 }
 
-NetworkManager::NetworkManager(events::EventBus& bus)
-    : bus_(bus) {}
+NetworkManager::NetworkManager(events::EventBus& bus, hal::IWifiRadio* wifi)
+    : bus_(bus), wifi_(wifi) {}
 
 Result<void> NetworkManager::init() {
     connected_ = false;
@@ -76,9 +72,8 @@ void NetworkManager::acquire() {
     if (!connected_ && !connecting_) {
         connecting_ = true;
         ERSA_LOG_INFO("NetworkManager: radio wake requested (active handles=%zu)", activeHandles_);
-#if defined(ARDUINO)
-        // Handled via net_sync / WiFi connection
-#else
+        if (wifi_) wifi_->enableStation();
+#if !defined(ARDUINO)
         connected_ = true;
         connecting_ = false;
         events::Event evt(events::EventType::NetworkConnected);
@@ -96,10 +91,7 @@ void NetworkManager::release() {
         ERSA_LOG_INFO("NetworkManager: radio idle, powering down");
         connected_ = false;
         connecting_ = false;
-#if defined(ARDUINO)
-        WiFi.disconnect(true);
-        WiFi.mode(WIFI_OFF);
-#endif
+        if (wifi_) wifi_->disconnect(true);
         events::Event evt(events::EventType::NetworkDisconnected);
         evt.network.connected = false;
         bus_.publish(evt);
@@ -107,10 +99,11 @@ void NetworkManager::release() {
 }
 
 bool NetworkManager::isConnected() const {
-#if defined(ARDUINO)
-    return WiFi.status() == WL_CONNECTED;
-#else
+    if (wifi_) return wifi_->state() == hal::WifiState::Connected;
+#if !defined(ARDUINO)
     return connected_;
+#else
+    return false;
 #endif
 }
 

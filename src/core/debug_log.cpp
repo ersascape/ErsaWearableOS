@@ -1,5 +1,5 @@
 #include "debug_log.h"
-#include "board_pins.h"
+#include "ersa/board/board.h"
 #include "watch_clock.h"
 #include <Arduino.h>
 #include <esp_system.h>
@@ -151,7 +151,7 @@ void DebugLog::tick() {
             reasonName(history.causes[0]), reasonName(history.causes[1]),
             reasonName(history.causes[2]), reasonName(history.causes[3]));
         log("PCB pins: upper S2/B1=GPIO%d lower S1/B2=GPIO%d; LOW=pressed",
-            Pins::BUTTON_1, Pins::BUTTON_2);
+            ersa::board::Board::current().getPins().buttons().top.number, ersa::board::Board::current().getPins().buttons().bottom.number);
     }
     attached = connected;
     if (uint32_t(millis() - lastReport) < HEARTBEAT_INTERVAL_MS) return;
@@ -161,8 +161,8 @@ void DebugLog::tick() {
         (unsigned long)history.count,
         unsigned(time.hour()), unsigned(time.minute()), unsigned(time.second()),
         WatchClock::healthy() ? "online" : "offline",
-        digitalRead(Pins::BUTTON_1), digitalRead(Pins::BUTTON_2),
-        digitalRead(Pins::EPD_BUSY), unsigned(ESP.getFreeHeap()));
+        digitalRead(ersa::board::Board::current().getPins().buttons().top.number), digitalRead(ersa::board::Board::current().getPins().buttons().bottom.number),
+        digitalRead(ersa::board::Board::current().getPins().display().busy.number), unsigned(ESP.getFreeHeap()));
 }
 
 void DebugLog::flush() {

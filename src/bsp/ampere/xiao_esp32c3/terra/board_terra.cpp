@@ -1,7 +1,7 @@
 #if defined(ARDUINO)
 
-#include "bsp/terra/board_terra.h"
-#include "board_pins.h"
+#include "bsp/ampere/xiao_esp32c3/terra/board_terra.h"
+#include "hal/esp32/esp32_pin_controller.h"
 #include <Arduino.h>
 
 namespace ersa {
@@ -15,11 +15,12 @@ BoardTerra& BoardTerra::instance() {
 }
 
 BoardTerra::BoardTerra()
-    : display_(Pins::EPD_CS, Pins::EPD_DC, Pins::EPD_RST, Pins::EPD_BUSY,
-               Pins::SCK, Pins::MISO, Pins::MOSI),
-      rtc_(Pins::SDA, Pins::SCL),
-      battery_(Pins::BATTERY_ADC),
-      input_(Pins::BUTTON_1, Pins::BUTTON_2) {
+    : display_(pins_.display().chipSelect.number, pins_.display().dataCommand.number,
+               pins_.display().reset.number, pins_.display().busy.number,
+               pins_.spi().clock.number, pins_.spi().controllerIn.number, pins_.spi().controllerOut.number),
+      rtc_(pins_.i2c().sda.number, pins_.i2c().scl.number),
+      battery_(pins_.battery().adc.number),
+      input_(pins_.buttons().top.number, pins_.buttons().bottom.number) {
     config_.name = getDeviceInfo().name;
     config_.capabilities.wifi = true;
     config_.capabilities.bluetooth = true;
@@ -33,19 +34,6 @@ BoardTerra::BoardTerra()
     config_.display.height = 200;
     config_.display.partialRefresh = true;
     config_.display.isEpaper = true;
-
-    config_.pins.sda = Pins::SDA;
-    config_.pins.scl = Pins::SCL;
-    config_.pins.sck = Pins::SCK;
-    config_.pins.mosi = Pins::MOSI;
-    config_.pins.miso = Pins::MISO;
-    config_.pins.epdCs = Pins::EPD_CS;
-    config_.pins.epdDc = Pins::EPD_DC;
-    config_.pins.epdRst = Pins::EPD_RST;
-    config_.pins.epdBusy = Pins::EPD_BUSY;
-    config_.pins.button1 = Pins::BUTTON_1;
-    config_.pins.button2 = Pins::BUTTON_2;
-    config_.pins.batteryAdc = Pins::BATTERY_ADC;
 }
 
 const DeviceInfo& BoardTerra::getDeviceInfo() const {
@@ -54,6 +42,12 @@ const DeviceInfo& BoardTerra::getDeviceInfo() const {
 
 Result<void> BoardTerra::init() {
     Board::setCurrent(this);
+    hal::Esp32PinController::apply(pins_);
+    display_.setBusyCallback([](void* context) {
+        static_cast<hal::IInput*>(context)->poll();
+    }, &input_);
+    const auto wifiResult = wifi_.init();
+    if (wifiResult.isError()) return wifiResult;
     // The board owns construction and pin mapping. Service managers initialize
     // RTC, display, battery and BLE in the system boot sequence; initializing
     // those devices here too caused duplicate peripheral/radio startup.
@@ -66,6 +60,10 @@ uint32_t BoardTerra::getUptimeMs() const {
 
 void BoardTerra::delayMs(uint32_t ms) {
     delay(ms);
+}
+
+void BoardTerra::restart() {
+    ESP.restart();
 }
 
 } // namespace board

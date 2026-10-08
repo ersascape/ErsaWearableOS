@@ -172,10 +172,9 @@ Notification dismissal always removes the selected alert from the watch's histor
 ```
 Ersa-W1/
 ├── include/
-│   ├── board_pins.h               # Hardware pinout definitions
 │   ├── ersa/
 │   │   ├── app/                   # Application framework & lifecycle
-│   │   ├── board/                 # BSP configurations & interfaces
+│   │   ├── board/                 # BSP interfaces, configurations & pin contract
 │   │   ├── config/                # Centralized system defaults & UI strings
 │   │   ├── events/                # EventBus & typed Event definitions
 │   │   ├── hal/                   # Hardware abstraction interfaces (IDisplay, IRtc, Bluetooth, etc.)
@@ -195,7 +194,7 @@ Ersa-W1/
 │   │   ├── app_todo.*             # CalDAV to-do checklist
 │   │   └── apps_registry.*        # App registration & EWP bridge
 │   ├── bsp/
-│   │   └── terra/                 # Ampere Works T1E board support package
+│   │   └── ampere/xiao_esp32c3/terra/ # Ampere Terra board support package
 │   ├── core/
 │   │   ├── battery.*              # ADC voltage & battery curve calculations
 │   │   ├── buttons.*              # OneButton debounce & event dispatcher

@@ -1,5 +1,5 @@
 #pragma once
-#include <Adafruit_GFX.h>
+#include "ersa/hal/display.h"
 #include "core/buttons.h"
 
 namespace AppPortal {
@@ -7,7 +7,7 @@ namespace AppPortal {
 void begin();
 void stop();
 void tick();
-void render(Adafruit_GFX& display);
+void render(ersa::hal::IDisplay& display);
 bool onButton(Buttons::Event event);
 bool isActive();
 

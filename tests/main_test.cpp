@@ -21,6 +21,7 @@
 #include "mocks/mock_rtc.h"
 #include "mocks/mock_battery.h"
 #include "mocks/mock_bluetooth.h"
+#include "mocks/mock_wifi.h"
 
 using namespace ersa;
 
@@ -39,6 +40,29 @@ static int testsPassed = 0;
         testsPassed++; \
         printf("PASS: %s\n", __func__); \
     } while(0)
+
+void test_display_hal_contract() {
+    test::MockDisplay implementation;
+    hal::IDisplay& display = implementation;
+
+    TEST_ASSERT(display.init().isOk(), "Generic display contract initializes");
+    TEST_ASSERT(display.width() == 200 && display.height() == 200,
+                "Display geometry is available through the generic interface");
+    display.drawLine(1, 2, 3, 4, hal::Color::White);
+    display.setFont(hal::FontFace::MiSansBold10);
+    display.setCursor(12, 34);
+    display.setTextColor(hal::Color::Black);
+    display.print("generic display");
+    TEST_ASSERT(implementation.drawLineCalls_ == 1,
+                "Drawing dispatches through IDisplay without a concrete driver cast");
+    TEST_ASSERT(implementation.font_ == hal::FontFace::MiSansBold10 &&
+                implementation.cursorX_ == 12 && implementation.cursorY_ == 34,
+                "Logical font and cursor settings reach the implementation");
+    TEST_ASSERT(implementation.lastText_ == "generic display",
+                "Text is accepted through the generic display contract");
+
+    TEST_PASS();
+}
 
 // -----------------------------------------------------------------------------
 // Test EventBus with EventType
@@ -361,7 +385,8 @@ void test_display_manager() {
 // -----------------------------------------------------------------------------
 void test_network_manager() {
     events::EventBus bus;
-    services::NetworkManager netMgr(bus);
+    test::MockWifi wifi;
+    services::NetworkManager netMgr(bus, &wifi);
     services::NetworkManager::setInstance(&netMgr);
 
     TEST_ASSERT(netMgr.init().isOk(), "NetworkManager init");
@@ -371,6 +396,7 @@ void test_network_manager() {
         services::NetworkHandle handle1 = netMgr.requestInternet();
         TEST_ASSERT(handle1.isValid(), "Handle 1 valid");
         TEST_ASSERT(netMgr.getActiveHandleCount() == 1, "Active handles = 1");
+        TEST_ASSERT(wifi.enableCalls == 1, "Network manager wakes radio through its HAL");
 
         {
             services::NetworkHandle handle2 = netMgr.requestInternet();
@@ -379,6 +405,8 @@ void test_network_manager() {
         TEST_ASSERT(netMgr.getActiveHandleCount() == 1, "Handle 2 released on scope exit");
     }
     TEST_ASSERT(netMgr.getActiveHandleCount() == 0, "All network handles released via RAII");
+    TEST_ASSERT(wifi.disconnectCalls == 1 && wifi.state() == hal::WifiState::Off,
+                "Network manager powers down Wi-Fi through its HAL");
 
     TEST_PASS();
 }
@@ -776,6 +804,7 @@ int main() {
     printf("==================================================\n");
 
     test_apple_protocols();
+    test_display_hal_contract();
     test_event_bus();
     test_application_manager();
     test_time_service();

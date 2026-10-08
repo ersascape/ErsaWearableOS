@@ -1,10 +1,10 @@
 #pragma once
-#include <Adafruit_GFX.h>
+#include "ersa/hal/display.h"
 #include <string.h>
 
 namespace WatchText {
 // Measure the selected font instead of guessing character counts on a 200px display.
-inline void line(Adafruit_GFX& display, const char* text, int16_t x, int16_t y, uint16_t width) {
+inline void line(ersa::hal::IDisplay& display, const char* text, int16_t x, int16_t y, uint16_t width) {
     char buffer[96];
     strncpy(buffer, text ? text : "", sizeof(buffer) - 4);
     buffer[sizeof(buffer) - 4] = 0;

@@ -1,5 +1,5 @@
 #include "battery.h"
-#include "board_pins.h"
+#include "ersa/board/board.h"
 #include "ui/watch_icons.h"
 #include "core/debug_log.h"
 #include <Arduino.h>
@@ -36,7 +36,7 @@ void sample() {
     uint32_t sumMv = 0;
     constexpr uint8_t SAMPLES = 24;
     for (uint8_t i = 0; i < SAMPLES; ++i) {
-        sumMv += analogReadMilliVolts(Pins::BATTERY_ADC);
+        sumMv += analogReadMilliVolts(ersa::board::Board::current().getPins().battery().adc.number);
         delayMicroseconds(500);
     }
     const uint32_t rawMv = sumMv / SAMPLES;
@@ -62,8 +62,8 @@ void sample() {
 } // namespace
 
 void begin() {
-    pinMode(Pins::BATTERY_ADC, INPUT);
-    analogSetPinAttenuation(Pins::BATTERY_ADC, ADC_11db);
+    pinMode(ersa::board::Board::current().getPins().battery().adc.number, INPUT);
+    analogSetPinAttenuation(ersa::board::Board::current().getPins().battery().adc.number, ADC_11db);
     sample();
     DebugLog::log("BATTERY init: raw_mv=%u connected=%d pct=%u%%",
                   cachedMv, connected, cachedPercent);

@@ -1,7 +1,6 @@
 #include "app_call.h"
 #include "ersa/services/bluetooth_manager.h"
 #include "ersa/app/application_manager.h"
-#include "fonts/misans_fonts.h"
 #include "ui/text_layout.h"
 #include "core/debug_log.h"
 #include <Arduino.h>
@@ -81,33 +80,33 @@ bool onButton(Buttons::Event event) {
     return false;
 }
 
-void render(Adafruit_GFX& display) {
+void render(ersa::hal::IDisplay& display) {
     auto& ble = ersa::services::BluetoothManager::instance();
     const auto state = ble.getCallState();
     using ersa::services::CallState;
     display.fillScreen(0);
     display.setTextColor(1);
     display.setTextWrap(false);
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(18, 24);
     display.print("calls");
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
 
     if (state != CallState::Incoming && state != CallState::Active) {
         WatchText::line(display, ble.isConnected() ? "recent contacts" : "connect from status", 18, 47, 166);
         const size_t count = ble.getRecentCallCount();
         if (!count) {
-            display.setFont(&MiSansLatin_Regular10pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular10);
             WatchText::line(display, "no recent calls", 18, 85, 166);
-            display.setFont(&MiSansLatin_Regular8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular8);
             WatchText::line(display, "incoming calls appear here", 18, 111, 166);
         }
         if (count) {
             selectedRecent %= count;
             const auto& call = ble.getRecentCall(selectedRecent);
-            display.setFont(&MiSansLatin_Bold10pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansBold10);
             WatchText::line(display, call.name[0] ? call.name : "unknown", 18, 89, 164);
-            display.setFont(&MiSansLatin_Regular8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular8);
             WatchText::line(display, call.number, 18, 113, 164);
             char position[20];
             snprintf(position, sizeof(position), "%u / %u", unsigned(selectedRecent + 1), unsigned(count));
@@ -125,9 +124,9 @@ void render(Adafruit_GFX& display) {
 
     WatchText::line(display, state == CallState::Incoming ? "incoming call" :
                     state == CallState::Active ? "in call" : "ringing finished", 18, 47, 166);
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     WatchText::line(display, ble.getCallerName()[0] ? ble.getCallerName() : "unknown caller", 18, 89, 164);
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     WatchText::line(display, ble.getCallerNumber(), 18, 114, 164);
     display.drawFastHLine(18, 135, 164, 1);
     if (state == CallState::Active) {

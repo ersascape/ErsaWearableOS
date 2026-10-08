@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #include <esp_sleep.h>
 #include <driver/gpio.h>
-#include "board_pins.h"
+#include "ersa/board/board.h"
 #include "core/debug_log.h"
 #endif
 
@@ -230,9 +230,9 @@ void PowerManager::enterLightSleep(uint64_t sleepTimeUs) {
 #if defined(ARDUINO) && defined(CONFIG_IDF_TARGET_ESP32C3)
     state_ = PowerState::LightSleep;
 
-    // Enable low level wakeup on buttons (Pins::BUTTON_1 = GPIO4, Pins::BUTTON_2 = GPIO3)
-    gpio_wakeup_enable(static_cast<gpio_num_t>(Pins::BUTTON_1), GPIO_INTR_LOW_LEVEL);
-    gpio_wakeup_enable(static_cast<gpio_num_t>(Pins::BUTTON_2), GPIO_INTR_LOW_LEVEL);
+    // Wake on the board's active-low buttons.
+    gpio_wakeup_enable(static_cast<gpio_num_t>(ersa::board::Board::current().getPins().buttons().top.number), GPIO_INTR_LOW_LEVEL);
+    gpio_wakeup_enable(static_cast<gpio_num_t>(ersa::board::Board::current().getPins().buttons().bottom.number), GPIO_INTR_LOW_LEVEL);
     esp_sleep_enable_gpio_wakeup();
 
     if (sleepTimeUs > 0) {
@@ -268,8 +268,8 @@ void PowerManager::enterDeepSleep(uint64_t sleepTimeUs) {
     DebugLog::log("PWR: entering deep sleep...");
     DebugLog::flush();
 
-    // Enable deep sleep wakeup on button GPIOs (GPIO3 and GPIO4 supported on ESP32-C3)
-    const uint64_t pinMask = (1ULL << Pins::BUTTON_1) | (1ULL << Pins::BUTTON_2);
+    // Enable deep sleep wakeup on the board's active-low buttons.
+    const uint64_t pinMask = (1ULL << ersa::board::Board::current().getPins().buttons().top.number) | (1ULL << ersa::board::Board::current().getPins().buttons().bottom.number);
     esp_deep_sleep_enable_gpio_wakeup(pinMask, ESP_GPIO_WAKEUP_GPIO_LOW);
 
     if (sleepTimeUs > 0) {

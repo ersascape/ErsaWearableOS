@@ -1,9 +1,10 @@
 #include "ui/watch_ui.h"
-#include "bsp/terra/board_terra.h"
+#include "ersa/board/board_factory.h"
 #include "ersa/events/event_bus.h"
 #include "ersa/app/application_manager.h"
 #include "ersa/services/time_service.h"
 #include "ersa/services/power_manager.h"
+#include "ersa/services/network_manager.h"
 #include "ersa/services/display_manager.h"
 #include "ersa/services/bluetooth_manager.h"
 #include "ersa/services/session_stats.h"
@@ -21,18 +22,18 @@
 #include <driver/gpio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
-#include "board_pins.h"
 #endif
 
 namespace {
 
-ersa::board::BoardTerra& board = ersa::board::BoardTerra::instance();
+ersa::board::Board& board = ersa::board::BoardFactory::selected();
 ersa::events::EventBus& eventBus = ersa::events::EventBus::instance();
 ersa::app::ApplicationManager& appManager = ersa::app::ApplicationManager::instance();
 
 ersa::services::TimeService timeService(board.getRtc(), eventBus);
 ersa::services::PowerManager powerManager(board.getBattery(), eventBus);
 ersa::services::DisplayManager displayManager(board.getDisplay());
+ersa::services::NetworkManager networkManager(eventBus, &board.getWifi());
 ersa::services::BluetoothManager bluetoothManager(board.getBluetooth(), board.getCompanionSource(), eventBus);
 
 uint32_t shownMinute = UINT32_MAX;
@@ -87,7 +88,7 @@ void setSleepAllowed(bool) {}
 
 void queueWatchfaceMediaRefresh() {
     watchfaceMediaPending = true;
-    watchfaceMediaChangedAt = millis();
+    watchfaceMediaChangedAt = board.getUptimeMs();
 }
 
 void invalidateWatchface(const ersa::Rect& rect) {
@@ -111,30 +112,29 @@ ersa::events::Event toErsaInputEvent(Buttons::Event legacy) {
     using namespace ersa::events;
     switch (legacy) {
         case Buttons::Event::Next:
-            return Event::createButton(EventType::ButtonClicked, ButtonId::Button1, millis());
+            return Event::createButton(EventType::ButtonClicked, ButtonId::Button1, board.getUptimeMs());
         case Buttons::Event::Previous:
-            return Event::createButton(EventType::ButtonDoubleClicked, ButtonId::Button1, millis());
+            return Event::createButton(EventType::ButtonDoubleClicked, ButtonId::Button1, board.getUptimeMs());
         case Buttons::Event::Home:
-            return Event::createButton(EventType::ButtonLongPressed, ButtonId::Button1, millis());
+            return Event::createButton(EventType::ButtonLongPressed, ButtonId::Button1, board.getUptimeMs());
         case Buttons::Event::Action:
-            return Event::createButton(EventType::ButtonClicked, ButtonId::Button2, millis());
+            return Event::createButton(EventType::ButtonClicked, ButtonId::Button2, board.getUptimeMs());
         case Buttons::Event::ActionAlt:
-            return Event::createButton(EventType::ButtonDoubleClicked, ButtonId::Button2, millis());
+            return Event::createButton(EventType::ButtonDoubleClicked, ButtonId::Button2, board.getUptimeMs());
         case Buttons::Event::ActionLong:
-            return Event::createButton(EventType::ButtonLongPressed, ButtonId::Button2, millis());
+            return Event::createButton(EventType::ButtonLongPressed, ButtonId::Button2, board.getUptimeMs());
         default:
             return Event();
     }
 }
 
 void renderCurrentApp() {
-    const uint32_t started = millis();
+    const uint32_t started = board.getUptimeMs();
     const DateTime time = WatchClock::now();
     auto* activeApp = appManager.getActiveApp();
     if (!activeApp) return;
 
-    auto& espDisp = board.getEsp32Display();
-    auto& gx = espDisp.getGxDisplay();
+    auto& display = board.getDisplay();
 
     // 1. Hardware full refresh (waveform clear): ONLY on firstFrame after boot, or once every 360 partial updates (~6 hours), or day change at midnight.
     // NEVER on button press, scroll, or normal minute ticks!
@@ -146,12 +146,12 @@ void renderCurrentApp() {
                   activeApp->getId(), hardwareFull,
                   unsigned(time.hour()), unsigned(time.minute()), unsigned(time.second()));
 
-    gx.fillScreen(GxEPD_BLACK);
-    gx.setTextColor(GxEPD_WHITE);
-    gx.setTextWrap(false);
+    display.fillScreen(0);
+    display.setTextColor(1);
+    display.setTextWrap(false);
     {
         Dvfs::Scope frequency(Dvfs::Profile::Compute, "app-render");
-        activeApp->render(espDisp, true);
+        activeApp->render(display, true);
     }
     if (strcmp(activeApp->getId(), "watchface_clock") == 0) {
         const auto callState = bluetoothManager.getCallState();
@@ -163,38 +163,37 @@ void renderCurrentApp() {
         renderedWatchfaceMediaTitle[sizeof(renderedWatchfaceMediaTitle) - 1] = '\0';
     }
 
-    gx.setFullWindow();
     if (hardwareFull) {
-        espDisp.refresh(true); // Hardware full refresh (clears ghosting)
+        display.refresh(true); // Hardware full refresh (clears ghosting)
         partialFrames = 0;
         firstFrame = false;
     } else if (appSwitched) {
         // App transitions replace the whole page. Refresh the whole panel with
         // the partial waveform so stale drawer/footer pixels cannot survive.
-        espDisp.refreshRect(ersa::Rect{0, 0, espDisp.width(), espDisp.height()});
+        display.refreshRect(ersa::Rect{0, 0, display.width(), display.height()});
         partialFrames++;
     } else {
         // Let the display HAL honor the app's invalidated area. The old path
         // sent a 200x200 partial update for every redraw, flashing the entire
         // panel even for routine watchface changes.
         if (strcmp(activeApp->getId(), "watchface_clock") == 0 && watchfaceRectPending) {
-            espDisp.refreshRect(watchfaceRect);
+            display.refreshRect(watchfaceRect);
         } else {
-            espDisp.refreshRect(activeApp->getPartialBounds());
+            display.refreshRect(activeApp->getPartialBounds());
         }
         partialFrames++;
     }
     watchfaceRectPending = false;
     appManager.clearAppSwitched();
 
-    lastActivityMs = millis();
+    lastActivityMs = board.getUptimeMs();
     shownMinute = time.unixtime() / 60;
     shownDay = time.day();
     shownRtcHealthy = WatchClock::healthy();
-    lastFrameEnd = millis();
+    lastFrameEnd = board.getUptimeMs();
 
     DebugLog::log("EPD end duration=%lu ms BUSY=%d (partialFrames=%u)",
-                  (unsigned long)(lastFrameEnd - started), espDisp.isBusy(), partialFrames);
+                  (unsigned long)(lastFrameEnd - started), display.isBusy(), partialFrames);
 }
 
 } // namespace
@@ -219,6 +218,9 @@ void WatchUi::begin() {
 
     const auto inputInit = board.init();
     checkInit("buttons", inputInit.isOk());
+    ersa::services::NetworkManager::setInstance(&networkManager);
+    const auto networkInit = networkManager.init();
+    checkInit("network", networkInit.isOk());
 
 #if defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE && defined(CONFIG_FREERTOS_USE_TICKLESS_IDLE) && CONFIG_FREERTOS_USE_TICKLESS_IDLE
     uiTaskHandle = xTaskGetCurrentTaskHandle();
@@ -226,11 +228,11 @@ void WatchUi::begin() {
         esp_pm_lock_acquire(uiNoSleepLock) == ESP_OK) {
         automaticSleepReady = true;
         noSleepLockHeld = true;
-        gpio_wakeup_enable(static_cast<gpio_num_t>(Pins::BUTTON_1), GPIO_INTR_LOW_LEVEL);
-        gpio_wakeup_enable(static_cast<gpio_num_t>(Pins::BUTTON_2), GPIO_INTR_LOW_LEVEL);
+        gpio_wakeup_enable(static_cast<gpio_num_t>(board.getPins().buttons().top.number), GPIO_INTR_LOW_LEVEL);
+        gpio_wakeup_enable(static_cast<gpio_num_t>(board.getPins().buttons().bottom.number), GPIO_INTR_LOW_LEVEL);
         esp_sleep_enable_gpio_wakeup();
-        attachInterrupt(digitalPinToInterrupt(Pins::BUTTON_1), buttonWakeIsr, CHANGE);
-        attachInterrupt(digitalPinToInterrupt(Pins::BUTTON_2), buttonWakeIsr, CHANGE);
+        attachInterrupt(digitalPinToInterrupt(board.getPins().buttons().top.number), buttonWakeIsr, CHANGE);
+        attachInterrupt(digitalPinToInterrupt(board.getPins().buttons().bottom.number), buttonWakeIsr, CHANGE);
         DebugLog::log("PWR: light sleep armed after 30s inactivity; wake sources BLE, minute timer, buttons");
     } else {
         DebugLog::log("PWR: cannot create active-state sleep lock");
@@ -278,7 +280,7 @@ void WatchUi::begin() {
             evt.type == ersa::events::EventType::NotificationRemoved ||
             evt.type == ersa::events::EventType::NotificationsCleared ||
             evt.type == ersa::events::EventType::TimeSync) {
-            const uint32_t now = millis();
+            const uint32_t now = board.getUptimeMs();
             lastActivityMs = now;
             displayManager.noteActivity(now);
             powerManager.noteActivity(now);
@@ -391,7 +393,7 @@ void WatchUi::begin() {
     NetSync::begin();
 
     renderCurrentApp();
-    lastActivityMs = millis();
+    lastActivityMs = board.getUptimeMs();
     lastUserInputMs = lastActivityMs;
     DebugLog::log("UI: boot complete, active app: %s",
                   appManager.getActiveApp() ? appManager.getActiveApp()->getTitle() : "none");
@@ -402,7 +404,7 @@ void WatchUi::begin() {
 void WatchUi::onButton(Buttons::Event legacyEvent) {
     if (legacyEvent == Buttons::Event::None) return;
 
-    lastActivityMs = millis();
+    lastActivityMs = board.getUptimeMs();
     lastUserInputMs = lastActivityMs;
     displayManager.noteActivity(lastActivityMs);
     powerManager.noteActivity(lastActivityMs);
@@ -433,7 +435,7 @@ void WatchUi::onButton(Buttons::Event legacyEvent) {
 
 void WatchUi::tick() {
     bluetoothManager.tick();
-    const uint32_t buttonNow = millis();
+    const uint32_t buttonNow = board.getUptimeMs();
     if (Buttons::bothPressed()) {
         if (!bothButtonsPressedAt) bothButtonsPressedAt = buttonNow ? buttonNow : 1;
         if (!bothButtonResetTriggered &&
@@ -441,7 +443,7 @@ void WatchUi::tick() {
             bothButtonResetTriggered = true;
             DebugLog::log("BUTTON: both held for %lu ms; forcing restart",
                           static_cast<unsigned long>(BOTH_BUTTON_RESET_HOLD_MS));
-            ESP.restart();
+            board.restart();
         }
     } else {
         bothButtonsPressedAt = 0;
@@ -449,7 +451,7 @@ void WatchUi::tick() {
     }
     board.getInput().poll();
     if (Buttons::isPressed()) {
-        lastActivityMs = millis();
+        lastActivityMs = board.getUptimeMs();
         lastUserInputMs = lastActivityMs;
         displayManager.noteActivity(lastActivityMs);
         powerManager.noteActivity(lastActivityMs);
@@ -458,7 +460,7 @@ void WatchUi::tick() {
     eventBus.dispatchQueue();
     appManager.tick();
 
-    uint32_t nowMs = millis();
+    uint32_t nowMs = board.getUptimeMs();
     timeService.tick(nowMs);
     powerManager.tick(nowMs);
     ersa::services::SessionStats::tick(nowMs);
@@ -466,7 +468,7 @@ void WatchUi::tick() {
     if (powerManager.getBatteryPowerLevel() == ersa::services::BatteryPowerLevel::Critical) {
         DebugLog::log("PWR: battery critical (%u mV, %u%%); entering charge-check sleep",
                       powerManager.getBatteryMv(), powerManager.getBatteryPercent());
-        board.getEsp32Bluetooth().stopAdvertising();
+        board.getBluetooth().stopAdvertising();
         // Wake periodically so connecting a charger can recover the watch, or
         // immediately when either hardware button is pressed.
         powerManager.enterDeepSleep(10ULL * 60ULL * 1000000ULL);
@@ -499,12 +501,12 @@ void WatchUi::tick() {
             invalidateWatchface(ersa::Rect{0, 128, 200, 32});
     }
 
-    const bool displayBusy = board.getEsp32Display().isBusy();
+    const bool displayBusy = board.getDisplay().isBusy();
     const uint32_t timeSinceRender = (nowMs >= lastFrameEnd) ? (nowMs - lastFrameEnd) : 0;
     if (appManager.isDirty() && !displayBusy && (timeSinceRender >= 20)) {
         renderCurrentApp();
         appManager.clearDirty();
-        nowMs = millis();
+        nowMs = board.getUptimeMs();
     }
 
     const auto* currentApp = appManager.getActiveApp();
@@ -521,7 +523,7 @@ void WatchUi::tick() {
     const bool usbConsoleAttached = bool(Serial);
     const bool sleepEligible = automaticSleepReady && !usbConsoleAttached &&
                                userIdleMs >= 30000 && !appBusy &&
-                               !NetSync::isSyncing() && !board.getEsp32Display().isBusy();
+                               !NetSync::isSyncing() && !board.getDisplay().isBusy();
     setSleepAllowed(sleepEligible);
 
     if (!appManager.isDirty() && !Buttons::hasPendingEvents() && sleepEligible) {
@@ -531,27 +533,27 @@ void WatchUi::tick() {
         // redraw, or a scheduled BLE advertising retry.
         const uint32_t secondsToMinute = 60 - WatchClock::now().second();
         uint32_t waitMs = secondsToMinute * 1000UL;
-        const uint32_t bleWaitMs = bluetoothManager.nextWakeDelayMs(millis());
+        const uint32_t bleWaitMs = bluetoothManager.nextWakeDelayMs(board.getUptimeMs());
         if (bleWaitMs < waitMs) waitMs = bleWaitMs;
-        const uint32_t batteryWaitMs = powerManager.nextBatterySampleDelayMs(millis());
+        const uint32_t batteryWaitMs = powerManager.nextBatterySampleDelayMs(board.getUptimeMs());
         if (batteryWaitMs < waitMs) waitMs = batteryWaitMs;
         if (watchfaceMediaPending) {
-            const uint32_t elapsed = uint32_t(millis() - watchfaceMediaChangedAt);
+            const uint32_t elapsed = uint32_t(board.getUptimeMs() - watchfaceMediaChangedAt);
             const uint32_t mediaWaitMs = elapsed >= 500 ? 0 : 500 - elapsed;
             if (mediaWaitMs < waitMs) waitMs = mediaWaitMs;
         }
         TickType_t waitTicks = pdMS_TO_TICKS(waitMs);
         if (!waitTicks) waitTicks = 1;
         ulTaskNotifyTake(pdTRUE, waitTicks ? waitTicks : 1);
-        // millis() can pause during light sleep on this target. Re-anchor the
+        // board.getUptimeMs() can pause during light sleep on this target. Re-anchor the
         // software clock to the DS3231 before calculating the next refresh.
         WatchClock::resync();
 #else
-        delay(25);
+        board.delayMs(25);
 #endif
     } else if (!appManager.isDirty() && !Buttons::hasPendingEvents()) {
-        delay(25);
+        board.delayMs(25);
     } else {
-        delay(1);  // Ultra-fast 1ms loop response during button/UI interaction
+        board.delayMs(1);  // Ultra-fast 1ms loop response during button/UI interaction
     }
 }

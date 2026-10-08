@@ -1,5 +1,5 @@
 #pragma once
-#include <Adafruit_GFX.h>
+#include "ersa/hal/display.h"
 
 namespace AppDrawer {
 
@@ -22,6 +22,6 @@ void next();
 void previous();
 Item selected();
 void setSelected(Item item);
-void render(Adafruit_GFX& display, bool full = true);
+void render(ersa::hal::IDisplay& display, bool full = true);
 
 } // namespace AppDrawer

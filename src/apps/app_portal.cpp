@@ -2,11 +2,11 @@
 #include "core/watch_config.h"
 #include "core/net_sync.h"
 #include "core/debug_log.h"
+#include "ersa/board/board.h"
 #include <Arduino.h>
-#include <WiFi.h>
+#include <IPAddress.h>
 #include <WebServer.h>
 #include <DNSServer.h>
-#include "fonts/misans_fonts.h"
 
 namespace AppPortal {
 
@@ -16,15 +16,6 @@ uint32_t apStartTime = 0;
 WebServer server(80);
 DNSServer dnsServer;
 
-void drawCentered(Adafruit_GFX& display, const char* text, int16_t y, const GFXfont* font = nullptr) {
-    display.setFont(font);
-    display.setTextSize(1);
-    int16_t x1, y1;
-    uint16_t w, h;
-    display.getTextBounds(text, 0, 0, &x1, &y1, &w, &h);
-    display.setCursor((display.width() - int16_t(w)) / 2 - x1, y - y1);
-    display.print(text);
-}
 
 const char HTML_PAGE[] PROGMEM = R"rawliteral(
 <!DOCTYPE html>
@@ -169,7 +160,7 @@ void handleSave() {
     server.send(200, "text/html", msg);
 
     if (syncNow) {
-        delay(1000);
+        ersa::board::Board::current().delayMs(1000);
         AppPortal::stop();
         NetSync::syncNtp();
     }
@@ -177,15 +168,19 @@ void handleSave() {
 
 void handleStop() {
     server.send(200, "text/html", "<html><body style='font-family:sans-serif;text-align:center;padding:40px;'><h2>Hotspot Stopped</h2><p>You may close this tab.</p></body></html>");
-    delay(500);
+    ersa::board::Board::current().delayMs(500);
     AppPortal::stop();
 }
 
 void startAp() {
     const auto& cfg = WatchConfig::get();
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP(cfg.apSsid, cfg.apPass[0] != '\0' ? cfg.apPass : nullptr);
-    dnsServer.start(53, "*", WiFi.softAPIP());
+    auto& wifi = ersa::board::Board::current().getWifi();
+    const auto result = wifi.startAccessPoint(cfg.apSsid, cfg.apPass[0] != '\0' ? cfg.apPass : nullptr);
+    if (result.isError()) {
+        DebugLog::log("HOTSPOT failed to start");
+        return;
+    }
+    dnsServer.start(53, "*", IPAddress(192, 168, 4, 1));
 
     server.on("/", handleRoot);
     server.on("/save", HTTP_POST, handleSave);
@@ -199,15 +194,18 @@ void startAp() {
 
     server.begin();
     apRunning = true;
-    apStartTime = millis();
-    DebugLog::log("HOTSPOT started SSID='%s' IP=%s", cfg.apSsid, WiFi.softAPIP().toString().c_str());
+    apStartTime = ersa::board::Board::current().getUptimeMs();
+    char address[24] = {};
+    wifi.copyAccessPointAddress(address, sizeof(address));
+    DebugLog::log("HOTSPOT started SSID='%s' IP=%s", cfg.apSsid, address);
 }
 
 void stopAp() {
     server.stop();
     dnsServer.stop();
-    WiFi.softAPdisconnect(true);
-    WiFi.mode(WIFI_OFF);
+    auto& wifi = ersa::board::Board::current().getWifi();
+    wifi.stopAccessPoint();
+    wifi.disconnect(true);
     apRunning = false;
     DebugLog::log("HOTSPOT stopped (power save)");
 }
@@ -233,7 +231,7 @@ void tick() {
 
     // Auto-timeout shutoff to prevent battery drain
     const auto& cfg = WatchConfig::get();
-    if (cfg.apTimeoutSec > 0 && uint32_t(millis() - apStartTime) >= (uint32_t(cfg.apTimeoutSec) * 1000)) {
+    if (cfg.apTimeoutSec > 0 && uint32_t(ersa::board::Board::current().getUptimeMs() - apStartTime) >= (uint32_t(cfg.apTimeoutSec) * 1000)) {
         DebugLog::log("HOTSPOT auto-off timer expired (%u sec)", cfg.apTimeoutSec);
         stopAp();
     }
@@ -256,15 +254,15 @@ bool onButton(Buttons::Event event) {
     return false;
 }
 
-void render(Adafruit_GFX& display) {
+void render(ersa::hal::IDisplay& display) {
     display.fillScreen(0);   // Solid black
     display.setTextColor(1); // White
 
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(18, 24);
     display.print("hotspot");
 
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
 
     const auto& cfg = WatchConfig::get();
     constexpr int16_t leftX = 18;
@@ -294,10 +292,12 @@ void render(Adafruit_GFX& display) {
     display.setCursor(leftX, startY + rowHeight * 3);
     display.print("web ip");
     display.setCursor(valX, startY + rowHeight * 3);
-    display.print(apRunning ? WiFi.softAPIP().toString().c_str() : "192.168.4.1");
+    char address[24] = "192.168.4.1";
+    if (apRunning) ersa::board::Board::current().getWifi().copyAccessPointAddress(address, sizeof(address));
+    display.print(address);
 
     if (apRunning) {
-        const uint32_t elapsed = (millis() - apStartTime) / 1000;
+        const uint32_t elapsed = (ersa::board::Board::current().getUptimeMs() - apStartTime) / 1000;
         const int32_t remain = int32_t(cfg.apTimeoutSec) - int32_t(elapsed);
         display.setCursor(leftX, startY + rowHeight * 4);
         display.print("timeout");

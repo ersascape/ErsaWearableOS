@@ -1,7 +1,6 @@
 #include "app_agenda.h"
 #include "core/net_sync.h"
 #include "core/debug_log.h"
-#include "fonts/misans_fonts.h"
 #include "ersa/config/ui_strings.h"
 #include "ui/text_layout.h"
 #include <Arduino.h>
@@ -15,7 +14,7 @@ constexpr size_t PAGE_SIZE = 2;
 constexpr int16_t LEFT = 18;
 constexpr int16_t RIGHT = 182;
 
-void drawRight(Adafruit_GFX& display, const char* text, int16_t rightX, int16_t y, const GFXfont* font) {
+void drawRight(ersa::hal::IDisplay& display, const char* text, int16_t rightX, int16_t y, ersa::hal::FontFace font) {
     display.setFont(font);
     display.setTextSize(1);
     int16_t x1, y1;
@@ -46,7 +45,7 @@ bool onButton(Buttons::Event event) {
     return false;
 }
 
-void render(Adafruit_GFX& display, const DateTime& now, bool full) {
+void render(ersa::hal::IDisplay& display, const DateTime& now, bool full) {
     (void)full;
     display.fillScreen(0);   // Solid black
     display.setTextColor(1); // White
@@ -54,7 +53,7 @@ void render(Adafruit_GFX& display, const DateTime& now, bool full) {
     if (pageOffset >= total) pageOffset = 0;
 
     // Keep the heading and date in separate, measured areas.
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(LEFT, 24);
     display.print(ersa::strings::APP_TITLE_AGENDA);
 
@@ -66,15 +65,15 @@ void render(Adafruit_GFX& display, const DateTime& now, bool full) {
     char date[24];
     snprintf(date, sizeof(date), "%s %u %s", DAYS[now.dayOfTheWeek() % 7],
              unsigned(now.day()), MONTHS[(now.month() >= 1 && now.month() <= 12) ? now.month() - 1 : 0]);
-    drawRight(display, date, RIGHT, 24, &MiSansLatin_Regular8pt7b);
+    drawRight(display, date, RIGHT, 24, ersa::hal::FontFace::MiSansRegular8);
     display.drawFastHLine(LEFT, 33, RIGHT - LEFT, 1);
 
     if (total == 0) {
-        display.setFont(&MiSansLatin_Bold10pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansBold10);
         display.setCursor(LEFT, 78);
         display.print(ersa::strings::MSG_NO_EVENTS_TODAY);
 
-        display.setFont(&MiSansLatin_Regular8pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansRegular8);
         display.setCursor(LEFT, 101);
         display.print(ersa::strings::MSG_PRESS_SYNC_CALDAV);
         if (NetSync::lastStatus()[0] != '\0' && strcmp(NetSync::lastStatus(), "Ready") != 0) {
@@ -85,7 +84,7 @@ void render(Adafruit_GFX& display, const DateTime& now, bool full) {
         char pageLabel[20];
         snprintf(pageLabel, sizeof(pageLabel), "%u-%u / %u",
                  unsigned(pageOffset + 1), unsigned(pageEnd), unsigned(total));
-        drawRight(display, pageLabel, RIGHT, 47, &MiSansLatin_Regular8pt7b);
+        drawRight(display, pageLabel, RIGHT, 47, ersa::hal::FontFace::MiSansRegular8);
 
         constexpr int16_t ROW_TOPS[PAGE_SIZE] = {54, 108};
         for (size_t i = 0; i < PAGE_SIZE; ++i) {
@@ -93,16 +92,16 @@ void render(Adafruit_GFX& display, const DateTime& now, bool full) {
             if (idx >= total) break;
             const auto& ev = NetSync::getEvent(idx);
 
-            display.setFont(&MiSansLatin_Bold8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansBold8);
             display.setCursor(LEFT, ROW_TOPS[i] + 11);
             display.print(ev.timeStr[0] != '\0' ? ev.timeStr : "all day");
-            display.setFont(&MiSansLatin_Regular10pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular10);
             WatchText::line(display, ev.title, LEFT, ROW_TOPS[i] + 34, RIGHT - LEFT);
             display.drawFastHLine(LEFT, ROW_TOPS[i] + 44, RIGHT - LEFT, 1);
         }
     }
 
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     display.setCursor(LEFT, 186);
     display.print(total > PAGE_SIZE ? ersa::strings::NAV_AGENDA_FOOTER
                                     : ersa::strings::NAV_AGENDA_EMPTY_FOOT);

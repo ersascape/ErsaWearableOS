@@ -1,6 +1,5 @@
 #include "app_calendar.h"
 #include "core/debug_log.h"
-#include "fonts/misans_fonts.h"
 #include "ersa/config/ui_strings.h"
 #include <Arduino.h>
 
@@ -82,7 +81,7 @@ bool onButton(Buttons::Event event, const DateTime& now) {
     return false;
 }
 
-void render(Adafruit_GFX& display, const DateTime& now) {
+void render(ersa::hal::IDisplay& display, const DateTime& now) {
     if (!userInteracted || viewYear == 0) {
         syncWithTime(now);
     }
@@ -98,12 +97,12 @@ void render(Adafruit_GFX& display, const DateTime& now) {
     // Clean lowercase header: e.g. "september 2026"
     char title[32];
     snprintf(title, sizeof(title), "%s %u", monthNamesLower[viewMonth - 1], unsigned(viewYear));
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(18, 24);
     display.print(title);
 
     // Weekday headers: s m t w t f s
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     constexpr int16_t startX = 16;
     constexpr int16_t colWidth = 24;
 
@@ -136,10 +135,10 @@ void render(Adafruit_GFX& display, const DateTime& now) {
         if (isToday) {
             display.fillRoundRect(cellX + 2, cellY - 12, 20, 16, 3, 1);
             display.setTextColor(0); // Black numeral on white badge
-            display.setFont(&MiSansLatin_Bold8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansBold8);
         } else {
             display.setTextColor(1);
-            display.setFont(&MiSansLatin_Regular8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular8);
         }
 
         const int16_t numX = (d < 10) ? (cellX + 8) : (cellX + 4);
@@ -149,7 +148,7 @@ void render(Adafruit_GFX& display, const DateTime& now) {
 
     // Clean footer
     display.setTextColor(1);
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     display.setCursor(18, 186);
     display.print(ersa::strings::NAV_CALENDAR_FOOTER);
 }

@@ -1,6 +1,5 @@
 #include "app_drawer.h"
 #include "core/debug_log.h"
-#include "fonts/misans_fonts.h"
 #include "ersa/config/ui_strings.h"
 #include <Arduino.h>
 
@@ -52,18 +51,18 @@ void setSelected(Item item) {
     }
 }
 
-void render(Adafruit_GFX& display, bool full) {
+void render(ersa::hal::IDisplay& display, bool full) {
     (void)full;
     display.fillScreen(0);   // Solid black
     display.setTextColor(1); // White
 
     // Clean left-aligned lowercase header
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(18, 22);
     display.print(ersa::strings::APP_DRAWER_HEADER);
 
     // Minimal footer without harsh dividing lines
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     display.setCursor(18, 190);
     display.print(ersa::strings::NAV_DRAWER_FOOTER);
 
@@ -85,12 +84,12 @@ void render(Adafruit_GFX& display, bool full) {
         if (isSelected) {
             display.fillRoundRect(10, itemY - 16, 180, 23, 4, 1);
             display.setTextColor(0); // Black text on white pill
-            display.setFont(&MiSansLatin_Bold8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansBold8);
             display.setCursor(24, itemY);
             display.print(labels[i]);
             display.setTextColor(1); // Reset White
         } else {
-            display.setFont(&MiSansLatin_Regular8pt7b);
+            display.setFont(ersa::hal::FontFace::MiSansRegular8);
             display.setCursor(24, itemY);
             display.print(labels[i]);
         }

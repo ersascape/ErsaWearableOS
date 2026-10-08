@@ -2,6 +2,7 @@
 
 #include "ersa/common/types.h"
 #include "ersa/events/event_bus.h"
+#include "ersa/hal/wifi.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -32,7 +33,8 @@ private:
 
 class NetworkManager {
 public:
-    explicit NetworkManager(events::EventBus& bus = events::EventBus::instance());
+    explicit NetworkManager(events::EventBus& bus = events::EventBus::instance(),
+                            hal::IWifiRadio* wifi = nullptr);
 
     Result<void> init();
     void tick(uint32_t currentUptimeMs);
@@ -50,6 +52,7 @@ public:
 
 private:
     events::EventBus& bus_;
+    hal::IWifiRadio* wifi_;
     size_t activeHandles_{0};
     bool connected_{false};
     bool connecting_{false};

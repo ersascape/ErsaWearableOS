@@ -1,5 +1,5 @@
 #include "buttons.h"
-#include "board_pins.h"
+#include "ersa/board/board.h"
 #include "debug_log.h"
 #include <Arduino.h>
 #include <OneButton.h>
@@ -43,8 +43,8 @@ const char* Buttons::name(Buttons::Event event) {
 }
 
 void Buttons::begin() {
-    topButton.setup(Pins::BUTTON_1, INPUT_PULLUP, true);
-    bottomButton.setup(Pins::BUTTON_2, INPUT_PULLUP, true);
+    topButton.setup(ersa::board::Board::current().getPins().buttons().top.number, INPUT_PULLUP, true);
+    bottomButton.setup(ersa::board::Board::current().getPins().buttons().bottom.number, INPUT_PULLUP, true);
 
     for (OneButton* button : {&topButton, &bottomButton}) {
         button->setDebounceMs(20);
@@ -60,18 +60,18 @@ void Buttons::begin() {
 
     head = tail = 0;
     DebugLog::log("BUTTON: polling GPIO%d=%d GPIO%d=%d (LOW=pressed)",
-                  Pins::BUTTON_1, digitalRead(Pins::BUTTON_1),
-                  Pins::BUTTON_2, digitalRead(Pins::BUTTON_2));
+                  ersa::board::Board::current().getPins().buttons().top.number, digitalRead(ersa::board::Board::current().getPins().buttons().top.number),
+                  ersa::board::Board::current().getPins().buttons().bottom.number, digitalRead(ersa::board::Board::current().getPins().buttons().bottom.number));
 }
 
 void Buttons::tick() {
     static int previousTop = -1;
     static int previousBottom = -1;
-    const int topLevel = digitalRead(Pins::BUTTON_1);
-    const int bottomLevel = digitalRead(Pins::BUTTON_2);
+    const int topLevel = digitalRead(ersa::board::Board::current().getPins().buttons().top.number);
+    const int bottomLevel = digitalRead(ersa::board::Board::current().getPins().buttons().bottom.number);
     if (topLevel != previousTop || bottomLevel != previousBottom) {
         DebugLog::log("BUTTON raw GPIO%d=%d GPIO%d=%d (0=pressed)",
-                      Pins::BUTTON_1, topLevel, Pins::BUTTON_2, bottomLevel);
+                      ersa::board::Board::current().getPins().buttons().top.number, topLevel, ersa::board::Board::current().getPins().buttons().bottom.number, bottomLevel);
         previousTop = topLevel;
         previousBottom = bottomLevel;
     }
@@ -87,11 +87,11 @@ Buttons::Event Buttons::takeEvent() {
 }
 
 bool Buttons::isPressed() {
-    return digitalRead(Pins::BUTTON_1) == LOW || digitalRead(Pins::BUTTON_2) == LOW;
+    return digitalRead(ersa::board::Board::current().getPins().buttons().top.number) == LOW || digitalRead(ersa::board::Board::current().getPins().buttons().bottom.number) == LOW;
 }
 
 bool Buttons::bothPressed() {
-    return digitalRead(Pins::BUTTON_1) == LOW && digitalRead(Pins::BUTTON_2) == LOW;
+    return digitalRead(ersa::board::Board::current().getPins().buttons().top.number) == LOW && digitalRead(ersa::board::Board::current().getPins().buttons().bottom.number) == LOW;
 }
 
 bool Buttons::hasPendingEvents() {

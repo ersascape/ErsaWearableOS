@@ -1,7 +1,6 @@
 #include "app_notifications.h"
 #include "ersa/services/bluetooth_manager.h"
 #include "ersa/app/application_manager.h"
-#include "fonts/misans_fonts.h"
 #include "ui/text_layout.h"
 #include "core/debug_log.h"
 #include <Arduino.h>
@@ -11,7 +10,7 @@ namespace AppNotifications {
 namespace {
 size_t currentIndex = 0;
 
-void printWrapped(Adafruit_GFX& display, const char* text, int16_t x, int16_t startY, int16_t lineSpacing, int maxLines, int maxCharsPerLine) {
+void printWrapped(ersa::hal::IDisplay& display, const char* text, int16_t x, int16_t startY, int16_t lineSpacing, int maxLines, int maxCharsPerLine) {
     if (!text || text[0] == '\0') return;
 
     int line = 0;
@@ -83,7 +82,7 @@ bool onButton(Buttons::Event event) {
     return false;
 }
 
-void render(Adafruit_GFX& display, bool full) {
+void render(ersa::hal::IDisplay& display, bool full) {
     (void)full;
     auto& bleMgr = ersa::services::BluetoothManager::instance();
     const size_t total = bleMgr.getNotificationCount();
@@ -92,10 +91,10 @@ void render(Adafruit_GFX& display, bool full) {
     display.setTextColor(1); // White
 
     if (total == 0) {
-        display.setFont(&MiSansLatin_Bold10pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansBold10);
         display.setCursor(18, 24);
         display.print("notifications");
-        display.setFont(&MiSansLatin_Regular8pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansRegular8);
         WatchText::line(display, "no new alerts", 18, 89, 164);
         WatchText::line(display, "from your iphone", 18, 114, 164);
         display.drawFastHLine(18, 135, 164, 1);
@@ -110,7 +109,7 @@ void render(Adafruit_GFX& display, bool full) {
     const auto& notif = bleMgr.getNotification(currentIndex);
 
     // 1. Header
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     display.setCursor(18, 24);
     display.print("notifications");
 
@@ -118,25 +117,25 @@ void render(Adafruit_GFX& display, bool full) {
     if (total > 1) {
         char countBuf[16];
         snprintf(countBuf, sizeof(countBuf), "%u/%u", unsigned(currentIndex + 1), unsigned(total));
-        display.setFont(&MiSansLatin_Regular8pt7b);
+        display.setFont(ersa::hal::FontFace::MiSansRegular8);
         display.setCursor(160, 24);
         display.print(countBuf);
     }
 
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     const char* source = (notif.app[0] && strcmp(notif.app, notif.title) != 0)
         ? notif.app : "from iphone";
     WatchText::line(display, source, 18, 47, 164);
 
-    display.setFont(&MiSansLatin_Bold10pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansBold10);
     WatchText::line(display, notif.title[0] ? notif.title : "notification", 18, 82, 164);
     display.drawFastHLine(18, 96, 164, 1);
 
     // Message Body wrapped
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     printWrapped(display, notif.message, 18, 115, 17, 3, 22);
 
-    display.setFont(&MiSansLatin_Regular8pt7b);
+    display.setFont(ersa::hal::FontFace::MiSansRegular8);
     if (total > 1) {
         WatchText::line(display, "b1: next", 18, 168, 164);
     } else {

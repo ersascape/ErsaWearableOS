@@ -10,14 +10,11 @@
 #include "apps/app_call.h"
 #include "apps/app_notifications.h"
 #include "ersa/services/ota_service.h"
+#include "ersa/board/board.h"
 #include "core/buttons.h"
 #include "core/watch_clock.h"
 #include "core/debug_log.h"
-#include "fonts/misans_fonts.h"
 
-#if defined(ARDUINO)
-#include "hal/esp32/esp32_display.h"
-#endif
 
 namespace ersa {
 namespace app {
@@ -95,8 +92,7 @@ public:
 
     void render(hal::IDisplay& display, bool fullRefresh) override {
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppDrawer::render(esp->getGfx(), fullRefresh);
+        AppDrawer::render(display, fullRefresh);
 #else
         (void)display; (void)fullRefresh;
 #endif
@@ -124,8 +120,8 @@ public:
             ApplicationManager::instance().markDirty(false);
         } else if (legacy == Buttons::Event::ActionAlt && service().otherSlotBootable()) {
             if (service().selectOtherSlot()) {
-                delay(500);
-                ESP.restart();
+                board::Board::current().delayMs(500);
+                board::Board::current().restart();
             }
         }
     }
@@ -141,15 +137,13 @@ public:
     void render(hal::IDisplay& display, bool fullRefresh) override {
         (void)fullRefresh;
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (!esp) return;
-        auto& gfx = esp->getGfx();
+        auto& gfx = display;
         gfx.fillScreen(0);
         gfx.setTextColor(1);
-        gfx.setFont(&MiSansLatin_Bold10pt7b);
+        gfx.setFont(ersa::hal::FontFace::MiSansBold10);
         gfx.setCursor(16, 24);
         gfx.print("system update");
-        gfx.setFont(&MiSansLatin_Regular8pt7b);
+        gfx.setFont(ersa::hal::FontFace::MiSansRegular8);
         gfx.setCursor(16, 52);
         gfx.print("Running "); gfx.print(service().runningSlot());
         gfx.setCursor(16, 72);
@@ -163,7 +157,7 @@ public:
             gfx.setCursor(16, 126);
             gfx.print("Release "); gfx.print(service().updateVersion());
         }
-        gfx.setFont(&MiSansLatin_Regular8pt7b);
+        gfx.setFont(ersa::hal::FontFace::MiSansRegular8);
         gfx.setCursor(16, 170);
         gfx.print(service().updateState() == ersa::services::OtaService::UpdateState::Available
                       ? "B2 install   B1 back" : "B2 check   B1 back");
@@ -203,8 +197,7 @@ public:
     void render(hal::IDisplay& display, bool fullRefresh) override {
         (void)fullRefresh;
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppCalendar::render(esp->getGfx(), WatchClock::now());
+        AppCalendar::render(display, WatchClock::now());
 #else
         (void)display;
 #endif
@@ -230,8 +223,7 @@ public:
 
     void render(hal::IDisplay& display, bool fullRefresh) override {
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppAgenda::render(esp->getGfx(), WatchClock::now(), fullRefresh);
+        AppAgenda::render(display, WatchClock::now(), fullRefresh);
 #else
         (void)display; (void)fullRefresh;
 #endif
@@ -257,8 +249,7 @@ public:
 
     void render(hal::IDisplay& display, bool fullRefresh) override {
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppTodo::render(esp->getGfx(), fullRefresh);
+        AppTodo::render(display, fullRefresh);
 #else
         (void)display; (void)fullRefresh;
 #endif
@@ -289,8 +280,7 @@ public:
     void render(hal::IDisplay& display, bool fullRefresh) override {
         (void)fullRefresh;
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppPortal::render(esp->getGfx());
+        AppPortal::render(display);
 #else
         (void)display;
 #endif
@@ -321,8 +311,7 @@ public:
     void render(hal::IDisplay& display, bool fullRefresh) override {
         (void)fullRefresh;
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppStatus::render(esp->getGfx());
+        AppStatus::render(display);
 #else
         (void)display;
 #endif
@@ -345,8 +334,7 @@ public:
     void render(hal::IDisplay& display, bool fullRefresh) override {
         (void)fullRefresh;
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppNowPlaying::render(esp->getGfx());
+        AppNowPlaying::render(display);
 #else
         (void)display;
 #endif
@@ -369,8 +357,7 @@ public:
     void render(hal::IDisplay& display, bool fullRefresh) override {
         (void)fullRefresh;
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppCall::render(esp->getGfx());
+        AppCall::render(display);
 #else
         (void)display;
 #endif
@@ -393,8 +380,7 @@ public:
     void render(hal::IDisplay& display, bool fullRefresh) override {
         (void)fullRefresh;
 #if defined(ARDUINO)
-        auto* esp = static_cast<hal::Esp32Display*>(&display);
-        if (esp) AppNotifications::render(esp->getGfx());
+        AppNotifications::render(display);
 #else
         (void)display;
 #endif

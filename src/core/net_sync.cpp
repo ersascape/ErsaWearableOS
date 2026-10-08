@@ -5,8 +5,8 @@
 #include "ersa/config/system_defaults.h"
 #include "ersa/config/ui_strings.h"
 #include "ersa/services/time_service.h"
+#include "ersa/board/board.h"
 #include <Arduino.h>
-#include <WiFi.h>
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
 #include <Preferences.h>
@@ -126,32 +126,32 @@ bool connectWiFi(const WatchConfig::Config& cfg) {
 
     safeCopy(statusMsg, ersa::strings::MSG_WIFI_CONNECTING, sizeof(statusMsg));
     DebugLog::log("NET: Connecting to '%s'", cfg.wifiSsid);
-    WiFi.mode(WIFI_STA);
     // Wi-Fi and BLE coexistence on this ESP32-C3 requires STA modem sleep.
     // Disabling it while the BLE controller is enabled triggers an IDF abort.
-    WiFi.setSleep(true);
-    WiFi.begin(cfg.wifiSsid, cfg.wifiPass);
+    auto& wifi = ersa::board::Board::current().getWifi();
+    wifi.connectStation(cfg.wifiSsid, cfg.wifiPass, true);
 
     const uint32_t startMs = millis();
-    while (WiFi.status() != WL_CONNECTED && (millis() - startMs) < ersa::config::WIFI_CONNECT_TIMEOUT_MS) {
+    while (wifi.state() != ersa::hal::WifiState::Connected &&
+           (millis() - startMs) < ersa::config::WIFI_CONNECT_TIMEOUT_MS) {
         delay(200);
     }
 
-    if (WiFi.status() != WL_CONNECTED) {
+    if (wifi.state() != ersa::hal::WifiState::Connected) {
         safeCopy(statusMsg, ersa::strings::MSG_WIFI_FAILED, sizeof(statusMsg));
         DebugLog::log("NET: WiFi connect timeout");
-        WiFi.disconnect(true);
-        WiFi.mode(WIFI_OFF);
+        wifi.disconnect(true);
         return false;
     }
 
-    DebugLog::log("NET: WiFi connected, IP=%s", WiFi.localIP().toString().c_str());
+    char address[24] = {};
+    wifi.copyLocalAddress(address, sizeof(address));
+    DebugLog::log("NET: WiFi connected, IP=%s", address);
     return true;
 }
 
 void disconnectWiFi() {
-    WiFi.disconnect(true);
-    WiFi.mode(WIFI_OFF);
+    ersa::board::Board::current().getWifi().disconnect(true);
     DebugLog::log("NET: WiFi turned off (power save)");
 }
 

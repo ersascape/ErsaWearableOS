@@ -13,15 +13,15 @@ DEVICE_INFO_PATTERN = re.compile(
     r'"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\}',
     re.DOTALL,
 )
-SELECTED_BSP_PATTERN = re.compile(r'#include\s+"bsp/([^/]+)/board_[^"]+\.h"')
+SELECTED_BSP_PATTERN = re.compile(r'#include\s+"bsp/(.+?)/board_[^"/]+\.h"')
 
 
 def selected_device_info(project_root: Path) -> Path:
-    watch_ui = project_root / "src/ui/watch_ui.cpp"
-    matches = SELECTED_BSP_PATTERN.findall(watch_ui.read_text(encoding="utf-8"))
+    board_factory = project_root / "src/ersa/board_factory.cpp"
+    matches = SELECTED_BSP_PATTERN.findall(board_factory.read_text(encoding="utf-8"))
     if len(matches) != 1:
-        raise ValueError(f"expected one selected BSP in {watch_ui}, found {matches!r}")
-    source = project_root / "src" / "bsp" / matches[0] / "device_info.cpp"
+        raise ValueError(f"expected one selected BSP in {board_factory}, found {matches!r}")
+    source = project_root / "src" / "bsp" / Path(matches[0]) / "device_info.cpp"
     if not source.is_file():
         raise ValueError(f"selected BSP has no device identity source: {source}")
     return source
