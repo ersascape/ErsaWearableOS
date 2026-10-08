@@ -439,42 +439,37 @@ void WatchUi::tick() {
         !powerManager.canSleep(),
         board.getInput().hasPendingEvents() || appManager.isDirty()
     };
-    const bool sleepEligible = sleepPolicy.maySleep();
-    powerHal.allowAutomaticSleep(sleepEligible);
-
-    if (sleepEligible) {
-        powerHal.reportPowerModes();
-        // Sleep until the earliest real deadline: minute refresh, pending media
-        // redraw, or a scheduled BLE advertising retry.
-        const uint32_t waitNowMs = board.getUptimeMs();
-        const uint32_t secondsToMinute = 60 - WatchClock::now().second();
-        ersa::runtime::WakeDeadlineSet deadlines(secondsToMinute * 1000UL);
-        const uint32_t bleWaitMs = bluetoothManager.nextWakeDelayMs(board.getUptimeMs());
-        deadlines.includeDelay(bleWaitMs);
-        const uint32_t batteryWaitMs = powerManager.nextBatterySampleDelayMs(board.getUptimeMs());
-        deadlines.includeDelay(batteryWaitMs);
-        // Keep UI-owned deadlines live even when the event loop is otherwise
-        // idle: boot time fallback and returning transient screens must not
-        // wait for the next minute or battery sample.
-        if (!bootTimeFallbackConsidered && waitNowMs < 15000) {
+    // Services contribute deadlines; the scheduler chooses both sleep policy
+    // and the main task's wait cadence in one place.
+    const uint32_t waitNowMs = board.getUptimeMs();
+    const uint32_t secondsToMinute = 60 - WatchClock::now().second();
+    ersa::runtime::WakeDeadlineSet deadlines(secondsToMinute * 1000UL);
+    if (sleepPolicy.maySleep()) {
+        deadlines.includeDelay(bluetoothManager.nextWakeDelayMs(waitNowMs));
+        deadlines.includeDelay(powerManager.nextBatterySampleDelayMs(waitNowMs));
+        // UI-owned deadlines remain explicit until app/service deadline
+        // providers are introduced, keeping every wake reason reviewable.
+        if (!bootTimeFallbackConsidered && waitNowMs < 15000)
             deadlines.includeDelay(15000 - waitNowMs);
-        }
         if (currentApp && strcmp(currentApp->getId(), "watchface_clock") != 0 &&
-            strcmp(currentApp->getId(), "app_call") != 0 && idleMs < 60000) {
+            strcmp(currentApp->getId(), "app_call") != 0 && idleMs < 60000)
             deadlines.includeDelay(60000 - idleMs);
-        }
         if (watchfaceMediaPending) {
             const uint32_t elapsed = uint32_t(waitNowMs - watchfaceMediaChangedAt);
-            const uint32_t mediaWaitMs = elapsed >= 500 ? 0 : 500 - elapsed;
-            deadlines.includeDelay(mediaWaitMs);
+            deadlines.includeDelay(elapsed >= 500 ? 0 : 500 - elapsed);
         }
-        powerHal.waitForWake(deadlines.delayMs());
+    }
+    const auto schedule = ersa::runtime::RuntimeScheduler::plan(
+        sleepPolicy, appManager.isDirty(), board.getInput().hasPendingEvents(), deadlines.delayMs());
+    powerHal.allowAutomaticSleep(schedule.allowAutomaticSleep);
+
+    if (schedule.allowAutomaticSleep) {
+        powerHal.reportPowerModes();
+        powerHal.waitForWake(schedule.waitMs);
         // board.getUptimeMs() can pause during light sleep on this target. Re-anchor the
         // software clock to the DS3231 before calculating the next refresh.
         WatchClock::resync();
-    } else if (!appManager.isDirty() && !board.getInput().hasPendingEvents()) {
-        board.delayMs(25);
     } else {
-        board.delayMs(1);  // Ultra-fast 1ms loop response during button/UI interaction
+        board.delayMs(schedule.waitMs);
     }
 }

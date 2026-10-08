@@ -98,9 +98,10 @@ sequence:
 4. Ask one sleep coordinator whether active work or a lease blocks sleep.
 5. Wait for an event or the earliest registered deadline.
 
-`runtime::SleepEligibility` now combines console, interaction, active-app,
-network, display, lease, and pending-work constraints. `WakeDeadlineSet`
-selects the earliest delay without dynamic allocation. The UI currently
+`runtime::SleepEligibility` combines console, interaction, active-app,
+network, display, lease, and pending-work constraints. `RuntimeScheduler`
+turns that policy into one sleep/wait plan, while `WakeDeadlineSet` selects the
+earliest delay without dynamic allocation. The UI currently
 contributes the RTC minute, BLE retry, battery sample, boot-time fallback,
 transient-screen timeout, and media debounce deadlines. The next step is to
 have each service expose its own next deadline and move app timeout policy out

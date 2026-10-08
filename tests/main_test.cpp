@@ -86,6 +86,18 @@ void test_runtime_scheduler() {
     TEST_ASSERT(deadlines.delayMs() == 500, "scheduler selects the earliest service deadline");
     deadlines.includeDelay(0);
     TEST_ASSERT(deadlines.delayMs() == 0, "due work requests an immediate wake");
+
+    eligible.foregroundWorkActive = false;
+    const auto sleepingPlan = runtime::RuntimeScheduler::plan(eligible, false, false, 1200);
+    TEST_ASSERT(sleepingPlan.allowAutomaticSleep && sleepingPlan.waitMs == 1200,
+                "idle loop waits to the earliest deadline with automatic sleep enabled");
+    eligible.consoleAttached = true;
+    const auto idlePlan = runtime::RuntimeScheduler::plan(eligible, false, false, 1200);
+    TEST_ASSERT(!idlePlan.allowAutomaticSleep && idlePlan.waitMs == 25,
+                "awake but quiescent loop uses relaxed polling cadence");
+    const auto activePlan = runtime::RuntimeScheduler::plan(eligible, true, false, 1200);
+    TEST_ASSERT(!activePlan.allowAutomaticSleep && activePlan.waitMs == 1,
+                "pending UI work uses responsive polling cadence");
     TEST_PASS();
 }
 

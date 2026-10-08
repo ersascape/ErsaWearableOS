@@ -55,4 +55,26 @@ private:
     uint32_t delayMs_;
 };
 
+/** Result for one main-loop wait decision. */
+struct LoopSchedule {
+    bool allowAutomaticSleep{false};
+    uint32_t waitMs{25};
+};
+
+/** Keep sleep eligibility and active/idle loop pacing in one tested policy. */
+class RuntimeScheduler {
+public:
+    /**
+     * Choose a platform wait from product blockers and the earliest deadline.
+     * Pending UI/input work gets a short poll; quiescent awake work uses a
+     * relaxed cadence; fully idle work may release the automatic-sleep lock.
+     */
+    static LoopSchedule plan(const SleepEligibility& eligibility,
+                             bool appDirty, bool inputPending,
+                             uint32_t earliestDeadlineMs) {
+        if (eligibility.maySleep()) return {true, earliestDeadlineMs};
+        return {false, (appDirty || inputPending) ? 1U : 25U};
+    }
+};
+
 } // namespace ersa::runtime
