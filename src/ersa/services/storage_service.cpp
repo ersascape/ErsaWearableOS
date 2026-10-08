@@ -1,5 +1,6 @@
 #include "ersa/services/storage_service.h"
 #include <unordered_map>
+#include <cstring>
 
 namespace ersa {
 namespace services {
@@ -18,7 +19,6 @@ void StorageService::setInstance(StorageService* instance) {
 class MemoryStorageService : public StorageService {
 public:
     Result<void> init() override {
-        map_.clear();
         return Result<void>();
     }
 
@@ -55,6 +55,24 @@ public:
         auto it = map_.find(std::string(key));
         if (it != map_.end()) return it->second == "1";
         return defaultValue;
+    }
+
+    bool setBytes(std::string_view key, const void* data, size_t size) override {
+        if (size && !data) return false;
+        map_[std::string(key)] = size ? std::string(static_cast<const char*>(data), size) : std::string();
+        return true;
+    }
+
+    size_t getBytesLength(std::string_view key) override {
+        auto it = map_.find(std::string(key));
+        return it == map_.end() ? 0 : it->second.size();
+    }
+
+    size_t getBytes(std::string_view key, void* data, size_t size) override {
+        auto it = map_.find(std::string(key));
+        if (it == map_.end() || it->second.size() != size || (size && !data)) return 0;
+        if (size) std::memcpy(data, it->second.data(), size);
+        return size;
     }
 
     bool remove(std::string_view key) override {

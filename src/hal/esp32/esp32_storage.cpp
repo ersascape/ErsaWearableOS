@@ -45,6 +45,21 @@ public:
         const std::string k(key);
         return prefs_.getBool(k.c_str(), fallback);
     }
+    bool setBytes(std::string_view key, const void* data, size_t size) override {
+        if (!ensureOpen() || (size && !data)) return false;
+        const std::string k(key);
+        return prefs_.putBytes(k.c_str(), data, size) == size;
+    }
+    size_t getBytesLength(std::string_view key) override {
+        if (!ensureOpen()) return 0;
+        const std::string k(key);
+        return prefs_.getBytesLength(k.c_str());
+    }
+    size_t getBytes(std::string_view key, void* data, size_t size) override {
+        if (!ensureOpen() || (size && !data)) return 0;
+        const std::string k(key);
+        return prefs_.getBytes(k.c_str(), data, size);
+    }
     bool remove(std::string_view key) override {
         if (!ensureOpen()) return false;
         const std::string k(key);

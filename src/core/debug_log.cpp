@@ -1,10 +1,10 @@
 #include "debug_log.h"
 #include "ersa/board/board.h"
+#include "ersa/services/storage_service.h"
 #include "watch_clock.h"
 #include <Arduino.h>
 #include <esp_system.h>
 #include <stdarg.h>
-#include <Preferences.h>
 #include <string.h>
 
 // The selected console HAL must use USB Serial/JTAG, never UART0 on EPD GPIO20/21.
@@ -57,17 +57,16 @@ bool isRoutineLog(const char* format) {
 
 void recordBoot() {
     constexpr uint32_t magic = 0x57415431;
-    Preferences prefs;
-    const bool opened = prefs.begin("watch_diag", false);
-    if (opened && prefs.getBytesLength("boots") == sizeof(history))
-        prefs.getBytes("boots", &history, sizeof(history));
+    auto& storage = ersa::services::StorageService::instance();
+    const bool opened = storage.init().isOk();
+    if (opened && storage.getBytesLength("diag_boots") == sizeof(history))
+        storage.getBytes("diag_boots", &history, sizeof(history));
     if (history.magic != magic) history = {magic, 0, {0, 0, 0, 0}};
     ++history.count;
     for (unsigned i = 3; i > 0; --i) history.causes[i] = history.causes[i - 1];
     history.causes[0] = uint32_t(esp_reset_reason());
     if (opened) {
-        historySaved = prefs.putBytes("boots", &history, sizeof(history)) == sizeof(history);
-        prefs.end();
+        historySaved = storage.setBytes("diag_boots", &history, sizeof(history));
     }
     // Sudden power loss before this write completes may leave the preceding
     // record intact. This is diagnostic evidence, not a complete crash dump.

@@ -12,6 +12,7 @@
 #include "ersa/hal/wifi.h"
 #include "ersa/hal/power_management.h"
 #include "ersa/hal/console.h"
+#include "ersa/hal/http_server.h"
 
 namespace ersa {
 namespace board {
@@ -72,6 +73,10 @@ public:
     virtual hal::IPowerManagement& getPowerManagement() = 0;
     /// Return the platform debug/control console selected by this BSP.
     virtual hal::IConsole& getConsole() = 0;
+    /// Return the board's local HTTP server adapter used by captive apps.
+    virtual hal::IHttpServer& getHttpServer() = 0;
+    /// Return the board's captive DNS responder adapter.
+    virtual hal::IDnsServer& getDnsServer() = 0;
 
     /** Return monotonic milliseconds; values wrap according to uint32_t uptime. */
     virtual uint32_t getUptimeMs() const = 0;

@@ -507,6 +507,13 @@ void test_storage_service() {
     storage.setBool("power.saver", true);
     TEST_ASSERT(storage.getBool("power.saver") == true, "Bool match");
 
+    const uint8_t record[] = {0x00, 0x7f, 0x80, 0xff};
+    uint8_t restored[sizeof(record)]{};
+    TEST_ASSERT(storage.setBytes("cache.blob", record, sizeof(record)), "Opaque cache bytes are stored");
+    TEST_ASSERT(storage.getBytesLength("cache.blob") == sizeof(record), "Opaque cache record size is available");
+    TEST_ASSERT(storage.getBytes("cache.blob", restored, sizeof(restored)) == sizeof(restored) &&
+                memcmp(record, restored, sizeof(record)) == 0, "Opaque cache bytes round-trip exactly");
+
     storage.remove("display.brightness");
     TEST_ASSERT(storage.getInt("display.brightness", 50) == 50, "Default returned after removal");
 

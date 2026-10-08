@@ -12,6 +12,7 @@
 #include "hal/esp32/esp32_wifi.h"
 #include "hal/esp32/esp32_power_management.h"
 #include "hal/esp32/esp32_usb_console.h"
+#include "hal/esp32/esp32_web_server.h"
 
 namespace ersa {
 namespace board {
@@ -91,6 +92,8 @@ public:
     hal::IPowerManagement& getPowerManagement() override { return powerManagement_; }
     /** Return the USB Serial/JTAG diagnostics and control transport. */
     hal::IConsole& getConsole() override { return console_; }
+    hal::IHttpServer& getHttpServer() override { return web_; }
+    hal::IDnsServer& getDnsServer() override { return web_; }
 
     /** Return monotonic ESP32 uptime in milliseconds. */
     uint32_t getUptimeMs() const override;
@@ -113,6 +116,7 @@ private:
     hal::Esp32Wifi wifi_;
     hal::Esp32PowerManagement powerManagement_;
     hal::Esp32UsbConsole console_;
+    hal::Esp32WebServer web_;
 };
 
 } // namespace board

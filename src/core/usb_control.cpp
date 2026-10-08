@@ -143,6 +143,32 @@ bool parseRequest(const char* json, uint32_t& id, uint32_t& version, char* comma
     return !*p && gotId && gotVersion && gotCommand;
 }
 
+bool requestArgValue(const char* json, const char* name, Slice& out) {
+    const char* p = strstr(json, "\"args\"");
+    if (!p) return false;
+    p += 6;
+    while (*p == ' ' || *p == '\t') ++p;
+    if (*p++ != ':') return false;
+    while (*p == ' ' || *p == '\t') ++p;
+    if (*p++ != '{') return false;
+    for (;;) {
+        skipSpace(p);
+        if (*p == '}') return false;
+        Slice key{};
+        if (!parseString(p, &key)) return false;
+        skipSpace(p);
+        if (*p++ != ':') return false;
+        skipSpace(p);
+        Slice value{};
+        if (!parseValue(p, value)) return false;
+        if (equalSlice(key, name)) { out = value; return true; }
+        skipSpace(p);
+        if (*p == ',') { ++p; continue; }
+        if (*p == '}') return false;
+        return false;
+    }
+}
+
 uint32_t requestCursor(const char* json) {
     const char* key = strstr(json, "\"cursor\"");
     if (!key) return UINT32_MAX;
@@ -159,36 +185,19 @@ uint32_t requestCursor(const char* json) {
 }
 
 bool requestUnsignedArg(const char* json, const char* name, uint32_t& out) {
-    char key[64];
-    const int keyLength = snprintf(key, sizeof(key), "\"%s\"", name);
-    if (keyLength <= 0 || size_t(keyLength) >= sizeof(key)) return false;
-    const char* p = strstr(json, key);
-    if (!p) return false;
-    p += keyLength;
-    while (*p == ' ' || *p == '\t') ++p;
-    if (*p++ != ':') return false;
-    while (*p == ' ' || *p == '\t') ++p;
-    const char* end = p;
-    while (*end >= '0' && *end <= '9') ++end;
-    if (end == p) return false;
-    Slice value{p, size_t(end - p)};
+    Slice value{};
+    if (!requestArgValue(json, name, value)) return false;
     return parseUnsigned(value, out);
 }
 
 bool requestStringArg(const char* json, const char* name, char* out, size_t capacity) {
     if (!out || capacity == 0) return false;
-    char key[64];
-    const int keyLength = snprintf(key, sizeof(key), "\"%s\"", name);
-    if (keyLength <= 0 || size_t(keyLength) >= sizeof(key)) return false;
-    const char* p = strstr(json, key);
-    if (!p) return false;
-    p += keyLength;
-    while (*p == ' ' || *p == '\t') ++p;
-    if (*p++ != ':') return false;
-    while (*p == ' ' || *p == '\t') ++p;
-    if (*p++ != '"') return false;
+    Slice value{};
+    if (!requestArgValue(json, name, value) || value.size < 2 || value.data[0] != '"' || value.data[value.size - 1] != '"') return false;
+    const char* p = value.data + 1;
+    const char* end = value.data + value.size - 1;
     size_t used = 0;
-    while (*p && *p != '"') {
+    while (p < end) {
         char c = *p++;
         if (c == '\\') {
             c = *p++;
@@ -201,44 +210,32 @@ bool requestStringArg(const char* json, const char* name, char* out, size_t capa
         if (used + 1 >= capacity || static_cast<unsigned char>(c) < 0x20) return false;
         out[used++] = c;
     }
-    if (*p != '"') return false;
     out[used] = '\0';
     return true;
 }
 
 bool requestSignedArg(const char* json, const char* name, int32_t& out) {
-    char key[64];
-    const int keyLength = snprintf(key, sizeof(key), "\"%s\"", name);
-    if (keyLength <= 0 || size_t(keyLength) >= sizeof(key)) return false;
-    const char* p = strstr(json, key);
-    if (!p) return false;
-    p += keyLength;
-    while (*p == ' ' || *p == '\t') ++p;
-    if (*p++ != ':') return false;
-    while (*p == ' ' || *p == '\t') ++p;
+    Slice arg{};
+    if (!requestArgValue(json, name, arg)) return false;
+    const char* p = arg.data;
+    const char* end = p + arg.size;
     const bool negative = *p == '-';
     if (negative) ++p;
-    const char* end = p;
-    while (*end >= '0' && *end <= '9') ++end;
-    if (end == p || size_t(end - p) > 10) return false;
+    const char* digitsEnd = p;
+    while (digitsEnd < end && *digitsEnd >= '0' && *digitsEnd <= '9') ++digitsEnd;
+    if (digitsEnd != end || end == p || size_t(digitsEnd - p) > 10) return false;
     uint32_t value;
-    if (!parseUnsigned(Slice{p, size_t(end - p)}, value) || value > uint32_t(INT32_MAX) + (negative ? 1U : 0U)) return false;
+    if (!parseUnsigned(Slice{p, size_t(digitsEnd - p)}, value) || value > uint32_t(INT32_MAX)) return false;
     out = negative ? -static_cast<int32_t>(value) : static_cast<int32_t>(value);
     return true;
 }
 
 bool requestBoolArg(const char* json, const char* name, bool& out) {
-    char key[64];
-    const int keyLength = snprintf(key, sizeof(key), "\"%s\"", name);
-    if (keyLength <= 0 || size_t(keyLength) >= sizeof(key)) return false;
-    const char* p = strstr(json, key);
-    if (!p) return false;
-    p += keyLength;
-    while (*p == ' ' || *p == '\t') ++p;
-    if (*p++ != ':') return false;
-    while (*p == ' ' || *p == '\t') ++p;
-    if (strncmp(p, "true", 4) == 0) { out = true; return true; }
-    if (strncmp(p, "false", 5) == 0) { out = false; return true; }
+    Slice arg{};
+    if (!requestArgValue(json, name, arg)) return false;
+    const char* p = arg.data;
+    if (arg.size == 4 && strncmp(p, "true", 4) == 0) { out = true; return true; }
+    if (arg.size == 5 && strncmp(p, "false", 5) == 0) { out = false; return true; }
     return false;
 }
 
@@ -400,9 +397,10 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
         int32_t tz = cfg.timezoneOffsetMin, apTimeout = cfg.apTimeoutSec;
         bool military = cfg.militaryTime;
         bool changed = false;
+        auto hasArg = [&](const char* name) { Slice value{}; return requestArgValue(request, name, value); };
         auto setString = [&](const char* key, char* value, size_t cap) {
             char candidate[160];
-            if (!strstr(request, key)) return true;
+            if (!hasArg(key)) return true;
             if (!requestStringArg(request, key, candidate, sizeof(candidate)) || strlen(candidate) >= cap) return false;
             memcpy(value, candidate, strlen(candidate) + 1);
             changed = true;
@@ -418,15 +416,15 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
             setString("caldav_password", davPass, sizeof(davPass)) && setString("caldav_calendar", davCalendar, sizeof(davCalendar)) &&
             setString("caldav_todo_path", davTodo, sizeof(davTodo)) && setString("ap_ssid", apSsid, sizeof(apSsid)) &&
             setString("ap_password", apPass, sizeof(apPass));
-        if (strstr(request, "\"timezone_offset_min\"")) {
+        if (hasArg("timezone_offset_min")) {
             valid = valid && requestSignedArg(request, "timezone_offset_min", tz) && tz >= -840 && tz <= 840;
             changed = valid;
         }
-        if (strstr(request, "\"military_time\"")) {
+        if (hasArg("military_time")) {
             valid = valid && requestBoolArg(request, "military_time", military);
             changed = valid;
         }
-        if (strstr(request, "\"ap_timeout_sec\"")) {
+        if (hasArg("ap_timeout_sec")) {
             uint32_t timeout = 0;
             valid = valid && requestUnsignedArg(request, "ap_timeout_sec", timeout) && timeout >= 30 && timeout <= 3600;
             if (valid) { apTimeout = static_cast<int32_t>(timeout); changed = true; }

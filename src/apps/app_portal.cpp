@@ -3,21 +3,19 @@
 #include "core/net_sync.h"
 #include "core/debug_log.h"
 #include "ersa/board/board.h"
-#include <Arduino.h>
-#include <IPAddress.h>
-#include <WebServer.h>
-#include <DNSServer.h>
+#include <cstdlib>
+#include <string>
 
 namespace AppPortal {
 
 namespace {
 bool apRunning = false;
 uint32_t apStartTime = 0;
-WebServer server(80);
-DNSServer dnsServer;
+auto& server() { return ersa::board::Board::current().getHttpServer(); }
+auto& dnsServer() { return ersa::board::Board::current().getDnsServer(); }
+bool routesInstalled = false;
 
-
-const char HTML_PAGE[] PROGMEM = R"rawliteral(
+const char HTML_PAGE[] = R"rawliteral(
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,56 +98,66 @@ input[type=text],input[type=password],select{width:100%;box-sizing:border-box;pa
 </html>
 )rawliteral";
 
-String renderHtml() {
+void replaceAll(std::string& text, const char* token, const char* value) {
+    const std::string from(token), to(value ? value : "");
+    size_t position = 0;
+    while ((position = text.find(from, position)) != std::string::npos) {
+        text.replace(position, from.size(), to);
+        position += to.size();
+    }
+}
+
+std::string renderHtml() {
     const auto& cfg = WatchConfig::get();
-    String s = FPSTR(HTML_PAGE);
-    s.replace("%SSID%", cfg.wifiSsid);
-    s.replace("%PASS%", cfg.wifiPass);
-    s.replace("%DAV_SRV%", cfg.caldavServer);
-    s.replace("%DAV_USR%", cfg.caldavUser);
-    s.replace("%DAV_PWD%", cfg.caldavPass);
-    s.replace("%DAV_CAL%", cfg.caldavCalendar);
-    s.replace("%DAV_TOD%", cfg.caldavTodoPath);
+    std::string s(HTML_PAGE);
+    replaceAll(s, "%SSID%", cfg.wifiSsid);
+    replaceAll(s, "%PASS%", cfg.wifiPass);
+    replaceAll(s, "%DAV_SRV%", cfg.caldavServer);
+    replaceAll(s, "%DAV_USR%", cfg.caldavUser);
+    replaceAll(s, "%DAV_PWD%", cfg.caldavPass);
+    replaceAll(s, "%DAV_CAL%", cfg.caldavCalendar);
+    replaceAll(s, "%DAV_TOD%", cfg.caldavTodoPath);
 
-    s.replace("%FMT_12H%", !cfg.militaryTime ? "selected" : "");
-    s.replace("%FMT_24H%", cfg.militaryTime ? "selected" : "");
+    replaceAll(s, "%FMT_12H%", !cfg.militaryTime ? "selected" : "");
+    replaceAll(s, "%FMT_24H%", cfg.militaryTime ? "selected" : "");
 
-    s.replace("%TZ_330%", cfg.timezoneOffsetMin == 330 ? "selected" : "");
-    s.replace("%TZ_0%", cfg.timezoneOffsetMin == 0 ? "selected" : "");
-    s.replace("%TZ_M300%", cfg.timezoneOffsetMin == -300 ? "selected" : "");
-    s.replace("%TZ_M480%", cfg.timezoneOffsetMin == -480 ? "selected" : "");
-    s.replace("%TZ_60%", cfg.timezoneOffsetMin == 60 ? "selected" : "");
-    s.replace("%TZ_120%", cfg.timezoneOffsetMin == 120 ? "selected" : "");
-    s.replace("%TZ_480%", cfg.timezoneOffsetMin == 480 ? "selected" : "");
-    s.replace("%TZ_540%", cfg.timezoneOffsetMin == 540 ? "selected" : "");
+    replaceAll(s, "%TZ_330%", cfg.timezoneOffsetMin == 330 ? "selected" : "");
+    replaceAll(s, "%TZ_0%", cfg.timezoneOffsetMin == 0 ? "selected" : "");
+    replaceAll(s, "%TZ_M300%", cfg.timezoneOffsetMin == -300 ? "selected" : "");
+    replaceAll(s, "%TZ_M480%", cfg.timezoneOffsetMin == -480 ? "selected" : "");
+    replaceAll(s, "%TZ_60%", cfg.timezoneOffsetMin == 60 ? "selected" : "");
+    replaceAll(s, "%TZ_120%", cfg.timezoneOffsetMin == 120 ? "selected" : "");
+    replaceAll(s, "%TZ_480%", cfg.timezoneOffsetMin == 480 ? "selected" : "");
+    replaceAll(s, "%TZ_540%", cfg.timezoneOffsetMin == 540 ? "selected" : "");
     return s;
 }
 
-void handleRoot() {
-    server.send(200, "text/html", renderHtml());
+void handleRoot(void*) {
+    server().send(200, "text/html", renderHtml());
 }
 
-void handleSave() {
-    if (server.hasArg("ssid")) {
-        WatchConfig::setWifi(server.arg("ssid").c_str(), server.arg("pass").c_str());
+void handleSave(void*) {
+    if (server().hasArgument("ssid")) {
+        const auto ssid = server().argument("ssid"), pass = server().argument("pass");
+        WatchConfig::setWifi(ssid.c_str(), pass.c_str());
     }
-    if (server.hasArg("dav_srv")) {
-        WatchConfig::setCalDav(server.arg("dav_srv").c_str(),
-                               server.arg("dav_usr").c_str(),
-                               server.arg("dav_pwd").c_str(),
-                               server.arg("dav_cal").c_str(),
-                               server.arg("dav_tod").c_str());
+    if (server().hasArgument("dav_srv")) {
+        const auto srv = server().argument("dav_srv"), usr = server().argument("dav_usr");
+        const auto pwd = server().argument("dav_pwd"), cal = server().argument("dav_cal");
+        const auto todo = server().argument("dav_tod");
+        WatchConfig::setCalDav(srv.c_str(), usr.c_str(), pwd.c_str(), cal.c_str(), todo.c_str());
     }
-    if (server.hasArg("tz")) {
-        WatchConfig::setTimezone(server.arg("tz").toInt());
+    if (server().hasArgument("tz")) {
+        const auto timezone = server().argument("tz");
+        WatchConfig::setTimezone(static_cast<int16_t>(strtol(timezone.c_str(), nullptr, 10)));
     }
-    if (server.hasArg("fmt_24h")) {
-        WatchConfig::setTimeFormat(server.arg("fmt_24h") == "1");
+    if (server().hasArgument("fmt_24h")) {
+        WatchConfig::setTimeFormat(server().argument("fmt_24h") == "1");
     }
     WatchConfig::save();
 
-    const bool syncNow = (server.arg("sync_ntp") == "1");
-    String msg = "<html><body style='font-family:sans-serif;text-align:center;padding:40px;'>";
+    const bool syncNow = (server().argument("sync_ntp") == "1");
+    std::string msg = "<html><body style='font-family:sans-serif;text-align:center;padding:40px;'>";
     msg += "<h2>Settings Saved!</h2>";
     if (syncNow) {
         msg += "<p>Hotspot shutting down to sync NTP time with router...</p>";
@@ -157,7 +165,7 @@ void handleSave() {
         msg += "<p>Configuration stored to flash.</p>";
     }
     msg += "<a href='/'>Back</a></body></html>";
-    server.send(200, "text/html", msg);
+    server().send(200, "text/html", msg);
 
     if (syncNow) {
         ersa::board::Board::current().delayMs(1000);
@@ -166,8 +174,8 @@ void handleSave() {
     }
 }
 
-void handleStop() {
-    server.send(200, "text/html", "<html><body style='font-family:sans-serif;text-align:center;padding:40px;'><h2>Hotspot Stopped</h2><p>You may close this tab.</p></body></html>");
+void handleStop(void*) {
+    server().send(200, "text/html", "<html><body style='font-family:sans-serif;text-align:center;padding:40px;'><h2>Hotspot Stopped</h2><p>You may close this tab.</p></body></html>");
     ersa::board::Board::current().delayMs(500);
     AppPortal::stop();
 }
@@ -180,19 +188,23 @@ void startAp() {
         DebugLog::log("HOTSPOT failed to start");
         return;
     }
-    dnsServer.start(53, "*", IPAddress(192, 168, 4, 1));
+    constexpr uint8_t captiveAddress[4] = {192, 168, 4, 1};
+    dnsServer().begin(53, "*", captiveAddress);
 
-    server.on("/", handleRoot);
-    server.on("/save", HTTP_POST, handleSave);
-    server.on("/stop", HTTP_POST, handleStop);
+    if (!routesInstalled) {
+        server().route("/", ersa::hal::HttpMethod::Get, handleRoot, nullptr);
+        server().route("/save", ersa::hal::HttpMethod::Post, handleSave, nullptr);
+        server().route("/stop", ersa::hal::HttpMethod::Post, handleStop, nullptr);
 
-    // Captive portal probes
-    server.on("/generate_204", handleRoot);
-    server.on("/fwlink", handleRoot);
-    server.on("/hotspot-detect.html", handleRoot);
-    server.onNotFound(handleRoot);
+        // Captive portal probes
+        server().route("/generate_204", ersa::hal::HttpMethod::Get, handleRoot, nullptr);
+        server().route("/fwlink", ersa::hal::HttpMethod::Get, handleRoot, nullptr);
+        server().route("/hotspot-detect.html", ersa::hal::HttpMethod::Get, handleRoot, nullptr);
+        server().routeNotFound(handleRoot, nullptr);
+        routesInstalled = true;
+    }
 
-    server.begin();
+    server().begin(80);
     apRunning = true;
     apStartTime = ersa::board::Board::current().getUptimeMs();
     char address[24] = {};
@@ -201,8 +213,8 @@ void startAp() {
 }
 
 void stopAp() {
-    server.stop();
-    dnsServer.stop();
+    server().stop();
+    dnsServer().stop();
     auto& wifi = ersa::board::Board::current().getWifi();
     wifi.stopAccessPoint();
     wifi.disconnect(true);
@@ -226,8 +238,8 @@ void stop() {
 void tick() {
     if (!apRunning) return;
 
-    dnsServer.processNextRequest();
-    server.handleClient();
+    dnsServer().process();
+    server().handleClient();
 
     // Auto-timeout shutoff to prevent battery drain
     const auto& cfg = WatchConfig::get();

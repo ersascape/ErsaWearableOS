@@ -5,11 +5,11 @@
 #include "ersa/config/system_defaults.h"
 #include "ersa/config/ui_strings.h"
 #include "ersa/services/time_service.h"
+#include "ersa/services/storage_service.h"
 #include "ersa/board/board.h"
 #include <Arduino.h>
 #include <HTTPClient.h>
 #include <WiFiClientSecure.h>
-#include <Preferences.h>
 #include <time.h>
 #include <ctype.h>
 #include <atomic>
@@ -33,8 +33,7 @@ std::atomic<bool> bootSyncHttpFallback{false};
 std::atomic<uint32_t> pendingBootLocalEpoch{0};
 bool tlsAllocationFailed = false;
 char statusMsg[48] = "Ready";
-Preferences cachePrefs;
-constexpr const char* CACHE_NS = ersa::config::PREFS_NS_CACHE;
+auto& cacheStorage() { return ersa::services::StorageService::instance(); }
 
 void safeCopy(char* dest, const char* src, size_t maxLen) {
     if (!dest || maxLen == 0) return;
@@ -80,42 +79,35 @@ void loadDefaultsIfEmpty() {
 }
 
 void saveCache() {
-    if (cachePrefs.begin(CACHE_NS, false)) {
-        cachePrefs.putBytes("events", events, sizeof(events));
-        cachePrefs.putUChar("ev_cnt", (uint8_t)numEvents);
-        cachePrefs.putUChar("ev_ver", 2);
-        cachePrefs.putBytes("todos", todos, sizeof(todos));
-        cachePrefs.putUChar("td_cnt", (uint8_t)numTodos);
-        cachePrefs.end();
-    }
+    auto& storage = cacheStorage();
+    storage.setBytes("cal_events", events, sizeof(events));
+    storage.setInt("cal_ev_cnt", static_cast<int32_t>(numEvents));
+    storage.setInt("cal_ev_ver", 2);
+    storage.setBytes("cal_todos", todos, sizeof(todos));
+    storage.setInt("cal_td_cnt", static_cast<int32_t>(numTodos));
 }
 
 void loadCache() {
-    bool hasInitializedCache = false;
-    if (cachePrefs.begin(CACHE_NS, true)) {
-        hasInitializedCache = cachePrefs.isKey("ev_cnt");
-        if (hasInitializedCache) {
-            const size_t cachedBytes = cachePrefs.getBytesLength("events");
-            const bool currentFormat = cachePrefs.getUChar("ev_ver", 0) == 2 &&
-                                       cachedBytes == sizeof(events);
-            if (currentFormat) {
-                numEvents = cachePrefs.getUChar("ev_cnt", 0);
-                if (numEvents > MAX_EVENTS) numEvents = 0;
-                if (numEvents > 0) {
-                    cachePrefs.getBytes("events", events, sizeof(events));
-                }
-            } else {
+    auto& storage = cacheStorage();
+    const bool hasInitializedCache = storage.getBytesLength("cal_events") != 0 ||
+                                      storage.getBytesLength("cal_todos") != 0;
+    if (hasInitializedCache) {
+        const bool currentFormat = storage.getInt("cal_ev_ver", 0) == 2 &&
+                                   storage.getBytesLength("cal_events") == sizeof(events);
+        if (currentFormat) {
+            numEvents = static_cast<size_t>(storage.getInt("cal_ev_cnt", 0));
+            if (numEvents > MAX_EVENTS) numEvents = 0;
+            if (numEvents > 0 && storage.getBytes("cal_events", events, sizeof(events)) != sizeof(events))
                 numEvents = 0;
-                DebugLog::log("NET: Calendar cache missing or old format; sync to refresh");
-            }
-
-            numTodos = cachePrefs.getUChar("td_cnt", 0);
-            if (numTodos > MAX_TODOS) numTodos = 0;
-            if (numTodos > 0) {
-                cachePrefs.getBytes("todos", todos, sizeof(todos));
-            }
+        } else {
+            numEvents = 0;
+            DebugLog::log("NET: Calendar cache missing or old format; sync to refresh");
         }
-        cachePrefs.end();
+        numTodos = static_cast<size_t>(storage.getInt("cal_td_cnt", 0));
+        if (numTodos > MAX_TODOS) numTodos = 0;
+        if (numTodos > 0 && storage.getBytesLength("cal_todos") == sizeof(todos) &&
+            storage.getBytes("cal_todos", todos, sizeof(todos)) != sizeof(todos)) numTodos = 0;
+        if (storage.getBytesLength("cal_todos") != sizeof(todos)) numTodos = 0;
     }
     // Only load setup guidance if the user has never synced before
     if (!hasInitializedCache) {

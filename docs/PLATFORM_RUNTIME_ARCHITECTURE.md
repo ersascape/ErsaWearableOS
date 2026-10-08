@@ -55,18 +55,21 @@ code are migration work, not a desired layer dependency.
   bridge now use `IConsole`; the USB Serial/JTAG implementation is
   `Esp32UsbConsole`. Reset, heap, NVS, and OTA metadata access in the control
   and diagnostics code still needs a platform diagnostics/OTA boundary.
+- **Local web transport:** the captive portal now uses generic HTTP request/
+  response and DNS responder contracts. The ESP32 adapter owns Arduino
+  `WebServer`, `DNSServer`, and `IPAddress`; the app owns its HTML and settings
+  behavior without including those framework types.
 - **RTC:** `Esp32Rtc` now owns `Wire`, the DS3231 driver, and its bounded
   software-time interpolation/reconciliation. The old `WatchClock` functions
   are compatibility wrappers over the generic `IRtc`; their `DateTime` return
   type still leaks RTClib into callers and can be replaced by `TimePoint` in a
   later API migration.
 - **Still to migrate:** network sync still performs
-  HTTP/NTP operations in `src/core/net_sync.cpp`; app portal code builds
-  responses with Arduino `String`; USB control still uses ESP-IDF OTA,
+  HTTP/NTP operations in `src/core/net_sync.cpp`; USB control still uses ESP-IDF OTA,
   partition, reset, heap, and CPU-frequency APIs; OTA transfer implementation
   still uses Arduino/ESP-IDF in the service. Move these behind network/time-sync,
   portal, OTA, and platform-diagnostics contracts respectively.
-- **Storage:** `WatchConfig` now uses the generic typed storage contract, and
+- **Storage:** `WatchConfig`, calendar cache, and boot history now use the generic typed/byte storage contract, and
   the `Preferences` implementation is installed by the ESP32 HAL. Product
   configuration and app data share the `ersa_nvs` namespace with short,
   prefixed keys. This is a deliberate schema reset; deployed users must factory

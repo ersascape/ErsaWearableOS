@@ -38,6 +38,13 @@ public:
     /** Read a boolean setting or return `defaultValue` when the key is absent. */
     virtual bool getBool(std::string_view key, bool defaultValue = false) = 0;
 
+    /** Store an opaque byte record for bounded caches and versioned snapshots. */
+    virtual bool setBytes(std::string_view key, const void* data, size_t size) = 0;
+    /** Return the exact stored record size, or zero when the key is absent. */
+    virtual size_t getBytesLength(std::string_view key) = 0;
+    /** Copy a stored record when its size matches; return bytes copied or zero. */
+    virtual size_t getBytes(std::string_view key, void* data, size_t size) = 0;
+
     /** Remove one key; false means no removal was made or the backend failed. */
     virtual bool remove(std::string_view key) = 0;
     /** Clear this service's namespace; use carefully because it removes all keys. */
