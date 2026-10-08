@@ -12,6 +12,8 @@ INPUT                  = README.md include src tests docs
 FILE_PATTERNS          = *.h *.hpp *.c *.cc *.cpp *.md
 RECURSIVE              = YES
 EXCLUDE_PATTERNS       = */.pio/* */build/* */.git/*
+# Generated bitmap tables are assets, not first-party API declarations.
+EXCLUDE                = include/fonts/misans_fonts.h
 
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES

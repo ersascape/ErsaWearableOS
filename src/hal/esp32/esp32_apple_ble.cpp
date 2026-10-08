@@ -252,7 +252,7 @@ public:
         if (task_ && !exited_) return false;
         task_ = nullptr;
         deleteQueues();
-        DebugLog::log("BLE-Apple: worker and queues released for maintenance");
+        ERSA_LOG_VERBOSE("BLE-Apple: worker and queues released for maintenance");
         return true;
     }
 
@@ -276,7 +276,7 @@ public:
             call_.update(uid, data[1]);
             publishedCallUid_ = uid;
             if (fresh) {
-                DebugLog::log("ANCS: incoming call detected");
+                ERSA_LOG_VERBOSE("ANCS: incoming call detected");
                 if (callCb_) callCb_(CompanionCallAction::Incoming, "", "", callUserData_);
             }
         }
@@ -318,7 +318,7 @@ public:
             waiting_ = true;
             requestedAt_ = millis();
             if (!requestTraceLogged_) {
-                DebugLog::log("ANCS: notification attribute requests active");
+                ERSA_LOG_VERBOSE("ANCS: notification attribute requests active");
                 requestTraceLogged_ = true;
             }
             control_->writeValue(cmd, requestNegativeLabel ? 12 : 11, true);
@@ -339,7 +339,7 @@ public:
         if (active_.removed || !live()) return;
         recoveryAttempts_ = 0;
         if (!responseTraceLogged_) {
-            DebugLog::log("ANCS: notification attributes received");
+            ERSA_LOG_VERBOSE("ANCS: notification attributes received");
             responseTraceLogged_ = true;
         }
         if (active_.call) {
@@ -394,7 +394,7 @@ public:
                 protocols::writeLe32(command + 1, p.uid);
                 command[5] = 1; // ANCS negative action, validated against the advertised label.
                 control_->writeValue(command, sizeof(command), true);
-                DebugLog::log("BLE-Apple: ANCS dismiss action submitted uid=%lu", (unsigned long)p.uid);
+                ERSA_LOG_VERBOSE("BLE-Apple: ANCS dismiss action submitted uid=%lu", (unsigned long)p.uid);
                 break;
             }
             case ServicesChanged: servicesChanged_ = true; break;
@@ -423,14 +423,14 @@ public:
     void subscribe(BLERemoteCharacteristic* characteristic, Kind kind, bool notifications = true) {
         const uint32_t session = session_;
         const uint32_t epoch = ancsEpoch_;
-        DebugLog::log("BLE-Apple: registering notify kind=%u handle=0x%04x", unsigned(kind), characteristic->getHandle());
+        ERSA_LOG_VERBOSE("BLE-Apple: registering notify kind=%u handle=0x%04x", unsigned(kind), characteristic->getHandle());
         // Finish local registration before issuing a remote CCCD write. The
         // Arduino helper otherwise overlaps those two asynchronous operations.
         characteristic->registerForNotify([this, kind, session, epoch](BLERemoteCharacteristic*, uint8_t* data, size_t size, bool) {
             enqueue(kind, session, data, size, 0, epoch);
         }, notifications, false);
         if (!live() || !client_->isConnected()) return;
-        DebugLog::log("BLE-Apple: enabling CCCD kind=%u", unsigned(kind));
+        ERSA_LOG_VERBOSE("BLE-Apple: enabling CCCD kind=%u", unsigned(kind));
         auto* descriptor = characteristic->getDescriptor(BLEUUID(uint16_t(0x2902)));
         if (descriptor) {
             uint8_t value[] = {uint8_t(notifications ? 1 : 2), 0};
@@ -440,21 +440,21 @@ public:
                 const auto error = esp_ble_gattc_write_char_descr(
                     client_->getGattcIf(), client_->getConnId(), descriptor->getHandle(),
                     sizeof(value), value, ESP_GATT_WRITE_TYPE_RSP, ESP_GATT_AUTH_REQ_NONE);
-                DebugLog::log("BLE-Apple: Service Changed CCCD submitted rc=0x%x", unsigned(error));
+                ERSA_LOG_VERBOSE("BLE-Apple: Service Changed CCCD submitted rc=0x%x", unsigned(error));
             } else {
                 descriptor->writeValue(value, sizeof(value), true);
             }
-        } else DebugLog::log("BLE-Apple: missing CCCD kind=%u", unsigned(kind));
-        DebugLog::log("BLE-Apple: subscription complete kind=%u", unsigned(kind));
+        } else ERSA_LOG_VERBOSE("BLE-Apple: missing CCCD kind=%u", unsigned(kind));
+        ERSA_LOG_VERBOSE("BLE-Apple: subscription complete kind=%u", unsigned(kind));
     }
 
     bool discover() {
         if (!servicesCached_) {
-            DebugLog::log("BLE-Apple: discovering services");
+            ERSA_LOG_VERBOSE("BLE-Apple: discovering services");
             auto* services = client_->getServices();
             if (!live() || !client_->isConnected()) return false;
             if (!services) {
-                DebugLog::log("BLE-Apple: service discovery returned no result; replacing GATT client");
+                ERSA_LOG_VERBOSE("BLE-Apple: service discovery returned no result; replacing GATT client");
                 replaceClient_ = true;
                 return false;
             }
@@ -463,15 +463,15 @@ public:
             memcpy(servicesPeer_, sessionPeer_, sizeof(servicesPeer_));
             haveServicesPeer_ = true;
             portEXIT_CRITICAL(&controlMux_);
-            DebugLog::log("BLE-Apple: service search complete");
+            ERSA_LOG_VERBOSE("BLE-Apple: service search complete");
         } else {
-            DebugLog::log("BLE-Apple: reusing cached GATT services after reconnect");
+            ERSA_LOG_VERBOSE("BLE-Apple: reusing cached GATT services after reconnect");
         }
         auto* ancs = client_->getService(BLEUUID(ANCS_SERVICE_UUID));
         auto* ams = client_->getService(BLEUUID(AMS_SERVICE_UUID));
         auto* cts = client_->getService(BLEUUID(CTS_SERVICE_UUID));
         ctsReady_ = false;
-        DebugLog::log("BLE: optional services ANCS=%d AMS=%d CTS=%d", ancs != nullptr, ams != nullptr, cts != nullptr);
+        ERSA_LOG_VERBOSE("BLE: optional services ANCS=%d AMS=%d CTS=%d", ancs != nullptr, ams != nullptr, cts != nullptr);
         if (!ancs && !ams && !cts) {
             DebugLog::log("BLE-Apple: peer has no Apple services; keeping link, capabilities unavailable");
         }
@@ -479,26 +479,26 @@ public:
             currentTime_ = cts->getCharacteristic(BLEUUID(CTS_CHAR_CURRENT_TIME));
             ctsReady_ = currentTime_ != nullptr;
             if (currentTime_ && currentTime_->canRead()) {
-                const std::string value = currentTime_->readValue();
+                const std::string value(currentTime_->readValue().c_str());
                 uint32_t epoch = 0;
                 if (protocols::decodeCurrentTime(reinterpret_cast<const uint8_t*>(value.data()), value.size(), epoch) && timeCb_) {
                     timeCb_(epoch, timeUserData_);
-                    DebugLog::log("BLE-CTS: initial time read submitted");
+                    ERSA_LOG_VERBOSE("BLE-CTS: initial time read submitted");
                 } else {
                     DebugLog::log("BLE-CTS: initial read unavailable or invalid (%u bytes)", unsigned(value.size()));
                 }
             }
             if (currentTime_ && currentTime_->canNotify() && live()) {
                 subscribe(currentTime_, CurrentTime);
-                DebugLog::log("BLE-CTS: time-change notifications enabled");
+                ERSA_LOG_VERBOSE("BLE-CTS: time-change notifications enabled");
             } else if (currentTime_) {
-                DebugLog::log("BLE-CTS: characteristic has no notify property");
+                ERSA_LOG_VERBOSE("BLE-CTS: characteristic has no notify property");
             }
         } else {
             DebugLog::log("BLE-CTS: service unavailable; network/manual time sources remain available");
         }
         if (ancs) {
-            DebugLog::log("BLE-Apple: resolving ANCS characteristics");
+            ERSA_LOG_VERBOSE("BLE-Apple: resolving ANCS characteristics");
             auto* source = source_ = ancs->getCharacteristic(BLEUUID(ANCS_CHAR_NOTIF_SOURCE));
             auto* data = data_ = ancs->getCharacteristic(BLEUUID(ANCS_CHAR_DATA_SOURCE));
             control_ = ancs->getCharacteristic(BLEUUID(ANCS_CHAR_CONTROL_POINT));
@@ -507,7 +507,7 @@ public:
             } else control_ = nullptr;
         }
         if (ams) {
-            DebugLog::log("BLE-Apple: resolving AMS characteristics");
+            ERSA_LOG_VERBOSE("BLE-Apple: resolving AMS characteristics");
             auto* update = update_ = ams->getCharacteristic(BLEUUID(AMS_CHAR_ENTITY_UPDATE));
             entityAttribute_ = ams->getCharacteristic(BLEUUID(AMS_CHAR_ENTITY_ATTR));
             remote_ = ams->getCharacteristic(BLEUUID(AMS_CHAR_REMOTE_CMD));
@@ -516,9 +516,9 @@ public:
                 subscribe(update, Media);
                 uint8_t track[] = {2, 0, 2};
                 uint8_t player[] = {0, 1};
-                DebugLog::log("BLE-Apple: requesting AMS track updates");
+                ERSA_LOG_VERBOSE("BLE-Apple: requesting AMS track updates");
                 update->writeValue(track, sizeof(track), true);
-                DebugLog::log("BLE-Apple: requesting AMS playback updates");
+                ERSA_LOG_VERBOSE("BLE-Apple: requesting AMS playback updates");
                 update->writeValue(player, sizeof(player), true);
                 amsReady_ = live();
             } else remote_ = nullptr;
@@ -528,7 +528,7 @@ public:
             subscribe(source_, Notification);
             ancsReady_ = live();
         }
-        DebugLog::log("BLE-Apple: ANCS=%d AMS=%d", int(ancsReady_.load()), int(amsReady_.load()));
+        ERSA_LOG_VERBOSE("BLE-Apple: ANCS=%d AMS=%d", int(ancsReady_.load()), int(amsReady_.load()));
         if ((control_ || remote_) && live()) {
             auto* gatt = client_->getService(BLEUUID(uint16_t(0x1801)));
             changed_ = gatt ? gatt->getCharacteristic(BLEUUID(uint16_t(0x2a05))) : nullptr;
@@ -557,7 +557,7 @@ public:
         subscribe(source_, Notification);
         attributesBlocked_ = false;
         ancsReady_ = live();
-        DebugLog::log("ANCS: subscriptions restored, attempt=%u", unsigned(recoveryAttempts_));
+        ERSA_LOG_VERBOSE("ANCS: subscriptions restored, attempt=%u", unsigned(recoveryAttempts_));
     }
 
     void resetSession() {
@@ -590,7 +590,7 @@ public:
 
     static void taskEntry(void* value) { static_cast<Impl*>(value)->run(); }
     void run() {
-        DebugLog::log("BLE-Apple: burst-safe worker started (separate history/call queues)");
+        ERSA_LOG_VERBOSE("BLE-Apple: burst-safe worker started (separate history/call queues)");
         if (!client_) client_ = BLEDevice::createClient();
         while (!shutdown_ && !maintenanceStop_) {
             esp_bd_addr_t peer;
@@ -615,14 +615,14 @@ public:
                 servicesCached_ = false;
                 haveServicesPeer_ = false;
                 if (!client_) { pause(1000); continue; }
-                DebugLog::log("BLE-Apple: created fresh GATT client for changed database/peer");
+                ERSA_LOG_VERBOSE("BLE-Apple: created fresh GATT client for changed database/peer");
             }
-            DebugLog::log("BLE-Apple: waiting for authentication (session=%lu)", (unsigned long)session_);
+            ERSA_LOG_VERBOSE("BLE-Apple: waiting for authentication (session=%lu)", (unsigned long)session_);
             while (live() && authenticatedGeneration_.load() != session_) {
                 ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
             }
             if (!live()) continue;
-            DebugLog::log("BLE-Apple: attaching GATT client");
+            ERSA_LOG_VERBOSE("BLE-Apple: attaching GATT client");
             if (!client_->connect(BLEAddress(peer), type)) {
                 DebugLog::log("BLE-Apple: connect failed; retrying");
                 pause(3000);
@@ -657,10 +657,10 @@ public:
                 unreportedOtherDrops_ += other;
                 if (!hasQueuedWork()) {
                     if (unreportedHistoryDrops_)
-                        DebugLog::log("ANCS: burst complete, skipped %lu history records; BLE stays connected",
+                        ERSA_LOG_VERBOSE("ANCS: burst complete, skipped %lu history records; BLE stays connected",
                                       static_cast<unsigned long>(unreportedHistoryDrops_));
                     if (unreportedOtherDrops_)
-                        DebugLog::log("BLE-Apple: burst complete, dropped %lu non-history updates",
+                        ERSA_LOG_VERBOSE("BLE-Apple: burst complete, dropped %lu non-history updates",
                                       static_cast<unsigned long>(unreportedOtherDrops_));
                     unreportedHistoryDrops_ = 0;
                     unreportedOtherDrops_ = 0;
@@ -691,13 +691,13 @@ public:
                 if (attributesBlocked_ && uint32_t(millis() - recoveryAt_) >= retryDelayMs) {
                     if (recoveryAttempts_ < 5) ++recoveryAttempts_;
                     recoveryAt_ = millis();
-                    DebugLog::log("ANCS: resubscription recovery attempt=%u next_backoff_ms=%lu",
+                    ERSA_LOG_VERBOSE("ANCS: resubscription recovery attempt=%u next_backoff_ms=%lu",
                                   unsigned(recoveryAttempts_),
                                   static_cast<unsigned long>(retryDelayMs));
                     restartAncs();
                 }
                 if (servicesChanged_ && live()) {
-                    DebugLog::log("BLE-Apple: service change; replacing GATT client after disconnect");
+                    ERSA_LOG_VERBOSE("BLE-Apple: service change; replacing GATT client after disconnect");
                     if (call_.ringing && callCb_) callCb_(CompanionCallAction::Ended, "", "", callUserData_);
                     if (notifCb_) notifCb_(nullptr, nullptr, nullptr, 0, false, notifUserData_);
                     replaceClient_ = true;
@@ -723,7 +723,7 @@ public:
         if (length >= 3 && (bytes[2] & 1) && bytes[0] == 2 && entityAttribute_ && live()) {
             uint8_t attribute[] = {bytes[0], bytes[1]};
             entityAttribute_->writeValue(attribute, sizeof(attribute), true);
-            const std::string value = entityAttribute_->readValue();
+            const std::string value(entityAttribute_->readValue().c_str());
             uint8_t update[34] = {bytes[0], bytes[1], 0};
             const size_t count = value.size() < 31 ? value.size() : 31;
             memcpy(update + 3, value.data(), count);

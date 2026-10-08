@@ -19,7 +19,7 @@ bool Esp32PowerManagement::initialize() {
     const unsigned profile = Dvfs::testCpuFrequencyMHz();
     const int maxMHz = profile == 80 ? 80 : profile == 40 ? 80 : profile == 160 ? 160 : 160;
     const int minMHz = profile == 80 ? 80 : profile == 160 ? 160 : 40;
-    const esp_pm_config_esp32c3_t config{.max_freq_mhz = maxMHz, .min_freq_mhz = minMHz, .light_sleep_enable = true};
+    const esp_pm_config_t config{.max_freq_mhz = maxMHz, .min_freq_mhz = minMHz, .light_sleep_enable = true};
     const esp_err_t result = esp_pm_configure(&config);
     DebugLog::log("PWR: CPU profile=%u MHz (%s) light sleep status=0x%x", profile, profile ? "test" : "automatic", unsigned(result));
     initialized_ = result == ESP_OK && Dvfs::begin();

@@ -3,12 +3,12 @@
 
 namespace {
 
-DateTime toDateTime(const ersa::hal::TimePoint& time) {
-    if (time.epoch) return DateTime(time.epoch);
-    return DateTime(time.year, time.month, time.day, time.hour, time.minute, time.second);
+CalendarTime toCalendarTime(const ersa::hal::TimePoint& time) {
+    if (time.epoch) return CalendarTime(time.epoch);
+    return CalendarTime(time.year, time.month, time.day, time.hour, time.minute, time.second);
 }
 
-ersa::hal::TimePoint toTimePoint(const DateTime& time) {
+ersa::hal::TimePoint toTimePoint(const CalendarTime& time) {
     return ersa::hal::TimePoint(time.year(), time.month(), time.day(),
                                 time.hour(), time.minute(), time.second(),
                                 time.dayOfTheWeek(), time.unixtime());
@@ -20,8 +20,8 @@ ersa::hal::IRtc& rtc() {
 
 } // namespace
 
-DateTime WatchClock::now() {
-    return toDateTime(rtc().now());
+CalendarTime WatchClock::now() {
+    return toCalendarTime(rtc().now());
 }
 
 bool WatchClock::healthy() {
@@ -32,7 +32,7 @@ void WatchClock::resync() {
     rtc().resync();
 }
 
-void WatchClock::adjust(const DateTime& time) {
+void WatchClock::adjust(const CalendarTime& time) {
     rtc().adjust(toTimePoint(time));
 }
 

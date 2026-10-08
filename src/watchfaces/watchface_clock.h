@@ -1,9 +1,9 @@
 #pragma once
-#include <RTClib.h>
+#include "ersa/common/calendar_time.h"
 #include "ersa/hal/display.h"
 
 namespace WatchfaceClock {
 
-void render(ersa::hal::IDisplay& display, const DateTime& time, bool full = true);
+void render(ersa::hal::IDisplay& display, const CalendarTime& time, bool full = true);
 
 } // namespace WatchfaceClock

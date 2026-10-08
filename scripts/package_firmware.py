@@ -1,30 +1,38 @@
 #!/usr/bin/env python3
 """Package PlatformIO outputs as an app update and a full factory image."""
 
+import argparse
 from hashlib import sha256
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-BUILD = ROOT / ".pio" / "build" / "ErsaWearable"
-OUTPUT = ROOT / ".pio" / "release"
 PARTITION_OFFSET = 0x8000
 BOOT_APP0_OFFSET = 0xE000
 DEFAULT_APPLICATION_OFFSET = 0x10000
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--environment", default="ErsaWearable")
+    parser.add_argument("--output-dir", type=Path)
+    args = parser.parse_args()
+    platform = "xiao_esp32c6" if args.environment.endswith("C6") else "xiao_esp32c3"
+    chip = "esp32c6" if platform.endswith("c6") else "esp32c3"
+    image_prefix = f"terra-{platform}"
+    build_dir = ROOT / ".pio" / "build" / args.environment
+    output_dir = args.output_dir or ROOT / ".pio" / "release"
     files = {
-        "bootloader.bin": BUILD / "bootloader.bin",
-        "partitions.bin": BUILD / "partitions.bin",
+        "bootloader.bin": build_dir / "bootloader.bin",
+        "partitions.bin": build_dir / "partitions.bin",
         "boot_app0.bin": ROOT / ".pio-core" / "packages" / "framework-arduinoespressif32" / "tools" / "partitions" / "boot_app0.bin",
-        "firmware.bin": BUILD / "firmware.bin",
+        "firmware.bin": build_dir / "firmware.bin",
     }
     missing = [str(path) for path in files.values() if not path.is_file()]
     if missing:
         raise SystemExit("Missing PlatformIO output(s): " + ", ".join(missing))
 
-    OUTPUT.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     partition_data = files["partitions.bin"].read_bytes()
     partitions = [
         (
@@ -58,12 +66,16 @@ def main() -> None:
          if kind == 1 and subtype == 3),
         None,
     )
-    if coredump != (0x3F0000, 0x10000):
-        raise SystemExit(f"Expected preserved coredump partition at 0x3f0000; found {coredump!r}")
+    expected_coredump = (0x3F0000, 0x10000)
+    if coredump != expected_coredump:
+        raise SystemExit(f"Unexpected coredump partition for {platform}: {coredump!r}")
 
-    (OUTPUT / "firmware.bin").write_bytes(files["firmware.bin"].read_bytes())
+    firmware_name = f"firmware-{image_prefix}.bin"
+    factory_name = f"ewp-factory-{image_prefix}.bin"
+    (output_dir / firmware_name).write_bytes(files["firmware.bin"].read_bytes())
     for name in ("bootloader.bin", "partitions.bin", "boot_app0.bin"):
-        (OUTPUT / name).write_bytes(files[name].read_bytes())
+        stem, suffix = name.rsplit(".", 1)
+        (output_dir / f"{stem}-{image_prefix}.{suffix}").write_bytes(files[name].read_bytes())
 
     end = application_offset + files["firmware.bin"].stat().st_size
     image = bytearray(b"\xff") * end
@@ -73,34 +85,35 @@ def main() -> None:
     image[BOOT_APP0_OFFSET : BOOT_APP0_OFFSET + len(boot_app0)] = boot_app0
     app = files["firmware.bin"].read_bytes()
     image[application_offset : application_offset + len(app)] = app
-    (OUTPUT / "ewp-factory.bin").write_bytes(image)
+    (output_dir / factory_name).write_bytes(image)
 
     names = (
-        "firmware.bin",
-        "ewp-factory.bin",
-        "bootloader.bin",
-        "partitions.bin",
-        "boot_app0.bin",
+        firmware_name,
+        factory_name,
+        f"bootloader-{image_prefix}.bin",
+        f"partitions-{image_prefix}.bin",
+        f"boot_app0-{image_prefix}.bin",
     )
-    (OUTPUT / "SHA256SUMS").write_text(
-        "".join(f"{sha256((OUTPUT / name).read_bytes()).hexdigest()}  {name}\n" for name in names),
+    checksum_name = f"SHA256SUMS-{image_prefix}.txt"
+    (output_dir / checksum_name).write_text(
+        "".join(f"{sha256((output_dir / name).read_bytes()).hexdigest()}  {name}\n" for name in names),
         encoding="ascii",
     )
-    (OUTPUT / "FLASHING.md").write_text(
-        """# Ersa Wearable firmware images
+    (output_dir / f"FLASHING-{image_prefix}.md").write_text(
+        f"""# Ersa Wearable firmware images
 
-- `firmware.bin` is the application image written to either OTA slot. Both slots
-  are `0x1F0000` bytes; packaging fails if the firmware exceeds either slot.
-- `ewp-factory.bin` is a merged ESP32-C3 image for factory flashing at offset
+- `{firmware_name}` is the `{platform}` application image written to either OTA slot. Both slots
+  are `{app_size:#x}` bytes; packaging fails if the firmware exceeds either slot.
+- `{factory_name}` is a merged `{args.environment}` image for factory flashing at offset
   `0x0`. It includes the bootloader at `0x0`, the partition table at `0x8000`,
   the OTA boot data at `0xE000`, and the application at `0x10000`. Factory
   flashing erases existing settings.
-- `SHA256SUMS` contains SHA-256 checksums for all images.
+- `{checksum_name}` contains SHA-256 checksums for all images.
 
 Example factory flash with esptool:
 
 ```sh
-esptool.py --chip esp32c3 --port PORT write_flash 0x0 ewp-factory.bin
+esptool.py --chip {chip} --port PORT write_flash 0x0 {factory_name}
 ```
 
 Replace `PORT` with the serial port for the watch. Check the image checksum

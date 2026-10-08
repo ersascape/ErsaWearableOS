@@ -138,7 +138,7 @@ void DebugLog::tick() {
     const uint32_t now = ersa::board::Board::current().getUptimeMs();
     if (uint32_t(now - lastReport) < HEARTBEAT_INTERVAL_MS) return;
     lastReport = now;
-    const DateTime time = WatchClock::now();
+    const CalendarTime time = WatchClock::now();
     auto& board = ersa::board::Board::current();
     const bool button1Pressed = board.getInput().isPressed(ersa::events::ButtonId::Button1);
     const bool button2Pressed = board.getInput().isPressed(ersa::events::ButtonId::Button2);

@@ -2,16 +2,44 @@
 set -euo pipefail
 
 repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
-image_dir="${1:-$repo_root/.pio/release}"
-port="${2:-${PORT:-}}"
+platform="${PLATFORM:-xiao_esp32c3}"
+image_dir="$repo_root/.pio/release"
+port="${PORT:-}"
+positionals=()
+while (($#)); do
+  case "$1" in
+    --platform)
+      (($# >= 2)) || { echo "--platform requires xiao_esp32c3 or xiao_esp32c6" >&2; exit 2; }
+      platform="$2"
+      shift 2
+      ;;
+    -h|--help)
+      break
+      ;;
+    *)
+      positionals+=("$1")
+      shift
+      ;;
+  esac
+done
+if ((${#positionals[@]} > 0)); then image_dir="${positionals[0]}"; fi
+if ((${#positionals[@]} > 1)); then port="${positionals[1]}"; fi
+if ((${#positionals[@]} > 2)); then echo "Too many positional arguments." >&2; exit 2; fi
+case "$platform" in
+  xiao_esp32c3) chip=esp32c3 ;;
+  xiao_esp32c6) chip=esp32c6 ;;
+  *) echo "Unsupported platform: $platform" >&2; exit 2 ;;
+esac
+suffix="terra-$platform"
+checksum="SHA256SUMS-$suffix.txt"
 
 usage() {
   cat <<'EOF'
-Usage: scripts/migrate_ota.sh [release-directory] [serial-port]
+Usage: scripts/migrate_ota.sh [--platform xiao_esp32c3|xiao_esp32c6] [release-directory] [serial-port]
 
 Perform the one-time migration from the legacy single-slot partition table to
-the dual-slot OTA layout. Requires bootloader.bin, partitions.bin,
-boot_app0.bin, firmware.bin, and SHA256SUMS from the same firmware build.
+the dual-slot OTA layout. Requires platform-specific bootloader, partition,
+boot_app0, firmware, and SHA256SUMS images from the same firmware build.
 Checks all component hashes before flashing. NVS settings are preserved. This
 overwrites the old SPIFFS region, which is unused by EWP.
 
@@ -24,15 +52,15 @@ if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
   exit 0
 fi
 
-for image in bootloader.bin partitions.bin boot_app0.bin firmware.bin SHA256SUMS; do
+for image in "bootloader-$suffix.bin" "partitions-$suffix.bin" "boot_app0-$suffix.bin" "firmware-$suffix.bin" "$checksum"; do
   if [[ ! -f "$image_dir/$image" ]]; then
     echo "Required migration image not found: $image_dir/$image" >&2
     exit 2
   fi
 done
 
-for image in bootloader.bin partitions.bin boot_app0.bin firmware.bin; do
-  expected="$(awk -v name="$image" '$2 == name { print $1; exit }' "$image_dir/SHA256SUMS")"
+for image in "bootloader-$suffix.bin" "partitions-$suffix.bin" "boot_app0-$suffix.bin" "firmware-$suffix.bin"; do
+  expected="$(awk -v name="$image" '$2 == name { print $1; exit }' "$image_dir/$checksum")"
   if [[ -z "$expected" ]]; then
     echo "No SHA-256 checksum recorded for $image" >&2
     exit 2
@@ -73,13 +101,13 @@ else
   exit 2
 fi
 
-echo "Migrating $port to dual-slot OTA layout; keep USB connected until it completes."
+echo "Migrating $platform on $port to dual-slot OTA layout; keep USB connected until it completes."
 echo "Saved Wi-Fi/settings are preserved. The unused old SPIFFS region becomes OTA slot 1."
-"${esptool[@]}" --chip esp32c3 --port "$port" --baud 460800 write_flash \
-  0x10000 "$image_dir/firmware.bin"
-"${esptool[@]}" --chip esp32c3 --port "$port" --baud 460800 write_flash \
-  0x8000 "$image_dir/partitions.bin"
-"${esptool[@]}" --chip esp32c3 --port "$port" --baud 460800 write_flash \
-  0xE000 "$image_dir/boot_app0.bin"
-"${esptool[@]}" --chip esp32c3 --port "$port" --baud 460800 write_flash \
-  0x0 "$image_dir/bootloader.bin"
+"${esptool[@]}" --chip "$chip" --port "$port" --baud 460800 write_flash \
+  0x10000 "$image_dir/firmware-$suffix.bin"
+"${esptool[@]}" --chip "$chip" --port "$port" --baud 460800 write_flash \
+  0x8000 "$image_dir/partitions-$suffix.bin"
+"${esptool[@]}" --chip "$chip" --port "$port" --baud 460800 write_flash \
+  0xE000 "$image_dir/boot_app0-$suffix.bin"
+"${esptool[@]}" --chip "$chip" --port "$port" --baud 460800 write_flash \
+  0x0 "$image_dir/bootloader-$suffix.bin"

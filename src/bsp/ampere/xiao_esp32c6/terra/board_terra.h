@@ -20,12 +20,11 @@ namespace ersa {
 namespace board {
 
 /**
- * Immutable pinctrl map for the Ampere Terra product.
- * GPIO numbers, bus muxes, pulls, and asserted levels live here because they
- * are facts about this PCB; Esp32PinController interprets the map, while the
- * HAL and app layers consume logical button/bus contracts.
+ * Immutable pinctrl map for Ampere Terra on XIAO ESP32-C6. The net assignments
+ * match the C3 BSP by XIAO pad identity; the GPIO numbers differ because the
+ * C6 maps those pads differently.
  */
-class TerraPins final : public Pins {
+class TerraC6Pins final : public Pins {
 public:
     /** Return Terra's RTC and peripheral I2C pins. */
     const I2cPins& i2c() const override { return i2c_; }
@@ -39,31 +38,31 @@ public:
     const BatteryPins& battery() const override { return battery_; }
 
 private:
-    const I2cPins i2c_{{6, PinFunction::I2c}, {7, PinFunction::I2c}};
-    const SpiPins spi_{{8, PinFunction::Spi}, {10, PinFunction::Spi}, {-1, PinFunction::Spi}};
-    const DisplayPins display_{{5, PinFunction::Gpio, PinPull::None, PinActiveLevel::Low, PinDirection::Output},
-                               {20, PinFunction::Gpio, PinPull::None, PinActiveLevel::High, PinDirection::Output},
-                               {21, PinFunction::Gpio, PinPull::None, PinActiveLevel::Low, PinDirection::Output},
-                               {9, PinFunction::Gpio, PinPull::None, PinActiveLevel::High, PinDirection::Input}};
-    const ButtonPins buttons_{{4, PinFunction::Gpio, PinPull::Up, PinActiveLevel::Low, PinDirection::Input},
-                              {3, PinFunction::Gpio, PinPull::Up, PinActiveLevel::Low, PinDirection::Input}};
-    const BatteryPins battery_{{2, PinFunction::Adc, PinPull::None, PinActiveLevel::High, PinDirection::Input}, 2, 1};
+    const I2cPins i2c_{{22, PinFunction::I2c}, {23, PinFunction::I2c}};
+    const SpiPins spi_{{19, PinFunction::Spi}, {18, PinFunction::Spi}, {-1, PinFunction::Spi}};
+    const DisplayPins display_{{21, PinFunction::Gpio, PinPull::None, PinActiveLevel::Low, PinDirection::Output},
+                               {17, PinFunction::Gpio, PinPull::None, PinActiveLevel::High, PinDirection::Output},
+                               {16, PinFunction::Gpio, PinPull::None, PinActiveLevel::Low, PinDirection::Output},
+                               {20, PinFunction::Gpio, PinPull::None, PinActiveLevel::High, PinDirection::Input}};
+    const ButtonPins buttons_{{2, PinFunction::Gpio, PinPull::Up, PinActiveLevel::Low, PinDirection::Input},
+                              {1, PinFunction::Gpio, PinPull::Up, PinActiveLevel::Low, PinDirection::Input}};
+    const BatteryPins battery_{{0, PinFunction::Adc, PinPull::None, PinActiveLevel::High, PinDirection::Input}, 2, 1};
 };
 
 /**
- * Ampere Terra board composition for the XIAO ESP32-C3 platform.
+ * Ampere Terra board composition for the XIAO ESP32-C6 platform.
  *
  * This class is the only place that constructs the product's concrete drivers
  * and wires them to generic HALs. It owns those objects for the full firmware
  * lifetime, so service references stay stable; application code sees only the
  * Board contract and does not learn about Terra, ESP32, or panel-driver types.
  */
-class BoardTerra : public Board {
+class BoardTerraC6 : public Board {
 public:
     /** Construct drivers using the immutable Terra pin map. */
-    BoardTerra();
+    BoardTerraC6();
     /** Destruction is virtual through Board; drivers follow board lifetime. */
-    ~BoardTerra() override = default;
+    ~BoardTerraC6() override = default;
 
     /** Apply pinctrl and initialize board-owned buses before services start. */
     Result<void> init() override;
@@ -108,11 +107,11 @@ public:
     void restart() override;
 
     /** Return the statically composed Terra board object. */
-    static BoardTerra& instance();
+    static BoardTerraC6& instance();
 
 private:
     BoardConfig config_;
-    TerraPins pins_;
+    TerraC6Pins pins_;
     drivers::display::Ssd1681Display display_;
     hal::Esp32Rtc rtc_;
     hal::Esp32Battery battery_;

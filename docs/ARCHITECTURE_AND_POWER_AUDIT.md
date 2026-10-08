@@ -68,17 +68,18 @@ console contracts are defined under `include/ersa/hal/`. ESP32-specific GPIO,
 ADC, OneButton, DS3231/Wire, and USB Serial/JTAG implementations live under
 `src/hal/esp32/`; the BSP provides pin numbers, pull/active levels, and battery
 divider scaling. `WatchClock` remains a compatibility facade whose public
-`DateTime` still exposes RTClib. Network sync, settings, diagnostics, and OTA
-still have direct platform-library usage. Keep moving those behind network,
+The app-facing calendar value is now first party and RTClib has been removed.
+Network sync, settings, diagnostics, and OTA still have direct platform-library usage. Keep moving those behind network,
 storage, diagnostics, and OTA HAL contracts.
 
 ### 5. E-paper retains its image while its drive voltage is off
 
-`GxEpd2Display` disables panel drive voltage after a refresh while the e-paper
+The custom SSD1681 driver disables panel drive voltage after a refresh while the e-paper
 image remains visible. `DisplayManager` owns the 360-partial-frame
 ghost-clearing cadence and refresh rate limit; it no longer sends a redundant
 idle power-off or power-on request. The UI still identifies dirty bounds and
-forces a full waveform on the first frame or day change. BUSY completion
+forces a full waveform on the first frame, day change, or app transition.
+Movement within the current app keeps using partial windows. BUSY completion
 remains a driver concern and is not coupled to button polling. This removes an
 incorrect manager power-state assumption; it does not reduce the panel's
 refresh-waveform duration.

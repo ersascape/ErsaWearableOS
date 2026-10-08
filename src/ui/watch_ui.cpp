@@ -76,7 +76,7 @@ void invalidateWatchface(const ersa::Rect& rect) {
 
 void renderCurrentApp() {
     const uint32_t started = board.getUptimeMs();
-    const DateTime time = WatchClock::now();
+    const CalendarTime time = WatchClock::now();
     auto* activeApp = appManager.getActiveApp();
     if (!activeApp) return;
 
@@ -84,11 +84,11 @@ void renderCurrentApp() {
     ersa::hal::PerformanceScope displayProfile(powerHal,
         ersa::hal::PerformanceProfile::DisplayRefresh, "display-refresh");
 
-    // Use a full waveform only for initial cleanup or a day transition. The
-    // display manager owns periodic ghost-clearing cadence for partial frames.
+    // App transitions replace most of the page and are a useful ghost-clearing
+    // boundary. Routine scrolling/redraws remain partial updates.
     const bool appSwitched = appManager.isAppSwitched();
     const bool dayChanged = (shownDay != 0 && time.day() != shownDay);
-    const bool hardwareFull = firstFrame || dayChanged;
+    const bool hardwareFull = firstFrame || dayChanged || appSwitched;
 
     DebugLog::log("EPD begin app=%s hwFull=%d time=%02u:%02u:%02u",
                   activeApp->getId(), hardwareFull,
@@ -114,10 +114,6 @@ void renderCurrentApp() {
     if (hardwareFull) {
         displayManager.refreshRect(ersa::Rect{0, 0, display.width(), display.height()}, true, board.getUptimeMs());
         firstFrame = false;
-    } else if (appSwitched) {
-        // App transitions replace the whole page. Refresh the whole panel with
-        // the partial waveform so stale drawer/footer pixels cannot survive.
-        displayManager.refreshRect(ersa::Rect{0, 0, display.width(), display.height()}, false, board.getUptimeMs());
     } else {
         // Let the display HAL honor the app's invalidated area. The old path
         // sent a 200x200 partial update for every redraw, flashing the entire
@@ -484,7 +480,6 @@ void WatchUi::tick() {
     powerHal.allowAutomaticSleep(schedule.allowAutomaticSleep);
 
     if (schedule.allowAutomaticSleep) {
-        powerHal.reportPowerModes();
         powerHal.waitForWake(schedule.waitMs);
         // board.getUptimeMs() can pause during light sleep on this target. Re-anchor the
         // software clock to the DS3231 before calculating the next refresh.

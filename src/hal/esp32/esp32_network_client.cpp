@@ -61,11 +61,11 @@ std::string Esp32HttpClient::header(std::string_view name) const {
 std::string Esp32HttpClient::body() { return http_.getString().c_str(); }
 bool Esp32HttpClient::connected() const { return const_cast<HTTPClient&>(http_).connected(); }
 int Esp32HttpClient::available() const {
-    WiFiClient* stream = const_cast<HTTPClient&>(http_).getStreamPtr();
+    auto* stream = const_cast<HTTPClient&>(http_).getStreamPtr();
     return stream ? stream->available() : 0;
 }
 std::string Esp32HttpClient::readLine() {
-    WiFiClient* stream = http_.getStreamPtr();
+    auto* stream = http_.getStreamPtr();
     if (!stream) return {};
     String line = stream->readStringUntil('\n');
     line.trim();

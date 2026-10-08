@@ -41,7 +41,7 @@ void prevMonth() {
     }
 }
 
-void syncWithTime(const DateTime& now) {
+void syncWithTime(const CalendarTime& now) {
     const uint16_t y = now.year();
     const uint8_t m = now.month();
     viewYear = (y >= 2000 && y <= 2099) ? y : 2026;
@@ -55,13 +55,13 @@ void begin() {
     viewMonth = 0;
 }
 
-void resetToCurrentMonth(const DateTime& now) {
+void resetToCurrentMonth(const CalendarTime& now) {
     syncWithTime(now);
     userInteracted = false;
     DebugLog::log("CAL reset to %04u-%02u", unsigned(viewYear), unsigned(viewMonth));
 }
 
-bool onButton(Buttons::Event event, const DateTime& now) {
+bool onButton(Buttons::Event event, const CalendarTime& now) {
     if (!userInteracted || viewYear == 0) {
         syncWithTime(now);
     }
@@ -80,7 +80,7 @@ bool onButton(Buttons::Event event, const DateTime& now) {
     return false;
 }
 
-void render(ersa::hal::IDisplay& display, const DateTime& now) {
+void render(ersa::hal::IDisplay& display, const CalendarTime& now) {
     if (!userInteracted || viewYear == 0) {
         syncWithTime(now);
     }
@@ -112,7 +112,7 @@ void render(ersa::hal::IDisplay& display, const DateTime& now) {
     }
 
     // Days matrix
-    DateTime firstDay(viewYear, viewMonth, 1, 0, 0, 0);
+    CalendarTime firstDay(viewYear, viewMonth, 1, 0, 0, 0);
     const uint8_t startDow = firstDay.dayOfTheWeek();
     const uint8_t totalDays = daysInMonth(viewYear, viewMonth);
 

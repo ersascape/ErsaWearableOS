@@ -3,16 +3,16 @@ menu "Ersa Wearable drivers"
 config ERSA_BSP_AMPERE_TERRA
     bool "Ampere Terra BSP"
     default y
-    select ERSA_DISPLAY_GXEPD2_GDEY0154D67
+    select ERSA_DISPLAY_SSD1681_GDEY0154D67
     help
         Select the Ampere Terra board composition and its required display
         peripheral driver.
 
-config ERSA_DISPLAY_GXEPD2_GDEY0154D67
-    bool "GxEPD2 GDEY0154D67 display driver"
+config ERSA_DISPLAY_SSD1681_GDEY0154D67
+    bool "SSD1681 GDEY0154D67 display driver"
     default y
     help
-        Build the concrete e-paper panel driver selected by the Ampere Terra
+        Build the native ESP-IDF e-paper panel driver selected by the Ampere Terra
         BSP. Applications depend only on the generic ersa::hal::IDisplay API.
 
 endmenu

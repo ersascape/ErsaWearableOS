@@ -179,15 +179,38 @@ class ProtocolTests(unittest.TestCase):
         release = {
             "tag_name": "ewp-0.1.2",
             "assets": [
-                {"name": "firmware.bin", "browser_download_url": "https://example.test/firmware"},
-                {"name": "SHA256SUMS", "browser_download_url": "https://example.test/sums"},
+                {"name": "firmware-terra-xiao_esp32c3.bin", "browser_download_url": "https://example.test/firmware"},
+                {"name": "SHA256SUMS-terra-xiao_esp32c3.txt", "browser_download_url": "https://example.test/sums"},
             ],
         }
-        manifest = f"{hashlib.sha256(firmware).hexdigest()}  firmware.bin\n".encode()
+        manifest = f"{hashlib.sha256(firmware).hexdigest()}  firmware-terra-xiao_esp32c3.bin\n".encode()
         with tempfile.TemporaryDirectory() as cache, patch.object(
             ewctl, "github_get", side_effect=[json.dumps(release).encode(), manifest, firmware]
         ):
             image = pathlib.Path(ewctl.download_release_image("0.1.2", False, cache))
+            self.assertEqual(image.read_bytes(), firmware)
+
+    def test_flash_parser_selects_c6_release_platform(self):
+        args = ewctl.build_parser().parse_args(
+            ["flash", "release", "latest", "--platform", "xiao_esp32c6"])
+        self.assertEqual(args.platform, "xiao_esp32c6")
+
+    def test_c6_release_download_uses_c6_asset_and_checksum(self):
+        firmware = b"c6 image contents"
+        release = {
+            "tag_name": "ewp-0.4.0",
+            "assets": [
+                {"name": "firmware-terra-xiao_esp32c6.bin", "browser_download_url": "https://example.test/c6"},
+                {"name": "SHA256SUMS-terra-xiao_esp32c6.txt", "browser_download_url": "https://example.test/c6-sums"},
+            ],
+        }
+        manifest = f"{hashlib.sha256(firmware).hexdigest()}  firmware-terra-xiao_esp32c6.bin\n".encode()
+        with tempfile.TemporaryDirectory() as cache, patch.object(
+            ewctl, "github_get", side_effect=[json.dumps(release).encode(), manifest, firmware]
+        ):
+            image = pathlib.Path(ewctl.download_release_image(
+                "0.4.0", False, cache, "xiao_esp32c6"))
+            self.assertEqual(image.name, "firmware-terra-xiao_esp32c6.bin")
             self.assertEqual(image.read_bytes(), firmware)
 
     def test_power_log_writes_csv_telemetry(self):

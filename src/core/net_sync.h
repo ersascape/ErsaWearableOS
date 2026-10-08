@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <stddef.h>
-#include <RTClib.h>
+#include "ersa/common/calendar_time.h"
 
 namespace NetSync {
 

@@ -138,7 +138,8 @@ void render(ersa::hal::IDisplay& display, bool full) {
         constexpr int16_t barH = 104;
         display.drawFastVLine(barX, barY, barH, 1);
 
-        const int16_t thumbH = max(10, int((VISIBLE_ITEMS * barH) / total));
+        const int thumbHeight = int((VISIBLE_ITEMS * barH) / total);
+        const int16_t thumbH = static_cast<int16_t>(thumbHeight > 10 ? thumbHeight : 10);
         const int16_t thumbY = barY + int((topVisibleIndex * (barH - thumbH)) / (total - VISIBLE_ITEMS));
         display.fillRect(barX - 1, thumbY, 3, thumbH, 1);
     }

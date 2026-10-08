@@ -1,7 +1,7 @@
 #include "hal/esp32/esp32_bluetooth.h"
 #include <string.h>
 
-#if defined(ARDUINO) && defined(CONFIG_IDF_TARGET_ESP32C3)
+#if defined(ARDUINO) && (defined(CONFIG_IDF_TARGET_ESP32C3) || defined(CONFIG_IDF_TARGET_ESP32C6))
 #include <Arduino.h>
 #include <atomic>
 #include <BLEDevice.h>
@@ -183,7 +183,7 @@ public:
     }
 
     void onWrite(BLECharacteristic* pCharacteristic) override {
-        std::string rxVal = pCharacteristic->getValue();
+        const std::string rxVal(pCharacteristic->getValue().c_str());
         if (rxVal.empty()) return;
 
         if (pCharacteristic == pCallChar_) {
@@ -350,7 +350,6 @@ Result<void> Esp32Bluetooth::init() {
     pImpl_->pMediaChar_->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
 
     // Configure BLE Security Bonding for native iOS Pairing & ANCS / AMS access
-    BLEDevice::setEncryptionLevel(ESP_BLE_SEC_ENCRYPT);
     BLEDevice::setSecurityCallbacks(new BleSecCallbacks(&Impl::authenticated, pImpl_));
     BLESecurity* pSecurity = new BLESecurity();
     pSecurity->setAuthenticationMode(ESP_LE_AUTH_REQ_SC_BOND);
@@ -420,7 +419,9 @@ void Esp32Bluetooth::beginAdvertising() {
     char solData[2];
     solData[0] = 17;   // Length of AD element (1 byte type + 16 bytes UUID)
     solData[1] = 0x15; // AD Type: 128-bit Service Solicitation
-    advData.addData(std::string(solData, 2) + std::string(reinterpret_cast<const char*>(ancsUUID.getNative()->uuid.uuid128), 16));
+    std::string solicitation(solData, 2);
+    solicitation.append(reinterpret_cast<const char*>(ancsUUID.getNative()->uuid.uuid128), 16);
+    advData.addData(solicitation.data(), solicitation.size());
     pAdvertising->setAdvertisementData(advData);
 
     // Scan response advertises the board-provided device name and custom service.
@@ -545,7 +546,7 @@ const char* Esp32Bluetooth::getDeviceName() const {
 
 const char* Esp32Bluetooth::getDeviceAddress() const {
     static char s_addrBuf[24] = "00:00:00:00:00:00";
-    std::string s = BLEDevice::getAddress().toString();
+    const std::string s(BLEDevice::getAddress().toString().c_str());
     if (!s.empty()) {
         strncpy(s_addrBuf, s.c_str(), sizeof(s_addrBuf) - 1);
         s_addrBuf[sizeof(s_addrBuf) - 1] = '\0';

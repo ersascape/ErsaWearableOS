@@ -7,8 +7,8 @@
 
 #include <esp_log.h>
 
-#if !defined(CONFIG_IDF_TARGET_ESP32C3)
-#error "This project requires an ESP32-C3 board."
+#if !defined(CONFIG_IDF_TARGET_ESP32C3) && !defined(CONFIG_IDF_TARGET_ESP32C6)
+#error "This project requires an ESP32-C3 or ESP32-C6 board."
 #endif
 
 void setup() {

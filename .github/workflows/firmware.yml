@@ -62,8 +62,16 @@ jobs:
           retention-days: 30
 
   build:
-    name: Build ESP32-C3 firmware
+    name: Build ${{ matrix.platform }} firmware
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - environment: ErsaWearable
+            platform: xiao_esp32c3
+          - environment: ErsaWearableC6
+            platform: xiao_esp32c6
     env:
       PLATFORMIO_CORE_DIR: ${{ github.workspace }}/.pio-core
     steps:
@@ -91,16 +99,16 @@ jobs:
         run: python -m pip install platformio==6.2.0
 
       - name: Compile firmware
-        run: pio run --environment ErsaWearable
+        run: pio run --environment "${{ matrix.environment }}"
 
       - name: Package firmware images
-        run: python scripts/package_firmware.py
+        run: python scripts/package_firmware.py --environment "${{ matrix.environment }}" --output-dir ".pio/release/${{ matrix.platform }}"
 
       - name: Upload firmware artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ewp-firmware-${{ github.sha }}
-          path: .pio/release/*
+          name: ewp-firmware-${{ matrix.platform }}-${{ github.sha }}
+          path: .pio/release/${{ matrix.platform }}/*
           if-no-files-found: error
           retention-days: 30
 
@@ -151,13 +159,18 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/ewp-')
         uses: actions/download-artifact@v4
         with:
-          name: ewp-firmware-${{ github.sha }}
+          pattern: ewp-firmware-*-${{ github.sha }}
           path: .pio/release
+          merge-multiple: true
       - name: Create OTA release manifest
         if: startsWith(github.ref, 'refs/tags/ewp-')
         env:
           RELEASE_TAG: ${{ github.ref_name }}
-        run: python3 scripts/create_ota_manifest.py .pio/release/firmware.bin --tag "$RELEASE_TAG" --site-root .pio/site
+        run: |
+          python3 scripts/create_ota_manifest.py .pio/release/firmware-terra-xiao_esp32c3.bin \
+            --platform xiao_esp32c3 --tag "$RELEASE_TAG" --site-root .pio/site
+          python3 scripts/create_ota_manifest.py .pio/release/firmware-terra-xiao_esp32c6.bin \
+            --platform xiao_esp32c6 --tag "$RELEASE_TAG" --site-root .pio/site
       - name: Assemble package, OTA, and wiki sites
         run: |
           mkdir -p .pio/site
@@ -210,8 +223,9 @@ jobs:
       - name: Download firmware artifact
         uses: actions/download-artifact@v4
         with:
-          name: ewp-firmware-${{ github.sha }}
+          pattern: ewp-firmware-*-${{ github.sha }}
           path: .pio/release
+          merge-multiple: true
       - name: Download ewctl Arch repository artifact
         uses: actions/download-artifact@v4
         with:
@@ -225,13 +239,20 @@ jobs:
           generate_release_notes: false
           fail_on_unmatched_files: true
           files: |
-            .pio/release/firmware.bin
-            .pio/release/ewp-factory.bin
-            .pio/release/bootloader.bin
-            .pio/release/partitions.bin
-            .pio/release/boot_app0.bin
-            .pio/release/SHA256SUMS
-            .pio/release/FLASHING.md
+            .pio/release/firmware-terra-xiao_esp32c3.bin
+            .pio/release/ewp-factory-terra-xiao_esp32c3.bin
+            .pio/release/bootloader-terra-xiao_esp32c3.bin
+            .pio/release/partitions-terra-xiao_esp32c3.bin
+            .pio/release/boot_app0-terra-xiao_esp32c3.bin
+            .pio/release/SHA256SUMS-terra-xiao_esp32c3.txt
+            .pio/release/FLASHING-terra-xiao_esp32c3.md
+            .pio/release/firmware-terra-xiao_esp32c6.bin
+            .pio/release/ewp-factory-terra-xiao_esp32c6.bin
+            .pio/release/bootloader-terra-xiao_esp32c6.bin
+            .pio/release/partitions-terra-xiao_esp32c6.bin
+            .pio/release/boot_app0-terra-xiao_esp32c6.bin
+            .pio/release/SHA256SUMS-terra-xiao_esp32c6.txt
+            .pio/release/FLASHING-terra-xiao_esp32c6.md
             scripts/migrate_ota.sh
             .pio/release/ewctl-*.pkg.tar.zst
             .pio/release/ersa-ewctl.db

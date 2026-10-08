@@ -44,7 +44,7 @@ bool onButton(Buttons::Event event) {
     return false;
 }
 
-void render(ersa::hal::IDisplay& display, const DateTime& now, bool full) {
+void render(ersa::hal::IDisplay& display, const CalendarTime& now, bool full) {
     (void)full;
     display.fillScreen(0);   // Solid black
     display.setTextColor(1); // White

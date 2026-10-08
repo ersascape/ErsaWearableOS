@@ -26,6 +26,8 @@ struct DeviceInfo {
     const char* codename;
     /** Manufacturer identifier for organizing related board products. */
     const char* manufacturer;
+    /** Platform identifier that distinguishes firmware-compatible chip targets. */
+    const char* platform;
 };
 
 /**

@@ -7,10 +7,12 @@
 #include <Arduino.h>
 #include <esp_image_format.h>
 #include <esp_ota_ops.h>
+#include <esp_app_desc.h>
 #include <esp_partition.h>
 #include <esp_http_client.h>
 #include <esp_crt_bundle.h>
 #include <mbedtls/sha256.h>
+#include <mbedtls/compat-2.x.h>
 #include <cstring>
 #include <strings.h>
 #include <ctime>
@@ -37,6 +39,7 @@ struct OtaManifest {
     char deviceName[48]{};
     char codename[32]{};
     char manufacturer[48]{};
+    char platform[32]{};
     char tag[32]{};
     char version[32]{};
     char firmwareUrl[192]{};
@@ -131,15 +134,13 @@ bool fetchManifest(OtaManifest& manifest) {
     ManifestBuffer body;
     const auto& identity = board::Board::current().getDeviceInfo();
     char manifestUrl[192];
-    snprintf(manifestUrl, sizeof(manifestUrl), "%s/ota/%s/ota.json", OTA_BASE_URL,
-             identity.codename);
+    snprintf(manifestUrl, sizeof(manifestUrl), "%s/ota/%s/%s/ota.json", OTA_BASE_URL,
+             identity.codename, identity.platform);
     DebugLog::log("OTA: fetching manifest url=%s", manifestUrl);
     esp_http_client_config_t config{};
     config.url = manifestUrl;
     config.timeout_ms = 15000;
     config.buffer_size = 512;
-    // Use IDF's flash-resident certificate bundle. Parsing a 4 KB RSA root
-    // certificate into heap here can fail while BLE and Wi-Fi coexist.
     config.crt_bundle_attach = esp_crt_bundle_attach;
     config.event_handler = collectManifest;
     config.user_data = &body;
@@ -160,6 +161,7 @@ bool fetchManifest(OtaManifest& manifest) {
         !jsonString(body.data, "device_name", manifest.deviceName, sizeof(manifest.deviceName)) ||
         !jsonString(body.data, "codename", manifest.codename, sizeof(manifest.codename)) ||
         !jsonString(body.data, "manufacturer", manifest.manufacturer, sizeof(manifest.manufacturer)) ||
+        !jsonString(body.data, "platform", manifest.platform, sizeof(manifest.platform)) ||
         !jsonString(body.data, "tag", manifest.tag, sizeof(manifest.tag)) ||
         !jsonString(body.data, "version", manifest.version, sizeof(manifest.version)) ||
         !jsonString(body.data, "firmware_url", manifest.firmwareUrl, sizeof(manifest.firmwareUrl)) ||
@@ -169,11 +171,12 @@ bool fetchManifest(OtaManifest& manifest) {
     for (const char* p = manifest.sha256; *p; ++p)
         if (!((*p >= '0' && *p <= '9') || (*p >= 'a' && *p <= 'f'))) return false;
     char expectedUrl[192];
-    snprintf(expectedUrl, sizeof(expectedUrl), "%s/firmware/%s/%s.bin", OTA_BASE_URL,
-             identity.codename, manifest.tag);
+    snprintf(expectedUrl, sizeof(expectedUrl), "%s/firmware/%s/%s/%s.bin", OTA_BASE_URL,
+             identity.codename, identity.platform, manifest.tag);
     if (strcmp(manifest.deviceName, identity.name) != 0 ||
         strcmp(manifest.codename, identity.codename) != 0 ||
         strcmp(manifest.manufacturer, identity.manufacturer) != 0 ||
+        strcmp(manifest.platform, identity.platform) != 0 ||
         strncmp(manifest.tag, "ewp-", 4) != 0 || strcmp(expectedUrl, manifest.firmwareUrl) != 0 ||
         strcmp(manifest.tag, manifest.version) != 0) return false;
 
@@ -549,8 +552,7 @@ void OtaService::runUpdate(bool install) {
     DebugLog::log("OTA: BLE suspended; heap=%u largest=%u",
                   unsigned(board::Board::current().getDiagnostics().freeHeapBytes()),
                   unsigned(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
-    // With the flash-resident certificate bundle, OTA can proceed with a
-    // smaller contiguous block than the old PEM-based TLS path required.
+    // Keep enough contiguous heap for the TLS session and a staged OTA block.
     if (board::Board::current().getDiagnostics().largestFreeHeapBlockBytes() < 12 * 1024 ||
         board::Board::current().getDiagnostics().freeHeapBytes() < 45000) {
         updateState_.store(UpdateState::Failed);
@@ -575,7 +577,7 @@ void OtaService::runUpdate(bool install) {
         return;
     }
     strlcpy(updateVersion_, manifest.version, sizeof(updateVersion_));
-    const esp_app_desc_t* current = esp_ota_get_app_description();
+    const esp_app_desc_t* current = esp_app_get_description();
     const bool remoteNewer = current && isRemoteNewer(manifest.version, current->version);
     if (!install) {
         DebugLog::log("OTA: manifest current=%s available=%s size=%lu sha256=%s", current ? current->version : "unknown",
@@ -677,7 +679,7 @@ const char* OtaService::runningImageState() const {
 }
 
 const char* OtaService::runningVersion() const {
-    const esp_app_desc_t* descriptor = esp_ota_get_app_description();
+    const esp_app_desc_t* descriptor = esp_app_get_description();
     return descriptor ? descriptor->version : "unknown";
 }
 

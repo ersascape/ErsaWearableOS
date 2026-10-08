@@ -1,7 +1,7 @@
 #if defined(ARDUINO)
 
 #include "hal/esp32/esp32_platform_diagnostics.h"
-#include <esp32/clk.h>
+#include <esp_private/esp_clk.h>
 #include <esp_heap_caps.h>
 #include <esp_system.h>
 

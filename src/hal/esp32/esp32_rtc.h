@@ -3,15 +3,16 @@
 #if defined(ARDUINO)
 
 #include "ersa/hal/rtc.h"
-#include <RTClib.h>
+#include "ersa/common/calendar_time.h"
+#include "drivers/rtc/ds3231/ds3231.h"
 
 namespace ersa {
 namespace hal {
 
 /**
  * ESP32 I2C adapter for the Terra DS3231 real-time clock.
- * RTClib types are confined to this platform implementation; services exchange
- * `TimePoint` values and can therefore use a host fake or another RTC driver.
+ * The DS3231 register driver stays behind this adapter; services exchange only
+ * `TimePoint` values and can use a host fake or another RTC implementation.
  */
 class Esp32Rtc : public IRtc {
 public:
@@ -30,8 +31,8 @@ public:
 
 private:
     int sda_, scl_;
-    RTC_DS3231 rtc_;
-    DateTime cachedTime_{2026, 9, 28, 0, 0, 0};
+    ersa::drivers::rtc::Ds3231 rtc_;
+    CalendarTime cachedTime_{};
     uint32_t lastReadMs_{0};
     uint32_t lastRtcPollMs_{0};
     bool online_{false};
@@ -39,10 +40,12 @@ private:
     bool driftMeasured_{false};
     int32_t lastDriftSeconds_{0};
 
-    static TimePoint toTimePoint(const DateTime& dt);
-    static DateTime toDateTime(const TimePoint& tp);
-    static bool valid(const DateTime& time);
-    bool responds() const;
+    static TimePoint toTimePoint(const CalendarTime& dt);
+    static CalendarTime toCalendarTime(const TimePoint& tp);
+    static bool valid(const CalendarTime& time);
+    bool readChipTime(CalendarTime& time);
+    bool writeChipTime(const CalendarTime& time);
+    bool responds();
     void reconcile(uint32_t nowMs, bool force);
 };
 

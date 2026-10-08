@@ -57,7 +57,7 @@ void AppWatchface::onEvent(const events::Event& event) {
 
 void AppWatchface::render(hal::IDisplay& display, bool fullRefresh) {
 #if defined(ARDUINO)
-    DateTime time = WatchClock::now();
+    CalendarTime time = WatchClock::now();
     WatchfaceClock::render(display, time, fullRefresh);
     shownMinute_ = time.unixtime() / 60;
     shownDay_ = time.day();

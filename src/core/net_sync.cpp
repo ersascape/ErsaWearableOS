@@ -11,6 +11,8 @@
 #include <ctype.h>
 #include <atomic>
 #include <string>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 namespace NetSync {
 
@@ -42,13 +44,13 @@ void safeCopy(char* dest, const char* src, size_t maxLen) {
 }
 
 uint32_t calendarDayKey(uint32_t epoch) {
-    const DateTime date(epoch);
+    const CalendarTime date(epoch);
     return static_cast<uint32_t>(date.year()) * 10000U +
            static_cast<uint32_t>(date.month()) * 100U + date.day();
 }
 
 uint32_t todayKey() {
-    const DateTime now = WatchClock::now();
+    const CalendarTime now = WatchClock::now();
     return static_cast<uint32_t>(now.year()) * 10000U +
            static_cast<uint32_t>(now.month()) * 100U + now.day();
 }
@@ -179,8 +181,8 @@ std::string buildCalDavUrl(const WatchConfig::Config& cfg, const char* calendarN
         s += calendar;
         // SabreDAV's export endpoint can filter event exports by time range.
         // Query timestamps are UTC; WatchClock keeps local wall time as epoch.
-        const DateTime now = WatchClock::now();
-        const DateTime localDayStart(now.year(), now.month(), now.day(), 0, 0, 0);
+        const CalendarTime now = WatchClock::now();
+        const CalendarTime localDayStart(now.year(), now.month(), now.day(), 0, 0, 0);
         const int64_t utcDayStart = static_cast<int64_t>(localDayStart.unixtime()) -
                                     static_cast<int64_t>(cfg.timezoneOffsetMin) * 60;
         const int64_t start = utcDayStart - 3LL * 86400LL;
@@ -198,8 +200,8 @@ std::string buildCalDavUrl(const WatchConfig::Config& cfg, const char* calendarN
     // Config may contain a complete calendar collection URL rather than the
     // DAV root. Give it the same bounded event export / task-only behavior.
     if (calendarEndpoint) {
-        const DateTime now = WatchClock::now();
-        const DateTime localDayStart(now.year(), now.month(), now.day(), 0, 0, 0);
+        const CalendarTime now = WatchClock::now();
+        const CalendarTime localDayStart(now.year(), now.month(), now.day(), 0, 0, 0);
         const int64_t utcDayStart = static_cast<int64_t>(localDayStart.unixtime()) -
                                     static_cast<int64_t>(cfg.timezoneOffsetMin) * 60;
         s += "?export";
@@ -241,7 +243,7 @@ uint32_t parseIcsDateTimeToEpoch(const char* dt, int tzOffsetMin) {
 
     if (y < 1970 || m < 1 || m > 12 || d < 1 || d > 31) return 0;
 
-    DateTime dtObj(y, m, d, h, min, s);
+    CalendarTime dtObj(y, m, d, h, min, s);
     uint32_t epoch = dtObj.unixtime();
     if (isUtc) {
         epoch = static_cast<uint32_t>((int64_t)epoch + ((int64_t)tzOffsetMin * 60));
@@ -353,8 +355,8 @@ bool fetchAndParseIcs(ersa::hal::IHttpClient& client, const std::string& url,
     CalTodo doneTodos[MAX_TODOS];
     size_t numDone = 0;
 
-    const DateTime now = WatchClock::now();
-    DateTime dayStart(now.year(), now.month(), now.day(), 0, 0, 0);
+    const CalendarTime now = WatchClock::now();
+    CalendarTime dayStart(now.year(), now.month(), now.day(), 0, 0, 0);
     const uint32_t dayStartSec = dayStart.unixtime();
     const uint32_t cacheStartSec = dayStartSec - 3U * 86400U;
     const uint32_t cacheEndSec = dayStartSec + 4U * 86400U;
@@ -422,7 +424,7 @@ bool fetchAndParseIcs(ersa::hal::IHttpClient& client, const std::string& url,
                             if (byDay) {
                                 if (strstr(byDay, todayCode)) isToday = true;
                             } else {
-                                DateTime origStart(startEpoch);
+                                CalendarTime origStart(startEpoch);
                                 if (origStart.dayOfTheWeek() == now.dayOfTheWeek()) isToday = true;
                             }
                         }
@@ -443,7 +445,7 @@ bool fetchAndParseIcs(ersa::hal::IHttpClient& client, const std::string& url,
                     safeCopy(events[outEvents].title, curSummary, sizeof(events[0].title));
                     events[outEvents].dayKey = calendarDayKey(eventDay);
                     if (strchr(curDt, 'T')) {
-                        DateTime localStart(startEpoch);
+                        CalendarTime localStart(startEpoch);
                         snprintf(events[outEvents].timeStr, sizeof(events[0].timeStr),
                                  "%02u:%02u", localStart.hour(), localStart.minute());
                     } else {
@@ -571,7 +573,7 @@ time_t parseHttpDateToEpoch(const char* str) {
     if (!p) return 0;
     int sec = atoi(p + 1);
 
-    DateTime dt(year, month, day, hour, min, sec);
+    CalendarTime dt(year, month, day, hour, min, sec);
     return dt.unixtime();
 }
 

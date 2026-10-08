@@ -91,7 +91,7 @@ void drawMusicNote(ersa::hal::IDisplay& display, int16_t x, int16_t y) {
 
 } // namespace
 
-void render(ersa::hal::IDisplay& display, const DateTime& time, bool full) {
+void render(ersa::hal::IDisplay& display, const CalendarTime& time, bool full) {
     (void)full;
     // 1. Full solid black canvas
     display.fillScreen(0);      // 0 = GxEPD_BLACK

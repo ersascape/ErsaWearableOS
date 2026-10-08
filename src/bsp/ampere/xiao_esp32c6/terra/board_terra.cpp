@@ -1,6 +1,6 @@
 #if defined(ARDUINO)
 
-#include "bsp/ampere/xiao_esp32c3/terra/board_terra.h"
+#include "bsp/ampere/xiao_esp32c6/terra/board_terra.h"
 #include "hal/esp32/esp32_pin_controller.h"
 #include "hal/esp32/esp32_storage.h"
 #include <sdkconfig.h>
@@ -11,18 +11,18 @@ namespace board {
 
 const DeviceInfo& terraDeviceInfo();
 
-BoardTerra& BoardTerra::instance() {
-    static BoardTerra s_board;
+BoardTerraC6& BoardTerraC6::instance() {
+    static BoardTerraC6 s_board;
     return s_board;
 }
 
-#if defined(CONFIG_ERSA_BSP_AMPERE_TERRA) && CONFIG_ERSA_BSP_AMPERE_TERRA && defined(CONFIG_IDF_TARGET_ESP32C3)
+#if defined(CONFIG_ERSA_BSP_AMPERE_TERRA) && CONFIG_ERSA_BSP_AMPERE_TERRA && defined(CONFIG_IDF_TARGET_ESP32C6)
 Board& boardImplementation() {
-    return BoardTerra::instance();
+    return BoardTerraC6::instance();
 }
 #endif
 
-BoardTerra::BoardTerra()
+BoardTerraC6::BoardTerraC6()
     : display_(pins_.display().chipSelect.number, pins_.display().dataCommand.number,
                pins_.display().reset.number, pins_.display().busy.number,
                pins_.spi().clock.number, pins_.spi().controllerIn.number, pins_.spi().controllerOut.number),
@@ -45,11 +45,11 @@ BoardTerra::BoardTerra()
     config_.display.isEpaper = true;
 }
 
-const DeviceInfo& BoardTerra::getDeviceInfo() const {
+const DeviceInfo& BoardTerraC6::getDeviceInfo() const {
     return terraDeviceInfo();
 }
 
-Result<void> BoardTerra::init() {
+Result<void> BoardTerraC6::init() {
     hal::Esp32PinController::apply(pins_);
     display_.setBusyCallback([](void* context) {
         static_cast<hal::IInput*>(context)->poll();
@@ -62,15 +62,15 @@ Result<void> BoardTerra::init() {
     return input_.init();
 }
 
-uint32_t BoardTerra::getUptimeMs() const {
+uint32_t BoardTerraC6::getUptimeMs() const {
     return millis();
 }
 
-void BoardTerra::delayMs(uint32_t ms) {
+void BoardTerraC6::delayMs(uint32_t ms) {
     delay(ms);
 }
 
-void BoardTerra::restart() {
+void BoardTerraC6::restart() {
     ESP.restart();
 }
 

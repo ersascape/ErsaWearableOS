@@ -10,7 +10,7 @@
 #if defined(ARDUINO) && defined(CONFIG_PM_ENABLE) && CONFIG_PM_ENABLE
 #include <Arduino.h>
 #include <esp_attr.h>
-#include <esp32/clk.h>
+#include <esp_private/esp_clk.h>
 #include <esp_pm.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/semphr.h>
@@ -51,7 +51,7 @@ void logIfChanged(const char* reason) {
     const uint32_t current = cpuMHz();
     const uint32_t previous = lastLoggedMHz.exchange(current);
     if (previous && previous != current) {
-        DebugLog::log("DVFS: CPU %lu -> %lu MHz (%s)",
+        ERSA_LOG_VERBOSE("DVFS: CPU %lu -> %lu MHz (%s)",
                       static_cast<unsigned long>(previous),
                       static_cast<unsigned long>(current), reason ? reason : "IDF PM");
     }
@@ -124,7 +124,7 @@ bool begin() {
     lastLoggedMHz = cpuMHz();
     lastSampleMs = millis();
     ready = true;
-    DebugLog::log("DVFS: ready profile=%u MHz (0=automatic) current=%lu MHz",
+    ERSA_LOG_VERBOSE("DVFS: ready profile=%u MHz (0=automatic) current=%lu MHz",
                   testFrequencyMHz, static_cast<unsigned long>(cpuMHz()));
     return true;
 }
@@ -141,7 +141,7 @@ void tick() {
 void reportPowerModes() {
     if (!ready || reportWritten) return;
     reportWritten = true;
-    DebugLog::log("DVFS: use-case scopes so far interactive=%lu compute=%lu; active-task frequency can remain at CPU_MAX",
+    ERSA_LOG_VERBOSE("DVFS: use-case scopes so far interactive=%lu compute=%lu; active-task frequency can remain at CPU_MAX",
                   static_cast<unsigned long>(interactiveScopes),
                   static_cast<unsigned long>(computeScopes));
 #if defined(CONFIG_PM_PROFILING) && CONFIG_PM_PROFILING
@@ -160,19 +160,19 @@ void reportPowerModes() {
         return;
     }
 
-    DebugLog::log("DVFS: ESP-IDF PM residency and lock report follows");
+    ERSA_LOG_VERBOSE("DVFS: ESP-IDF PM residency and lock report follows");
     for (size_t start = 0; start < reportSize;) {
         size_t end = start;
         while (end < reportSize && report[end] != '\n') ++end;
         if (end > start) {
             report[end] = '\0';
-            DebugLog::log("DVFS PM: %s", report + start);
+            ERSA_LOG_VERBOSE("DVFS PM: %s", report + start);
         }
         start = end + 1;
     }
     free(report);
 #else
-    DebugLog::log("DVFS: PM profiling is disabled; idle transition details unavailable");
+    ERSA_LOG_VERBOSE("DVFS: PM profiling is disabled; idle transition details unavailable");
 #endif
 }
 
@@ -206,7 +206,7 @@ bool setTestCpuFrequencyMHz(unsigned mhz) {
     // Reconfiguring it live can race the radio controller and active locks.
     // Keep the requested profile in RTC memory and apply it on a controlled reboot.
     testFrequencyMHz = mhz;
-    DebugLog::log("DVFS: CPU test profile %u MHz queued for controlled reboot", mhz);
+    ERSA_LOG_VERBOSE("DVFS: CPU test profile %u MHz queued for controlled reboot", mhz);
     return true;
 }
 

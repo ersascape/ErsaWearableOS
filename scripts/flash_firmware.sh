@@ -37,6 +37,11 @@ fi
 
 image="$(cd -- "$(dirname -- "$image")" && pwd)/$(basename -- "$image")"
 filename="$(basename -- "$image")"
+if [[ "$filename" == *xiao_esp32c6* || "$image" == *ErsaWearableC6* ]]; then
+  chip=esp32c6
+else
+  chip=esp32c3
+fi
 if [[ "$filename" == *factory* ]]; then
   offset="0x0"
   image_kind="factory image (bootloader, partitions, and app)"
@@ -76,5 +81,5 @@ else
 fi
 
 echo "Flashing $filename as $image_kind to $port"
-"${esptool[@]}" --chip esp32c3 --port "$port" --baud 460800 \
+"${esptool[@]}" --chip "$chip" --port "$port" --baud 460800 \
   write_flash "$offset" "$image"

@@ -53,7 +53,7 @@ options.
 - Put chip or peripheral implementations under `src/drivers/<domain>/`.
 - Compose and inject those objects from the selected BSP.
 
-The display contract must not expose GxEPD2 or Adafruit GFX types. The same
+The display contract must not expose SSD1681 or Adafruit GFX types. The same
 principle applies to Bluetooth stacks, bus libraries, storage backends, and
 power APIs. Create an audio contract when the product has real audio hardware
 and an implementation to bind; do not add an unused placeholder interface.

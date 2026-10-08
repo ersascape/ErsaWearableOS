@@ -55,14 +55,15 @@ From the repository root:
 
 ```sh
 make test       # host-side platform and service tests
-make firmware   # ESP32-C3 firmware build
+make firmware   # default ESP32-C3 firmware build
+./scripts/pio.sh run -e ErsaWearableC6  # ESP32-C6 firmware build
 make docs       # wiki and generated C++ API reference
 ```
 
-The firmware output is `.pio/build/ErsaWearable/firmware.bin`. The same build
-can be run with `./scripts/pio.sh run`. PlatformIO uses the pinned project
-environment in `platformio.ini` and downloads its framework and libraries when
-needed.
+The firmware outputs are `.pio/build/ErsaWearable/firmware.bin` for C3 and
+`.pio/build/ErsaWearableC6/firmware.bin` for C6. Release assets include the
+platform in each filename. PlatformIO uses the project environment in
+`platformio.ini` and downloads its framework and libraries when needed.
 
 ## App store and installable apps
 

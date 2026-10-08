@@ -36,10 +36,15 @@ FreeRTOS notification APIs directly. Bluetooth has the separate `IBluetooth`
 and `ICompanionSource` contracts, implemented by the ESP32 Bluetooth adapter.
 
 `IDisplay` contains the graphics operations used by the UI, with logical font
-and color values. The Terra BSP selects `GxEpd2Display`; that driver alone
-knows GxEPD2, the GDEY0154D67 panel, and its SPI transport. Other display
-drivers can implement the same contract. No renderer includes Adafruit GFX or
-accesses a concrete display object.
+and color values. The Terra BSP selects a custom SSD1681 driver adapted from
+T1E V2a for the GDEY0154D67 panel. It owns the panel protocol, waveform tables,
+SPI transport, and canvas. Renderers use only `IDisplay`; they do not include
+Adafruit GFX or access a concrete display object.
+
+`IRtc` carries calendar values and timekeeping diagnostics. The Terra BSP binds
+`Esp32Rtc`, which composes the custom DS3231 register driver. Date conversion
+and display-facing calendar values use the first party `CalendarTime` type;
+RTClib is not part of the build.
 
 The board pin contract groups I2C, SPI, display, buttons, and ADC pins. Pin
 records include function, direction, pull, and active level. The platform pin
@@ -51,7 +56,7 @@ consume DTS bindings.
 ESP-IDF Kconfig selects the board product and its required drivers. The BSP
 provider is guarded by the selected board symbol. Keep
 `sdkconfig.defaults` as the reproducible default configuration and use
-`menuconfig` for local tuning. The Terra BSP selects its required GxEPD2 panel
+`menuconfig` for local tuning. The Terra BSP selects its required SSD1681 panel
 driver, and the component build compiles only that panel's sources.
 
 There is no audio playback or audio peripheral in this firmware. BLE media

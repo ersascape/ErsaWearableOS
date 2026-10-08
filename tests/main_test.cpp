@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "ersa/common/types.h"
+#include "ersa/common/calendar_time.h"
 #include "ersa/events/event_bus.h"
 #include "ersa/app/application_manager.h"
 #include "ersa/app/watchface.h"
@@ -102,6 +103,21 @@ void test_runtime_scheduler() {
     const auto activePlan = runtime::RuntimeScheduler::plan(eligible, true, false, 1200);
     TEST_ASSERT(!activePlan.allowAutomaticSleep && activePlan.waitMs == 1,
                 "pending UI work uses responsive polling cadence");
+    TEST_PASS();
+}
+
+void test_calendar_time() {
+    const common::CalendarTime fields(2026, 10, 8, 14, 11, 29);
+    TEST_ASSERT(fields.isValid(), "calendar value accepts valid leap-aware fields");
+    TEST_ASSERT(fields.dayOfTheWeek() == 4, "weekday uses Sunday-zero numbering");
+    const common::CalendarTime roundTrip(fields.unixtime());
+    TEST_ASSERT(roundTrip.year() == 2026 && roundTrip.month() == 10 && roundTrip.day() == 8 &&
+                roundTrip.hour() == 14 && roundTrip.minute() == 11 && roundTrip.second() == 29,
+                "calendar fields survive Unix epoch conversion");
+    TEST_ASSERT(!common::CalendarTime(2025, 2, 29, 0, 0, 0).isValid(),
+                "non-leap February rejects the 29th");
+    TEST_ASSERT(common::CalendarTime(2024, 2, 29, 0, 0, 0).isValid(),
+                "leap February accepts the 29th");
     TEST_PASS();
 }
 
@@ -925,6 +941,7 @@ int main() {
 
     test_apple_protocols();
     test_runtime_scheduler();
+    test_calendar_time();
     test_console_hal_contract();
     test_display_hal_contract();
     test_power_management_hal_contract();

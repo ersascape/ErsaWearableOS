@@ -9,6 +9,7 @@
 #include "ersa/board/board.h"
 #include <Arduino.h>
 #include <esp_ota_ops.h>
+#include <esp_app_desc.h>
 #include <esp_partition.h>
 #include <esp_image_format.h>
 #include <ctype.h>
@@ -351,7 +352,7 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
         const auto* app = ersa::app::ApplicationManager::instance().getActiveApp();
         const char* appId = app ? app->getId() : "none";
         const auto& device = ersa::board::Board::current().getDeviceInfo();
-        const esp_app_desc_t* appDescription = esp_ota_get_app_description();
+        const esp_app_desc_t* appDescription = esp_app_get_description();
         char data[RESPONSE_LIMIT];
         snprintf(data, sizeof(data), "{\"firmware\":\"ErsaWearable\",\"version\":\"%s\",\"device_name\":\"%s\",\"codename\":\"%s\",\"manufacturer\":\"%s\",\"build\":\"%s %s\",\"running_slot\":\"%s\",\"uptime_seconds\":%lu,\"reset_reason\":\"%s\",\"active_app\":\"%s\",\"free_heap\":%lu,\"usb_session\":true,\"power_state\":\"%s\",\"power_locks_clear\":%s}",
                  appDescription ? appDescription->version : "unknown",

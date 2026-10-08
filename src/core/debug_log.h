@@ -26,3 +26,17 @@ const char* resetReasonName();
 /** Drain buffered output before shutdown or reset. */
 void flush();
 }
+
+/**
+ * Expensive protocol and power telemetry that should disappear from release
+ * images. Build with ERSA_VERBOSE_DIAGNOSTICS=1 to restore these call sites.
+ */
+#ifndef ERSA_VERBOSE_DIAGNOSTICS
+#define ERSA_VERBOSE_DIAGNOSTICS 0
+#endif
+
+#if ERSA_VERBOSE_DIAGNOSTICS
+#define ERSA_LOG_VERBOSE(...) DebugLog::log(__VA_ARGS__)
+#else
+#define ERSA_LOG_VERBOSE(...) ((void)0)
+#endif

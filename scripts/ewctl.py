@@ -254,6 +254,8 @@ def build_parser() -> argparse.ArgumentParser:
     flash.add_argument("target", nargs="?", help="image path, or 'release' to fetch a GitHub release")
     flash.add_argument("version", nargs="?", help="release tag after 'release' (or 'latest')")
     flash.add_argument("--factory", action="store_true", help="flash the factory image when fetching a release")
+    flash.add_argument("--platform", choices=("xiao_esp32c3", "xiao_esp32c6"), default="xiao_esp32c3",
+                       help="board platform for release downloads (default: %(default)s)")
     flash.add_argument("--cache-dir", help="cache release images here")
     for alias in ("status", "battery", "ble"):
         item = sub.add_parser(alias, help=f"request {COMMANDS[alias]}")
@@ -547,7 +549,8 @@ def github_get(url: str, limit: int = 32 * 1024 * 1024) -> bytes:
     return data
 
 
-def download_release_image(version: str, factory: bool, cache_dir: Optional[str]) -> str:
+def download_release_image(version: str, factory: bool, cache_dir: Optional[str],
+                           platform: str = "xiao_esp32c3") -> str:
     raw_version = version.strip()
     if raw_version.lower() != "latest" and not raw_version.startswith("ewp-"):
         raw_version = "ewp-" + raw_version
@@ -559,11 +562,13 @@ def download_release_image(version: str, factory: bool, cache_dir: Optional[str]
     tag = release.get("tag_name", "")
     if not isinstance(tag, str) or not re.fullmatch(r"[A-Za-z0-9._-]+", tag):
         raise EwctlError("GitHub returned an invalid release tag")
-    asset_name = "ewp-factory.bin" if factory else "firmware.bin"
+    image_kind = "ewp-factory" if factory else "firmware"
+    asset_name = f"{image_kind}-terra-{platform}.bin"
+    checksum_name = f"SHA256SUMS-terra-{platform}.txt"
     assets = {asset.get("name"): asset for asset in release.get("assets", []) if isinstance(asset, dict)}
-    if asset_name not in assets or "SHA256SUMS" not in assets:
-        raise EwctlError(f"release {tag} is missing {asset_name} or SHA256SUMS")
-    checksums = github_get(assets["SHA256SUMS"].get("browser_download_url", ""), 65536).decode("ascii", "replace")
+    if asset_name not in assets or checksum_name not in assets:
+        raise EwctlError(f"release {tag} is missing {asset_name} or {checksum_name}")
+    checksums = github_get(assets[checksum_name].get("browser_download_url", ""), 65536).decode("ascii", "replace")
     expected = None
     for line in checksums.splitlines():
         parts = line.split()
@@ -704,7 +709,7 @@ def run(args: argparse.Namespace) -> int:
         if args.target == "release":
             if not args.version:
                 raise EwctlError("use 'ewctl flash release <tag|latest>'")
-            image = download_release_image(args.version, args.factory, args.cache_dir)
+            image = download_release_image(args.version, args.factory, args.cache_dir, args.platform)
         elif args.target is None:
             if args.version or args.factory:
                 raise EwctlError("--factory and a release version can only be used with 'flash release'")
@@ -733,7 +738,8 @@ def run(args: argparse.Namespace) -> int:
                             if shutil.which(path)), None)
             if not esptool:
                 raise EwctlError("esptool is required; install the Arch 'esptool' package")
-            command = [esptool, "--chip", "esp32c3", "--port", args.port,
+            chip = "esp32c6" if args.platform == "xiao_esp32c6" else "esp32c3"
+            command = [esptool, "--chip", chip, "--port", args.port,
                        "--baud", "460800", "write-flash", offset, image]
             flash_env = None
         print(f"ewctl: flashing {image or 'local build'}", file=sys.stderr)
