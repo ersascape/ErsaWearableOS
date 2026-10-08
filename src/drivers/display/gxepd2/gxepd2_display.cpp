@@ -28,11 +28,13 @@ void GxEpd2Display::staticBusyCallback(const void* p) {
 }
 
 Result<void> GxEpd2Display::init() {
+    // Start the ESP32-C3 SPI bus on the board's explicit pins first. GxEPD2's
+    // init() calls parameterless SPI.begin(); on this target that can bind the
+    // default route, and Arduino SPI ignores later begin(pin...) calls once
+    // the bus has been initialized.
+    SPI.begin(sck_, miso_, mosi_, cs_);
     display_.epd2.selectSPI(SPI, SPISettings(4000000, MSBFIRST, SPI_MODE0));
     display_.init(0, true, 10, false);
-    // GxEPD2 calls SPI.begin() without pin arguments from init(). Restore the
-    // Terra routing after that call; ESP32-C3 has no default MISO mapping.
-    SPI.begin(sck_, miso_, mosi_, cs_);
     display_.epd2.setBusyCallback(staticBusyCallback);
     display_.setRotation(0);
     powered_ = true;
