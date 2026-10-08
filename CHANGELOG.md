@@ -1,5 +1,14 @@
 # Changelog
 
+## ewp-0.3.1
+
+- Keep a remotely dismissible notification in the watch history when the Apple
+  companion cannot accept the dismissal request, so the user can retry.
+- Report whether the ANCS dismissal was queued and whether the BLE worker
+  submitted the action to the control point.
+
+See [release notes](release-notes/ewp-0.3.1.md) for details.
+
 ## ewp-0.3.0
 
 - Reorganized board composition under manufacturer/platform/codename, expanded

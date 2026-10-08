@@ -378,15 +378,23 @@ public:
                 break;
             }
             case NotificationAction: {
-                if (!control_) break;
+                if (!control_) {
+                    DebugLog::log("BLE-Apple: ANCS dismiss not sent; control point unavailable");
+                    break;
+                }
                 bool allowed = false;
                 for (const auto& target : dismissTargets_)
                     if (target.uid == p.uid) { allowed = target.allowed; break; }
-                if (!allowed) break;
+                if (!allowed) {
+                    DebugLog::log("BLE-Apple: ANCS dismiss not sent; UID no longer actionable uid=%lu",
+                                  (unsigned long)p.uid);
+                    break;
+                }
                 uint8_t command[6] = {2};
                 protocols::writeLe32(command + 1, p.uid);
                 command[5] = 1; // ANCS negative action, validated against the advertised label.
                 control_->writeValue(command, sizeof(command), true);
+                DebugLog::log("BLE-Apple: ANCS dismiss action submitted uid=%lu", (unsigned long)p.uid);
                 break;
             }
             case ServicesChanged: servicesChanged_ = true; break;

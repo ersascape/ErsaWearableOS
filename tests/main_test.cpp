@@ -862,6 +862,13 @@ void test_bluetooth_manager() {
                 "Advertised dismissal action is forwarded to the phone");
     TEST_ASSERT(bleMgr.getNotificationCount() == 1, "Dismiss removes only selected notification");
     TEST_ASSERT(bleMgr.getNotification(0).uid == 44, "Other notification remains visible");
+    mockSource.setDismissSucceeds(false);
+    mockSource.simulateNotification("Cannot dismiss", "retry from watch", "Mail", 46, true);
+    TEST_ASSERT(!bleMgr.dismissNotification(0), "Failed remote dismissal is reported to the caller");
+    TEST_ASSERT(bleMgr.getNotificationCount() == 2 && bleMgr.getNotification(0).uid == 46,
+                "Failed remote dismissal keeps the notification available for retry");
+    mockSource.setDismissSucceeds(true);
+    TEST_ASSERT(bleMgr.dismissNotification(0), "Remote dismissal can be retried");
     gotNotification = false;
     mockSource.simulateNotification("Second updated", "late body", "Mail", 45);
     TEST_ASSERT(bleMgr.getNotificationCount() == 1, "Late ANCS update cannot restore dismissed UID");

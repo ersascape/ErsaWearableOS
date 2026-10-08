@@ -446,8 +446,10 @@ const AppNotification& BluetoothManager::getNotification(size_t index) const {
 bool BluetoothManager::dismissNotification(size_t index) {
     if (index >= notifCount_) return false;
     const uint32_t uid = notifications_[index].uid;
-    if (notifications_[index].canDismissRemotely && source_.isAvailable() && source_.capabilities().remoteDismiss)
-        source_.dismissNotification(uid);
+    if (notifications_[index].canDismissRemotely) {
+        if (!source_.isAvailable() || !source_.capabilities().remoteDismiss) return false;
+        if (!source_.dismissNotification(uid)) return false;
+    }
     if (dismissedCount_ == MAX_DISMISSED_UIDS) {
         for (size_t i = 1; i < dismissedCount_; ++i) dismissedUids_[i - 1] = dismissedUids_[i];
         --dismissedCount_;

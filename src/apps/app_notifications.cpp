@@ -70,8 +70,10 @@ bool onButton(Buttons::Event event) {
         if (currentIndex >= total) currentIndex = 0;
         const uint32_t uid = bleMgr.getNotification(currentIndex).uid;
         if (bleMgr.dismissNotification(currentIndex)) {
-            DebugLog::log("NOTIF: Dismissed local uid=%lu", (unsigned long)uid);
+            DebugLog::log("NOTIF: dismiss accepted uid=%lu", (unsigned long)uid);
             if (currentIndex >= bleMgr.getNotificationCount() && currentIndex > 0) --currentIndex;
+        } else {
+            DebugLog::log("NOTIF: dismiss failed; notification retained uid=%lu", (unsigned long)uid);
         }
         return true;
     } else if (event == Buttons::Event::ActionLong || event == Buttons::Event::Home) {

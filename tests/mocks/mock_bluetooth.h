@@ -47,7 +47,7 @@ public:
         lastMediaAction_ = action; ++mediaCmdCount_; return true;
     }
     bool dismissNotification(uint32_t uid) override {
-        if (!connected_) return false;
+        if (!connected_ || !dismissSucceeds_) return false;
         ++notificationDismissCount_; lastDismissedUid_ = uid; return true;
     }
     void startAdvertising() override { advertising_ = true; }
@@ -102,10 +102,12 @@ public:
     hal::CompanionMediaAction lastMediaAction() const { return lastMediaAction_; }
     int notificationDismissCount() const { return notificationDismissCount_; }
     uint32_t lastDismissedUid() const { return lastDismissedUid_; }
+    void setDismissSucceeds(bool succeeds) { dismissSucceeds_ = succeeds; }
 
 private:
     bool advertising_{false};
     bool connected_{false};
+    bool dismissSucceeds_{true};
 
     hal::CompanionCallCallback callCb_{nullptr};
     void* callUserData_{nullptr};

@@ -1,7 +1,7 @@
 # Maintainer: Ersa Wearable Platform contributors
 pkgname=ewctl
 # scripts/package_ewctl_arch.sh sets this to latest-stable.rRUN.aATTEMPT.gSHA.
-pkgver=0.3.0
+pkgver=0.3.1
 pkgrel=1
 pkgdesc='USB command-line diagnostics and control for Ersa Wearable watches'
 arch=('any')
