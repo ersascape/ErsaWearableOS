@@ -155,31 +155,32 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordtype">bool</span> initialized_{<span class="keyword">false</span>};</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordtype">bool</span> powered_{<span class="keyword">false</span>};</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">bool</span> baselineValid_{<span class="keyword">false</span>};</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    esp_err_t lastIoError_{ESP_OK};</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    uint8_t framebuffer_[kBufferSize]{};</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    Canvas canvas_;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    hal::DisplayBusyCallback busyCallback_{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordtype">void</span>* busyUserData_{<span class="keyword">nullptr</span>};</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordtype">bool</span> initPanel();</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordtype">bool</span> refreshFull();</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordtype">bool</span> refreshWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h);</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordtype">bool</span> writeFull(uint8_t ramCommand);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordtype">bool</span> writeData(<span class="keyword">const</span> uint8_t* <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, <span class="keywordtype">size_t</span> <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#ae809d5359ac030c60a30a8f0b2294b82">length</a>);</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordtype">bool</span> writeCommand(uint8_t command);</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">bool</span> writeCommandData(uint8_t command, <span class="keyword">const</span> uint8_t* <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, <span class="keywordtype">size_t</span> <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#ae809d5359ac030c60a30a8f0b2294b82">length</a>);</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">bool</span> writeCommandByte(uint8_t command, uint8_t <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>);</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordtype">bool</span> setRamArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordtype">bool</span> waitBusy(uint32_t timeoutMs = 5000);</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordtype">bool</span> powerOffPanel();</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordtype">void</span> reportIoError(<span class="keyword">const</span> <span class="keywordtype">char</span>* operation);</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>};</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>} <span class="comment">// namespace display</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>} <span class="comment">// namespace drivers</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>} <span class="comment">// namespace ersa</span></div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="preprocessor">#endif </span><span class="comment">// ARDUINO</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    int64_t lastDeghostUs_{0};</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    esp_err_t lastIoError_{ESP_OK};</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    uint8_t framebuffer_[kBufferSize]{};</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    Canvas canvas_;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    hal::DisplayBusyCallback busyCallback_{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordtype">void</span>* busyUserData_{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordtype">bool</span> initPanel();</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordtype">bool</span> refreshFull();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordtype">bool</span> refreshWindow(uint16_t x, uint16_t y, uint16_t w, uint16_t h);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordtype">bool</span> writeFull(uint8_t ramCommand);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordtype">bool</span> writeData(<span class="keyword">const</span> uint8_t* <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, <span class="keywordtype">size_t</span> <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#ae809d5359ac030c60a30a8f0b2294b82">length</a>);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">bool</span> writeCommand(uint8_t command);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">bool</span> writeCommandData(uint8_t command, <span class="keyword">const</span> uint8_t* <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, <span class="keywordtype">size_t</span> <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#ae809d5359ac030c60a30a8f0b2294b82">length</a>);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordtype">bool</span> writeCommandByte(uint8_t command, uint8_t <a class="code hl_variable" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordtype">bool</span> setRamArea(uint16_t x, uint16_t y, uint16_t w, uint16_t h);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordtype">bool</span> waitBusy(uint32_t timeoutMs = 5000);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordtype">bool</span> powerOffPanel();</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">void</span> reportIoError();</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>};</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>} <span class="comment">// namespace display</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>} <span class="comment">// namespace drivers</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>} <span class="comment">// namespace ersa</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">#endif </span><span class="comment">// ARDUINO</span></div>
 <div class="ttc" id="adisplay_8h_html"><div class="ttname"><a href="../../d4/d68/display_8h.html">display.h</a></div></div>
 <div class="ttc" id="anamespaceersa_html"><div class="ttname"><a href="../../d5/d7f/namespaceersa.html">ersa</a></div><div class="ttdef"><b>Definition</b> application.h:10</div></div>
 <div class="ttc" id="aota__service_8cpp_html_a854352f53b148adc24983a58a1866d66"><div class="ttname"><a href="../../d1/d80/ota__service_8cpp.html#a854352f53b148adc24983a58a1866d66">size</a></div><div class="ttdeci">size_t size</div><div class="ttdef"><b>Definition</b> ota_service.cpp:47</div></div>
