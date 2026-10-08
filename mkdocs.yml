@@ -1,6 +1,6 @@
 site_name: Ersa Wearable Platform
 site_description: Developer wiki and API reference for EWP firmware
-site_url: https://open.ersa.dev/wearable/wiki/
+site_url: https://pkgs-wearables.ersa.dev/wiki/
 repo_url: https://github.com/ersascape/ErsaWearableOS
 docs_dir: docs
 site_dir: .pio/wiki-site

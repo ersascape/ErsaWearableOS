@@ -45,6 +45,7 @@ layout.
 
 ## Documentation
 
+- [Published wiki](https://pkgs-wearables.ersa.dev/wiki/), deployed from `master` to GitHub Pages on every successful workflow run.
 - [Wiki home](docs/index.md): start here for the developer and hardware guides.
 - [Architecture and HAL boundaries](docs/HAL_ARCHITECTURE.md)
 - [Adding a board](docs/ADDING_A_BOARD.md)
@@ -65,7 +66,8 @@ make docs
 
 The result is `.pio/wiki-site/`, including `api/index.html`. See
 [`Doxyfile`](Doxyfile) for source coverage and [`mkdocs.yml`](mkdocs.yml) for
-the wiki navigation.
+the wiki navigation. The workflow publishes this same output to the repository's
+GitHub Pages site under `/wiki/`, alongside the package and OTA files.
 
 ## Repository map
 

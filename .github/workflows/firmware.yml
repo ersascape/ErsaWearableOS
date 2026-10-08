@@ -106,9 +106,9 @@ jobs:
           retention-days: 30
 
   publish-package-repository:
-    name: Publish ewctl repository to gh-pages
+    name: Publish package repository and wiki to gh-pages
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/ewp-')
-    needs: [build, package-ewctl]
+    needs: [build, package-ewctl, docs]
     runs-on: ubuntu-latest
     concurrency:
       group: ewctl-package-repository
@@ -123,6 +123,11 @@ jobs:
         with:
           name: ewctl-arch-repo-${{ github.sha }}
           path: .pio/release
+      - name: Download wiki artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ewp-wiki-${{ github.sha }}
+          path: .pio/wiki-site
       - name: Download firmware artifact for OTA manifest
         if: startsWith(github.ref, 'refs/tags/ewp-')
         uses: actions/download-artifact@v4
@@ -134,7 +139,7 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.ref_name }}
         run: python3 scripts/create_ota_manifest.py .pio/release/firmware.bin --tag "$RELEASE_TAG" --site-root .pio/site
-      - name: Assemble package and OTA site
+      - name: Assemble package, OTA, and wiki sites
         run: |
           mkdir -p .pio/site
           cp packaging/pages/index.html packaging/pages/CNAME .pio/site/
@@ -154,6 +159,9 @@ jobs:
             git -C "$SITE_REPO" remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
           fi
           cp .pio/site/index.html .pio/site/CNAME .pio/site/ersa-ewctl.db .pio/site/ersa-ewctl.files .pio/site/*.pkg.tar.zst "$SITE_REPO/"
+          rm -rf "$SITE_REPO/wiki"
+          mkdir -p "$SITE_REPO/wiki"
+          cp -a .pio/wiki-site/. "$SITE_REPO/wiki/"
           if [[ "$GITHUB_REF" == refs/tags/ewp-* ]]; then
             mkdir -p "$SITE_REPO/firmware" "$SITE_REPO/ota"
             rm -f "$SITE_REPO/ota.json"
