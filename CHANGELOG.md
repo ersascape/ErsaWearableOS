@@ -1,5 +1,17 @@
 # Changelog
 
+## ewp-0.3.2
+
+- Fix OTA range validation to share the `Content-Range` state populated by the
+  HTTP response callback. The published server already returns valid byte
+  ranges; the downloader had validated a separate, empty response structure.
+- Add `ewctl version`, showing the package version, six-character Git revision,
+  and source branch. Arch package builds always source CLI code from `master`
+  and embed the `master` commit hash, including when a firmware tag starts the
+  package workflow.
+
+See [release notes](release-notes/ewp-0.3.2.md) for details.
+
 ## ewp-0.3.1
 
 - Keep a remotely dismissible notification in the watch history when the Apple

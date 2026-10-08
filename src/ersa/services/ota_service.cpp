@@ -223,8 +223,7 @@ bool partitionMatchesManifest(const esp_partition_t* partition, size_t imageSize
 }
 
 bool downloadFirmware(esp_http_client_handle_t client, esp_ota_handle_t otaHandle,
-                      const OtaManifest& manifest, size_t& written) {
-    RangeResponse response;
+                      const OtaManifest& manifest, RangeResponse& response, size_t& written) {
     uint8_t buffer[2048];
     constexpr size_t APP_DESC_OFFSET = sizeof(esp_image_header_t) + sizeof(esp_image_segment_header_t);
     constexpr size_t APP_DESC_END = APP_DESC_OFFSET + sizeof(esp_app_desc_t);
@@ -623,7 +622,7 @@ void OtaService::runUpdate(bool install) {
     if (result == ESP_OK) {
         DebugLog::log("OTA: target slot=%s erase/write started size=%u",
                       target->label, unsigned(manifest.size));
-        if (!downloadFirmware(client, otaHandle, manifest, imageLength)) {
+        if (!downloadFirmware(client, otaHandle, manifest, rangeResponse, imageLength)) {
             esp_ota_abort(otaHandle);
             result = ESP_FAIL;
         } else {

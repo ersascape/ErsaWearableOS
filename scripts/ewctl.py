@@ -43,6 +43,39 @@ COMMANDS = {
 }
 
 
+def get_build_info() -> dict[str, str]:
+    """Return the release version and six-character source revision for this CLI build."""
+    info_path = Path("/usr/share/ewctl/build-info.json")
+    try:
+        with info_path.open(encoding="utf-8") as info_file:
+            info = json.load(info_file)
+        if all(isinstance(info.get(key), str) and info[key]
+               for key in ("version", "git_hash", "branch")):
+            return {key: info[key] for key in ("version", "git_hash", "branch")}
+    except (OSError, ValueError, TypeError):
+        pass
+
+    root = Path(__file__).resolve().parent.parent
+
+    def git_value(*arguments: str, fallback: str) -> str:
+        try:
+            return subprocess.check_output(
+                ["git", "-C", str(root), *arguments], stderr=subprocess.DEVNULL,
+                text=True, timeout=2,
+            ).strip() or fallback
+        except (OSError, subprocess.SubprocessError):
+            return fallback
+
+    release = git_value("describe", "--tags", "--abbrev=0", fallback="0.0.0")
+    if release.startswith("ewp-"):
+        release = release[4:]
+    return {
+        "version": release,
+        "git_hash": git_value("rev-parse", "--short=6", "HEAD", fallback="unknown")[:6],
+        "branch": git_value("branch", "--show-current", fallback="unknown"),
+    }
+
+
 class EwctlError(Exception):
     """A user-facing connection or protocol error."""
 
@@ -216,6 +249,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--timeout", type=float, default=3.0, help="per-command timeout in seconds")
     parser.add_argument("--json", action="store_true", help="print machine-readable JSON instead of Rich output")
     sub = parser.add_subparsers(dest="operation", required=True)
+    sub.add_parser("version", help="show ewctl release version and source revision")
     flash = sub.add_parser("flash", help="flash a firmware image to the watch bootloader")
     flash.add_argument("target", nargs="?", help="image path, or 'release' to fetch a GitHub release")
     flash.add_argument("version", nargs="?", help="release tag after 'release' (or 'latest')")
@@ -830,6 +864,13 @@ def run(args: argparse.Namespace) -> int:
 def main(argv: Optional[Iterable[str]] = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.operation == "version":
+        info = get_build_info()
+        if args.json:
+            print_json(info)
+        else:
+            print(f"ewctl {info['version']}+g{info['git_hash']} ({info['branch']})")
+        return 0
     try:
         return run(args)
     except KeyboardInterrupt:

@@ -1,10 +1,12 @@
 import importlib.util
 import hashlib
+import io
 import json
 import pathlib
 import tempfile
 import unittest
 import zipfile
+from contextlib import redirect_stdout
 from unittest.mock import patch
 
 
@@ -15,6 +17,13 @@ SPEC.loader.exec_module(ewctl)
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_version_command_displays_release_and_master_revision(self):
+        with patch.object(ewctl, "get_build_info", return_value={
+            "version": "0.3.2", "git_hash": "a1b2c3", "branch": "master",
+        }), redirect_stdout(io.StringIO()) as output:
+            self.assertEqual(ewctl.main(["version"]), 0)
+        self.assertEqual(output.getvalue().strip(), "ewctl 0.3.2+ga1b2c3 (master)")
+
     def test_uptime_formatting(self):
         self.assertEqual(ewctl.format_uptime(7), "7s")
         self.assertEqual(ewctl.format_uptime(125), "2m 05s")

@@ -1,7 +1,7 @@
 # Maintainer: Ersa Wearable Platform contributors
 pkgname=ewctl
-# scripts/package_ewctl_arch.sh sets this to latest-stable.rRUN.aATTEMPT.gSHA.
-pkgver=0.3.1
+# scripts/package_ewctl_arch.sh sets this to release.rRUN.aATTEMPT.gSHA from master.
+pkgver=0.3.2
 pkgrel=1
 pkgdesc='USB command-line diagnostics and control for Ersa Wearable watches'
 arch=('any')
@@ -14,6 +14,11 @@ sha256sums=('SKIP')
 
 package() {
   install -Dm755 "$srcdir/ErsaWearableOS/scripts/ewctl.py" "$pkgdir/usr/bin/ewctl"
+  local release_version="${pkgver%%.r*}"
+  local git_hash="${pkgver##*.g}"
+  install -d "$pkgdir/usr/share/ewctl"
+  printf '{"version":"%s","git_hash":"%.6s","branch":"master"}\n' \
+    "$release_version" "$git_hash" > "$pkgdir/usr/share/ewctl/build-info.json"
   install -Dm644 "$srcdir/ErsaWearableOS/scripts/ewctl_compat/future/__init__.py" \
     "$pkgdir/usr/lib/ewctl/ewctl_compat/future/__init__.py"
   install -Dm644 "$srcdir/ErsaWearableOS/scripts/ewctl_compat/future/utils.py" \

@@ -25,7 +25,13 @@ if [[ ! "$BASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   exit 2
 fi
 
-BUILD_SHA="${GITHUB_SHA:-$(git -C "$ROOT" rev-parse HEAD)}"
+if [[ "${GITHUB_REF:-}" == "refs/heads/master" && "${GITHUB_SHA:-}" =~ ^[0-9a-fA-F]{40}$ ]]; then
+  BUILD_SHA="$GITHUB_SHA"
+else
+  # Tag builds package the current master CLI source, so embed that exact
+  # branch revision instead of the tag commit that started the workflow.
+  BUILD_SHA="$(git ls-remote https://github.com/ersascape/ErsaWearableOS.git refs/heads/master | awk 'NR == 1 {print $1}')"
+fi
 BUILD_SHA="${BUILD_SHA:0:12}"
 RUN_ID="${GITHUB_RUN_ID:-0}"
 RUN_ATTEMPT="${GITHUB_RUN_ATTEMPT:-1}"
