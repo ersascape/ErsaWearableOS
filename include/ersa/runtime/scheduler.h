@@ -64,6 +64,8 @@ struct LoopSchedule {
 /** Keep sleep eligibility and active/idle loop pacing in one tested policy. */
 class RuntimeScheduler {
 public:
+    /** The input backend is polled, so sleep waits must still service it. */
+    static constexpr uint32_t INPUT_POLL_INTERVAL_MS = 10;
     /**
      * Choose a platform wait from product blockers and the earliest deadline.
      * Pending UI/input work gets a short poll; quiescent awake work uses a
@@ -72,7 +74,11 @@ public:
     static LoopSchedule plan(const SleepEligibility& eligibility,
                              bool appDirty, bool inputPending,
                              uint32_t earliestDeadlineMs) {
-        if (eligibility.maySleep()) return {true, earliestDeadlineMs};
+        if (eligibility.maySleep()) {
+            const uint32_t inputPollWait = earliestDeadlineMs < INPUT_POLL_INTERVAL_MS
+                ? earliestDeadlineMs : INPUT_POLL_INTERVAL_MS;
+            return {true, inputPollWait};
+        }
         return {false, (appDirty || inputPending) ? 1U : 25U};
     }
 };

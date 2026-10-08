@@ -84,6 +84,10 @@ public:
         if (mediaCb_) mediaCb_(playing, title, artist, mediaUserData_);
     }
 
+    void simulateTime(uint32_t epoch) {
+        if (timeCb_) timeCb_(epoch, timeUserData_);
+    }
+
     void simulateNotification(const char* title, const char* message, const char* app = "Messages", uint32_t uid = 1, bool canDismissRemotely = false) {
         if (notifCb_) notifCb_(title, message, app, uid, canDismissRemotely, notifUserData_);
     }

@@ -180,6 +180,7 @@ private:
     void apply(const events::Event& event);
 #if defined(ARDUINO)
     void* incomingQueue_{nullptr};
+    void* timeSyncQueue_{nullptr};
 #endif
     WakeCallback wakeCallback_{nullptr};
     void* wakeUserData_{nullptr};

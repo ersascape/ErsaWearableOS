@@ -86,7 +86,9 @@ Result<void> BluetoothManager::init() {
     }
 #if defined(ARDUINO)
     if (!incomingQueue_) incomingQueue_ = xQueueCreate(24, sizeof(events::Event));
-    if (!incomingQueue_) return Result<void>(ErrorCode::OutOfMemory, "BLE event queue");
+    if (!timeSyncQueue_) timeSyncQueue_ = xQueueCreate(2, sizeof(events::Event));
+    if (!incomingQueue_ || !timeSyncQueue_)
+        return Result<void>(ErrorCode::OutOfMemory, "BLE event queue");
 #endif
     source_.setCallCallback(onSourceCall, this);
     source_.setMediaCallback(onSourceMedia, this);
@@ -294,13 +296,14 @@ void BluetoothManager::simulateMedia(const char* title, const char* artist, bool
 
 void BluetoothManager::receive(const events::Event& event) {
 #if defined(ARDUINO)
-    if (incomingQueue_) {
-        if (xQueueSend(static_cast<QueueHandle_t>(incomingQueue_), &event, 0) == pdTRUE) {
+    void* targetQueue = event.type == events::EventType::TimeSync ? timeSyncQueue_ : incomingQueue_;
+    if (targetQueue) {
+        if (xQueueSend(static_cast<QueueHandle_t>(targetQueue), &event, 0) == pdTRUE) {
             if (wakeCallback_) wakeCallback_(wakeUserData_);
         } else {
-#if defined(ARDUINO)
-            DebugLog::log("BLE: manager event queue full; dropping event type=%u", unsigned(event.type));
-#endif
+            DebugLog::log("BLE: %s queue full; dropping event type=%u",
+                          event.type == events::EventType::TimeSync ? "time-sync" : "manager",
+                          unsigned(event.type));
         }
     } else {
 #if defined(ARDUINO)
@@ -317,6 +320,14 @@ void BluetoothManager::tick() {
     ble_.tick();
     source_.tickSource();
 #if defined(ARDUINO)
+    events::Event timeEvent;
+    if (timeSyncQueue_ && xQueueReceive(static_cast<QueueHandle_t>(timeSyncQueue_), &timeEvent, 0) == pdTRUE) {
+        hal::PerformanceScope frequency(board::Board::current().getPowerManagement(),
+                                        hal::PerformanceProfile::Interactive, "ble-time-dispatch");
+        do {
+            apply(timeEvent);
+        } while (xQueueReceive(static_cast<QueueHandle_t>(timeSyncQueue_), &timeEvent, 0) == pdTRUE);
+    }
     events::Event event;
     if (incomingQueue_ && xQueueReceive(static_cast<QueueHandle_t>(incomingQueue_), &event, 0) == pdTRUE) {
         hal::PerformanceScope frequency(board::Board::current().getPowerManagement(),

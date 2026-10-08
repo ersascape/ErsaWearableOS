@@ -89,8 +89,12 @@ void test_runtime_scheduler() {
 
     eligible.foregroundWorkActive = false;
     const auto sleepingPlan = runtime::RuntimeScheduler::plan(eligible, false, false, 1200);
-    TEST_ASSERT(sleepingPlan.allowAutomaticSleep && sleepingPlan.waitMs == 1200,
-                "idle loop waits to the earliest deadline with automatic sleep enabled");
+    TEST_ASSERT(sleepingPlan.allowAutomaticSleep &&
+                sleepingPlan.waitMs == runtime::RuntimeScheduler::INPUT_POLL_INTERVAL_MS,
+                "sleeping loop wakes periodically to poll click and long-press state");
+    const auto deadlinePlan = runtime::RuntimeScheduler::plan(eligible, false, false, 5);
+    TEST_ASSERT(deadlinePlan.allowAutomaticSleep && deadlinePlan.waitMs == 5,
+                "service deadlines shorter than the input poll interval are preserved");
     eligible.consoleAttached = true;
     const auto idlePlan = runtime::RuntimeScheduler::plan(eligible, false, false, 1200);
     TEST_ASSERT(!idlePlan.allowAutomaticSleep && idlePlan.waitMs == 25,
@@ -678,6 +682,7 @@ void test_bluetooth_manager() {
     bool gotCallIncoming = false;
     bool gotCallAccepted = false;
     bool gotCallEnded = false;
+    uint32_t syncedEpoch = 0;
     char lastMediaTrackReceived[32] = "";
 
     bus.subscribe(events::EventType::BleConnected, [](const events::Event&, void* u) {
@@ -707,6 +712,9 @@ void test_bluetooth_manager() {
         auto* buf = static_cast<char*>(u);
         strncpy(buf, e.media.title, 31);
     }, lastMediaTrackReceived);
+    bus.subscribe(events::EventType::TimeSync, [](const events::Event& e, void* u) {
+        *static_cast<uint32_t*>(u) = e.time.epoch;
+    }, &syncedEpoch);
 
     // 3. Test Connection
     mockBle.simulateConnection(true);
@@ -718,6 +726,10 @@ void test_bluetooth_manager() {
     TEST_ASSERT(gotBleConnected, "EventBus should receive BleConnected");
     TEST_ASSERT(strcmp(bleMgr.companionSourceId(), "test-mock") == 0,
                 "Manager exposes the selected source identity");
+    constexpr uint32_t phoneEpoch = 1791468000UL;
+    mockSource.simulateTime(phoneEpoch);
+    TEST_ASSERT(syncedEpoch == phoneEpoch,
+                "companion time reaches subscribers through the Bluetooth manager");
 
     // 4. Test Incoming Call
     mockSource.simulateIncomingCall("Alice", "+15551234");

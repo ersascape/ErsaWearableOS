@@ -1,4 +1,7 @@
 #include "ersa/services/time_service.h"
+#if defined(ARDUINO)
+#include "core/debug_log.h"
+#endif
 
 namespace ersa {
 namespace services {
@@ -35,7 +38,13 @@ void TimeService::onTimeSyncEvent(const events::Event& event, void* userData) {
 bool TimeService::submitTime(events::TimeSource source, uint32_t epochSeconds) {
     // The watch clock/DS3231 is intentionally constrained to valid dates
     // supported by the installed RTC and current firmware.
-    if (epochSeconds < 1704067200UL || epochSeconds >= 4102444800UL) return false;
+    if (epochSeconds < 1704067200UL || epochSeconds >= 4102444800UL) {
+#if defined(ARDUINO)
+        DebugLog::log("TIME: rejected source=%u epoch=%lu (outside supported range)",
+                      unsigned(source), static_cast<unsigned long>(epochSeconds));
+#endif
+        return false;
+    }
     const auto priority = [](events::TimeSource candidate) -> uint8_t {
         switch (candidate) {
             case events::TimeSource::Manual: return 3;
@@ -45,12 +54,29 @@ bool TimeService::submitTime(events::TimeSource source, uint32_t epochSeconds) {
             default: return 0;
         }
     };
-    if (priority(source) == 0 || priority(source) < priority(selectedSource_)) return false;
+    if (priority(source) == 0 || priority(source) < priority(selectedSource_)) {
+#if defined(ARDUINO)
+        DebugLog::log("TIME: rejected source=%u; selected source=%u has equal or higher priority",
+                      unsigned(source), unsigned(selectedSource_));
+#endif
+        return false;
+    }
     Result<void> result = rtc_.setEpoch(epochSeconds);
-    if (!result.isOk()) return false;
+    if (!result.isOk()) {
+#if defined(ARDUINO)
+        DebugLog::log("TIME: RTC rejected source=%u epoch=%lu error=%d",
+                      unsigned(source), static_cast<unsigned long>(epochSeconds),
+                      int(result.error().code));
+#endif
+        return false;
+    }
     const hal::TimePoint tp = rtc_.now();
     lastMinute_ = tp.epoch / 60;
     selectedSource_ = source;
+#if defined(ARDUINO)
+    DebugLog::log("TIME: accepted source=%u epoch=%lu", unsigned(source),
+                  static_cast<unsigned long>(epochSeconds));
+#endif
     return true;
 }
 
