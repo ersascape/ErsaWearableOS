@@ -66,14 +66,5 @@ digraph "src/apps/app_notifications.cpp"
   Node18 -> Node5 [id="edge42_Node000018_Node000005",color="steelblue1",style="solid",tooltip=" "];
   Node18 -> Node6 [id="edge43_Node000018_Node000006",color="steelblue1",style="solid",tooltip=" "];
   Node1 -> Node19 [id="edge44_Node000001_Node000019",color="steelblue1",style="solid",tooltip=" "];
-  Node19 [id="Node000019",label="Arduino.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$de/df0/Arduino_8h.html",tooltip=" "];
-  Node19 -> Node5 [id="edge45_Node000019_Node000005",color="steelblue1",style="solid",tooltip=" "];
-  Node19 -> Node6 [id="edge46_Node000019_Node000006",color="steelblue1",style="solid",tooltip=" "];
-  Node19 -> Node20 [id="edge47_Node000019_Node000020",color="steelblue1",style="solid",tooltip=" "];
-  Node20 [id="Node000020",label="stdio.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
-  Node19 -> Node21 [id="edge48_Node000019_Node000021",color="steelblue1",style="solid",tooltip=" "];
-  Node21 [id="Node000021",label="string",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
-  Node19 -> Node17 [id="edge49_Node000019_Node000017",color="steelblue1",style="solid",tooltip=" "];
-  Node19 -> Node22 [id="edge50_Node000019_Node000022",color="steelblue1",style="solid",tooltip=" "];
-  Node22 [id="Node000022",label="math.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node19 [id="Node000019",label="stdio.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
 }

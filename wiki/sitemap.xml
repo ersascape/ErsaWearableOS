@@ -9,6 +9,10 @@
          <lastmod>2026-10-08</lastmod>
     </url>
     <url>
+         <loc>https://pkgs-wearables.ersa.dev/wiki/ARCHITECTURE_AND_POWER_AUDIT/</loc>
+         <lastmod>2026-10-08</lastmod>
+    </url>
+    <url>
          <loc>https://pkgs-wearables.ersa.dev/wiki/BUILDING_APPS/</loc>
          <lastmod>2026-10-08</lastmod>
     </url>
@@ -17,11 +21,11 @@
          <lastmod>2026-10-08</lastmod>
     </url>
     <url>
-         <loc>https://pkgs-wearables.ersa.dev/wiki/FIRMWARE_POWER_AUDIT/</loc>
+         <loc>https://pkgs-wearables.ersa.dev/wiki/HAL_ARCHITECTURE/</loc>
          <lastmod>2026-10-08</lastmod>
     </url>
     <url>
-         <loc>https://pkgs-wearables.ersa.dev/wiki/HAL_ARCHITECTURE/</loc>
+         <loc>https://pkgs-wearables.ersa.dev/wiki/PLATFORM_RUNTIME_ARCHITECTURE/</loc>
          <lastmod>2026-10-08</lastmod>
     </url>
     <url>

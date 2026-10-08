@@ -11,6 +11,6 @@ digraph "include/ersa/board"
   dir_b1bb9b2acb1f2b1749241274564add54 [label="common", fillcolor="#a2b4d6", color="grey25", style="filled", URL="dir_b1bb9b2acb1f2b1749241274564add54.html",tooltip=""];
   dir_1ad42e8a5b7636ff38a1e116ac185017 [label="board", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_1ad42e8a5b7636ff38a1e116ac185017.html",tooltip=""];
   }
-  dir_1ad42e8a5b7636ff38a1e116ac185017->dir_6b90d0cfcb70ebf4dd51d9384ae78451 [headlabel="8", labeldistance=1.5 headhref="dir_000004_000019.html" href="dir_000004_000019.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_1ad42e8a5b7636ff38a1e116ac185017->dir_6b90d0cfcb70ebf4dd51d9384ae78451 [headlabel="12", labeldistance=1.5 headhref="dir_000004_000019.html" href="dir_000004_000019.html" color="steelblue1" fontcolor="steelblue1"];
   dir_1ad42e8a5b7636ff38a1e116ac185017->dir_b1bb9b2acb1f2b1749241274564add54 [headlabel="1", labeldistance=1.5 headhref="dir_000004_000006.html" href="dir_000004_000006.html" color="steelblue1" fontcolor="steelblue1"];
 }

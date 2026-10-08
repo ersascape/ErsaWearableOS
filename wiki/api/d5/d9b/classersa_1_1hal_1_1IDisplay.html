@@ -180,7 +180,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af019a9a3ea51cad639527842ed9df892" id="r_af019a9a3ea51cad639527842ed9df892"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#af019a9a3ea51cad639527842ed9df892">powerOn</a> ()=0</td></tr>
 <tr class="separator:af019a9a3ea51cad639527842ed9df892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad6f00ff1204b8fc279fb2e9586dc87f8" id="r_ad6f00ff1204b8fc279fb2e9586dc87f8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ad6f00ff1204b8fc279fb2e9586dc87f8">isPowered</a> () const =0</td></tr>
-<tr class="memdesc:ad6f00ff1204b8fc279fb2e9586dc87f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return whether the panel controller is currently powered.  <br /></td></tr>
 <tr class="separator:ad6f00ff1204b8fc279fb2e9586dc87f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09913ec43e4680ab0ad18917ed892add" id="r_a09913ec43e4680ab0ad18917ed892add"><td class="memItemLeft" align="right" valign="top">virtual const uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a09913ec43e4680ab0ad18917ed892add">getBuffer</a> () const =0</td></tr>
 <tr class="separator:a09913ec43e4680ab0ad18917ed892add"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -1431,8 +1430,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Return whether the panel controller is currently powered. </p>
+<p>Return the driver's current powered state; this does not imply the image is visible. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a517d20a34020032a2c64207fc9f59e51">ersa::test::MockDisplay</a>.</p>
 
@@ -1460,7 +1458,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Put the panel controller into low power without discarding framebuffer data. </p>
+<p>Put the panel or driver into its supported low-power state. Visible-image retention and controller-state retention are device-specific. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#aba0779ea402f661e76bf674274bd466a">ersa::test::MockDisplay</a>.</p>
 
@@ -1488,7 +1486,7 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Restore panel-controller power before a refresh or status query. </p>
+<p>Restore a state usable for drawing or refresh; implementations may reinitialize hardware. </p>
 
 <p>Implemented in <a class="el" href="../../de/dc3/classersa_1_1test_1_1MockDisplay.html#a71db5167fdecd716b40047aa6b5cda35">ersa::test::MockDisplay</a>.</p>
 

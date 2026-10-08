@@ -102,24 +102,35 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    Result&lt;void&gt; <a class="code hl_function" href="../../d9/d57/namespaceWatchClock.html#a55a7e87e4682befcf3815d25c774ab76">adjust</a>(<span class="keyword">const</span> TimePoint&amp; time) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    Result&lt;void&gt; <a class="code hl_function" href="../../d9/d57/namespaceWatchClock.html#addc98f5f4f43e6f481efdfdd998fef0a">setEpoch</a>(uint32_t epochSeconds) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">bool</span> isHealthy() <span class="keyword">const override</span>;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    DateTime getRtcLibNow();</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">void</span> adjustRtcLib(<span class="keyword">const</span> DateTime&amp; dt);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    RtcDiagnostics diagnostics() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="../../d9/d57/namespaceWatchClock.html#a0b2454ed9a0481a9141ff142ebea51a8">resync</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">private</span>:</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">int</span> sda_, scl_;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">static</span> TimePoint toTimePoint(<span class="keyword">const</span> DateTime&amp; dt);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">static</span> DateTime toDateTime(<span class="keyword">const</span> TimePoint&amp; tp);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>};</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>} <span class="comment">// namespace hal</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>} <span class="comment">// namespace ersa</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif </span><span class="comment">// ARDUINO</span></div>
-<div class="ttc" id="anamespaceWatchClock_html_a48646a419287e8b3dcf762cdb8091a0f"><div class="ttname"><a href="../../d9/d57/namespaceWatchClock.html#a48646a419287e8b3dcf762cdb8091a0f">WatchClock::now</a></div><div class="ttdeci">DateTime now()</div><div class="ttdef"><b>Definition</b> watch_clock.cpp:115</div></div>
-<div class="ttc" id="anamespaceWatchClock_html_a55a7e87e4682befcf3815d25c774ab76"><div class="ttname"><a href="../../d9/d57/namespaceWatchClock.html#a55a7e87e4682befcf3815d25c774ab76">WatchClock::adjust</a></div><div class="ttdeci">void adjust(const DateTime &amp;time)</div><div class="ttdef"><b>Definition</b> watch_clock.cpp:123</div></div>
-<div class="ttc" id="anamespaceWatchClock_html_addc98f5f4f43e6f481efdfdd998fef0a"><div class="ttname"><a href="../../d9/d57/namespaceWatchClock.html#addc98f5f4f43e6f481efdfdd998fef0a">WatchClock::setEpoch</a></div><div class="ttdeci">void setEpoch(uint32_t epochSeconds)</div><div class="ttdef"><b>Definition</b> watch_clock.cpp:140</div></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    RTC_DS3231 rtc_;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    DateTime cachedTime_{2026, 9, 28, 0, 0, 0};</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    uint32_t lastReadMs_{0};</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    uint32_t lastRtcPollMs_{0};</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">bool</span> online_{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">bool</span> oscillatorStopped_{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">bool</span> driftMeasured_{<span class="keyword">false</span>};</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    int32_t lastDriftSeconds_{0};</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keyword">static</span> TimePoint toTimePoint(<span class="keyword">const</span> DateTime&amp; dt);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">static</span> DateTime toDateTime(<span class="keyword">const</span> TimePoint&amp; tp);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> valid(<span class="keyword">const</span> DateTime&amp; time);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">bool</span> responds() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> reconcile(uint32_t nowMs, <span class="keywordtype">bool</span> force);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>};</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>} <span class="comment">// namespace hal</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>} <span class="comment">// namespace ersa</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif </span><span class="comment">// ARDUINO</span></div>
+<div class="ttc" id="anamespaceWatchClock_html_a0b2454ed9a0481a9141ff142ebea51a8"><div class="ttname"><a href="../../d9/d57/namespaceWatchClock.html#a0b2454ed9a0481a9141ff142ebea51a8">WatchClock::resync</a></div><div class="ttdeci">void resync()</div><div class="ttdef"><b>Definition</b> watch_clock.cpp:31</div></div>
+<div class="ttc" id="anamespaceWatchClock_html_a48646a419287e8b3dcf762cdb8091a0f"><div class="ttname"><a href="../../d9/d57/namespaceWatchClock.html#a48646a419287e8b3dcf762cdb8091a0f">WatchClock::now</a></div><div class="ttdeci">DateTime now()</div><div class="ttdef"><b>Definition</b> watch_clock.cpp:23</div></div>
+<div class="ttc" id="anamespaceWatchClock_html_a55a7e87e4682befcf3815d25c774ab76"><div class="ttname"><a href="../../d9/d57/namespaceWatchClock.html#a55a7e87e4682befcf3815d25c774ab76">WatchClock::adjust</a></div><div class="ttdeci">void adjust(const DateTime &amp;time)</div><div class="ttdef"><b>Definition</b> watch_clock.cpp:35</div></div>
+<div class="ttc" id="anamespaceWatchClock_html_addc98f5f4f43e6f481efdfdd998fef0a"><div class="ttname"><a href="../../d9/d57/namespaceWatchClock.html#addc98f5f4f43e6f481efdfdd998fef0a">WatchClock::setEpoch</a></div><div class="ttdeci">void setEpoch(uint32_t epochSeconds)</div><div class="ttdef"><b>Definition</b> watch_clock.cpp:39</div></div>
 <div class="ttc" id="anamespaceersa_html"><div class="ttname"><a href="../../d5/d7f/namespaceersa.html">ersa</a></div><div class="ttdef"><b>Definition</b> application.h:10</div></div>
 <div class="ttc" id="artc_8h_html"><div class="ttname"><a href="../../dc/d1b/rtc_8h.html">rtc.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

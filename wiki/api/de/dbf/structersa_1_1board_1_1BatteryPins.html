@@ -92,9 +92,13 @@ Collaboration diagram for ersa::board::BatteryPins:</div>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a1c887bc56ced0c5af6eb1e3d6c59bdb7" id="r_a1c887bc56ced0c5af6eb1e3d6c59bdb7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/d49/structersa_1_1board_1_1Pin.html">Pin</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dbf/structersa_1_1board_1_1BatteryPins.html#a1c887bc56ced0c5af6eb1e3d6c59bdb7">adc</a></td></tr>
 <tr class="separator:a1c887bc56ced0c5af6eb1e3d6c59bdb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aed990b2579564ed9a85adf5ebae4aa" id="r_a0aed990b2579564ed9a85adf5ebae4aa"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dbf/structersa_1_1board_1_1BatteryPins.html#a0aed990b2579564ed9a85adf5ebae4aa">voltageScaleNumerator</a> {1}</td></tr>
+<tr class="separator:a0aed990b2579564ed9a85adf5ebae4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84c59484e9f109951bdc87f55c14e3a6" id="r_a84c59484e9f109951bdc87f55c14e3a6"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dbf/structersa_1_1board_1_1BatteryPins.html#a84c59484e9f109951bdc87f55c14e3a6">voltageScaleDenominator</a> {1}</td></tr>
+<tr class="separator:a84c59484e9f109951bdc87f55c14e3a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Analog input used to sample the battery divider or fuel-gauge signal. </p>
+<div class="textblock"><p>Analog input and board scaling used to interpret a battery sense signal. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
 <a id="a1c887bc56ced0c5af6eb1e3d6c59bdb7" name="a1c887bc56ced0c5af6eb1e3d6c59bdb7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1c887bc56ced0c5af6eb1e3d6c59bdb7">&#9670;&#160;</a></span>adc</h2>
@@ -107,6 +111,37 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>ADC input routed to the divider or fuel-gauge output. </p>
+
+</div>
+</div>
+<a id="a84c59484e9f109951bdc87f55c14e3a6" name="a84c59484e9f109951bdc87f55c14e3a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84c59484e9f109951bdc87f55c14e3a6">&#9670;&#160;</a></span>voltageScaleDenominator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t ersa::board::BatteryPins::voltageScaleDenominator {1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Divisor paired with voltageScaleNumerator; must be nonzero. </p>
+
+</div>
+</div>
+<a id="a0aed990b2579564ed9a85adf5ebae4aa" name="a0aed990b2579564ed9a85adf5ebae4aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aed990b2579564ed9a85adf5ebae4aa">&#9670;&#160;</a></span>voltageScaleNumerator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t ersa::board::BatteryPins::voltageScaleNumerator {1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Multiplier applied to measured ADC voltage to recover battery voltage. </p>
 
 </div>
 </div>

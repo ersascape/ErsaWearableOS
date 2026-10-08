@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pkgs-wearables.ersa.dev/wiki/PLATFORM_RUNTIME_ARCHITECTURE/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Platform runtime - Ersa Wearable Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Platform runtime";
+        var mkdocs_page_input_path = "PLATFORM_RUNTIME_ARCHITECTURE.md";
+        var mkdocs_page_url = "/wiki/PLATFORM_RUNTIME_ARCHITECTURE/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Ersa Wearable Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/CHANGELOG.md">Release history</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/release-notes/ewp-0.3.0.md">Latest release</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../BUILDING_APPS/">Build and register apps</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://pkgs-wearables.ersa.dev/wiki/api/">C++ API reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://open.ersa.dev/wearable">Wearable project</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://pkgs-wearables.ersa.dev/">Package repository</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Platform runtime</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#layer-ownership">Layer ownership</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#current-migration-state">Current migration state</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#runtime-executor-and-scheduling">Runtime executor and scheduling</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#validation">Validation</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FEATURES/">Features</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../POWER_AND_BATTERY_DESIGN/">Power and battery</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../TIMEKEEPING/">Timekeeping</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ARCHITECTURE_AND_POWER_AUDIT/">Architecture and power audit</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../apple-connectivity/">Apple connectivity</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ewctl-control-bridge/">USB control and ewctl</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pcb-pin-map/">PCB pin map</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Ersa Wearable Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Platform runtime</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/ersascape/ErsaWearableOS/edit/master/docs/PLATFORM_RUNTIME_ARCHITECTURE.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="platform-and-runtime-architecture">Platform and runtime architecture</h1>
+<p>This page describes the current platform boundary and runtime scheduler. The
+firmware is still being migrated in small steps so each move can be built and
+tested independently.</p>
+<h2 id="layer-ownership">Layer ownership</h2>
+<pre><code class="language-text">Apps and watchfaces
+        |
+Portable services and application state
+        |
+Contracts in include/ersa/hal/
+        |
+ESP32 adapters in src/hal/esp32/  &lt;----&gt;  BSP composition and pinctrl
+        |
+ESP-IDF / Arduino component / peripheral libraries
+</code></pre>
+<ul>
+<li><code>src/bsp/&lt;manufacturer&gt;/&lt;platform&gt;/&lt;codename&gt;/</code> owns the board's immutable
+  pin map, physical capabilities, and concrete object composition. A HAL may
+  consume a pin configuration supplied by the BSP; it must not select a Terra
+  GPIO number or infer the board revision itself.</li>
+<li><code>include/ersa/hal/</code> contains platform-neutral contracts. Apps and portable
+  services use those contracts rather than ESP-IDF, Arduino, <code>Wire</code>, GPIO
+  numbers, or a peripheral vendor's types.</li>
+<li><code>src/hal/esp32/</code> owns ESP32 GPIO/ADC, I²C, FreeRTOS, ESP-IDF, Arduino
+  compatibility, and lifecycle details. A different platform can implement
+  the same contracts without changing an app or policy service.</li>
+<li><code>src/ersa/services/</code> owns portable coordination and product policy such as
+  battery qualification, sleep eligibility, time-source priority, and
+  application lifecycle. It asks HAL contracts to perform hardware actions.</li>
+<li><code>src/apps/</code> and <code>src/watchfaces/</code> own presentation and interaction. They
+  receive logical events and generic display operations.</li>
+</ul>
+<p>The only intentional Arduino entry point is <code>src/main.cpp</code> (<code>setup()</code> and
+<code>loop()</code>), which starts the composed runtime. Compatibility includes in product
+code are migration work, not a desired layer dependency.</p>
+<h2 id="current-migration-state">Current migration state</h2>
+<ul>
+<li><strong>Battery ADC:</strong> sampling and voltage filtering have moved from
+  <code>src/core/battery.cpp</code> into <code>Esp32Battery</code>. <code>PowerManager</code> controls sampling
+  cadence through <code>IBattery</code>; screens read cached values through the service.
+  ADC pin and divider scaling are supplied in BSP <code>BatteryPins</code>. Terra has no
+  charger-status signal, so voltage is not used to claim charging.</li>
+<li><strong>Button state:</strong> the UI reads logical button state and queued work through
+  <code>IInput</code>. The OneButton-backed compatibility event adapter and GPIO reads are
+  under <code>src/hal/esp32/</code>; the BSP supplies each pin's number, pull, and active
+  level at initialization.
+  Apps still use a legacy button-action enum while they migrate to normalized
+  <code>events::Event</code> handling.</li>
+<li><strong>USB console transport:</strong> UI sleep policy, debug logs, and the USB control
+  bridge now use <code>IConsole</code>; the USB Serial/JTAG implementation is
+  <code>Esp32UsbConsole</code>. Reset, heap, NVS, and OTA metadata access in the control
+  and diagnostics code still needs a platform diagnostics/OTA boundary.</li>
+<li><strong>Local web transport:</strong> the captive portal now uses generic HTTP request/
+  response and DNS responder contracts. The ESP32 adapter owns Arduino
+  <code>WebServer</code>, <code>DNSServer</code>, and <code>IPAddress</code>; the app owns its HTML and settings
+  behavior without including those framework types.</li>
+<li><strong>Outbound network transport:</strong> CalDAV and time sync now depend on generic
+  streaming HTTP and NTP client contracts. The ESP32 adapters own
+  <code>HTTPClient</code>, <code>WiFiClientSecure</code>, and ESP-IDF SNTP. <code>NetSync</code> retains product
+  policy, response parsing, timeout decisions, and task orchestration; its
+  remaining FreeRTOS task and heap diagnostics calls are platform migration
+  work.</li>
+<li><strong>RTC:</strong> <code>Esp32Rtc</code> now owns <code>Wire</code>, the DS3231 driver, and its bounded
+  software-time interpolation/reconciliation. The old <code>WatchClock</code> functions
+  are compatibility wrappers over the generic <code>IRtc</code>; their <code>DateTime</code> return
+  type still leaks RTClib into callers and can be replaced by <code>TimePoint</code> in a
+  later API migration.</li>
+<li><strong>Still to migrate:</strong> network sync still uses FreeRTOS task controls and
+  ESP-IDF heap diagnostics in <code>src/core/net_sync.cpp</code>; USB control still uses ESP-IDF OTA,
+  partition, reset, heap, and CPU-frequency APIs; OTA transfer implementation
+  still uses Arduino/ESP-IDF in the service. Move these behind network/time-sync,
+  portal, OTA, and platform-diagnostics contracts respectively.</li>
+<li><strong>Storage:</strong> <code>WatchConfig</code>, calendar cache, and boot history now use the generic typed/byte storage contract, and
+  the <code>Preferences</code> implementation is installed by the ESP32 HAL. Product
+  configuration and app data share the <code>ersa_nvs</code> namespace with short,
+  prefixed keys. This is a deliberate schema reset; deployed users must factory
+  reset or provision settings again after this change.</li>
+</ul>
+<p>Do not put product rules in an ESP32 adapter while moving a dependency. Keep
+hardware sampling and SDK translation in the adapter, and keep filtering,
+fallback order, retry policy, and user-visible behavior in portable services.</p>
+<h2 id="runtime-executor-and-scheduling">Runtime executor and scheduling</h2>
+<p>The application task is the single owner of app state and event dispatch. A
+radio or GPIO callback posts a bounded event and notifies the task; it does not
+call app code from the callback context. The task should have a short, regular
+sequence:</p>
+<ol>
+<li>Drain posted input and companion events.</li>
+<li>Run services and apps whose deadlines are due.</li>
+<li>Render once when content is dirty and the panel is ready.</li>
+<li>Ask one sleep coordinator whether active work or a lease blocks sleep.</li>
+<li>Block until an event or the earliest registered deadline.</li>
+</ol>
+<p><code>runtime::SleepEligibility</code> combines console, interaction, active-app,
+network, display, lease, and pending-work constraints. <code>RuntimeScheduler</code>
+turns that policy into one sleep/wait plan, while <code>WakeDeadlineSet</code> selects the
+earliest delay without dynamic allocation. Once eligible, the task waits for
+the actual next deadline; it does not wake every 10 ms to poll buttons. GPIO
+interrupts notify the task on button transitions, and BLE/network callbacks
+notify it when queued work arrives. A held button keeps the loop awake so
+debounce, click, and hold behavior continues to progress.</p>
+<p>Automatic light sleep becomes eligible after 5 seconds without deliberate
+button activity. USB console attachment, foreground portal/call work, network
+sync, display BUSY, wake-lock leases, or pending UI/input work keep the
+no-light-sleep guard held. Passive BLE traffic wakes the task but does not
+restart the user-idle timer. After each wake the software clock is reconciled
+with the DS3231 before the next minute deadline is calculated. The display
+driver cuts e-paper drive voltage after a refresh; the visible image remains
+without a separate display-manager idle transition.</p>
+<p>The UI still collects service deadlines and owns screen timeout policy. The
+next runtime step is to have each service expose its own next deadline and move
+app timeout policy out of <code>WatchUi::tick()</code>.</p>
+<p>Keep the scheduler fixed-capacity and allocation-free. Add one deadline at a
+time with a host test proving that it wakes early enough; notifications remain
+the fast path for asynchronous BLE, input, and network completion. The ESP32
+power HAL uses FreeRTOS tickless idle for automatic BLE-coordinated light
+sleep instead of directly calling a chip sleep function from the UI loop.</p>
+<h2 id="validation">Validation</h2>
+<p>Run <code>make test</code>, <code>make firmware</code>, and <code>make docs</code>. Host tests can verify
+deadline ordering, sleep blockers, event ownership, and service policy. They
+cannot prove GPIO electrical behavior, BLE reconnection, light-sleep residency,
+or battery current; those still require on-device checks.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../HAL_ARCHITECTURE/" class="btn btn-neutral float-left" title="Architecture"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ADDING_A_BOARD/" class="btn btn-neutral float-right" title="Board support">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/ersascape/ErsaWearableOS" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../HAL_ARCHITECTURE/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ADDING_A_BOARD/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

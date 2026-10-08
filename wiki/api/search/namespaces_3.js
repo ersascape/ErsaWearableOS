@@ -7,10 +7,11 @@ var searchData=
   ['ersa_3a_3aevents_4',['events',['../d2/d01/namespaceersa_1_1events.html',1,'ersa']]],
   ['ersa_3a_3ahal_5',['hal',['../d9/de5/namespaceersa_1_1hal.html',1,'ersa']]],
   ['ersa_3a_3aprotocols_6',['protocols',['../d5/d23/namespaceersa_1_1protocols.html',1,'ersa']]],
-  ['ersa_3a_3aservices_7',['services',['../de/dd9/namespaceersa_1_1services.html',1,'ersa']]],
-  ['ersa_3a_3astrings_8',['strings',['../d2/d82/namespaceersa_1_1strings.html',1,'ersa']]],
-  ['ersa_3a_3asystem_9',['system',['../d9/d7b/namespaceersa_1_1system.html',1,'ersa']]],
-  ['ersa_3a_3atest_10',['test',['../d8/de1/namespaceersa_1_1test.html',1,'ersa']]],
-  ['ersa_3a_3aui_11',['ui',['../d9/d0f/namespaceersa_1_1ui.html',1,'ersa']]],
-  ['ersa_3a_3awatchface_12',['watchface',['../da/d48/namespaceersa_1_1watchface.html',1,'ersa']]]
+  ['ersa_3a_3aruntime_7',['runtime',['../d3/de1/namespaceersa_1_1runtime.html',1,'ersa']]],
+  ['ersa_3a_3aservices_8',['services',['../de/dd9/namespaceersa_1_1services.html',1,'ersa']]],
+  ['ersa_3a_3astrings_9',['strings',['../d2/d82/namespaceersa_1_1strings.html',1,'ersa']]],
+  ['ersa_3a_3asystem_10',['system',['../d9/d7b/namespaceersa_1_1system.html',1,'ersa']]],
+  ['ersa_3a_3atest_11',['test',['../d8/de1/namespaceersa_1_1test.html',1,'ersa']]],
+  ['ersa_3a_3aui_12',['ui',['../d9/d0f/namespaceersa_1_1ui.html',1,'ersa']]],
+  ['ersa_3a_3awatchface_13',['watchface',['../da/d48/namespaceersa_1_1watchface.html',1,'ersa']]]
 ];

@@ -125,6 +125,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a8818e4c2c91558a1779def72502bc009" id="r_a8818e4c2c91558a1779def72502bc009"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html">hal::IPowerManagement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#a8818e4c2c91558a1779def72502bc009">getPowerManagement</a> ()=0</td></tr>
 <tr class="memdesc:a8818e4c2c91558a1779def72502bc009"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the platform power-management implementation selected by this BSP.  <br /></td></tr>
 <tr class="separator:a8818e4c2c91558a1779def72502bc009"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a796a42842a8092f49c5aa4087567c058" id="r_a796a42842a8092f49c5aa4087567c058"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d4/d69/classersa_1_1hal_1_1IConsole.html">hal::IConsole</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#a796a42842a8092f49c5aa4087567c058">getConsole</a> ()=0</td></tr>
+<tr class="memdesc:a796a42842a8092f49c5aa4087567c058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the platform debug/control console selected by this BSP.  <br /></td></tr>
+<tr class="separator:a796a42842a8092f49c5aa4087567c058"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abab4bbb586e74e148db3571b997c432f" id="r_abab4bbb586e74e148db3571b997c432f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../df/d99/classersa_1_1hal_1_1IHttpServer.html">hal::IHttpServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#abab4bbb586e74e148db3571b997c432f">getHttpServer</a> ()=0</td></tr>
+<tr class="memdesc:abab4bbb586e74e148db3571b997c432f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the board's local HTTP server adapter used by captive apps.  <br /></td></tr>
+<tr class="separator:abab4bbb586e74e148db3571b997c432f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66488996d2f98f0f68ecada1182c2aab" id="r_a66488996d2f98f0f68ecada1182c2aab"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../db/ddf/classersa_1_1hal_1_1IDnsServer.html">hal::IDnsServer</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#a66488996d2f98f0f68ecada1182c2aab">getDnsServer</a> ()=0</td></tr>
+<tr class="memdesc:a66488996d2f98f0f68ecada1182c2aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the board's captive DNS responder adapter.  <br /></td></tr>
+<tr class="separator:a66488996d2f98f0f68ecada1182c2aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c1ea5e45538d8b9b2b0b004aea12a61" id="r_a4c1ea5e45538d8b9b2b0b004aea12a61"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d0/d99/classersa_1_1hal_1_1IHttpClient.html">hal::IHttpClient</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#a4c1ea5e45538d8b9b2b0b004aea12a61">getHttpClient</a> ()=0</td></tr>
+<tr class="memdesc:a4c1ea5e45538d8b9b2b0b004aea12a61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return platform HTTP transport for portable sync and provisioning services.  <br /></td></tr>
+<tr class="separator:a4c1ea5e45538d8b9b2b0b004aea12a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac65f90a0bd9d146b8c0714f664f34d9f" id="r_ac65f90a0bd9d146b8c0714f664f34d9f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d2/df7/classersa_1_1hal_1_1INtpTimeSource.html">hal::INtpTimeSource</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#ac65f90a0bd9d146b8c0714f664f34d9f">getNtpTimeSource</a> ()=0</td></tr>
+<tr class="memdesc:ac65f90a0bd9d146b8c0714f664f34d9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the platform NTP synchronization adapter.  <br /></td></tr>
+<tr class="separator:ac65f90a0bd9d146b8c0714f664f34d9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cfa1d45654d73661464b88aabaac531" id="r_a1cfa1d45654d73661464b88aabaac531"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d6/d7b/classersa_1_1hal_1_1IPlatformDiagnostics.html">hal::IPlatformDiagnostics</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#a1cfa1d45654d73661464b88aabaac531">getDiagnostics</a> ()=0</td></tr>
+<tr class="memdesc:a1cfa1d45654d73661464b88aabaac531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return reset, memory, and CPU readings through the platform diagnostics HAL.  <br /></td></tr>
+<tr class="separator:a1cfa1d45654d73661464b88aabaac531"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3099a71aef865bc2bc638d2f6bdc5420" id="r_a3099a71aef865bc2bc638d2f6bdc5420"><td class="memItemLeft" align="right" valign="top">virtual uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#a3099a71aef865bc2bc638d2f6bdc5420">getUptimeMs</a> () const =0</td></tr>
 <tr class="separator:a3099a71aef865bc2bc638d2f6bdc5420"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab45a88111d391c39353a78c9765ebee3" id="r_ab45a88111d391c39353a78c9765ebee3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d9d/classersa_1_1board_1_1Board.html#ab45a88111d391c39353a78c9765ebee3">delayMs</a> (uint32_t ms)=0</td></tr>
@@ -382,6 +400,33 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a796a42842a8092f49c5aa4087567c058" name="a796a42842a8092f49c5aa4087567c058"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a796a42842a8092f49c5aa4087567c058">&#9670;&#160;</a></span>getConsole()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../d4/d69/classersa_1_1hal_1_1IConsole.html">hal::IConsole</a> &amp; ersa::board::Board::getConsole </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the platform debug/control console selected by this BSP. </p>
+
+</div>
+</div>
 <a id="aaa2d85b5a23673e76544e8fb504e3329" name="aaa2d85b5a23673e76544e8fb504e3329"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aaa2d85b5a23673e76544e8fb504e3329">&#9670;&#160;</a></span>getDeviceInfo()</h2>
 
@@ -405,6 +450,33 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Return static manufacturer/platform/product identity for diagnostics. </p>
+
+</div>
+</div>
+<a id="a1cfa1d45654d73661464b88aabaac531" name="a1cfa1d45654d73661464b88aabaac531"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cfa1d45654d73661464b88aabaac531">&#9670;&#160;</a></span>getDiagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../d6/d7b/classersa_1_1hal_1_1IPlatformDiagnostics.html">hal::IPlatformDiagnostics</a> &amp; ersa::board::Board::getDiagnostics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return reset, memory, and CPU readings through the platform diagnostics HAL. </p>
 
 </div>
 </div>
@@ -432,6 +504,87 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Return the generic display implementation selected by this BSP. </p>
+
+</div>
+</div>
+<a id="a66488996d2f98f0f68ecada1182c2aab" name="a66488996d2f98f0f68ecada1182c2aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66488996d2f98f0f68ecada1182c2aab">&#9670;&#160;</a></span>getDnsServer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../db/ddf/classersa_1_1hal_1_1IDnsServer.html">hal::IDnsServer</a> &amp; ersa::board::Board::getDnsServer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the board's captive DNS responder adapter. </p>
+
+</div>
+</div>
+<a id="a4c1ea5e45538d8b9b2b0b004aea12a61" name="a4c1ea5e45538d8b9b2b0b004aea12a61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c1ea5e45538d8b9b2b0b004aea12a61">&#9670;&#160;</a></span>getHttpClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../d0/d99/classersa_1_1hal_1_1IHttpClient.html">hal::IHttpClient</a> &amp; ersa::board::Board::getHttpClient </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return platform HTTP transport for portable sync and provisioning services. </p>
+
+</div>
+</div>
+<a id="abab4bbb586e74e148db3571b997c432f" name="abab4bbb586e74e148db3571b997c432f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abab4bbb586e74e148db3571b997c432f">&#9670;&#160;</a></span>getHttpServer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../df/d99/classersa_1_1hal_1_1IHttpServer.html">hal::IHttpServer</a> &amp; ersa::board::Board::getHttpServer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the board's local HTTP server adapter used by captive apps. </p>
 
 </div>
 </div>
@@ -485,6 +638,33 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Return the stable user-facing product label. </p>
+
+</div>
+</div>
+<a id="ac65f90a0bd9d146b8c0714f664f34d9f" name="ac65f90a0bd9d146b8c0714f664f34d9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac65f90a0bd9d146b8c0714f664f34d9f">&#9670;&#160;</a></span>getNtpTimeSource()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../d2/df7/classersa_1_1hal_1_1INtpTimeSource.html">hal::INtpTimeSource</a> &amp; ersa::board::Board::getNtpTimeSource </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the platform NTP synchronization adapter. </p>
 
 </div>
 </div>

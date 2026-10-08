@@ -99,6 +99,7 @@ $(function() {
 <code>#include &quot;<a class="el" href="../../db/d50/logging__service_8h_source.html">ersa/services/logging_service.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../dc/daa/bluetooth__manager_8h_source.html">ersa/services/bluetooth_manager.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../db/d9f/session__stats_8h_source.html">ersa/services/session_stats.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d2/dd8/scheduler_8h_source.html">ersa/runtime/scheduler.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../dc/db2/system_8h_source.html">ersa/system.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d0/dd4/mock__display_8h_source.html">mocks/mock_display.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../dc/df4/mock__rtc_8h_source.html">mocks/mock_rtc.h</a>&quot;</code><br />
@@ -106,6 +107,7 @@ $(function() {
 <code>#include &quot;<a class="el" href="../../df/d06/mock__bluetooth_8h_source.html">mocks/mock_bluetooth.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d4/d2b/mock__wifi_8h_source.html">mocks/mock_wifi.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../da/d33/mock__power__management_8h_source.html">mocks/mock_power_management.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/d97/mock__console_8h_source.html">mocks/mock_console.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../d5/d95/system__defaults_8h_source.html">ersa/config/system_defaults.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../da/d42/ui__strings_8h_source.html">ersa/config/ui_strings.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -134,6 +136,10 @@ Macros</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a89dc4708a81551562806ffb27a500705" id="r_a89dc4708a81551562806ffb27a500705"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d89/main__test_8cpp.html#a89dc4708a81551562806ffb27a500705">test_display_hal_contract</a> ()</td></tr>
 <tr class="separator:a89dc4708a81551562806ffb27a500705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af596b6ed9ca111f834e3661f3a4686c6" id="r_af596b6ed9ca111f834e3661f3a4686c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d89/main__test_8cpp.html#af596b6ed9ca111f834e3661f3a4686c6">test_runtime_scheduler</a> ()</td></tr>
+<tr class="separator:af596b6ed9ca111f834e3661f3a4686c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e104e77714bea7a5627d4a889afa413" id="r_a4e104e77714bea7a5627d4a889afa413"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d89/main__test_8cpp.html#a4e104e77714bea7a5627d4a889afa413">test_console_hal_contract</a> ()</td></tr>
+<tr class="separator:a4e104e77714bea7a5627d4a889afa413"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27a68f5b9c57e9c0fe6aa84d279a159e" id="r_a27a68f5b9c57e9c0fe6aa84d279a159e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d89/main__test_8cpp.html#a27a68f5b9c57e9c0fe6aa84d279a159e">test_power_management_hal_contract</a> ()</td></tr>
 <tr class="separator:a27a68f5b9c57e9c0fe6aa84d279a159e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f132ba14e49e157198c2aa88003f133" id="r_a2f132ba14e49e157198c2aa88003f133"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d89/main__test_8cpp.html#a2f132ba14e49e157198c2aa88003f133">onTestEvent</a> (const <a class="el" href="../../d4/db2/structersa_1_1events_1_1Event.html">events::Event</a> &amp;event, void *userData)</td></tr>
@@ -235,7 +241,7 @@ Variables</h2></td></tr>
 <div class="line">        <a class="code hl_variable" href="../../d5/d89/main__test_8cpp.html#af3db362832d773159146651c213023ab">testsPassed</a>++; \</div>
 <div class="line">        printf(<span class="stringliteral">&quot;PASS: %s\n&quot;</span>, __func__); \</div>
 <div class="line">    } <span class="keywordflow">while</span>(0)</div>
-<div class="ttc" id="amain__test_8cpp_html_af3db362832d773159146651c213023ab"><div class="ttname"><a href="../../d5/d89/main__test_8cpp.html#af3db362832d773159146651c213023ab">testsPassed</a></div><div class="ttdeci">static int testsPassed</div><div class="ttdef"><b>Definition</b> main_test.cpp:29</div></div>
+<div class="ttc" id="amain__test_8cpp_html_af3db362832d773159146651c213023ab"><div class="ttname"><a href="../../d5/d89/main__test_8cpp.html#af3db362832d773159146651c213023ab">testsPassed</a></div><div class="ttdeci">static int testsPassed</div><div class="ttdef"><b>Definition</b> main_test.cpp:31</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -414,6 +420,23 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a4e104e77714bea7a5627d4a889afa413" name="a4e104e77714bea7a5627d4a889afa413"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e104e77714bea7a5627d4a889afa413">&#9670;&#160;</a></span>test_console_hal_contract()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void test_console_hal_contract </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a89dc4708a81551562806ffb27a500705" name="a89dc4708a81551562806ffb27a500705"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a89dc4708a81551562806ffb27a500705">&#9670;&#160;</a></span>test_display_hal_contract()</h2>
 
@@ -507,6 +530,23 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">void test_power_manager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af596b6ed9ca111f834e3661f3a4686c6" name="af596b6ed9ca111f834e3661f3a4686c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af596b6ed9ca111f834e3661f3a4686c6">&#9670;&#160;</a></span>test_runtime_scheduler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void test_runtime_scheduler </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

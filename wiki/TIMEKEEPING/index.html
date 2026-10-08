@@ -44,6 +44,14 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/CHANGELOG.md">Release history</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/release-notes/ewp-0.3.0.md">Latest release</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../BUILDING_APPS/">Build and register apps</a>
                 </li>
               </ul>
@@ -61,6 +69,10 @@
               </ul>
               <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../PLATFORM_RUNTIME_ARCHITECTURE/">Platform runtime</a>
                 </li>
               </ul>
               <ul>
@@ -82,7 +94,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../FIRMWARE_POWER_AUDIT/">Firmware power audit</a>
+                <li class="toctree-l1"><a class="reference internal" href="../ARCHITECTURE_AND_POWER_AUDIT/">Architecture and power audit</a>
                 </li>
               </ul>
               <ul>
@@ -140,12 +152,20 @@ correct time when a phone connects or the user syncs manually.</p>
 <p>The RTC battery and oscillator should still be checked if time is wrong after
 repeated successful synchronization. The <code>RTC adjusted</code> log confirms a source
 changed the chip; it does not validate the backup cell or long-term drift.</p>
+<p>Use <code>ewctl time status</code> over USB to inspect the current value, I²C readability,
+oscillator-stop flag, and the DS3231/software difference. <code>ewctl time set &lt;epoch&gt;</code>
+sets the watch's displayed wall time directly. After setting a known time,
+record <code>time status</code>, leave the watch running for several hours, then compare
+again. A continuing offset while powered suggests the RTC or its clock source;
+a reset to an old value after main power is removed points to backup-cell or
+RTC backup-path trouble. The status command cannot measure the coin cell's
+voltage, so that final distinction still needs a hardware check.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../POWER_AND_BATTERY_DESIGN/" class="btn btn-neutral float-left" title="Power and battery"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../FIRMWARE_POWER_AUDIT/" class="btn btn-neutral float-right" title="Firmware power audit">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../ARCHITECTURE_AND_POWER_AUDIT/" class="btn btn-neutral float-right" title="Architecture and power audit">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -175,7 +195,7 @@ changed the chip; it does not validate the backup cell or long-term drift.</p>
       <span><a href="../POWER_AND_BATTERY_DESIGN/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../FIRMWARE_POWER_AUDIT/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../ARCHITECTURE_AND_POWER_AUDIT/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>

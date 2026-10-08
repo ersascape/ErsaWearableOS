@@ -32,5 +32,6 @@ var searchData=
   ['application_5fmanager_2eh_29',['application_manager.h',['../d9/d15/application__manager_8h.html',1,'']]],
   ['apps_5fregistry_2ecpp_30',['apps_registry.cpp',['../dc/dd5/apps__registry_8cpp.html',1,'']]],
   ['apps_5fregistry_2eh_31',['apps_registry.h',['../dc/d24/apps__registry_8h.html',1,'']]],
-  ['arduino_2eh_32',['Arduino.h',['../de/df0/Arduino_8h.html',1,'']]]
+  ['architecture_5fand_5fpower_5faudit_2emd_32',['ARCHITECTURE_AND_POWER_AUDIT.md',['../d8/d5d/ARCHITECTURE__AND__POWER__AUDIT_8md.html',1,'']]],
+  ['arduino_2eh_33',['Arduino.h',['../de/df0/Arduino_8h.html',1,'']]]
 ];

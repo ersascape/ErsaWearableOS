@@ -6,5 +6,6 @@ var searchData=
   ['updatestate_5f_3',['updateState_',['../d9/d27/classersa_1_1services_1_1OtaService.html#a5e95295ca273f40c0cf4c0fbe217f197',1,'ersa::services::OtaService']]],
   ['updatetaskactive_5f_4',['updateTaskActive_',['../d9/d27/classersa_1_1services_1_1OtaService.html#a6caa4753afc5c767073889c72e0b62c5',1,'ersa::services::OtaService']]],
   ['updateversion_5f_5',['updateVersion_',['../d9/d27/classersa_1_1services_1_1OtaService.html#a95b534a25cbeee9fb9dd99d84cc6aa32',1,'ersa::services::OtaService']]],
-  ['userdata_6',['userData',['../df/dbf/structersa_1_1events_1_1Subscription.html#ad9541347dd45fda786db6c5fd525c609',1,'ersa::events::Subscription']]]
+  ['userdata_6',['userData',['../df/dbf/structersa_1_1events_1_1Subscription.html#ad9541347dd45fda786db6c5fd525c609',1,'ersa::events::Subscription']]],
+  ['useridle_7',['userIdle',['../d2/d41/structersa_1_1runtime_1_1SleepEligibility.html#a626acf51bdb98960be14024f86a597bb',1,'ersa::runtime::SleepEligibility']]]
 ];

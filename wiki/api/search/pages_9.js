@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['management_20design_0',['Battery and power management design',['../d4/d1b/md_docs_2POWER__AND__BATTERY__DESIGN.html',1,'']]]
+  ['hal_20and_20board_20architecture_0',['HAL and Board Architecture',['../d8/d4d/md_docs_2HAL__ARCHITECTURE.html',1,'']]]
 ];

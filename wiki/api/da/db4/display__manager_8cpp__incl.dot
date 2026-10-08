@@ -19,8 +19,4 @@ digraph "src/ersa/services/display_manager.cpp"
   Node6 -> Node4 [id="edge7_Node000006_Node000004",color="steelblue1",style="solid",tooltip=" "];
   Node6 -> Node5 [id="edge8_Node000006_Node000005",color="steelblue1",style="solid",tooltip=" "];
   Node2 -> Node4 [id="edge9_Node000002_Node000004",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node7 [id="edge10_Node000001_Node000007",color="steelblue1",style="solid",tooltip=" "];
-  Node7 [id="Node000007",label="ersa/common/logging.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d5/d77/logging_8h.html",tooltip=" "];
-  Node7 -> Node8 [id="edge11_Node000007_Node000008",color="steelblue1",style="solid",tooltip=" "];
-  Node8 [id="Node000008",label="stdio.h",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
 }

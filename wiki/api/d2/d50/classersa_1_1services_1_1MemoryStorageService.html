@@ -108,6 +108,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3a1d5d06f272509741fd9f8ea4a98b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a713a41f6119a0d1903341d6d457fe7c1" id="r_a713a41f6119a0d1903341d6d457fe7c1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a713a41f6119a0d1903341d6d457fe7c1">getBool</a> (std::string_view key, bool defaultValue) override</td></tr>
 <tr class="separator:a713a41f6119a0d1903341d6d457fe7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c4d4c465cb20d909fa0eea75b9b68ca" id="r_a5c4d4c465cb20d909fa0eea75b9b68ca"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a5c4d4c465cb20d909fa0eea75b9b68ca">setBytes</a> (std::string_view key, const void *<a class="el" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, size_t <a class="el" href="../../d1/d80/ota__service_8cpp.html#a854352f53b148adc24983a58a1866d66">size</a>) override</td></tr>
+<tr class="separator:a5c4d4c465cb20d909fa0eea75b9b68ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e3a643380141a99d8087c24896cdaba" id="r_a4e3a643380141a99d8087c24896cdaba"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a4e3a643380141a99d8087c24896cdaba">getBytesLength</a> (std::string_view key) override</td></tr>
+<tr class="separator:a4e3a643380141a99d8087c24896cdaba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6d409cb8b759997bf57de35f88351b2" id="r_aa6d409cb8b759997bf57de35f88351b2"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#aa6d409cb8b759997bf57de35f88351b2">getBytes</a> (std::string_view key, void *<a class="el" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, size_t <a class="el" href="../../d1/d80/ota__service_8cpp.html#a854352f53b148adc24983a58a1866d66">size</a>) override</td></tr>
+<tr class="separator:aa6d409cb8b759997bf57de35f88351b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a802f98ed2f76e9f964efe5e53cc4cd9e" id="r_a802f98ed2f76e9f964efe5e53cc4cd9e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a802f98ed2f76e9f964efe5e53cc4cd9e">remove</a> (std::string_view key) override</td></tr>
 <tr class="separator:a802f98ed2f76e9f964efe5e53cc4cd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b478a399ddbd4c29048ce5abb96658e" id="r_a0b478a399ddbd4c29048ce5abb96658e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a0b478a399ddbd4c29048ce5abb96658e">clear</a> () override</td></tr>
@@ -196,6 +202,80 @@ Additional Inherited Members</h2></td></tr>
 <p>Read a boolean setting or return <code>defaultValue</code> when the key is absent. </p>
 
 <p>Implements <a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a90fc769a2d354b53db9ab966cf4cd71f">ersa::services::StorageService</a>.</p>
+
+</div>
+</div>
+<a id="aa6d409cb8b759997bf57de35f88351b2" name="aa6d409cb8b759997bf57de35f88351b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6d409cb8b759997bf57de35f88351b2">&#9670;&#160;</a></span>getBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t ersa::services::MemoryStorageService::getBytes </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Copy a stored record when its size matches; return bytes copied or zero. </p>
+
+<p>Implements <a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a0bf31969967f8e9cf2dab382fc69fc7d">ersa::services::StorageService</a>.</p>
+
+</div>
+</div>
+<a id="a4e3a643380141a99d8087c24896cdaba" name="a4e3a643380141a99d8087c24896cdaba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e3a643380141a99d8087c24896cdaba">&#9670;&#160;</a></span>getBytesLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t ersa::services::MemoryStorageService::getBytesLength </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the exact stored record size, or zero when the key is absent. </p>
+
+<p>Implements <a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a8045edfaa60947b011a2216644b98a39">ersa::services::StorageService</a>.</p>
 
 </div>
 </div>
@@ -370,6 +450,51 @@ Additional Inherited Members</h2></td></tr>
 <p>Store a boolean setting; false indicates that persistence failed. </p>
 
 <p>Implements <a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a3fb7db4ea2a890158c1529072cce7657">ersa::services::StorageService</a>.</p>
+
+</div>
+</div>
+<a id="a5c4d4c465cb20d909fa0eea75b9b68ca" name="a5c4d4c465cb20d909fa0eea75b9b68ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c4d4c465cb20d909fa0eea75b9b68ca">&#9670;&#160;</a></span>setBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ersa::services::MemoryStorageService::setBytes </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Store an opaque byte record for bounded caches and versioned snapshots. </p>
+
+<p>Implements <a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#ade08fa9be704b022c23f0daf762a87c7">ersa::services::StorageService</a>.</p>
 
 </div>
 </div>

@@ -102,6 +102,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa1d37a12706656f6cf1000d66b5cd9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc68e7c4be1fcd5b7b83c17a5776fdea" id="r_adc68e7c4be1fcd5b7b83c17a5776fdea"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#adc68e7c4be1fcd5b7b83c17a5776fdea">isHealthy</a> () const =0</td></tr>
 <tr class="separator:adc68e7c4be1fcd5b7b83c17a5776fdea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca5eefebd6686b477703748805d1d93c" id="r_aca5eefebd6686b477703748805d1d93c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html">RtcDiagnostics</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#aca5eefebd6686b477703748805d1d93c">diagnostics</a> ()</td></tr>
+<tr class="separator:aca5eefebd6686b477703748805d1d93c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a888f722dc138b9618f8b9739fca92964" id="r_a888f722dc138b9618f8b9739fca92964"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d69/classersa_1_1hal_1_1IRtc.html#a888f722dc138b9618f8b9739fca92964">resync</a> ()</td></tr>
+<tr class="separator:a888f722dc138b9618f8b9739fca92964"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Real-time clock contract using transport-neutral calendar values. </p>
@@ -158,6 +162,32 @@ Public Member Functions</h2></td></tr>
 <p>Write explicit calendar fields and report bus/chip failures. </p>
 
 <p>Implemented in <a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a3791c2771d7c0666223601796f6455ab">ersa::test::MockRtc</a>.</p>
+
+</div>
+</div>
+<a id="aca5eefebd6686b477703748805d1d93c" name="aca5eefebd6686b477703748805d1d93c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca5eefebd6686b477703748805d1d93c">&#9670;&#160;</a></span>diagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html">RtcDiagnostics</a> ersa::hal::IRtc::diagnostics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return best-effort chip status; generic implementations report current time only. </p>
 
 </div>
 </div>
@@ -242,6 +272,32 @@ Public Member Functions</h2></td></tr>
 <p>Return a calendar snapshot; the implementation may derive epoch fields. </p>
 
 <p>Implemented in <a class="el" href="../../da/daa/classersa_1_1test_1_1MockRtc.html#a7abb468357395b790e7935435a6073ef">ersa::test::MockRtc</a>.</p>
+
+</div>
+</div>
+<a id="a888f722dc138b9618f8b9739fca92964" name="a888f722dc138b9618f8b9739fca92964"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a888f722dc138b9618f8b9739fca92964">&#9670;&#160;</a></span>resync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ersa::hal::IRtc::resync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Force reconciliation with hardware after a wake where uptime paused. </p>
 
 </div>
 </div>

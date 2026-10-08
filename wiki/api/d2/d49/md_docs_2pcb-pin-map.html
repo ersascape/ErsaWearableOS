@@ -73,7 +73,7 @@ $(function() {
   <div class="headertitle"><div class="title">PCB pin trace</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md61"></a> Source: the user's EasyEDA PCB JSON (<code>editorVersion: 6.5.51</code>, XIAO reference U8), provided on 2026-09-27. GPIO translations were checked against the installed Arduino XIAO_ESP32C3 <code>pins_arduino.h</code>. Top/bottom refer to the PCB drawing's Y axis.</p>
+<div class="textblock"><p><a class="anchor" id="autotoc_md56"></a> Source: the user's EasyEDA PCB JSON (<code>editorVersion: 6.5.51</code>, XIAO reference U8), provided on 2026-09-27. GPIO translations were checked against the installed Arduino XIAO_ESP32C3 <code>pins_arduino.h</code>. Top/bottom refer to the PCB drawing's Y axis.</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Signal   </th><th class="markdownTableHeadNone">PCB net / connection   </th><th class="markdownTableHeadNone">XIAO label   </th><th class="markdownTableHeadNone">ESP32-C3 GPIO    </th></tr>
@@ -99,7 +99,7 @@ $(function() {
 <td class="markdownTableBodyNone">EPD BUSY   </td><td class="markdownTableBodyNone">U5_8 -&gt; U8 pad 10   </td><td class="markdownTableBodyNone">MISO/D9   </td><td class="markdownTableBodyNone">9   </td></tr>
 </table>
 <p>Both buttons close to GND. R1 (100 kOhm) pulls U8_2 to VCC, and R2 (100 kOhm) pulls U8_3 to VCC. Firmware also enables the requested internal pull-ups. XIAO pad numbers are footprint terminal numbers, not GPIO numbers.</p>
-<h1><a class="anchor" id="autotoc_md62"></a>
+<h1><a class="anchor" id="autotoc_md57"></a>
 Upper button / buzzer conflict</h1>
 <p><b>Assembly clarification:</b> the user confirmed that this is an older design and U3 is not fitted. The loading concern below does not apply to that assembly.</p>
 <p>U3 (<code>GSC4417YA-16R4000</code>) pad 1 is on U8_3, and pad 2 is GND. The routed trace from U3 pad 1 at (4024.61, 3344.5) joins S2's net at (4033.126, 3323.151). Thus the buzzer and upper button share the same GPIO-to-ground path; this is more than a duplicate net label in the footprint. If fitted, the buzzer may load the pull-up and keep GPIO4 LOW even with S2 released.</p>

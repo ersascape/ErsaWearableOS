@@ -30,7 +30,7 @@ digraph "include/ersa/system.h"
   Node9 [id="Node000009",label="ersa/services/power\l_manager.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d9/db6/power__manager_8h.html",tooltip=" "];
   Node9 -> Node3 [id="edge16_Node000009_Node000003",color="steelblue1",style="solid",tooltip=" "];
   Node9 -> Node10 [id="edge17_Node000009_Node000010",color="steelblue1",style="solid",tooltip=" "];
-  Node10 [id="Node000010",label="ersa/hal/battery.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d0/ddc/include_2ersa_2hal_2battery_8h.html",tooltip=" "];
+  Node10 [id="Node000010",label="ersa/hal/battery.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d6/d69/battery_8h.html",tooltip=" "];
   Node10 -> Node3 [id="edge18_Node000010_Node000003",color="steelblue1",style="solid",tooltip=" "];
   Node10 -> Node4 [id="edge19_Node000010_Node000004",color="steelblue1",style="solid",tooltip=" "];
   Node9 -> Node7 [id="edge20_Node000009_Node000007",color="steelblue1",style="solid",tooltip=" "];

@@ -53,12 +53,4 @@ digraph "src/core/buttons.h"
   Node20 [id="Node000020",label="src/apps/app_todo.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d6/dd2/app__todo_8cpp.html",tooltip=" "];
   Node19 -> Node4 [id="edge28_Node000019_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
   Node1 -> Node4 [id="edge29_Node000001_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node21 [id="edge30_Node000001_Node000021",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node21 [id="Node000021",label="src/core/buttons.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d9/d52/buttons_8cpp.html",tooltip=" "];
-  Node1 -> Node16 [id="edge31_Node000001_Node000016",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node1 -> Node22 [id="edge32_Node000001_Node000022",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node22 [id="Node000022",label="src/ui/watch_ui.h",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$d3/dbb/watch__ui_8h.html",tooltip=" "];
-  Node22 -> Node23 [id="edge33_Node000022_Node000023",dir="back",color="steelblue1",style="solid",tooltip=" "];
-  Node23 [id="Node000023",label="src/main.cpp",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$df/d0a/main_8cpp.html",tooltip=" "];
-  Node22 -> Node16 [id="edge34_Node000022_Node000016",dir="back",color="steelblue1",style="solid",tooltip=" "];
 }

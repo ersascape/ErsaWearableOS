@@ -109,8 +109,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a998dce83172da045975906ac4f1a3a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ad6b3dd9fc40b7584e540e932f3564b" id="r_a9ad6b3dd9fc40b7584e540e932f3564b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a9ad6b3dd9fc40b7584e540e932f3564b">notifyWake</a> () override</td></tr>
 <tr class="separator:a9ad6b3dd9fc40b7584e540e932f3564b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9bcfcb8fab019ba7904a61ce3b6c200" id="r_af9bcfcb8fab019ba7904a61ce3b6c200"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#af9bcfcb8fab019ba7904a61ce3b6c200">enterLightSleep</a> (uint64_t timerUs) override</td></tr>
-<tr class="separator:af9bcfcb8fab019ba7904a61ce3b6c200"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e4149def7fa28b6fbd770fa3ad262f1" id="r_a3e4149def7fa28b6fbd770fa3ad262f1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a3e4149def7fa28b6fbd770fa3ad262f1">enterDeepSleep</a> (uint64_t timerUs) override</td></tr>
 <tr class="separator:a3e4149def7fa28b6fbd770fa3ad262f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7eb7042cc2446c3c9f81f775f31dc4af" id="r_a7eb7042cc2446c3c9f81f775f31dc4af"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a7eb7042cc2446c3c9f81f775f31dc4af">acquirePerformance</a> (<a class="el" href="../../d9/de5/namespaceersa_1_1hal.html#a11b9976544ba590df5660dae05382667">hal::PerformanceProfile</a>, const char *) override</td></tr>
@@ -144,8 +142,6 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a4ef710a757159daaea17998378111e9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4276a55336509a34a99862316f219a9b" id="r_a4276a55336509a34a99862316f219a9b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a4276a55336509a34a99862316f219a9b">wakeNotifications</a> {0}</td></tr>
 <tr class="separator:a4276a55336509a34a99862316f219a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7acaed2f0e026a0d02e094e2f22ddc6" id="r_af7acaed2f0e026a0d02e094e2f22ddc6"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#af7acaed2f0e026a0d02e094e2f22ddc6">lastLightSleepUs</a> {0}</td></tr>
-<tr class="separator:af7acaed2f0e026a0d02e094e2f22ddc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab42f34529fc2984a9ddb9a4e757f1a0a" id="r_ab42f34529fc2984a9ddb9a4e757f1a0a"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#ab42f34529fc2984a9ddb9a4e757f1a0a">lastDeepSleepUs</a> {0}</td></tr>
 <tr class="separator:ab42f34529fc2984a9ddb9a4e757f1a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25f3bdb2984fa2855e3dd2d1a22bf0d1" id="r_a25f3bdb2984fa2855e3dd2d1a22bf0d1"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a25f3bdb2984fa2855e3dd2d1a22bf0d1">performanceAcquires</a> {0}</td></tr>
@@ -257,40 +253,6 @@ Public Attributes</h2></td></tr>
 <p>Enter deep sleep after configuring enabled GPIO/timer sources. This normally restarts firmware on wake, unlike light sleep. </p>
 
 <p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a18bf5e14632301468a8d9e1ee42cf74d">ersa::hal::IPowerManagement</a>.</p>
-
-</div>
-</div>
-<a id="af9bcfcb8fab019ba7904a61ce3b6c200" name="af9bcfcb8fab019ba7904a61ce3b6c200"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9bcfcb8fab019ba7904a61ce3b6c200">&#9670;&#160;</a></span>enterLightSleep()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ersa::test::MockPowerManagement::enterLightSleep </td>
-          <td>(</td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>timerUs</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Enter coordinated light sleep; active BLE/PM locks may constrain entry. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">timerUs</td><td>Optional timer wake deadline in microseconds; zero omits it. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p>Implements <a class="el" href="../../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a6cbe0d6113dc3fd90c5a6dc2056fd4dc">ersa::hal::IPowerManagement</a>.</p>
 
 </div>
 </div>
@@ -614,20 +576,6 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">uint64_t ersa::test::MockPowerManagement::lastDeepSleepUs {0}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af7acaed2f0e026a0d02e094e2f22ddc6" name="af7acaed2f0e026a0d02e094e2f22ddc6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af7acaed2f0e026a0d02e094e2f22ddc6">&#9670;&#160;</a></span>lastLightSleepUs</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint64_t ersa::test::MockPowerManagement::lastLightSleepUs {0}</td>
         </tr>
       </table>
 </div><div class="memdoc">

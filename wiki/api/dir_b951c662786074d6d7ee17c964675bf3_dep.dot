@@ -10,5 +10,5 @@ digraph "src/bsp/ampere/xiao_esp32c3/terra"
   dir_b951c662786074d6d7ee17c964675bf3 [label="terra", fillcolor="#edf0f7", color="grey25", style="filled,bold", URL="dir_b951c662786074d6d7ee17c964675bf3.html",tooltip=""];
   }
   dir_d44c64559bbebec7f509842c48db8b23 [label="include", fillcolor="#edf0f7", color="red", style="filled", URL="dir_d44c64559bbebec7f509842c48db8b23.html",tooltip=""];
-  dir_b951c662786074d6d7ee17c964675bf3->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="1", labeldistance=1.5 headhref="dir_000027_000021.html" href="dir_000027_000021.html" color="steelblue1" fontcolor="steelblue1"];
+  dir_b951c662786074d6d7ee17c964675bf3->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="1", labeldistance=1.5 headhref="dir_000028_000021.html" href="dir_000028_000021.html" color="steelblue1" fontcolor="steelblue1"];
 }

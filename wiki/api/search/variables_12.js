@@ -9,7 +9,7 @@ var searchData=
   ['textsize_5f_6',['textSize_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a33eadba74a7bbc46d6dd4ce621a1924b',1,'ersa::test::MockDisplay']]],
   ['textwrap_5f_7',['textWrap_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a981c0689c6bfe874583a4c320311b106',1,'ersa::test::MockDisplay']]],
   ['tickusers_5f_8',['tickUsers_',['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#ab05827b274cf9894b22dd8ef2c79a286',1,'ersa::hal::Esp32Bluetooth']]],
-  ['time_9',['time',['../d4/db2/structersa_1_1events_1_1Event.html#aee7b49fb11101ffbc8494bee6532f0b1',1,'ersa::events::Event']]],
+  ['time_9',['time',['../d4/db2/structersa_1_1events_1_1Event.html#aee7b49fb11101ffbc8494bee6532f0b1',1,'ersa::events::Event::time'],['../d4/dde/structersa_1_1hal_1_1RtcDiagnostics.html#a20b0b280922defee1aba9324e4594517',1,'ersa::hal::RtcDiagnostics::time']]],
   ['timecb_5f_10',['timecb_',['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#af925212ea97c429344e2728b689f15fd',1,'ersa::hal::Esp32Bluetooth::timeCb_'],['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#a1df5a5d7d40b9136a259f7f807e9a55a',1,'ersa::test::MockBluetooth::timeCb_']]],
   ['timestampepoch_11',['timestampepoch',['../d5/dcd/structersa_1_1services_1_1RecentCall.html#a76968ea83da881b5c16f5c227853136d',1,'ersa::services::RecentCall::timestampEpoch'],['../d0/d01/structersa_1_1services_1_1AppNotification.html#aa1d6eed140ee3ea0c3137594161b7bad',1,'ersa::services::AppNotification::timestampEpoch']]],
   ['timestampms_12',['timestampMs',['../d4/db2/structersa_1_1events_1_1Event.html#ad08f9f5ef207d784c1a87737a4bcacf2',1,'ersa::events::Event']]],

@@ -107,6 +107,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3fb7db4ea2a890158c1529072cce7657"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90fc769a2d354b53db9ab966cf4cd71f" id="r_a90fc769a2d354b53db9ab966cf4cd71f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a90fc769a2d354b53db9ab966cf4cd71f">getBool</a> (std::string_view key, bool defaultValue=false)=0</td></tr>
 <tr class="separator:a90fc769a2d354b53db9ab966cf4cd71f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade08fa9be704b022c23f0daf762a87c7" id="r_ade08fa9be704b022c23f0daf762a87c7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#ade08fa9be704b022c23f0daf762a87c7">setBytes</a> (std::string_view key, const void *<a class="el" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, size_t <a class="el" href="../../d1/d80/ota__service_8cpp.html#a854352f53b148adc24983a58a1866d66">size</a>)=0</td></tr>
+<tr class="separator:ade08fa9be704b022c23f0daf762a87c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8045edfaa60947b011a2216644b98a39" id="r_a8045edfaa60947b011a2216644b98a39"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a8045edfaa60947b011a2216644b98a39">getBytesLength</a> (std::string_view key)=0</td></tr>
+<tr class="separator:a8045edfaa60947b011a2216644b98a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bf31969967f8e9cf2dab382fc69fc7d" id="r_a0bf31969967f8e9cf2dab382fc69fc7d"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a0bf31969967f8e9cf2dab382fc69fc7d">getBytes</a> (std::string_view key, void *<a class="el" href="../../d1/d80/ota__service_8cpp.html#adf84f69ae521ff6e24e820d469ffd6fd">data</a>, size_t <a class="el" href="../../d1/d80/ota__service_8cpp.html#a854352f53b148adc24983a58a1866d66">size</a>)=0</td></tr>
+<tr class="separator:a0bf31969967f8e9cf2dab382fc69fc7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3272a557a757f96f66d690052ec430cd" id="r_a3272a557a757f96f66d690052ec430cd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#a3272a557a757f96f66d690052ec430cd">remove</a> (std::string_view key)=0</td></tr>
 <tr class="separator:a3272a557a757f96f66d690052ec430cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab995d66d6e71a4f052c30123e9679ff9" id="r_ab995d66d6e71a4f052c30123e9679ff9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d6a/classersa_1_1services_1_1StorageService.html#ab995d66d6e71a4f052c30123e9679ff9">clear</a> ()=0</td></tr>
@@ -215,6 +221,80 @@ Static Public Member Functions</h2></td></tr>
 <p>Read a boolean setting or return <code>defaultValue</code> when the key is absent. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a713a41f6119a0d1903341d6d457fe7c1">ersa::services::MemoryStorageService</a>.</p>
+
+</div>
+</div>
+<a id="a0bf31969967f8e9cf2dab382fc69fc7d" name="a0bf31969967f8e9cf2dab382fc69fc7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bf31969967f8e9cf2dab382fc69fc7d">&#9670;&#160;</a></span>getBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t ersa::services::StorageService::getBytes </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Copy a stored record when its size matches; return bytes copied or zero. </p>
+
+<p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#aa6d409cb8b759997bf57de35f88351b2">ersa::services::MemoryStorageService</a>.</p>
+
+</div>
+</div>
+<a id="a8045edfaa60947b011a2216644b98a39" name="a8045edfaa60947b011a2216644b98a39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8045edfaa60947b011a2216644b98a39">&#9670;&#160;</a></span>getBytesLength()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual size_t ersa::services::StorageService::getBytesLength </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Return the exact stored record size, or zero when the key is absent. </p>
+
+<p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a4e3a643380141a99d8087c24896cdaba">ersa::services::MemoryStorageService</a>.</p>
 
 </div>
 </div>
@@ -416,6 +496,51 @@ Static Public Member Functions</h2></td></tr>
 <p>Store a boolean setting; false indicates that persistence failed. </p>
 
 <p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a3a1d5d06f272509741fd9f8ea4a98b43">ersa::services::MemoryStorageService</a>.</p>
+
+</div>
+</div>
+<a id="ade08fa9be704b022c23f0daf762a87c7" name="ade08fa9be704b022c23f0daf762a87c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade08fa9be704b022c23f0daf762a87c7">&#9670;&#160;</a></span>setBytes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool ersa::services::StorageService::setBytes </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Store an opaque byte record for bounded caches and versioned snapshots. </p>
+
+<p>Implemented in <a class="el" href="../../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a5c4d4c465cb20d909fa0eea75b9b68ca">ersa::services::MemoryStorageService</a>.</p>
 
 </div>
 </div>

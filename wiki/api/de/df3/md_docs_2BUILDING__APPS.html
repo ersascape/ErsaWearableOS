@@ -73,8 +73,8 @@ $(function() {
   <div class="headertitle"><div class="title">Building and registering apps</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md15"></a> EWP apps are C++ components compiled into the firmware image. The firmware starts one app at a time through <code>ApplicationManager</code>; it does not load native app binaries at runtime.</p>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md27"></a> EWP apps are C++ components compiled into the firmware image. The firmware starts one app at a time through <code>ApplicationManager</code>; it does not load native app binaries at runtime.</p>
+<h1><a class="anchor" id="autotoc_md28"></a>
 App structure</h1>
 <p>Keep app-specific behavior in <code>src/apps/</code>. Existing apps commonly split their screen logic into a small module and adapt it to <code><a class="el" href="../../dd/d20/classersa_1_1app_1_1Application.html">ersa::app::Application</a></code> in <code><a class="el" href="../../dc/dd5/apps__registry_8cpp.html">src/apps/apps_registry.cpp</a></code>.</p>
 <p>Implement the application contract from <a href="https://github.com/ersascape/ErsaWearableOS/blob/master/include/ersa/app/application.h"><code>include/ersa/app/application.h</code></a>:</p>
@@ -88,7 +88,7 @@ App structure</h1>
 <li><code>getPartialBounds()</code> declares the area to refresh for app updates.</li>
 </ul>
 <p>Apps should use framework services and HAL contracts. Do not include Arduino, ESP-IDF, or concrete peripheral-driver headers in app code. For network work, use the existing service flow and return promptly so input, BLE events, and clock updates continue to run.</p>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md29"></a>
 Registering an app</h1>
 <ol type="1">
 <li>Add the app module under <code>src/apps/</code>, with a header and implementation when the app has reusable screen logic.</li>
@@ -100,18 +100,18 @@ Registering an app</h1>
 <li>Build and run the checks below. Confirm drawer navigation, back navigation, button behavior, rendering bounds, and wake/sleep behavior on the watch.</li>
 </ol>
 <p><code>src/CMakeLists.txt</code> discovers project <code>.cpp</code> and <code>.c</code> files recursively, so a new source file under <code>src/</code> is included in the firmware build automatically. App registration is still explicit; adding a source file alone does not make an app navigable.</p>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md30"></a>
 Build and check</h1>
 <p>From the repository root:</p>
 <div class="fragment"><div class="line">make test       # host-side platform and service tests</div>
 <div class="line">make firmware   # ESP32-C3 firmware build</div>
 <div class="line">make docs       # wiki and generated C++ API reference</div>
 </div><!-- fragment --><p>The firmware output is <code>.pio/build/ErsaWearable/firmware.bin</code>. The same build can be run with <code>./scripts/pio.sh run</code>. PlatformIO uses the pinned project environment in <code>platformio.ini</code> and downloads its framework and libraries when needed.</p>
-<h1><a class="anchor" id="autotoc_md19"></a>
+<h1><a class="anchor" id="autotoc_md31"></a>
 App store and installable apps</h1>
 <p>There is no app store or runtime app installer today. App code is linked into the firmware, and updates replace one of the two OTA firmware slots. The current image already uses about 95% of one slot, and the partition table has no app-data filesystem. There is no dynamic linker or stable binary ABI for third-party native apps.</p>
 <p>A hosted app catalog could list firmware releases, source projects, or compatible app bundles for developers to build themselves. Installing native apps independently would require a different runtime or operating system, storage reserved for app packages, a stable application ABI, and a security model. Those are substantial platform changes; the current flash layout does not have room for a conventional app store.</p>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md32"></a>
 SDK and C++ reference</h1>
 <p>The generated <a href="https://pkgs-wearables.ersa.dev/wiki/api/">C++ API reference</a> documents project headers and implementation, including HALs, services, app contracts, and board support. It is built from the same source headers the app compiler uses; Doxygen comments on declarations provide the function reference.</p>
 <p>PlatformIO pins the current firmware to ESP-IDF 4.4.7 and Arduino-ESP32 2.0.17. Use the upstream <a href="https://docs.espressif.com/projects/esp-idf/en/v4.4/esp32c3/api-reference/index.html">ESP-IDF 4.4 API reference</a> and <a href="https://docs.espressif.com/projects/arduino-esp32/en/2.0.17/">Arduino-ESP32 documentation</a> for those vendor APIs. Their SDK headers and implementations are downloaded into PlatformIO's package cache; this project's Doxygen site documents Ersa code and links to the matching vendor references instead of duplicating SDK documentation. </p>

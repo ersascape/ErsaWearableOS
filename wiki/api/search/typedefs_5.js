@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['wakecallback_0',['WakeCallback',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a44a1c44df18e2d60e2f79c29b9daa2c3',1,'ersa::services::BluetoothManager']]]
+  ['subscriptionid_0',['SubscriptionId',['../d2/d01/namespaceersa_1_1events.html#ab3eb1eb90b199f82d6f35614708be285',1,'ersa::events']]]
 ];

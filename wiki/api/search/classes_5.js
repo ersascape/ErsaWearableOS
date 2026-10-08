@@ -4,10 +4,16 @@ var searchData=
   ['ibattery_1',['IBattery',['../de/d4a/classersa_1_1hal_1_1IBattery.html',1,'ersa::hal']]],
   ['ibluetooth_2',['IBluetooth',['../d7/d52/classersa_1_1hal_1_1IBluetooth.html',1,'ersa::hal']]],
   ['icompanionsource_3',['ICompanionSource',['../d3/dfe/classersa_1_1hal_1_1ICompanionSource.html',1,'ersa::hal']]],
-  ['idisplay_4',['IDisplay',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html',1,'ersa::hal']]],
-  ['ieventlistener_5',['IEventListener',['../d7/d9e/classersa_1_1events_1_1IEventListener.html',1,'ersa::events']]],
-  ['iinput_6',['IInput',['../d8/d26/classersa_1_1hal_1_1IInput.html',1,'ersa::hal']]],
-  ['ipowermanagement_7',['IPowerManagement',['../dc/d23/classersa_1_1hal_1_1IPowerManagement.html',1,'ersa::hal']]],
-  ['irtc_8',['IRtc',['../dc/d69/classersa_1_1hal_1_1IRtc.html',1,'ersa::hal']]],
-  ['iwifiradio_9',['IWifiRadio',['../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html',1,'ersa::hal']]]
+  ['iconsole_4',['IConsole',['../d4/d69/classersa_1_1hal_1_1IConsole.html',1,'ersa::hal']]],
+  ['idisplay_5',['IDisplay',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html',1,'ersa::hal']]],
+  ['idnsserver_6',['IDnsServer',['../db/ddf/classersa_1_1hal_1_1IDnsServer.html',1,'ersa::hal']]],
+  ['ieventlistener_7',['IEventListener',['../d7/d9e/classersa_1_1events_1_1IEventListener.html',1,'ersa::events']]],
+  ['ihttpclient_8',['IHttpClient',['../d0/d99/classersa_1_1hal_1_1IHttpClient.html',1,'ersa::hal']]],
+  ['ihttpserver_9',['IHttpServer',['../df/d99/classersa_1_1hal_1_1IHttpServer.html',1,'ersa::hal']]],
+  ['iinput_10',['IInput',['../d8/d26/classersa_1_1hal_1_1IInput.html',1,'ersa::hal']]],
+  ['intptimesource_11',['INtpTimeSource',['../d2/df7/classersa_1_1hal_1_1INtpTimeSource.html',1,'ersa::hal']]],
+  ['iplatformdiagnostics_12',['IPlatformDiagnostics',['../d6/d7b/classersa_1_1hal_1_1IPlatformDiagnostics.html',1,'ersa::hal']]],
+  ['ipowermanagement_13',['IPowerManagement',['../dc/d23/classersa_1_1hal_1_1IPowerManagement.html',1,'ersa::hal']]],
+  ['irtc_14',['IRtc',['../dc/d69/classersa_1_1hal_1_1IRtc.html',1,'ersa::hal']]],
+  ['iwifiradio_15',['IWifiRadio',['../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html',1,'ersa::hal']]]
 ];

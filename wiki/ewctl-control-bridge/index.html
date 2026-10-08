@@ -44,6 +44,14 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/CHANGELOG.md">Release history</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/release-notes/ewp-0.3.0.md">Latest release</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../BUILDING_APPS/">Build and register apps</a>
                 </li>
               </ul>
@@ -64,6 +72,10 @@
                 </li>
               </ul>
               <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../PLATFORM_RUNTIME_ARCHITECTURE/">Platform runtime</a>
+                </li>
+              </ul>
+              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
                 </li>
               </ul>
@@ -80,7 +92,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../FIRMWARE_POWER_AUDIT/">Firmware power audit</a>
+                <li class="toctree-l1"><a class="reference internal" href="../ARCHITECTURE_AND_POWER_AUDIT/">Architecture and power audit</a>
                 </li>
               </ul>
               <ul>
@@ -145,6 +157,17 @@
 <p>The host client lives at <code>scripts/ewctl.py</code> and uses Python, <code>pyserial</code>, and Rich (<code>python3 -m pip install -r requirements-ewctl.txt</code>). It renders readable Rich tables by default; pass <code>--json</code> for machine-readable output. Examples: <code>python3 scripts/ewctl.py status</code>, <code>python3 scripts/ewctl.py power cpu-freq-set 40</code>, <code>python3 scripts/ewctl.py poll status battery ble power --interval 5</code>, and <code>python3 scripts/ewctl.py logs --follow</code>. Follow mode streams the live USB console without sending <code>logs.read</code> requests; redirect it with <code>python3 scripts/ewctl.py logs --follow &gt; watch.log</code> or use <code>logs --output watch.log</code>. <code>logs --raw</code> also selects direct raw console capture. Stop raw capture with Ctrl-C. Pass <code>--port /dev/ttyACM0</code> if auto-detection is ambiguous. The firmware endpoint is implemented in <code>src/core/usb_control.cpp</code>; the watch must run a build containing it.</p>
 <p><code>ewctl flash firmware.bin</code> flashes an app image through the ESP32-C3 ROM bootloader. <code>ewctl flash ewp-factory.bin</code> flashes the factory image and resets saved settings. The image argument can be omitted to use the local build. Tagged GitHub releases can be downloaded, verified against their SHA-256 manifest, cached, and flashed with <code>ewctl flash release 0.1.3</code>; use <code>latest</code> for the latest stable release and <code>--factory</code> for its factory image. This uses the same ROM bootloader process and esptool wrapper as <code>scripts/flash_firmware.sh</code>, not the USB control bridge. The app-image path writes the fixed <code>ota_0</code> address; after migration to the dual-slot table, use the on-device <code>updater</code> app for routine Wi-Fi updates because it selects the inactive slot and keeps bootloader rollback metadata consistent.</p>
 <p><code>ewctl power get-dvfs-state</code> captures ESP-IDF's current PM lock and CPU residency report on demand. It reports the measured CPU clock, lock counts/timing, and time in each PM mode, including sleep. <code>ewctl power log</code> samples battery voltage, CPU frequency, power state, BLE state, uptime, and heap to a timestamped CSV. Set <code>--interval 30 --duration 7200 --output run.csv</code>; duration <code>0</code> records until Ctrl-C. USB monitoring blocks the watch's normal sleep policy, so this helps compare telemetry but does not measure normal battery life.</p>
+<p>Provision settings over USB with <code>ewctl config get</code>. The getter reports which passwords are present without returning their values. Set each group independently with <code>config wifi</code>, <code>config caldav</code>, <code>config time</code>, or <code>config hotspot</code>; these commands write the same persisted settings used by the setup portal. The previous flat <code>config set</code> form remains available for scripts that already use it:</p>
+<pre><code class="language-sh">ewctl config wifi set --ssid &quot;Ersa&quot; --password 'wifi secret'
+ewctl config caldav set --server 'https://dav.example/remote.php/dav' --user 'watch' --password 'dav secret' --calendar 'personal' --todo-path 'tasks'
+ewctl config time set --timezone-offset-min 330 --time-format 24h
+ewctl config hotspot set --ssid 'Ersa Setup' --password 'setup secret' --timeout-sec 600
+ewctl config get
+</code></pre>
+<p>Passwords are sent over the USB control bridge and are never returned by
+<code>config get</code>. Avoid putting secrets directly in shell commands on shared hosts
+because shells may save command history.</p>
+<p><code>ewctl time status</code> reports the current software wall-time epoch, a direct chip readback epoch, whether the RTC is readable/healthy, whether its oscillator-stop flag is set, and the most recent chip-to-software drift measurement. Drift is marked unavailable until a periodic comparison has run. <code>ewctl time set &lt;epoch&gt;</code> writes the watch wall time directly; the epoch is interpreted as the wall-clock value shown on the watch (the firmware stores the phone's local clock fields without applying a timezone conversion).</p>
 <p><code>ewctl debug bundle</code> creates a ZIP bug report with status snapshots and up to 16 recent logs. It redacts Wi-Fi SSIDs, tokens, and URLs from log lines. Add <code>--include-coredump</code> to decode and include the raw core; that opt-in dump may contain arbitrary task memory and should be reviewed before sharing.</p>
 <h2 id="panic-coredumps">Panic coredumps</h2>
 <p>New firmware builds save ESP-IDF panic coredumps in the existing 64 KiB <code>coredump</code> flash partition, using ELF format and a CRC32 integrity check. After a panic and reboot, connect USB and decode the saved dump with the exact ELF used to build the flashed firmware:</p>

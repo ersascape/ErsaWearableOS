@@ -73,8 +73,8 @@ $(function() {
   <div class="headertitle"><div class="title">Ersa Wearable Platform Feature Catalog</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a class="anchor" id="autotoc_md30"></a> This catalog describes features in the current repository source. It distinguishes implemented behavior from planned integrations and calls out areas that still need measurements on the watch. Release tags define the exact contents of a published firmware build.</p>
-<h1><a class="anchor" id="autotoc_md31"></a>
+<div class="textblock"><p><a class="anchor" id="autotoc_md42"></a> This catalog describes features in the current repository source. It distinguishes implemented behavior from planned integrations and calls out areas that still need measurements on the watch. Release tags define the exact contents of a published firmware build.</p>
+<h1><a class="anchor" id="autotoc_md43"></a>
 Watch apps and interaction</h1>
 <ul>
 <li>Word-based Pebble-inspired clock face with date and configurable 12/24-hour format.</li>
@@ -84,7 +84,7 @@ Watch apps and interaction</h1>
 <li>Status/diagnostics app, notification history, incoming-call UI, and Now Playing UI.</li>
 <li>Monochrome 200×200 e-paper rendering with partial updates where supported. The host preview script uses the production UI renderers and ImageMagick to render notification, call, and media examples.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md32"></a>
+<h1><a class="anchor" id="autotoc_md44"></a>
 Time, network, and organizer</h1>
 <ul>
 <li>DS3231 real-time clock with timezone offset and 12/24-hour preferences.</li>
@@ -93,7 +93,7 @@ Time, network, and organizer</h1>
 <li>CalDAV event and task retrieval, daily agenda view, supported recurring event expansion, on-watch task completion, and persisted cache.</li>
 <li>Hotspot portal supports configuring Wi-Fi and CalDAV account details. Network and time synchronization are initiated by user action.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md33"></a>
+<h1><a class="anchor" id="autotoc_md45"></a>
 Bluetooth and companion data</h1>
 <ul>
 <li>Apple ANCS notification delivery with fragmented attribute assembly, UID matching, a bounded notification pipeline, and recovery when an attribute response is lost.</li>
@@ -104,15 +104,15 @@ Bluetooth and companion data</h1>
 <li><code>IBluetooth</code> isolates BLE link/advertising transport. <code>ICompanionSource</code> isolates provider identity, availability, capabilities, normalized events, and semantic commands. The current ESP32 board composes Apple services behind these contracts; host tests also exercise a provider independent of the BLE transport.</li>
 <li>Android companion support and Linux MPRIS are extension targets, not part of this release.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md34"></a>
+<h1><a class="anchor" id="autotoc_md46"></a>
 Power and battery</h1>
 <ul>
 <li>ESP-IDF power management with FreeRTOS tickless idle and Bluetooth modem sleep configuration, plus inactivity-based automatic light-sleep policy.</li>
 <li>DVFS uses ESP-IDF power-management locks for interactive and compute scopes; clock transitions can be recorded in diagnostic logs.</li>
 <li>USB <code>ewctl</code> can temporarily force the CPU to 40, 80, or 160 MHz to compare behavior, then restore the configured 40–160 MHz automatic range. The forced setting is volatile and intended for development experiments.</li>
-<li><a class="el" href="../../d2/d6d/namespaceBattery.html">Battery</a> voltage is sampled through the board ADC and mapped to an estimated percentage; low-battery handling is included. This board has no fuel gauge or current monitor, so percentage and runtime are estimates and require physical measurement for validation.</li>
+<li>Battery voltage is sampled through the board ADC and mapped to an estimated percentage; low-battery handling is included. This board has no fuel gauge or current monitor, so percentage and runtime are estimates and require physical measurement for validation.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md35"></a>
+<h1><a class="anchor" id="autotoc_md47"></a>
 Developer and release tooling</h1>
 <ul>
 <li><code>ewctl</code> over USB Serial/JTAG can query firmware/system, battery, BLE, power, and a bounded log ring. It also supports temporary CPU-frequency overrides, CSV power logging, redacted bug-report bundles, checksum-verified release flashing, and decoding flash-backed ESP-IDF panic coredumps with the matching ELF.</li>
@@ -127,7 +127,7 @@ Developer and release tooling</h1>
 <li>Each board's <code>DeviceInfo</code> supplies its display name, codename, and manufacturer. <code>ewctl status</code> also reports the compiled firmware version; BLE advertising and OTA use the selected BSP's properties. OTA stores the latest manifest at <code>ota/&lt;codename&gt;/ota.json</code> and images at <code>firmware/&lt;codename&gt;/&lt;tag&gt;.bin</code>; Terra (<code>Ampere Terra</code>) currently publishes at <code>ota/terra/ota.json</code>.</li>
 <li>The OTA service checks a compact HTTPS manifest, verifies release metadata and SHA-256, downloads in resumable HTTP ranges with bounded retry/backoff, and installs to the inactive app slot. OTA logs expose the current phase, byte progress, and transport or validation failures. Bootloader rollback protects the previous image until the new firmware confirms startup. Existing watches require one USB migration using the release bootloader, partition table, OTA metadata, and app image; the script preserves NVS settings. New devices can be factory flashed directly into the A/B layout.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md36"></a>
+<h1><a class="anchor" id="autotoc_md48"></a>
 Useful commands</h1>
 <p>Run these from the repository root. Close any other program using the serial port first.</p>
 <div class="fragment"><div class="line">python3 scripts/ewctl.py --port /dev/ttyACM0 status</div>
@@ -143,7 +143,7 @@ Useful commands</h1>
 <div class="line">python3 scripts/ewctl.py --port /dev/ttyACM0 debug coredump</div>
 </div><!-- fragment --><p><code>power</code> reports the measured CPU frequency and <code>cpu_test_override_mhz</code> (<code>0</code> means automatic scaling). <code>power cpu-freq-set</code> accepts only 40, 80, 160, or 0; it acknowledges and reboots in a controlled way so ESP-IDF applies the profile before BLE and peripheral locks start. Zero restores automatic power management. The requested profile survives software restart in RTC memory. The 40 MHz profile can rise to 80 MHz while BLE holds its APB lock. Run <code>power cpu-freq-get</code> after reboot to confirm the measured clock. Rich tables are the default; add <code>--json</code> for machine-readable output.</p>
 <p>New firmware saves panic coredumps in the reserved flash partition. Decode them with <code>debug coredump</code> before another panic overwrites the saved dump; see the <a class="el" href="../../d0/d16/md_docs_2ewctl-control-bridge.html">USB control guide</a> for ELF matching and setup.</p>
-<h1><a class="anchor" id="autotoc_md37"></a>
+<h1><a class="anchor" id="autotoc_md49"></a>
 Known validation limits</h1>
 <p>The firmware build and host test suite validate compilation and portable logic. Power consumption, sleep residency, battery runtime, and forced-frequency radio behavior need measurements on the assembled device. Apple features require an iPhone with the relevant BLE services enabled; future Android/MPRIS sources are not implemented. </p>
 </div></div><!-- contents -->

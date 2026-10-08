@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['timekeeping_20and_20clock_20recovery_0',['Timekeeping and clock recovery',['../da/d3d/md_docs_2TIMEKEEPING.html',1,'']]],
-  ['trace_1',['PCB pin trace',['../d2/d49/md_docs_2pcb-pin-map.html',1,'']]],
-  ['tt_20ewctl_20tt_20device_20control_20bridge_2',['&lt;tt&gt;ewctl&lt;/tt&gt; Device Control Bridge',['../d0/d16/md_docs_2ewctl-control-bridge.html',1,'']]]
+  ['recovery_0',['Timekeeping and clock recovery',['../da/d3d/md_docs_2TIMEKEEPING.html',1,'']]],
+  ['registering_20apps_1',['Building and registering apps',['../de/df3/md_docs_2BUILDING__APPS.html',1,'']]],
+  ['runtime_20architecture_2',['Platform and runtime architecture',['../da/dfa/md_docs_2PLATFORM__RUNTIME__ARCHITECTURE.html',1,'']]]
 ];

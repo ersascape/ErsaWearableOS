@@ -93,6 +93,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa84ef3a89bd5de9210f3656d162d761d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d8d77e9cc6c44e911ce99866d2ad349" id="r_a3d8d77e9cc6c44e911ce99866d2ad349"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d26/classersa_1_1hal_1_1IInput.html#a3d8d77e9cc6c44e911ce99866d2ad349">isPressed</a> (<a class="el" href="../../d2/d01/namespaceersa_1_1events.html#a56eb9938f9f9bd5a6c2fc5c820636d20">events::ButtonId</a> button) const =0</td></tr>
 <tr class="separator:a3d8d77e9cc6c44e911ce99866d2ad349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0f28bf84c4b26c511cd89f598303aa2" id="r_ad0f28bf84c4b26c511cd89f598303aa2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d26/classersa_1_1hal_1_1IInput.html#ad0f28bf84c4b26c511cd89f598303aa2">hasPendingEvents</a> () const =0</td></tr>
+<tr class="separator:ad0f28bf84c4b26c511cd89f598303aa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Normalized board input events and button state.</p>
@@ -124,6 +126,32 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad0f28bf84c4b26c511cd89f598303aa2" name="ad0f28bf84c4b26c511cd89f598303aa2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0f28bf84c4b26c511cd89f598303aa2">&#9670;&#160;</a></span>hasPendingEvents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool ersa::hal::IInput::hasPendingEvents </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Report queued normalized input events that still need application dispatch. </p>
+
+</div>
+</div>
 <a id="adcbe18ff6d17b1c41cbd209e935174eb" name="adcbe18ff6d17b1c41cbd209e935174eb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adcbe18ff6d17b1c41cbd209e935174eb">&#9670;&#160;</a></span>init()</h2>
 

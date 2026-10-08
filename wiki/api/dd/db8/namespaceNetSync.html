@@ -107,8 +107,6 @@ Functions</h2></td></tr>
 <tr class="separator:ac83afc23ae83c229557263b3faaf8015"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48086173379f1937a0aeeb08a850d0a1" id="r_a48086173379f1937a0aeeb08a850d0a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a48086173379f1937a0aeeb08a850d0a1">fetchHttpUtc</a> (time_t &amp;outUtc, uint32_t timeoutMs=<a class="el" href="../../dd/dd8/namespaceersa_1_1config.html#aa987e79d6415babbec3a44db9663520e">ersa::config::HTTP_TIME_TIMEOUT_MS</a>)</td></tr>
 <tr class="separator:a48086173379f1937a0aeeb08a850d0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac95f847fa957e5be5c254b3f4f68358f" id="r_ac95f847fa957e5be5c254b3f4f68358f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#ac95f847fa957e5be5c254b3f4f68358f">sntpTimeSyncNotification</a> (struct timeval *tv)</td></tr>
-<tr class="separator:ac95f847fa957e5be5c254b3f4f68358f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a267daf9dc8f8a88df82d6c992cdb652f" id="r_a267daf9dc8f8a88df82d6c992cdb652f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a267daf9dc8f8a88df82d6c992cdb652f">fetchNtpUtc</a> (time_t &amp;outUtc, uint32_t timeoutMs=<a class="el" href="../../dd/dd8/namespaceersa_1_1config.html#a7aa00cc300800bbed0e107597f5e9e2a">ersa::config::NTP_SYNC_TIMEOUT_MS</a>)</td></tr>
 <tr class="separator:a267daf9dc8f8a88df82d6c992cdb652f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad08f661d84086395c9be0ea3e862f27" id="r_aad08f661d84086395c9be0ea3e862f27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#aad08f661d84086395c9be0ea3e862f27">fetchTimeWithFallbacks</a> (time_t &amp;outUtc, bool &amp;isHttpFallback, bool updateStatus=true)</td></tr>
@@ -124,8 +122,6 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a2ef6e86ab7d0d09b02c897e1fde4ff3a" id="r_a2ef6e86ab7d0d09b02c897e1fde4ff3a"><td class="memItemLeft" align="right" valign="top">static volatile bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a2ef6e86ab7d0d09b02c897e1fde4ff3a">s_sntpSynced</a> = false</td></tr>
-<tr class="separator:a2ef6e86ab7d0d09b02c897e1fde4ff3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2bd4653c653673fd5eed6935ca1f74b" id="r_ae2bd4653c653673fd5eed6935ca1f74b"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#ae2bd4653c653673fd5eed6935ca1f74b">MAX_EVENTS_PER_DAY</a> = 6</td></tr>
 <tr class="separator:ae2bd4653c653673fd5eed6935ca1f74b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a040433eb1bd8aa12af80f77eaaf42f50" id="r_a040433eb1bd8aa12af80f77eaaf42f50"><td class="memItemLeft" align="right" valign="top">constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/db8/namespaceNetSync.html#a040433eb1bd8aa12af80f77eaaf42f50">CALENDAR_CACHE_DAYS</a> = 7</td></tr>
@@ -354,24 +350,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ac95f847fa957e5be5c254b3f4f68358f" name="ac95f847fa957e5be5c254b3f4f68358f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac95f847fa957e5be5c254b3f4f68358f">&#9670;&#160;</a></span>sntpTimeSyncNotification()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void NetSync::sntpTimeSyncNotification </td>
-          <td>(</td>
-          <td class="paramtype">struct timeval *&#160;</td>
-          <td class="paramname"><em>tv</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a238be1379c73314387019265d3340606" name="a238be1379c73314387019265d3340606"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a238be1379c73314387019265d3340606">&#9670;&#160;</a></span>startBootTimeSync()</h2>
 
@@ -571,28 +549,6 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Maximum task entries retained in RAM and persistent cache. </p>
-
-</div>
-</div>
-<a id="a2ef6e86ab7d0d09b02c897e1fde4ff3a" name="a2ef6e86ab7d0d09b02c897e1fde4ff3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ef6e86ab7d0d09b02c897e1fde4ff3a">&#9670;&#160;</a></span>s_sntpSynced</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">volatile bool NetSync::s_sntpSynced = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>

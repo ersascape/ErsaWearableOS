@@ -108,10 +108,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a1433d48fdf3ecd7ebc717cbc1cb63f6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83f5f5882fac9071731e221e5cb75226" id="r_a83f5f5882fac9071731e221e5cb75226"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a83f5f5882fac9071731e221e5cb75226">refresh</a> (bool full=false, uint32_t currentUptimeMs=0)</td></tr>
 <tr class="separator:a83f5f5882fac9071731e221e5cb75226"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a672ec8c85db6c407137275e1b60622ef" id="r_a672ec8c85db6c407137275e1b60622ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a672ec8c85db6c407137275e1b60622ef">noteActivity</a> (uint32_t currentUptimeMs)</td></tr>
-<tr class="separator:a672ec8c85db6c407137275e1b60622ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a036191cf1241de3d5ed6ae5e19fa7b33" id="r_a036191cf1241de3d5ed6ae5e19fa7b33"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a036191cf1241de3d5ed6ae5e19fa7b33">getPartialFrameCount</a> () const</td></tr>
-<tr class="separator:a036191cf1241de3d5ed6ae5e19fa7b33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6af70c94612ea4ee2ae79f21b2a8cd" id="r_afc6af70c94612ea4ee2ae79f21b2a8cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#afc6af70c94612ea4ee2ae79f21b2a8cd">refreshRect</a> (const <a class="el" href="../../de/dc7/structersa_1_1Rect.html">Rect</a> &amp;bounds, bool forceFull, uint32_t currentUptimeMs)</td></tr>
+<tr class="separator:afc6af70c94612ea4ee2ae79f21b2a8cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31c4137822f32a961867362c7169e6e7" id="r_a31c4137822f32a961867362c7169e6e7"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a31c4137822f32a961867362c7169e6e7">getPartialFrameCount</a> () const</td></tr>
+<tr class="separator:a31c4137822f32a961867362c7169e6e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5066142ebe63f47a4e431353e144079b" id="r_a5066142ebe63f47a4e431353e144079b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a5066142ebe63f47a4e431353e144079b">resetPartialFrameCount</a> ()</td></tr>
 <tr class="memdesc:a5066142ebe63f47a4e431353e144079b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the partial-frame refresh counter.  <br /></td></tr>
 <tr class="separator:a5066142ebe63f47a4e431353e144079b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,10 +131,8 @@ Static Public Member Functions</h2></td></tr>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:aa4dedd296929b9160c7e157c00343b06" id="r_aa4dedd296929b9160c7e157c00343b06"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#aa4dedd296929b9160c7e157c00343b06">MIN_REFRESH_INTERVAL_MS</a> = 500</td></tr>
 <tr class="separator:aa4dedd296929b9160c7e157c00343b06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fa0eb5e91d8b335be221ae3bcfc5d70" id="r_a0fa0eb5e91d8b335be221ae3bcfc5d70"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a0fa0eb5e91d8b335be221ae3bcfc5d70">IDLE_POWEROFF_TIMEOUT_MS</a> = 8000</td></tr>
-<tr class="separator:a0fa0eb5e91d8b335be221ae3bcfc5d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33869ed1105b60af44f0411ab60f3386" id="r_a33869ed1105b60af44f0411ab60f3386"><td class="memItemLeft" align="right" valign="top">static constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a33869ed1105b60af44f0411ab60f3386">FULL_REFRESH_FRAME_COUNT</a> = 25</td></tr>
-<tr class="separator:a33869ed1105b60af44f0411ab60f3386"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad1ac124ca5b7046e6d77d41ce6b014c" id="r_aad1ac124ca5b7046e6d77d41ce6b014c"><td class="memItemLeft" align="right" valign="top">static constexpr uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#aad1ac124ca5b7046e6d77d41ce6b014c">FULL_REFRESH_FRAME_COUNT</a> = 360</td></tr>
+<tr class="separator:aad1ac124ca5b7046e6d77d41ce6b014c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -144,18 +142,14 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aea9671a76c5b689448ddd18b5aa681ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1396b0576499c7b2739749df4d905b5" id="r_ad1396b0576499c7b2739749df4d905b5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#ad1396b0576499c7b2739749df4d905b5">fullNeeded_</a> {true}</td></tr>
 <tr class="separator:ad1396b0576499c7b2739749df4d905b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d" id="r_a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d">panelPowered_</a> {false}</td></tr>
-<tr class="separator:a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8a1a47457ee098b174d84b1df8073c9" id="r_aa8a1a47457ee098b174d84b1df8073c9"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#aa8a1a47457ee098b174d84b1df8073c9">partialFrames_</a> {0}</td></tr>
-<tr class="separator:aa8a1a47457ee098b174d84b1df8073c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e18bc2ecbb3589e67e3a4d03c6fdef3" id="r_a2e18bc2ecbb3589e67e3a4d03c6fdef3"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a2e18bc2ecbb3589e67e3a4d03c6fdef3">partialFrames_</a> {0}</td></tr>
+<tr class="separator:a2e18bc2ecbb3589e67e3a4d03c6fdef3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21d31f531ba0e71cdfa519eb53c80be1" id="r_a21d31f531ba0e71cdfa519eb53c80be1"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a21d31f531ba0e71cdfa519eb53c80be1">lastRefreshTime_</a> {0}</td></tr>
 <tr class="separator:a21d31f531ba0e71cdfa519eb53c80be1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47d75486d099effd66393a6bc0e53259" id="r_a47d75486d099effd66393a6bc0e53259"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/classersa_1_1services_1_1DisplayManager.html#a47d75486d099effd66393a6bc0e53259">lastActivityTime_</a> {0}</td></tr>
-<tr class="separator:a47d75486d099effd66393a6bc0e53259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Coalesces drawing changes and applies panel-specific refresh/power policy.</p>
-<p>Apps only mark content dirty; this manager rate-limits physical refreshes, tracks partial-frame counts, and powers the panel down after inactivity. Keeping those decisions here prevents fast UI events from causing excessive e-paper flashing or shortening panel lifetime. </p>
+<div class="textblock"><p>Coalesces drawing changes and applies panel-specific refresh policy.</p>
+<p>Apps only mark content dirty; this manager rate-limits physical refreshes and tracks partial-frame counts. E-paper drivers disable panel drive voltage after each refresh while retaining the visible image. Keeping those decisions here prevents fast UI events from causing excessive e-paper flashing or shortening panel lifetime. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a94c2ea8d28b4039a9c6ae217673e31e6" name="a94c2ea8d28b4039a9c6ae217673e31e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a94c2ea8d28b4039a9c6ae217673e31e6">&#9670;&#160;</a></span>DisplayManager()</h2>
@@ -203,14 +197,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a036191cf1241de3d5ed6ae5e19fa7b33" name="a036191cf1241de3d5ed6ae5e19fa7b33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a036191cf1241de3d5ed6ae5e19fa7b33">&#9670;&#160;</a></span>getPartialFrameCount()</h2>
+<a id="a31c4137822f32a961867362c7169e6e7" name="a31c4137822f32a961867362c7169e6e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31c4137822f32a961867362c7169e6e7">&#9670;&#160;</a></span>getPartialFrameCount()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t ersa::services::DisplayManager::getPartialFrameCount </td>
+          <td class="memname">uint16_t ersa::services::DisplayManager::getPartialFrameCount </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -304,25 +298,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a672ec8c85db6c407137275e1b60622ef" name="a672ec8c85db6c407137275e1b60622ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a672ec8c85db6c407137275e1b60622ef">&#9670;&#160;</a></span>noteActivity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void ersa::services::DisplayManager::noteActivity </td>
-          <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>currentUptimeMs</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reset the idle timer so interaction is not interrupted by power-off. </p>
-
-</div>
-</div>
 <a id="a83f5f5882fac9071731e221e5cb75226" name="a83f5f5882fac9071731e221e5cb75226"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a83f5f5882fac9071731e221e5cb75226">&#9670;&#160;</a></span>refresh()</h2>
 
@@ -349,6 +324,48 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Bypass dirty scheduling for explicit refresh requests, such as redraw. </p>
+
+</div>
+</div>
+<a id="afc6af70c94612ea4ee2ae79f21b2a8cd" name="afc6af70c94612ea4ee2ae79f21b2a8cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc6af70c94612ea4ee2ae79f21b2a8cd">&#9670;&#160;</a></span>refreshRect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ersa::services::DisplayManager::refreshRect </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../de/dc7/structersa_1_1Rect.html">Rect</a> &amp;&#160;</td>
+          <td class="paramname"><em>bounds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>forceFull</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>currentUptimeMs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Refresh an invalidated region and centralize full-waveform cadence. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bounds</td><td>Changed framebuffer area; ignored for a full waveform. </td></tr>
+    <tr><td class="paramname">forceFull</td><td>Request a full waveform for first frame or known day change. </td></tr>
+    <tr><td class="paramname">currentUptimeMs</td><td>Monotonic time used to update panel bookkeeping. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -414,7 +431,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Apply due refresh and idle-power transitions for the current uptime. </p>
+<p>Apply deferred display policy for the current uptime. </p>
 
 </div>
 </div>
@@ -482,8 +499,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a33869ed1105b60af44f0411ab60f3386" name="a33869ed1105b60af44f0411ab60f3386"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33869ed1105b60af44f0411ab60f3386">&#9670;&#160;</a></span>FULL_REFRESH_FRAME_COUNT</h2>
+<a id="aad1ac124ca5b7046e6d77d41ce6b014c" name="aad1ac124ca5b7046e6d77d41ce6b014c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad1ac124ca5b7046e6d77d41ce6b014c">&#9670;&#160;</a></span>FULL_REFRESH_FRAME_COUNT</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -492,7 +509,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr uint8_t ersa::services::DisplayManager::FULL_REFRESH_FRAME_COUNT = 25</td>
+          <td class="memname">constexpr uint16_t ersa::services::DisplayManager::FULL_REFRESH_FRAME_COUNT = 360</td>
         </tr>
       </table>
   </td>
@@ -516,51 +533,6 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">bool ersa::services::DisplayManager::fullNeeded_ {true}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0fa0eb5e91d8b335be221ae3bcfc5d70" name="a0fa0eb5e91d8b335be221ae3bcfc5d70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fa0eb5e91d8b335be221ae3bcfc5d70">&#9670;&#160;</a></span>IDLE_POWEROFF_TIMEOUT_MS</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t ersa::services::DisplayManager::IDLE_POWEROFF_TIMEOUT_MS = 8000</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Idle duration before the display controller may power off. </p>
-
-</div>
-</div>
-<a id="a47d75486d099effd66393a6bc0e53259" name="a47d75486d099effd66393a6bc0e53259"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47d75486d099effd66393a6bc0e53259">&#9670;&#160;</a></span>lastActivityTime_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t ersa::services::DisplayManager::lastActivityTime_ {0}</td>
         </tr>
       </table>
   </td>
@@ -617,8 +589,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d" name="a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d">&#9670;&#160;</a></span>panelPowered_</h2>
+<a id="a2e18bc2ecbb3589e67e3a4d03c6fdef3" name="a2e18bc2ecbb3589e67e3a4d03c6fdef3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e18bc2ecbb3589e67e3a4d03c6fdef3">&#9670;&#160;</a></span>partialFrames_</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -627,29 +599,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool ersa::services::DisplayManager::panelPowered_ {false}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa8a1a47457ee098b174d84b1df8073c9" name="aa8a1a47457ee098b174d84b1df8073c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8a1a47457ee098b174d84b1df8073c9">&#9670;&#160;</a></span>partialFrames_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t ersa::services::DisplayManager::partialFrames_ {0}</td>
+          <td class="memname">uint16_t ersa::services::DisplayManager::partialFrames_ {0}</td>
         </tr>
       </table>
   </td>

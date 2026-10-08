@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['1_20hotspot_20cleanup_20on_20screen_20exit_20—_20implemented_20validation_20pending_0',['1. Hotspot cleanup on screen exit — implemented, validation pending',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md40',1,'']]],
-  ['10_20network_20work_20blocks_20the_20ui_20and_20bypasses_20networkmanager_1',['10. Network work blocks the UI and bypasses NetworkManager',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md50',1,'']]],
-  ['11_20persistence_20and_20diagnostics_20need_20tightening_2',['11. Persistence and diagnostics need tightening',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md51',1,'']]]
+  ['1_20power_20policy_20has_20two_20disconnected_20sleep_20eligibility_20paths_0',['1. Power policy has two disconnected sleep-eligibility paths',['../da/dfe/md_docs_2ARCHITECTURE__AND__POWER__AUDIT.html#autotoc_md18',1,'']]],
+  ['10_2008_1',['Architecture and power audit — 2026-10-08',['../da/dfe/md_docs_2ARCHITECTURE__AND__POWER__AUDIT.html',1,'']]]
 ];

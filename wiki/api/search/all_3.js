@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['3_20actual_20sleep_20residency_20is_20unmeasured_0',['3. Actual sleep residency is unmeasured',['../dd/df1/md_docs_2FIRMWARE__POWER__AUDIT.html#autotoc_md42',1,'']]]
+  ['3_20manual_20chip_20sleep_20entry_20remains_20exposed_0',['3. Manual chip sleep entry remains exposed',['../da/dfe/md_docs_2ARCHITECTURE__AND__POWER__AUDIT.html#autotoc_md20',1,'']]]
 ];

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pkgs-wearables.ersa.dev/wiki/ARCHITECTURE_AND_POWER_AUDIT/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Architecture and power audit - Ersa Wearable Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Architecture and power audit";
+        var mkdocs_page_input_path = "ARCHITECTURE_AND_POWER_AUDIT.md";
+        var mkdocs_page_url = "/wiki/ARCHITECTURE_AND_POWER_AUDIT/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Ersa Wearable Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/CHANGELOG.md">Release history</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://github.com/ersascape/ErsaWearableOS/blob/master/release-notes/ewp-0.3.0.md">Latest release</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../BUILDING_APPS/">Build and register apps</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://pkgs-wearables.ersa.dev/wiki/api/">C++ API reference</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://open.ersa.dev/wearable">Wearable project</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="https://pkgs-wearables.ersa.dev/">Package repository</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../PLATFORM_RUNTIME_ARCHITECTURE/">Platform runtime</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FEATURES/">Features</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../POWER_AND_BATTERY_DESIGN/">Power and battery</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../TIMEKEEPING/">Timekeeping</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Architecture and power audit</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#findings">Findings</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#1-power-policy-has-two-disconnected-sleep-eligibility-paths">1. Power policy has two disconnected sleep-eligibility paths</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#2-the-ui-loop-owns-too-many-runtime-responsibilities">2. The UI loop owns too many runtime responsibilities</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#3-manual-chip-sleep-entry-remains-exposed">3. Manual chip sleep entry remains exposed</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#4-device-independent-contracts-exist-but-legacy-boundaries-remain">4. Device-independent contracts exist, but legacy boundaries remain</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#5-e-paper-retains-its-image-while-its-drive-voltage-is-off">5. E-paper retains its image while its drive voltage is off</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#6-battery-state-is-an-estimate-not-fuel-gauge-telemetry">6. Battery state is an estimate, not fuel-gauge telemetry</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#7-sleep-and-ble-behavior-need-hardware-evidence">7. Sleep and BLE behavior need hardware evidence</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#recommended-work-order">Recommended work order</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#review-limits">Review limits</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../apple-connectivity/">Apple connectivity</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ewctl-control-bridge/">USB control and ewctl</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pcb-pin-map/">PCB pin map</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Ersa Wearable Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Architecture and power audit</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/ersascape/ErsaWearableOS/edit/master/docs/ARCHITECTURE_AND_POWER_AUDIT.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="architecture-and-power-audit-2026-10-08">Architecture and power audit — 2026-10-08</h1>
+<p>This replaces the dated 2026-09-29 audit with a review of the current source
+tree, including the runtime scheduler and e-paper idle policy. It is a source
+and build-configuration review, not a measurement of
+battery life or a claim that the firmware has been validated on hardware.</p>
+<h2 id="summary">Summary</h2>
+<p>The code has the main layers needed for a portable wearable: board composition
+in the BSP, device-independent contracts in <code>include/ersa/hal/</code>, service and
+application policy above those contracts, and ESP32 implementations under
+<code>src/hal/esp32/</code>. The runtime currently composes one board and its services in
+<code>src/ui/watch_ui.cpp</code>. It is not yet a fully uniform, independently replaceable
+HAL architecture: some legacy <code>src/core/</code> code and application code still
+depend on Arduino-facing interfaces, and the UI loop is also the central event
+executor and sleep scheduler.</p>
+<p>Power-management Kconfig enables ESP-IDF PM, FreeRTOS tickless idle, and
+Bluetooth modem sleep. The ESP32 power HAL configures automatic light sleep,
+holds an <code>ESP_PM_NO_LIGHT_SLEEP</code> lock while active, and releases it after five
+seconds without button activity when all other blockers are clear. The UI waits
+for the earliest service or application deadline; GPIO and BLE notifications
+wake it between deadlines. These facts establish that the firmware is
+configured to attempt coordinated BLE-compatible sleep; they do not establish
+sleep residency, reconnect quality, or battery endurance on a physical watch.</p>
+<h2 id="findings">Findings</h2>
+<h3 id="1-power-policy-has-two-disconnected-sleep-eligibility-paths">1. Power policy has two disconnected sleep-eligibility paths</h3>
+<p><strong>Resolved in the current source:</strong> <code>WatchUi::tick()</code> now includes
+<code>PowerManager::canSleep()</code> in its automatic-sleep eligibility condition, so a
+held feature lease keeps the platform no-sleep guard active. Repeated
+acquisitions of the same tag increment a reference count; each release removes
+one lease. Host tests cover overlapping same-tag leases. Keep new background
+work inside a scoped lease or pair raw acquisition/release on every path.</p>
+<h3 id="2-the-ui-loop-owns-too-many-runtime-responsibilities">2. The UI loop owns too many runtime responsibilities</h3>
+<p><code>WatchUi::tick()</code> still polls input, dispatches queued events, ticks services,
+applies screen timeouts, and blocks for wake notifications. The first
+separation step is implemented in <code>runtime::SleepEligibility</code> and
+<code>WakeDeadlineSet</code>: the former combines blockers, and the latter chooses the
+earliest delay without allocation. UI rendering and product timeout decisions
+remain in the loop, so this is a reduction in scattered sleep logic rather
+than a full runtime-executor extraction.</p>
+<p>The current wake plan covers minute changes, the BLE manager's retry deadline,
+battery sample due time, watchface media debounce, the 15-second boot time
+fallback, and the 60-second transient-screen return. Deadlines are still
+collected by <code>WatchUi</code>; moving them into service-owned deadline APIs remains
+follow-up work. New periodic or retrying work must register a deadline or it
+may be delayed while the UI task waits.</p>
+<h3 id="3-manual-chip-sleep-entry-remains-exposed">3. Manual chip sleep entry remains exposed</h3>
+<p><strong>Resolved in the current source:</strong> direct light-sleep entry has been removed
+from the service and HAL contracts. Normal idle sleep uses <code>waitForWake()</code> and
+FreeRTOS automatic light sleep, allowing ESP-IDF to coordinate registered
+locks and RTOS deadlines. Deep sleep remains available for the qualified
+critical-battery shutdown path.</p>
+<h3 id="4-device-independent-contracts-exist-but-legacy-boundaries-remain">4. Device-independent contracts exist, but legacy boundaries remain</h3>
+<p>Display, input, RTC, battery, Wi-Fi, Bluetooth, companion-source, power, and
+console contracts are defined under <code>include/ersa/hal/</code>. ESP32-specific GPIO,
+ADC, OneButton, DS3231/Wire, and USB Serial/JTAG implementations live under
+<code>src/hal/esp32/</code>; the BSP provides pin numbers, pull/active levels, and battery
+divider scaling. <code>WatchClock</code> remains a compatibility facade whose public
+<code>DateTime</code> still exposes RTClib. Network sync, settings, diagnostics, and OTA
+still have direct platform-library usage. Keep moving those behind network,
+storage, diagnostics, and OTA HAL contracts.</p>
+<h3 id="5-e-paper-retains-its-image-while-its-drive-voltage-is-off">5. E-paper retains its image while its drive voltage is off</h3>
+<p><code>GxEpd2Display</code> disables panel drive voltage after a refresh while the e-paper
+image remains visible. <code>DisplayManager</code> owns the 360-partial-frame
+ghost-clearing cadence and refresh rate limit; it no longer sends a redundant
+idle power-off or power-on request. The UI still identifies dirty bounds and
+forces a full waveform on the first frame or day change. BUSY completion
+remains a driver concern and is not coupled to button polling. This removes an
+incorrect manager power-state assumption; it does not reduce the panel's
+refresh-waveform duration.</p>
+<h3 id="6-battery-state-is-an-estimate-not-fuel-gauge-telemetry">6. Battery state is an estimate, not fuel-gauge telemetry</h3>
+<p>The ESP32 battery HAL measures the board's ADC divider and derives voltage and
+a percentage estimate. The current board does not expose a dedicated fuel
+gauge, charger status, current measurement, or temperature measurement to the
+firmware. Treat percentage as a voltage-based estimate and charging state as
+unknown unless the hardware supplies a real signal. Calibrate ADC voltage on
+the assembled board and test low-voltage behavior under radio and display load.</p>
+<h3 id="7-sleep-and-ble-behavior-need-hardware-evidence">7. Sleep and BLE behavior need hardware evidence</h3>
+<p>The configured PM and modem-sleep options plus <code>esp_pm_configure()</code> establish
+the intended automatic light-sleep path. Software logs that say sleep is
+“armed” report policy setup only. Validate actual light-sleep residency and
+BLE link stability together while connected, including notification bursts,
+advertising restart, button wake latency, and display refresh. Measure current
+at the battery connection with USB disconnected; a host build or test cannot
+measure these properties.</p>
+<h2 id="recommended-work-order">Recommended work order</h2>
+<ol>
+<li>Move deadline ownership from <code>WatchUi</code> into the services that own the
+   deadlines, preserving the tested fixed-capacity scheduler.</li>
+<li>Move dirty-region and full-waveform requests behind a display refresh
+   policy API while retaining per-app invalidation bounds.</li>
+<li>Move remaining raw Arduino/ESP-IDF calls in network sync, USB control, and
+   OTA behind platform diagnostics and transport contracts.</li>
+<li>Collect on-device BLE, residency, wake-latency, and battery-current
+   measurements before claiming power savings.</li>
+</ol>
+<h2 id="review-limits">Review limits</h2>
+<p>This audit did not flash hardware or measure power. Hardware validation must
+record firmware revision, battery voltage, USB state, BLE connection state and
+negotiated parameters, sleep-mode residency, wake source, and average current
+for each scenario. Re-run the audit when the scheduler, BSP composition, or
+power HAL changes materially.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../TIMEKEEPING/" class="btn btn-neutral float-left" title="Timekeeping"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../apple-connectivity/" class="btn btn-neutral float-right" title="Apple connectivity">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/ersascape/ErsaWearableOS" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../TIMEKEEPING/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../apple-connectivity/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
