@@ -24,6 +24,7 @@ public:
     Result<void> adjust(const TimePoint& time) override;
     Result<void> setEpoch(uint32_t epochSeconds) override;
     bool isHealthy() const override;
+    RtcDiagnostics diagnostics() override;
     /** Re-read the DS3231 after automatic sleep may have paused MCU uptime. */
     void resync() override;
 

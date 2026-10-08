@@ -1,16 +1,16 @@
 #include "watch_config.h"
 #include "debug_log.h"
 #include "ersa/config/system_defaults.h"
-#include <Arduino.h>
-#include <Preferences.h>
+#include "ersa/services/storage_service.h"
 #include <string.h>
 
 namespace WatchConfig {
 
 namespace {
 Config activeConfig;
-Preferences prefs;
-constexpr const char* PREFS_NS = ersa::config::PREFS_NS_CONFIG;
+ersa::services::StorageService& storage() {
+    return ersa::services::StorageService::instance();
+}
 
 void safeCopy(char* dest, const char* src, size_t maxLen) {
     if (!dest || maxLen == 0) return;
@@ -66,41 +66,25 @@ void resetDefaults() {
 
 void begin() {
     resetDefaults();
-    if (prefs.begin(PREFS_NS, true)) {
-        String s;
-        s = prefs.getString("ssid", "");
-        if (s.length() > 0) safeCopy(activeConfig.wifiSsid, s.c_str(), sizeof(activeConfig.wifiSsid));
-
-        s = prefs.getString("pass", "");
-        if (s.length() > 0) safeCopy(activeConfig.wifiPass, s.c_str(), sizeof(activeConfig.wifiPass));
-
-        s = prefs.getString("dav_srv", "");
-        if (s.length() > 0) safeCopy(activeConfig.caldavServer, s.c_str(), sizeof(activeConfig.caldavServer));
-
-        s = prefs.getString("dav_usr", "");
-        if (s.length() > 0) safeCopy(activeConfig.caldavUser, s.c_str(), sizeof(activeConfig.caldavUser));
-
-        s = prefs.getString("dav_pwd", "");
-        if (s.length() > 0) safeCopy(activeConfig.caldavPass, s.c_str(), sizeof(activeConfig.caldavPass));
-
-        s = prefs.getString("dav_cal", ersa::config::FALLBACK_CALDAV_CALENDAR);
-        safeCopy(activeConfig.caldavCalendar, s.c_str(), sizeof(activeConfig.caldavCalendar));
-
-        s = prefs.getString("dav_tod", ersa::config::DEFAULT_CALDAV_TODO);
-        safeCopy(activeConfig.caldavTodoPath, s.c_str(), sizeof(activeConfig.caldavTodoPath));
-
-        activeConfig.timezoneOffsetMin = prefs.getShort("tz", activeConfig.timezoneOffsetMin);
-        activeConfig.militaryTime = prefs.getBool("24h", activeConfig.militaryTime);
-        activeConfig.fullRefreshInterval = prefs.getUChar("fref", activeConfig.fullRefreshInterval);
-
-        s = prefs.getString("ap_ssid", ersa::config::DEFAULT_AP_SSID);
-        safeCopy(activeConfig.apSsid, s.c_str(), sizeof(activeConfig.apSsid));
-
-        s = prefs.getString("ap_pass", ersa::config::DEFAULT_AP_PASS);
-        safeCopy(activeConfig.apPass, s.c_str(), sizeof(activeConfig.apPass));
-
-        activeConfig.apTimeoutSec = prefs.getUShort("ap_to", activeConfig.apTimeoutSec);
-        prefs.end();
+    const auto storageInit = storage().init();
+    if (storageInit.isOk()) {
+        auto loadString = [](const char* key, const char* fallback, char* dest, size_t capacity) {
+            const std::string value = storage().getString(key, fallback);
+            if (!value.empty()) safeCopy(dest, value.c_str(), capacity);
+        };
+        loadString("c_ssid", "", activeConfig.wifiSsid, sizeof(activeConfig.wifiSsid));
+        loadString("c_pass", "", activeConfig.wifiPass, sizeof(activeConfig.wifiPass));
+        loadString("c_srv", "", activeConfig.caldavServer, sizeof(activeConfig.caldavServer));
+        loadString("c_usr", "", activeConfig.caldavUser, sizeof(activeConfig.caldavUser));
+        loadString("c_pwd", "", activeConfig.caldavPass, sizeof(activeConfig.caldavPass));
+        loadString("c_cal", ersa::config::FALLBACK_CALDAV_CALENDAR, activeConfig.caldavCalendar, sizeof(activeConfig.caldavCalendar));
+        loadString("c_tod", ersa::config::DEFAULT_CALDAV_TODO, activeConfig.caldavTodoPath, sizeof(activeConfig.caldavTodoPath));
+        activeConfig.timezoneOffsetMin = static_cast<int16_t>(storage().getInt("c_tz", activeConfig.timezoneOffsetMin));
+        activeConfig.militaryTime = storage().getBool("c_24h", activeConfig.militaryTime);
+        activeConfig.fullRefreshInterval = static_cast<uint8_t>(storage().getInt("c_fref", activeConfig.fullRefreshInterval));
+        loadString("c_aps", ersa::config::DEFAULT_AP_SSID, activeConfig.apSsid, sizeof(activeConfig.apSsid));
+        loadString("c_app", ersa::config::DEFAULT_AP_PASS, activeConfig.apPass, sizeof(activeConfig.apPass));
+        activeConfig.apTimeoutSec = static_cast<uint16_t>(storage().getInt("c_apt", activeConfig.apTimeoutSec));
         DebugLog::log("CONFIG loaded (tz=%d, ssid='%s', caldav='%s')",
                       activeConfig.timezoneOffsetMin, activeConfig.wifiSsid, activeConfig.caldavServer);
     } else {
@@ -146,25 +130,27 @@ void setApConfig(const char* ssid, const char* pass, uint16_t timeoutSec) {
     activeConfig.apTimeoutSec = timeoutSec;
 }
 
-void save() {
-    if (prefs.begin(PREFS_NS, false)) {
-        prefs.putString("ssid", activeConfig.wifiSsid);
-        prefs.putString("pass", activeConfig.wifiPass);
-        prefs.putString("dav_srv", activeConfig.caldavServer);
-        prefs.putString("dav_usr", activeConfig.caldavUser);
-        prefs.putString("dav_pwd", activeConfig.caldavPass);
-        prefs.putString("dav_cal", activeConfig.caldavCalendar);
-        prefs.putString("dav_tod", activeConfig.caldavTodoPath);
-        prefs.putShort("tz", activeConfig.timezoneOffsetMin);
-        prefs.putBool("24h", activeConfig.militaryTime);
-        prefs.putUChar("fref", activeConfig.fullRefreshInterval);
-        prefs.putString("ap_ssid", activeConfig.apSsid);
-        prefs.putString("ap_pass", activeConfig.apPass);
-        prefs.putUShort("ap_to", activeConfig.apTimeoutSec);
-        prefs.end();
+bool save() {
+    auto& store = storage();
+    const bool ok = store.setString("c_ssid", activeConfig.wifiSsid) &&
+        store.setString("c_pass", activeConfig.wifiPass) &&
+        store.setString("c_srv", activeConfig.caldavServer) &&
+        store.setString("c_usr", activeConfig.caldavUser) &&
+        store.setString("c_pwd", activeConfig.caldavPass) &&
+        store.setString("c_cal", activeConfig.caldavCalendar) &&
+        store.setString("c_tod", activeConfig.caldavTodoPath) &&
+        store.setInt("c_tz", activeConfig.timezoneOffsetMin) &&
+        store.setBool("c_24h", activeConfig.militaryTime) &&
+        store.setInt("c_fref", activeConfig.fullRefreshInterval) &&
+        store.setString("c_aps", activeConfig.apSsid) &&
+        store.setString("c_app", activeConfig.apPass) &&
+        store.setInt("c_apt", activeConfig.apTimeoutSec);
+    if (ok) {
         DebugLog::log("CONFIG saved to NVS");
+        return true;
     } else {
-        DebugLog::log("CONFIG error opening NVS for write");
+        DebugLog::log("CONFIG error committing settings to storage");
+        return false;
     }
 }
 

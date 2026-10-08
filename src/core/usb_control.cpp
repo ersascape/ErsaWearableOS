@@ -1,9 +1,11 @@
 #include "core/usb_control.h"
 #include "core/debug_log.h"
 #include "core/watch_clock.h"
+#include "core/watch_config.h"
 #include "ersa/app/application_manager.h"
 #include "ersa/services/bluetooth_manager.h"
 #include "ersa/services/power_manager.h"
+#include "ersa/services/time_service.h"
 #include "ersa/board/board.h"
 #include <Arduino.h>
 #include <esp_ota_ops.h>
@@ -173,6 +175,73 @@ bool requestUnsignedArg(const char* json, const char* name, uint32_t& out) {
     return parseUnsigned(value, out);
 }
 
+bool requestStringArg(const char* json, const char* name, char* out, size_t capacity) {
+    if (!out || capacity == 0) return false;
+    char key[64];
+    const int keyLength = snprintf(key, sizeof(key), "\"%s\"", name);
+    if (keyLength <= 0 || size_t(keyLength) >= sizeof(key)) return false;
+    const char* p = strstr(json, key);
+    if (!p) return false;
+    p += keyLength;
+    while (*p == ' ' || *p == '\t') ++p;
+    if (*p++ != ':') return false;
+    while (*p == ' ' || *p == '\t') ++p;
+    if (*p++ != '"') return false;
+    size_t used = 0;
+    while (*p && *p != '"') {
+        char c = *p++;
+        if (c == '\\') {
+            c = *p++;
+            if (!c) return false;
+            if (c == 'n') c = '\n';
+            else if (c == 'r') c = '\r';
+            else if (c == 't') c = '\t';
+            else if (c != '"' && c != '\\' && c != '/') return false;
+        }
+        if (used + 1 >= capacity || static_cast<unsigned char>(c) < 0x20) return false;
+        out[used++] = c;
+    }
+    if (*p != '"') return false;
+    out[used] = '\0';
+    return true;
+}
+
+bool requestSignedArg(const char* json, const char* name, int32_t& out) {
+    char key[64];
+    const int keyLength = snprintf(key, sizeof(key), "\"%s\"", name);
+    if (keyLength <= 0 || size_t(keyLength) >= sizeof(key)) return false;
+    const char* p = strstr(json, key);
+    if (!p) return false;
+    p += keyLength;
+    while (*p == ' ' || *p == '\t') ++p;
+    if (*p++ != ':') return false;
+    while (*p == ' ' || *p == '\t') ++p;
+    const bool negative = *p == '-';
+    if (negative) ++p;
+    const char* end = p;
+    while (*end >= '0' && *end <= '9') ++end;
+    if (end == p || size_t(end - p) > 10) return false;
+    uint32_t value;
+    if (!parseUnsigned(Slice{p, size_t(end - p)}, value) || value > uint32_t(INT32_MAX) + (negative ? 1U : 0U)) return false;
+    out = negative ? -static_cast<int32_t>(value) : static_cast<int32_t>(value);
+    return true;
+}
+
+bool requestBoolArg(const char* json, const char* name, bool& out) {
+    char key[64];
+    const int keyLength = snprintf(key, sizeof(key), "\"%s\"", name);
+    if (keyLength <= 0 || size_t(keyLength) >= sizeof(key)) return false;
+    const char* p = strstr(json, key);
+    if (!p) return false;
+    p += keyLength;
+    while (*p == ' ' || *p == '\t') ++p;
+    if (*p++ != ':') return false;
+    while (*p == ' ' || *p == '\t') ++p;
+    if (strncmp(p, "true", 4) == 0) { out = true; return true; }
+    if (strncmp(p, "false", 5) == 0) { out = false; return true; }
+    return false;
+}
+
 size_t appendEscaped(char* out, size_t cap, size_t pos, const char* text) {
     if (!cap || pos >= cap) return pos;
     out[pos++] = '"';
@@ -293,6 +362,103 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
                  __DATE__, __TIME__, otaSlotName(esp_ota_get_running_partition()), static_cast<unsigned long>(millis() / 1000), DebugLog::resetReasonName(), appId,
                  static_cast<unsigned long>(ESP.getFreeHeap()), powerStateName(power.getState()), power.canSleep() ? "true" : "false");
         sendReply(id, true, nullptr, nullptr, data);
+    } else if (strcmp(command, "config.get") == 0) {
+        const auto& cfg = WatchConfig::get();
+        char data[1024];
+        size_t pos = 0;
+        auto addString = [&](const char* key, const char* value, bool comma = true) {
+            const int n = snprintf(data + pos, sizeof(data) - pos, "%s\"%s\":", pos ? "," : "{", key);
+            if (n < 0 || size_t(n) >= sizeof(data) - pos) return false;
+            pos += size_t(n);
+            const size_t written = appendEscaped(data + pos, sizeof(data) - pos, 0, value);
+            if (written >= sizeof(data) - pos) return false;
+            pos += written;
+            if (comma) data[pos++] = ',';
+            return true;
+        };
+        auto addBool = [&](const char* key, bool value) {
+            const int n = snprintf(data + pos, sizeof(data) - pos, "\"%s\":%s,", key, value ? "true" : "false");
+            if (n < 0 || size_t(n) >= sizeof(data) - pos) return false;
+            pos += size_t(n);
+            return true;
+        };
+        const bool ok = addString("wifi_ssid", cfg.wifiSsid) && addBool("wifi_password_set", cfg.wifiPass[0]) &&
+            addString("caldav_server", cfg.caldavServer) && addString("caldav_user", cfg.caldavUser) &&
+            addBool("caldav_password_set", cfg.caldavPass[0]) && addString("caldav_calendar", cfg.caldavCalendar) &&
+            addString("caldav_todo_path", cfg.caldavTodoPath) &&
+            (snprintf(data + pos, sizeof(data) - pos, "\"timezone_offset_min\":%d,\"military_time\":%s,", int(cfg.timezoneOffsetMin), cfg.militaryTime ? "true" : "false"), true) &&
+            addString("ap_ssid", cfg.apSsid) && addBool("ap_password_set", cfg.apPass[0]) &&
+            (snprintf(data + pos, sizeof(data) - pos, "\"ap_timeout_sec\":%u}", unsigned(cfg.apTimeoutSec)), true);
+        if (ok && pos < sizeof(data)) sendReply(id, true, nullptr, nullptr, data);
+        else sendReply(id, false, "response_too_large", "configuration response exceeds control frame", nullptr);
+    } else if (strcmp(command, "config.set") == 0) {
+        const auto& cfg = WatchConfig::get();
+        char ssid[sizeof(cfg.wifiSsid)], pass[sizeof(cfg.wifiPass)];
+        char davServer[sizeof(cfg.caldavServer)], davUser[sizeof(cfg.caldavUser)];
+        char davPass[sizeof(cfg.caldavPass)], davCalendar[sizeof(cfg.caldavCalendar)];
+        char davTodo[sizeof(cfg.caldavTodoPath)], apSsid[sizeof(cfg.apSsid)], apPass[sizeof(cfg.apPass)];
+        int32_t tz = cfg.timezoneOffsetMin, apTimeout = cfg.apTimeoutSec;
+        bool military = cfg.militaryTime;
+        bool changed = false;
+        auto setString = [&](const char* key, char* value, size_t cap) {
+            char candidate[160];
+            if (!strstr(request, key)) return true;
+            if (!requestStringArg(request, key, candidate, sizeof(candidate)) || strlen(candidate) >= cap) return false;
+            memcpy(value, candidate, strlen(candidate) + 1);
+            changed = true;
+            return true;
+        };
+        memcpy(ssid, cfg.wifiSsid, sizeof(ssid)); memcpy(pass, cfg.wifiPass, sizeof(pass));
+        memcpy(davServer, cfg.caldavServer, sizeof(davServer)); memcpy(davUser, cfg.caldavUser, sizeof(davUser));
+        memcpy(davPass, cfg.caldavPass, sizeof(davPass)); memcpy(davCalendar, cfg.caldavCalendar, sizeof(davCalendar));
+        memcpy(davTodo, cfg.caldavTodoPath, sizeof(davTodo)); memcpy(apSsid, cfg.apSsid, sizeof(apSsid));
+        memcpy(apPass, cfg.apPass, sizeof(apPass));
+        bool valid = setString("ssid", ssid, sizeof(ssid)) && setString("password", pass, sizeof(pass)) &&
+            setString("caldav_server", davServer, sizeof(davServer)) && setString("caldav_user", davUser, sizeof(davUser)) &&
+            setString("caldav_password", davPass, sizeof(davPass)) && setString("caldav_calendar", davCalendar, sizeof(davCalendar)) &&
+            setString("caldav_todo_path", davTodo, sizeof(davTodo)) && setString("ap_ssid", apSsid, sizeof(apSsid)) &&
+            setString("ap_password", apPass, sizeof(apPass));
+        if (strstr(request, "\"timezone_offset_min\"")) {
+            valid = valid && requestSignedArg(request, "timezone_offset_min", tz) && tz >= -840 && tz <= 840;
+            changed = valid;
+        }
+        if (strstr(request, "\"military_time\"")) {
+            valid = valid && requestBoolArg(request, "military_time", military);
+            changed = valid;
+        }
+        if (strstr(request, "\"ap_timeout_sec\"")) {
+            uint32_t timeout = 0;
+            valid = valid && requestUnsignedArg(request, "ap_timeout_sec", timeout) && timeout >= 30 && timeout <= 3600;
+            if (valid) { apTimeout = static_cast<int32_t>(timeout); changed = true; }
+        }
+        if (!valid || !changed) {
+            sendReply(id, false, "invalid_argument", "provide valid config fields; timezone is -840..840 and AP timeout is 30..3600", nullptr);
+        } else {
+            WatchConfig::setWifi(ssid, pass);
+            WatchConfig::setCalDav(davServer, davUser, davPass, davCalendar, davTodo);
+            WatchConfig::setTimezone(static_cast<int16_t>(tz));
+            WatchConfig::setTimeFormat(military);
+            WatchConfig::setApConfig(apSsid, apPass, static_cast<uint16_t>(apTimeout));
+            if (WatchConfig::save())
+                sendReply(id, true, nullptr, nullptr, "{\"saved\":true,\"reboot_required\":false}");
+            else
+                sendReply(id, false, "storage_error", "settings could not be committed to NVS", nullptr);
+        }
+    } else if (strcmp(command, "time.status") == 0) {
+        const auto rtc = ersa::board::Board::current().getRtc().diagnostics();
+        char data[256];
+        snprintf(data, sizeof(data), "{\"epoch\":%lu,\"rtc_readable\":%s,\"rtc_healthy\":%s,\"oscillator_stopped\":%s,\"rtc_drift_seconds\":%ld}",
+                 static_cast<unsigned long>(rtc.time.epoch), rtc.hardwareReadable ? "true" : "false",
+                 ersa::board::Board::current().getRtc().isHealthy() ? "true" : "false",
+                 rtc.oscillatorStopped ? "true" : "false", static_cast<long>(rtc.driftSeconds));
+        sendReply(id, true, nullptr, nullptr, data);
+    } else if (strcmp(command, "time.set") == 0) {
+        uint32_t epoch = 0;
+        auto& time = ersa::services::TimeService::instance();
+        if (!requestUnsignedArg(request, "epoch", epoch) || !time.setEpoch(epoch).isOk())
+            sendReply(id, false, "invalid_time", "epoch must be a valid 2024-2099 watch wall-time value", nullptr);
+        else
+            sendReply(id, true, nullptr, nullptr, "{\"updated\":true}");
     } else if (strcmp(command, "battery.read") == 0) {
         char data[160];
         snprintf(data, sizeof(data), "{\"available\":%s,\"millivolts\":%u,\"percent\":%u,\"sample_age_ms\":%lu,\"connected\":%s,\"charging\":%s}",

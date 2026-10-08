@@ -1,10 +1,6 @@
 #include "ersa/services/storage_service.h"
 #include <unordered_map>
 
-#if defined(ARDUINO)
-#include <Preferences.h>
-#endif
-
 namespace ersa {
 namespace services {
 
@@ -18,62 +14,7 @@ void StorageService::setInstance(StorageService* instance) {
     s_storageInstance = instance;
 }
 
-#if defined(ARDUINO)
-class Esp32StorageService : public StorageService {
-public:
-    Result<void> init() override {
-        prefs_.begin("ersa_nvs", false);
-        return Result<void>();
-    }
-
-    bool setString(std::string_view key, std::string_view value) override {
-        std::string k(key);
-        std::string v(value);
-        return prefs_.putString(k.c_str(), v.c_str()) > 0;
-    }
-
-    std::string getString(std::string_view key, std::string_view defaultValue) override {
-        std::string k(key);
-        std::string def(defaultValue);
-        String val = prefs_.getString(k.c_str(), def.c_str());
-        return std::string(val.c_str());
-    }
-
-    bool setInt(std::string_view key, int32_t value) override {
-        std::string k(key);
-        return prefs_.putInt(k.c_str(), value) > 0;
-    }
-
-    int32_t getInt(std::string_view key, int32_t defaultValue) override {
-        std::string k(key);
-        return prefs_.getInt(k.c_str(), defaultValue);
-    }
-
-    bool setBool(std::string_view key, bool value) override {
-        std::string k(key);
-        return prefs_.putBool(k.c_str(), value) > 0;
-    }
-
-    bool getBool(std::string_view key, bool defaultValue) override {
-        std::string k(key);
-        return prefs_.getBool(k.c_str(), defaultValue);
-    }
-
-    bool remove(std::string_view key) override {
-        std::string k(key);
-        return prefs_.remove(k.c_str());
-    }
-
-    void clear() override {
-        prefs_.clear();
-    }
-
-private:
-    Preferences prefs_;
-};
-
-static Esp32StorageService s_defaultEspStorage;
-#else
+#if !defined(ARDUINO)
 class MemoryStorageService : public StorageService {
 public:
     Result<void> init() override {
@@ -134,9 +75,7 @@ static MemoryStorageService s_defaultMemStorage;
 // Auto-register default instance on startup
 struct StorageAutoInit {
     StorageAutoInit() {
-#if defined(ARDUINO)
-        StorageService::setInstance(&s_defaultEspStorage);
-#else
+#if !defined(ARDUINO)
         StorageService::setInstance(&s_defaultMemStorage);
 #endif
     }

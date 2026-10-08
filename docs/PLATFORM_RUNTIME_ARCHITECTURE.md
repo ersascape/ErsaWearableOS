@@ -61,11 +61,16 @@ code are migration work, not a desired layer dependency.
   type still leaks RTClib into callers and can be replaced by `TimePoint` in a
   later API migration.
 - **Still to migrate:** network sync still performs
-  HTTP/NTP operations in `src/core/net_sync.cpp`; configuration and diagnostic
-  persistence still use Arduino `Preferences`; app portal code builds response
-  strings with Arduino `String`; USB control uses ESP-IDF OTA partition APIs.
-  Move these behind RTC, network/time-sync, key-value storage, HTTP response,
-  OTA, and platform-diagnostics contracts respectively.
+  HTTP/NTP operations in `src/core/net_sync.cpp`; app portal code builds
+  responses with Arduino `String`; USB control still uses ESP-IDF OTA,
+  partition, reset, heap, and CPU-frequency APIs; OTA transfer implementation
+  still uses Arduino/ESP-IDF in the service. Move these behind network/time-sync,
+  portal, OTA, and platform-diagnostics contracts respectively.
+- **Storage:** `WatchConfig` now uses the generic typed storage contract, and
+  the `Preferences` implementation is installed by the ESP32 HAL. Product
+  configuration and app data share the `ersa_nvs` namespace with short,
+  prefixed keys. This is a deliberate schema reset; deployed users must factory
+  reset or provision settings again after this change.
 
 Do not put product rules in an ESP32 adapter while moving a dependency. Keep
 hardware sampling and SDK translation in the adapter, and keep filtering,

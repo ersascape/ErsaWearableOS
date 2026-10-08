@@ -2,6 +2,7 @@
 
 #include "bsp/ampere/xiao_esp32c3/terra/board_terra.h"
 #include "hal/esp32/esp32_pin_controller.h"
+#include "hal/esp32/esp32_storage.h"
 #include <sdkconfig.h>
 #include <Arduino.h>
 
@@ -28,6 +29,7 @@ BoardTerra::BoardTerra()
       rtc_(pins_.i2c().sda.number, pins_.i2c().scl.number),
       battery_(pins_.battery()),
       input_(pins_.buttons()) {
+    hal::installEsp32Storage();
     config_.name = getDeviceInfo().name;
     config_.capabilities.wifi = true;
     config_.capabilities.bluetooth = true;

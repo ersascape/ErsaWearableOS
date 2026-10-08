@@ -14,6 +14,15 @@ The host client lives at `scripts/ewctl.py` and uses Python, `pyserial`, and Ric
 
 `ewctl power get-dvfs-state` captures ESP-IDF's current PM lock and CPU residency report on demand. It reports the measured CPU clock, lock counts/timing, and time in each PM mode, including sleep. `ewctl power log` samples battery voltage, CPU frequency, power state, BLE state, uptime, and heap to a timestamped CSV. Set `--interval 30 --duration 7200 --output run.csv`; duration `0` records until Ctrl-C. USB monitoring blocks the watch's normal sleep policy, so this helps compare telemetry but does not measure normal battery life.
 
+Provision settings over USB with `ewctl config get` and `ewctl config set`. The getter reports which passwords are present without returning their values. The setter accepts any combination of `--ssid`, `--password`, `--caldav-server`, `--caldav-user`, `--caldav-password`, `--caldav-calendar`, `--caldav-todo-path`, `--timezone-offset-min`, `--time-format 12h|24h`, `--ap-ssid`, `--ap-password`, and `--ap-timeout-sec`. This uses the same persisted settings as the hotspot form. For example:
+
+```sh
+ewctl config set --ssid "Ersa" --password 'wifi secret' --timezone-offset-min 330 --time-format 24h
+ewctl config get
+```
+
+`ewctl time status` reports the current wall-time epoch, whether the RTC is readable/healthy, whether its oscillator-stop flag is set, and the chip-to-software drift in seconds. `ewctl time set <epoch>` writes the watch wall time directly; the epoch is interpreted as the wall-clock value shown on the watch (the firmware stores the phone's local clock fields without applying a timezone conversion).
+
 `ewctl debug bundle` creates a ZIP bug report with status snapshots and up to 16 recent logs. It redacts Wi-Fi SSIDs, tokens, and URLs from log lines. Add `--include-coredump` to decode and include the raw core; that opt-in dump may contain arbitrary task memory and should be reviewed before sharing.
 
 ## Panic coredumps

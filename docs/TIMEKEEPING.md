@@ -21,3 +21,12 @@ correct time when a phone connects or the user syncs manually.
 The RTC battery and oscillator should still be checked if time is wrong after
 repeated successful synchronization. The `RTC adjusted` log confirms a source
 changed the chip; it does not validate the backup cell or long-term drift.
+
+Use `ewctl time status` over USB to inspect the current value, I²C readability,
+oscillator-stop flag, and the DS3231/software difference. `ewctl time set <epoch>`
+sets the watch's displayed wall time directly. After setting a known time,
+record `time status`, leave the watch running for several hours, then compare
+again. A continuing offset while powered suggests the RTC or its clock source;
+a reset to an old value after main power is removed points to backup-cell or
+RTC backup-path trouble. The status command cannot measure the coin cell's
+voltage, so that final distinction still needs a hardware check.

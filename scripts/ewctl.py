@@ -240,6 +240,27 @@ def build_parser() -> argparse.ArgumentParser:
     set_frequency.add_argument("mhz", choices=("0", "40", "80", "160"))
     set_frequency.add_argument("--json", action="store_true", default=argparse.SUPPRESS, help="print machine-readable JSON")
     power_actions.add_parser("get-dvfs-state", help="show ESP-IDF power locks and CPU sleep residency")
+    config = sub.add_parser("config", help="read or provision saved watch settings over USB")
+    config_actions = config.add_subparsers(dest="config_action", required=True)
+    config_actions.add_parser("get", help="show saved settings (password values are never returned)")
+    config_set = config_actions.add_parser("set", help="save one or more settings without using the hotspot")
+    config_set.add_argument("--ssid")
+    config_set.add_argument("--password")
+    config_set.add_argument("--caldav-server")
+    config_set.add_argument("--caldav-user")
+    config_set.add_argument("--caldav-password")
+    config_set.add_argument("--caldav-calendar")
+    config_set.add_argument("--caldav-todo-path")
+    config_set.add_argument("--timezone-offset-min", type=int)
+    config_set.add_argument("--time-format", choices=("12h", "24h"))
+    config_set.add_argument("--ap-ssid")
+    config_set.add_argument("--ap-password")
+    config_set.add_argument("--ap-timeout-sec", type=int)
+    clock = sub.add_parser("time", help="inspect or set the watch RTC over USB")
+    clock_actions = clock.add_subparsers(dest="time_action", required=True)
+    clock_actions.add_parser("status", help="show current epoch, RTC health, and chip drift")
+    time_set = clock_actions.add_parser("set", help="set watch wall time using Unix epoch seconds")
+    time_set.add_argument("epoch", type=int)
     logs = sub.add_parser("logs", help=f"request {COMMANDS['logs']}")
     logs.add_argument("--follow", action="store_true", help="stream live USB console output until Ctrl-C (does not use logs.read)")
     logs.add_argument("--interval", type=float, default=0.1, help="seconds between polls when caught up (default: %(default)s)")
@@ -735,6 +756,25 @@ def run(args: argparse.Namespace) -> int:
                 command, command_args = "power.status", None
         elif args.operation == "ota" and args.ota_action == "boot-other":
             command, command_args = "ota.boot-other", None
+        elif args.operation == "config":
+            command = "config.get" if args.config_action == "get" else "config.set"
+            command_args = None
+            if args.config_action == "set":
+                field_map = {
+                    "ssid": "ssid", "password": "password", "caldav_server": "caldav_server",
+                    "caldav_user": "caldav_user", "caldav_password": "caldav_password",
+                    "caldav_calendar": "caldav_calendar", "caldav_todo_path": "caldav_todo_path",
+                    "timezone_offset_min": "timezone_offset_min", "ap_ssid": "ap_ssid",
+                    "ap_password": "ap_password", "ap_timeout_sec": "ap_timeout_sec",
+                }
+                command_args = {key: getattr(args, key) for key in field_map if getattr(args, key) is not None}
+                if args.time_format is not None:
+                    command_args["military_time"] = args.time_format == "24h"
+                if not command_args:
+                    raise EwctlError("config set requires at least one setting option")
+        elif args.operation == "time":
+            command = "time.status" if args.time_action == "status" else "time.set"
+            command_args = None if args.time_action == "status" else {"epoch": args.epoch}
         elif args.operation == "logs":
             command, command_args = COMMANDS["logs"], {"limit": args.batch_size}
         else:
@@ -745,6 +785,8 @@ def run(args: argparse.Namespace) -> int:
             title = "power get-dvfs-state"
         elif args.operation == "ota" and args.ota_action:
             title = f"ota {args.ota_action}"
+        elif args.operation in ("config", "time"):
+            title = f"{args.operation} {args.config_action if args.operation == 'config' else args.time_action}"
         else:
             title = args.operation if args.operation != "command" else command
         display_reply(reply, title, args.json)

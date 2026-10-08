@@ -89,6 +89,21 @@ bool Esp32Rtc::isHealthy() const {
     return online_ && !oscillatorStopped_;
 }
 
+RtcDiagnostics Esp32Rtc::diagnostics() {
+    RtcDiagnostics result{};
+    result.time = now();
+    result.oscillatorStopped = oscillatorStopped_;
+    result.hardwareReadable = online_ && responds();
+    if (result.hardwareReadable && !oscillatorStopped_) {
+        const DateTime chipTime = rtc_.now();
+        if (valid(chipTime))
+            result.driftSeconds = static_cast<int32_t>(int64_t(chipTime.unixtime()) - int64_t(result.time.epoch));
+        else
+            result.hardwareReadable = false;
+    }
+    return result;
+}
+
 bool Esp32Rtc::valid(const DateTime& time) {
     return time.isValid() && time.year() >= 2024 && time.year() <= 2099;
 }

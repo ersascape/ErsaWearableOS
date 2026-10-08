@@ -18,6 +18,9 @@ void setup() {
     esp_log_level_set("gpio", ESP_LOG_WARN);
     // Logs use USB Serial/JTAG. UART0 GPIO20/21 remain assigned to the EPD.
     DebugLog::begin();
+    // Construct the BSP first so it can install platform HAL implementations
+    // (including NVS storage) before portable configuration loads.
+    (void)ersa::board::Board::current();
     // Keep vendor Wi-Fi/Bluetooth chatter to warnings/errors; the application
     // ring retains concise state changes and actionable diagnostics.
     esp_log_level_set("*", ESP_LOG_WARN);

@@ -40,7 +40,7 @@ void setTimeFormat(bool military24h);
 /** Set configuration access point credentials and idle timeout. */
 void setApConfig(const char* ssid, const char* pass, uint16_t timeoutSec);
 /** Persist the active settings snapshot to nonvolatile storage. */
-void save();
+bool save();
 /** Restore compiled defaults and persist them to storage. */
 void resetDefaults();
 

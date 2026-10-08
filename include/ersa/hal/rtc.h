@@ -27,6 +27,14 @@ struct TimePoint {
         : year(y), month(m), day(d), hour(h), minute(min), second(s), dayOfWeek(dow), epoch(ep) {}
 };
 
+/** Hardware and drift snapshot for field diagnostics and provisioning tools. */
+struct RtcDiagnostics {
+    TimePoint time{};
+    bool hardwareReadable{false};
+    bool oscillatorStopped{false};
+    int32_t driftSeconds{0};
+};
+
 /** Real-time clock contract using transport-neutral calendar values. */
 class IRtc {
 public:
@@ -42,6 +50,13 @@ public:
     virtual Result<void> setEpoch(uint32_t epochSeconds) = 0;
     /** Report backend health; this does not guarantee the wall time is accurate. */
     virtual bool isHealthy() const = 0;
+    /** Return best-effort chip status; generic implementations report current time only. */
+    virtual RtcDiagnostics diagnostics() {
+        RtcDiagnostics result{};
+        result.time = now();
+        result.hardwareReadable = isHealthy();
+        return result;
+    }
     /** Force reconciliation with hardware after a wake where uptime paused. */
     virtual void resync() {}
 };

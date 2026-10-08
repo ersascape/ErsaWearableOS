@@ -69,6 +69,16 @@ class ProtocolTests(unittest.TestCase):
         args = ewctl.build_parser().parse_args(["power", "get-dvfs-state"])
         self.assertEqual((args.operation, args.power_action), ("power", "get-dvfs-state"))
 
+    def test_config_and_time_provisioning_arguments(self):
+        config = ewctl.build_parser().parse_args([
+            "config", "set", "--ssid", "Ersa", "--password", "wifi-secret",
+            "--timezone-offset-min", "330", "--time-format", "24h",
+        ])
+        self.assertEqual((config.operation, config.config_action), ("config", "set"))
+        self.assertEqual(config.timezone_offset_min, 330)
+        clock = ewctl.build_parser().parse_args(["time", "set", "1791475200"])
+        self.assertEqual((clock.operation, clock.time_action, clock.epoch), ("time", "set", 1791475200))
+
     def test_flash_command_accepts_an_image_or_local_default(self):
         parser = ewctl.build_parser()
         self.assertEqual(parser.parse_args(["flash", "firmware.bin"]).target, "firmware.bin")
