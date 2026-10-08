@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['panelpowered_5f_0',['panelPowered_',['../d8/dad/classersa_1_1services_1_1DisplayManager.html#a9dfa7a92d86ebf3b16dcd1c5e0c2dd5d',1,'ersa::services::DisplayManager']]],
+  ['partialframes_5f_1',['partialFrames_',['../d8/dad/classersa_1_1services_1_1DisplayManager.html#aa8a1a47457ee098b174d84b1df8073c9',1,'ersa::services::DisplayManager']]],
+  ['partialrefresh_2',['partialRefresh',['../de/d4b/structersa_1_1board_1_1DisplayConfig.html#aba73eafa537d23618e1ca27e7a2ec647',1,'ersa::board::DisplayConfig']]],
+  ['partialrefreshes_5f_3',['partialRefreshes_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a8e6d99fd8c543cdf6dbce5c8563050c2',1,'ersa::test::MockDisplay']]],
+  ['pass_5f_4',['pass_',['../de/de7/classersa_1_1services_1_1MemorySettingsService.html#a4c145e348cc6b9695358b0fefd1a2ca4',1,'ersa::services::MemorySettingsService']]],
+  ['pausecount_5',['pauseCount',['../dd/d1a/classTestAppA.html#ac39ffe109ed23cbc8e4e623a0e005c65',1,'TestAppA']]],
+  ['pct_5f_6',['pct_',['../d3/d30/classersa_1_1test_1_1MockBattery.html#a67b728dfe610b577f03bcf0a21b44dec',1,'ersa::test::MockBattery']]],
+  ['pendingconfirmation_5f_7',['pendingConfirmation_',['../d9/d27/classersa_1_1services_1_1OtaService.html#af2ab9a42c3aa510364616e1543b51057',1,'ersa::services::OtaService']]],
+  ['percentage_8',['percentage',['../d2/dfb/structersa_1_1events_1_1BatteryPayload.html#ac7c42eed87cde852eb616466bb4f250c',1,'ersa::events::BatteryPayload']]],
+  ['performanceacquires_9',['performanceAcquires',['../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a25f3bdb2984fa2855e3dd2d1a22bf0d1',1,'ersa::test::MockPowerManagement']]],
+  ['performancereleases_10',['performanceReleases',['../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a32034746416be925fe5a0d7c24662c83',1,'ersa::test::MockPowerManagement']]],
+  ['pimpl_5f_11',['pImpl_',['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a6811d0b376a564364942d3ab20624ee3',1,'ersa::hal::Esp32Bluetooth']]],
+  ['playing_12',['playing',['../d9/db7/structersa_1_1events_1_1MediaPayload.html#a1f3141f386a68c5d637bdd6cbeb087c0',1,'ersa::events::MediaPayload::playing'],['../df/def/structersa_1_1protocols_1_1AmsMedia.html#a5030ff3f3cf446baac44a3544daf7a3f',1,'ersa::protocols::AmsMedia::playing']]],
+  ['power_5f_13',['power_',['../d3/d19/classersa_1_1hal_1_1PerformanceScope.html#aaeccfb5597521d4b841d2413f201d3f7',1,'ersa::hal::PerformanceScope']]],
+  ['powered_5f_14',['powered_',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aaba1a8b92f7e123d6907393dd205fc99',1,'ersa::test::MockDisplay']]],
+  ['prefs_5fns_5fcache_15',['PREFS_NS_CACHE',['../dd/dd8/namespaceersa_1_1config.html#aa0f63f3aa7b543e08128f86858a25e3b',1,'ersa::config']]],
+  ['prefs_5fns_5fconfig_16',['PREFS_NS_CONFIG',['../dd/dd8/namespaceersa_1_1config.html#a50d2bce9b335160ed6f0e15a80cb3f39',1,'ersa::config']]],
+  ['profile_5f_17',['profile_',['../d3/d19/classersa_1_1hal_1_1PerformanceScope.html#a128c0f048d1fc4dae4154bec908b60d3',1,'ersa::hal::PerformanceScope::profile_'],['../db/dc3/classDvfs_1_1Scope.html#a1700d40b86a0b7a342355bd09e72c3eb',1,'Dvfs::Scope::profile_']]],
+  ['progmem_18',['progmem',['../db/d9e/misans__fonts_8h.html#abe5ef521d440175ff4d68bdb72894a0d',1,'PROGMEM:&#160;misans_fonts.h'],['../d8/de4/namespaceWatchIcons.html#a217ed47155a5a84e3c2e7f4c6cb5efcf',1,'WatchIcons::PROGMEM']]],
+  ['pull_19',['pull',['../d6/d49/structersa_1_1board_1_1Pin.html#a5c301b17abc4dc9b95ffa37d1c9b5597',1,'ersa::board::Pin']]]
+];

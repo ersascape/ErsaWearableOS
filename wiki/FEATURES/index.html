@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pkgs-wearables.ersa.dev/wiki/FEATURES/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Features - Ersa Wearable Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Features";
+        var mkdocs_page_input_path = "FEATURES.md";
+        var mkdocs_page_url = "/wiki/FEATURES/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Ersa Wearable Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Features</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#watch-apps-and-interaction">Watch apps and interaction</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#time-network-and-organizer">Time, network, and organizer</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bluetooth-and-companion-data">Bluetooth and companion data</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#power-and-battery">Power and battery</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#developer-and-release-tooling">Developer and release tooling</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#useful-commands">Useful commands</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#known-validation-limits">Known validation limits</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../POWER_AND_BATTERY_DESIGN/">Power and battery</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FIRMWARE_POWER_AUDIT/">Firmware power audit</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../apple-connectivity/">Apple connectivity</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ewctl-control-bridge/">USB control and ewctl</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pcb-pin-map/">PCB pin map</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Ersa Wearable Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Features</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/ersascape/ErsaWearableOS/edit/master/docs/FEATURES.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ersa-wearable-platform-feature-catalog">Ersa Wearable Platform Feature Catalog</h1>
+<p>This catalog describes features in the current repository source. It
+distinguishes implemented behavior from planned integrations and calls out
+areas that still need measurements on the watch. Release tags define the exact
+contents of a published firmware build.</p>
+<h2 id="watch-apps-and-interaction">Watch apps and interaction</h2>
+<ul>
+<li>Word-based Pebble-inspired clock face with date and configurable 12/24-hour
+  format.</li>
+<li>Two-button app drawer and navigation, with app lifecycle and input routing.</li>
+<li>Monthly calendar, daily agenda, and task checklist.</li>
+<li>On-demand Wi-Fi hotspot and captive portal for network and CalDAV settings.</li>
+<li>Status/diagnostics app, notification history, incoming-call UI, and Now
+  Playing UI.</li>
+<li>Monochrome 200×200 e-paper rendering with partial updates where supported.
+  The host preview script uses the production UI renderers and ImageMagick to
+  render notification, call, and media examples.</li>
+</ul>
+<h2 id="time-network-and-organizer">Time, network, and organizer</h2>
+<ul>
+<li>DS3231 real-time clock with timezone offset and 12/24-hour preferences.</li>
+<li>Pluggable time inputs: Apple BLE Current Time Service and Wi-Fi network time.
+  Companion time is preferred over network time; network sync uses SNTP with
+  HTTP Date fallback for networks that block UDP time requests.</li>
+<li>Wi-Fi credentials and application preferences stored in non-volatile
+  settings.</li>
+<li>CalDAV event and task retrieval, daily agenda view, supported recurring event
+  expansion, on-watch task completion, and persisted cache.</li>
+<li>Hotspot portal supports configuring Wi-Fi and CalDAV account details. Network
+  and time synchronization are initiated by user action.</li>
+</ul>
+<h2 id="bluetooth-and-companion-data">Bluetooth and companion data</h2>
+<ul>
+<li>Apple ANCS notification delivery with fragmented attribute assembly, UID
+  matching, a bounded notification pipeline, and recovery when an attribute
+  response is lost.</li>
+<li>Notification dismissal always removes the item locally. A remote iOS action
+  is sent only when the notification advertises an action clearly labeled
+  “Dismiss” or “Clear.”</li>
+<li>Caller details and incoming-call actions when supplied by Apple notification
+  services. ANCS does not provide a universal dialer or complete call-state
+  interface.</li>
+<li>Apple AMS track metadata, playback state, and supported playback commands.</li>
+<li>BLE advertising restart/retry handling and optional CTS/AMS/ANCS discovery.</li>
+<li><code>IBluetooth</code> isolates BLE link/advertising transport. <code>ICompanionSource</code>
+  isolates provider identity, availability, capabilities, normalized events,
+  and semantic commands. The current ESP32 board composes Apple services behind
+  these contracts; host tests also exercise a provider independent of the BLE
+  transport.</li>
+<li>Android companion support and Linux MPRIS are extension targets, not part of
+  this release.</li>
+</ul>
+<h2 id="power-and-battery">Power and battery</h2>
+<ul>
+<li>ESP-IDF power management with FreeRTOS tickless idle and Bluetooth modem
+  sleep configuration, plus inactivity-based automatic light-sleep policy.</li>
+<li>DVFS uses ESP-IDF power-management locks for interactive and compute scopes;
+  clock transitions can be recorded in diagnostic logs.</li>
+<li>USB <code>ewctl</code> can temporarily force the CPU to 40, 80, or 160 MHz to compare
+  behavior, then restore the configured 40–160 MHz automatic range. The forced
+  setting is volatile and intended for development experiments.</li>
+<li>Battery voltage is sampled through the board ADC and mapped to an estimated
+  percentage; low-battery handling is included. This board has no fuel gauge or
+  current monitor, so percentage and runtime are estimates and require physical
+  measurement for validation.</li>
+</ul>
+<h2 id="developer-and-release-tooling">Developer and release tooling</h2>
+<ul>
+<li><code>ewctl</code> over USB Serial/JTAG can query firmware/system, battery, BLE, power,
+  and a bounded log ring. It also supports temporary CPU-frequency overrides,
+  CSV power logging, redacted bug-report bundles, checksum-verified release
+  flashing, and decoding flash-backed ESP-IDF panic coredumps with the matching
+  ELF.</li>
+<li><code>make test</code> runs host-side protocol and service tests; <code>make firmware</code> builds
+  the ESP32-C3 firmware.</li>
+<li>GitHub Actions builds app and factory images for tagged releases and attaches
+  checksums and flashing instructions.</li>
+<li>Tagged releases also include an Arch <code>ewctl</code> package and a pacman repository
+  database. The package-only repository is hosted at
+  <code>https://pkgs-wearables.ersa.dev/</code>; add this configuration, then install with
+  <code>sudo pacman -Syu ewctl</code>:</li>
+</ul>
+<p><code>ini
+  [ewctl]
+  SigLevel = Optional
+  Server = https://pkgs-wearables.ersa.dev/</code></p>
+<p>The package can also be built locally from <code>packaging/arch/ewctl/PKGBUILD</code>.
+  Packages are currently unsigned; pacman downloads them and the repository
+  database over HTTPS. Tagged releases attach the package and matching
+  <code>ersa-ewctl.db</code> and <code>ersa-ewctl.files</code> assets. Build locally with <code>makepkg -si</code>
+  if preferred.
+- Each board's <code>DeviceInfo</code> supplies its display name, codename, and
+  manufacturer. <code>ewctl status</code> also reports the compiled firmware version;
+  BLE advertising and OTA use the selected
+  BSP's properties. OTA stores the latest manifest at
+  <code>ota/&lt;codename&gt;/ota.json</code> and images at <code>firmware/&lt;codename&gt;/&lt;tag&gt;.bin</code>;
+  Terra (<code>Ampere Terra</code>) currently publishes at <code>ota/terra/ota.json</code>.
+- The OTA service checks a compact HTTPS manifest, verifies release metadata
+  and SHA-256, downloads in resumable HTTP ranges with bounded retry/backoff,
+  and installs to the inactive app slot. OTA logs expose the current phase,
+  byte progress, and transport or validation failures. Bootloader rollback
+  protects the previous image until the new firmware confirms startup. Existing
+  watches require one USB migration using the release bootloader, partition
+  table, OTA metadata, and app image; the script preserves NVS settings. New
+  devices can be factory flashed directly into the A/B layout.</p>
+<h2 id="useful-commands">Useful commands</h2>
+<p>Run these from the repository root. Close any other program using the serial
+port first.</p>
+<pre><code class="language-sh">python3 scripts/ewctl.py --port /dev/ttyACM0 status
+python3 scripts/ewctl.py --port /dev/ttyACM0 power cpu-freq-get
+python3 scripts/ewctl.py --port /dev/ttyACM0 power get-dvfs-state
+python3 scripts/ewctl.py --port /dev/ttyACM0 ota
+python3 scripts/ewctl.py --port /dev/ttyACM0 power cpu-freq-set 40
+python3 scripts/ewctl.py --port /dev/ttyACM0 power cpu-freq-set 0
+python3 scripts/ewctl.py --port /dev/ttyACM0 logs --follow
+python3 scripts/ewctl.py --port /dev/ttyACM0 power log --interval 30 --duration 3600
+python3 scripts/ewctl.py --port /dev/ttyACM0 debug bundle
+python3 scripts/ewctl.py --port /dev/ttyACM0 flash release 0.1.3
+python3 scripts/ewctl.py --port /dev/ttyACM0 debug coredump
+</code></pre>
+<p><code>power</code> reports the measured CPU frequency and <code>cpu_test_override_mhz</code> (<code>0</code>
+means automatic scaling). <code>power cpu-freq-set</code> accepts only 40, 80, 160, or 0;
+it acknowledges and reboots in a controlled way so ESP-IDF applies the profile
+before BLE and peripheral locks start. Zero restores automatic power
+management. The requested profile survives software restart in RTC memory.
+The 40 MHz profile can rise to 80 MHz while BLE holds its APB lock. Run
+<code>power cpu-freq-get</code> after reboot to confirm the measured clock. Rich tables are
+the default; add <code>--json</code> for machine-readable output.</p>
+<p>New firmware saves panic coredumps in the reserved flash partition. Decode them
+with <code>debug coredump</code> before another panic overwrites the saved dump; see the
+<a href="../ewctl-control-bridge/">USB control guide</a> for ELF matching and setup.</p>
+<h2 id="known-validation-limits">Known validation limits</h2>
+<p>The firmware build and host test suite validate compilation and portable logic.
+Power consumption, sleep residency, battery runtime, and forced-frequency radio
+behavior need measurements on the assembled device. Apple features require an
+iPhone with the relevant BLE services enabled; future Android/MPRIS sources are
+not implemented.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../ADDING_A_BOARD/" class="btn btn-neutral float-left" title="Board support"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../POWER_AND_BATTERY_DESIGN/" class="btn btn-neutral float-right" title="Power and battery">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/ersascape/ErsaWearableOS" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../ADDING_A_BOARD/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../POWER_AND_BATTERY_DESIGN/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

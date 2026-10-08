@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pkgs-wearables.ersa.dev/wiki/apple-connectivity/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Apple connectivity - Ersa Wearable Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Apple connectivity";
+        var mkdocs_page_input_path = "apple-connectivity.md";
+        var mkdocs_page_url = "/wiki/apple-connectivity/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Ersa Wearable Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FEATURES/">Features</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../POWER_AND_BATTERY_DESIGN/">Power and battery</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FIRMWARE_POWER_AUDIT/">Firmware power audit</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Apple connectivity</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#responsibilities">Responsibilities</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notification-and-media-behavior">Notification and media behavior</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#regression-and-device-verification">Regression and device verification</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ewctl-control-bridge/">USB control and ewctl</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pcb-pin-map/">PCB pin map</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Ersa Wearable Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Apple connectivity</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/ersascape/ErsaWearableOS/edit/master/docs/apple-connectivity.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="apple-connectivity-and-provider-boundaries">Apple connectivity and provider boundaries</h1>
+<p>The watch automatically advertises ANCS solicitation, lets the BLE stack request encryption after connection,
+and schedules ANCS/AMS discovery. The worker waits for a latched authentication
+completion for that connection before any GATT discovery; it does not compare
+identity and private peer addresses. Missing services are retried. Initial pairing and iOS notification
+permission are still required. Status → B1 restarts advertising while disconnected.</p>
+<h2 id="responsibilities">Responsibilities</h2>
+<pre><code class="language-text">Call / notification / now-playing screens
+                  |
+      BluetoothManager (application state)
+                  |
+     IBluetooth (current provider boundary)
+                  |
+ ESP32 Apple adapter       future companion adapter
+         |                      |
+ portable ANCS/AMS codecs    Android / Linux integration
+         |
+ ESP32 BLE GATT transport
+</code></pre>
+<p><code>include/ersa/protocols/apple_notifications.h</code> and <code>apple_media.h</code> contain portable
+C++ decoding and ANCS action validation. They have no Arduino, ESP32, or FreeRTOS
+dependencies. ESP32 owns pairing, GATT objects, subscriptions, and its worker queues.
+The manager moves callbacks to the main loop before changing application state or UI.</p>
+<p><code>IBluetooth</code> is still a combined transport/provider interface; this change does not
+claim a complete transport abstraction. When another provider is implemented, extract
+its call/media/notification contract from that interface rather than exposing D-Bus
+or Android types to screens. Capabilities must decide which controls are available.
+MPRIS is a D-Bus media interface on Linux, so a Linux companion must bridge it to
+the watch's transport. It is not another BLE service to discover. Android needs a
+separate companion integration. Neither is implemented by this change.</p>
+<h2 id="notification-and-media-behavior">Notification and media behavior</h2>
+<ul>
+<li>One ANCS attribute request is in flight at a time. Title and Message are always
+  requested; the negative action label is requested when iOS advertises that action.
+  Responses are reassembled across GATT fragments and validated against their UID.</li>
+<li>Call events and general Notification Source records have separate compact queues.
+  The bounded history favors recent records during large startup bursts. Dropped
+  history never disconnects BLE or invalidates a different attribute response.</li>
+<li>Modified UIDs replace existing history entries; removed UIDs leave history.</li>
+<li>An attribute-stream failure retries ANCS subscriptions on the existing BLE link,
+  with a two-second delay and at most three recoveries per connection. If recovery
+  is exhausted, metadata requests pause until the next connection; BLE and AMS stay up.</li>
+<li>Resubscribing creates a new ANCS epoch. Old fragments cannot be mixed into the new
+  session. Call actions use their captured UID and the latest positive/negative flags.</li>
+<li>A watch notification dismissal is sent to iOS only when the notification advertises
+  a negative action and its label is “Dismiss” or “Clear.” ANCS supplies no result
+  notification for action commands, and other labels are not treated as dismissal.</li>
+<li>ANCS Message is not a guaranteed telephone number. Notification removal only ends
+  the ringing notification; it does not establish the phone call's final outcome.
+  Native ANCS cannot provide a complete active-call timer, dialing, or hangup API.</li>
+<li>AMS subscribes to supported commands, track title/artist, and playback state.
+  Truncated track values are read through Entity Attribute, then bounded for display.
+  Sending a playback command does not fabricate a playback-state update.</li>
+<li>GATT Service Changed triggers rediscovery on the existing link. Remote characteristic
+  pointers are invalidated before service refresh. One worker owns the BLE client.</li>
+</ul>
+<h2 id="regression-and-device-verification">Regression and device verification</h2>
+<p><code>make test</code> covers fragmented headers and attribute values, empty and maximum-sized
+responses, UID mismatch, malformed data, dismissal-label parsing, stale/unavailable
+call actions, AMS decoding, notification modification/removal/reset, and disconnect cleanup. The ESP32 firmware
+build verifies the hardware adapter compiles; it is not a radio integration test.</p>
+<p>For a device check, confirm <code>burst-safe worker started</code> in the log, then:</p>
+<ol>
+<li>Pair with many existing iPhone notifications. <code>ANCS=1 AMS=1</code> must not be followed
+   by a watch-initiated disconnect. History-burst warnings may occur without link loss.</li>
+<li>Deliver two messages and an incoming call together; answer/decline while messages
+   continue arriving. Caller text and actions must stay attached to the call UID.
+   For a notification that exposes “Dismiss” or “Clear,” dismiss it from the watch
+   and confirm it disappears on iOS. Notifications with other action labels should
+   disappear only from watch history.</li>
+<li>Start/pause/change music, including long titles; launch the player after pairing.</li>
+<li>Leave the phone locked and watch idle, then move out of range and return. Verify
+   advertising resumes and Apple services are discovered after authentication.</li>
+<li>If disconnected again, retain the <code>Auth complete</code>, <code>Central disconnected reason</code>,
+   and Apple worker messages. The firmware logs the actual disconnection reason.</li>
+</ol>
+<p>Protocol references: <a href="https://developer.apple.com/library/archive/documentation/CoreBluetooth/Reference/AppleNotificationCenterServiceSpecification/Specification/Specification.html">ANCS specification</a>,
+<a href="https://developer.apple.com/library/archive/documentation/CoreBluetooth/Reference/AppleMediaService_Reference/Specification/Specification.html">AMS specification</a>,
+and <a href="https://specifications.freedesktop.org/mpris/latest/">MPRIS specification</a>.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../FIRMWARE_POWER_AUDIT/" class="btn btn-neutral float-left" title="Firmware power audit"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../ewctl-control-bridge/" class="btn btn-neutral float-right" title="USB control and ewctl">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/ersascape/ErsaWearableOS" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../FIRMWARE_POWER_AUDIT/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../ewctl-control-bridge/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

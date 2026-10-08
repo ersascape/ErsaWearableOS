@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pkgs-wearables.ersa.dev/wiki/pcb-pin-map/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>PCB pin map - Ersa Wearable Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "PCB pin map";
+        var mkdocs_page_input_path = "pcb-pin-map.md";
+        var mkdocs_page_url = "/wiki/pcb-pin-map/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Ersa Wearable Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FEATURES/">Features</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../POWER_AND_BATTERY_DESIGN/">Power and battery</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FIRMWARE_POWER_AUDIT/">Firmware power audit</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../apple-connectivity/">Apple connectivity</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ewctl-control-bridge/">USB control and ewctl</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">PCB pin map</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#upper-button-buzzer-conflict">Upper button / buzzer conflict</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Ersa Wearable Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">PCB pin map</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/ersascape/ErsaWearableOS/edit/master/docs/pcb-pin-map.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="pcb-pin-trace">PCB pin trace</h1>
+<p>Source: the user's EasyEDA PCB JSON (<code>editorVersion: 6.5.51</code>, XIAO reference U8),
+provided on 2026-09-27. GPIO translations were checked against the installed
+Arduino XIAO_ESP32C3 <code>pins_arduino.h</code>. Top/bottom refer to the PCB drawing's Y axis.</p>
+<table>
+<thead>
+<tr>
+<th>Signal</th>
+<th>PCB net / connection</th>
+<th>XIAO label</th>
+<th>ESP32-C3 GPIO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Upper button, S2 (Y=3249.5)</td>
+<td>S2.2 -&gt; U8_3 -&gt; U8 pad 3</td>
+<td>D2/A2</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Lower button, S1 (Y=3290)</td>
+<td>S1.1 -&gt; U8_2 -&gt; U8 pad 2</td>
+<td>D1/A1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>RTC SDA</td>
+<td>U7_SDA -&gt; U8 pad 5</td>
+<td>SDA/D4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>RTC SCL</td>
+<td>U7_SCL -&gt; U8 pad 6</td>
+<td>SCL/D5</td>
+<td>7</td>
+</tr>
+<tr>
+<td>EPD SCK</td>
+<td>U5_4 -&gt; U8 pad 9</td>
+<td>SCK/D8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>EPD MOSI</td>
+<td>U5_3 -&gt; U8 pad 11</td>
+<td>MOSI/D10</td>
+<td>10</td>
+</tr>
+<tr>
+<td>EPD CS</td>
+<td>U5_5 -&gt; U8 pad 4</td>
+<td>D3/A3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>EPD DC</td>
+<td>U5_6 -&gt; U8 pad 8</td>
+<td>RX/D7</td>
+<td>20</td>
+</tr>
+<tr>
+<td>EPD RST</td>
+<td>U5_7 -&gt; U8 pad 7</td>
+<td>TX/D6</td>
+<td>21</td>
+</tr>
+<tr>
+<td>EPD BUSY</td>
+<td>U5_8 -&gt; U8 pad 10</td>
+<td>MISO/D9</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>Both buttons close to GND. R1 (100 kOhm) pulls U8_2 to VCC, and R2 (100 kOhm)
+pulls U8_3 to VCC. Firmware also enables the requested internal pull-ups.
+XIAO pad numbers are footprint terminal numbers, not GPIO numbers.</p>
+<h2 id="upper-button-buzzer-conflict">Upper button / buzzer conflict</h2>
+<p><strong>Assembly clarification:</strong> the user confirmed that this is an older design
+and U3 is not fitted. The loading concern below does not apply to that assembly.</p>
+<p>U3 (<code>GSC4417YA-16R4000</code>) pad 1 is on U8_3, and pad 2 is GND. The routed trace
+from U3 pad 1 at (4024.61, 3344.5) joins S2's net at (4033.126, 3323.151).
+Thus the buzzer and upper button share the same GPIO-to-ground path; this is
+more than a duplicate net label in the footprint. If fitted, the buzzer may
+load the pull-up and keep GPIO4 LOW even with S2 released.</p>
+<p>Check the USB raw-input logs first. If GPIO4 stays LOW, power off and isolate
+U3 before retesting the button. Do not drive GPIO4 HIGH to test it: pressing
+the button would short that output to ground. A board revision should separate
+the button input from a suitable buzzer driver/output.</p>
+<p>This trace establishes the design's connections, not solder continuity on the
+assembled board. It does not diagnose the reported RTC/display freeze; USB
+logs now distinguish RTC seconds, loop progress, and display BUSY waits.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../ewctl-control-bridge/" class="btn btn-neutral float-left" title="USB control and ewctl"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/ersascape/ErsaWearableOS" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../ewctl-control-bridge/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

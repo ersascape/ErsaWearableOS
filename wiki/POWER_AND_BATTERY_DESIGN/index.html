@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://pkgs-wearables.ersa.dev/wiki/POWER_AND_BATTERY_DESIGN/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Power and battery - Ersa Wearable Platform</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Power and battery";
+        var mkdocs_page_input_path = "POWER_AND_BATTERY_DESIGN.md";
+        var mkdocs_page_url = "/wiki/POWER_AND_BATTERY_DESIGN/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Ersa Wearable Platform
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../HAL_ARCHITECTURE/">Architecture</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ADDING_A_BOARD/">Board support</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FEATURES/">Features</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Power and battery</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-this-board-can-control-today">What this board can control today</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ble-preserving-light-sleep">BLE-preserving light sleep</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hal-boundaries">HAL boundaries</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hardware-needed-for-full-management">Hardware needed for full management</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bring-up-and-validation">Bring-up and validation</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../FIRMWARE_POWER_AUDIT/">Firmware power audit</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../apple-connectivity/">Apple connectivity</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../ewctl-control-bridge/">USB control and ewctl</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../pcb-pin-map/">PCB pin map</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Ersa Wearable Platform</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Power and battery</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/ersascape/ErsaWearableOS/edit/master/docs/POWER_AND_BATTERY_DESIGN.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="battery-and-power-management-design">Battery and power management design</h1>
+<h2 id="what-this-board-can-control-today">What this board can control today</h2>
+<p>The supplied EasyEDA PCB JSON confirms the main LiPo connects to the XIAO
+module's battery pads. R3 and R4 are each 220 kOhm: R3 connects battery positive
+to their midpoint, R4 connects the midpoint to battery return, and that midpoint
+routes to XIAO pad 1 / GPIO2 / A0. The existing <code>ADC millivolts * 2</code> conversion
+matches this 1:1 divider. The separately mounted CR927 holder is for RTC backup,
+not the watch's main battery. The component list contains no separate fuel gauge
+or charger IC; charging and protection are on the XIAO module.</p>
+<p>The board does not expose charger enable, charger status, battery current, or
+cell temperature to firmware. The XIAO's onboard charger/protection therefore
+operates autonomously. Firmware can estimate cell voltage, notify the user,
+reduce system load, and choose a safe sleep state; it cannot implement charge
+termination or replace the cell's independent protection circuit.</p>
+<p>The current ADC implementation reports a voltage-only state-of-charge estimate.
+The divider ratio is confirmed, but the ADC reading should still be compared
+with a meter on the assembled watch. Voltage shifts with load and temperature,
+so a voltage curve cannot report precise remaining capacity or predict runtime.
+The code averages ADC readings, filters sample-to-sample variation, and uses an
+explicit Li-ion voltage lookup table; those changes improve stability, not
+absolute accuracy. Charging state is unknown with the present pin map and must
+not be inferred from cell voltage alone.</p>
+<p>The firmware policy now requires three consecutive critical samples (10 seconds
+apart) before entering a 10-minute deep-sleep charge-check cycle; buttons also
+wake it. Low and critical voltage thresholds use hysteresis. Validate these
+thresholds with the actual cell under load before relying on them: they are
+conservative starting points, not characterized limits for this assembled watch.</p>
+<h2 id="ble-preserving-light-sleep">BLE-preserving light sleep</h2>
+<p>The current PlatformIO <code>framework = arduino</code> build runs on FreeRTOS, but its
+bundled ESP32-C3 <code>sdkconfig.h</code> does not enable <code>CONFIG_PM_ENABLE</code>,
+<code>CONFIG_FREERTOS_USE_TICKLESS_IDLE</code>, or Bluetooth controller modem sleep. The
+firmware therefore does not enter light sleep between connected BLE events.
+Calling <code>esp_light_sleep_start()</code> from the UI loop would interrupt the BLE link
+and is not a substitute. Espressif requires Bluetooth modem sleep plus automatic
+light sleep coordinated by power management and tickless idle to keep a
+connection alive.</p>
+<p>Enabling this requires rebuilding the Arduino core with an ESP-IDF configuration
+that enables power management, FreeRTOS tickless idle, Bluetooth modem sleep,
+and a valid Bluetooth low-power clock. This board's separate DS3231 clock is not
+connected to the ESP32-C3 low-power clock pins, so the external 32 kHz Bluetooth
+clock option cannot be assumed. After that build change, confirm BLE stability,
+button wake latency, e-paper refresh, Wi-Fi sync, and current draw on hardware
+before making automatic light sleep the default.</p>
+<h2 id="hal-boundaries">HAL boundaries</h2>
+<p>Keep policy independent from ESP32, charger, and gauge drivers:</p>
+<pre><code class="language-text">Application / UI
+      | battery and power events
+BatteryPowerService (policy, thresholds, hysteresis, persistence)
+      |                 |
+IBatteryGauge       IPowerControl
+      |                 |
+ESP32 ADC /          ESP32 CPU, BLE, Wi-Fi,
+fuel-gauge driver     display and sleep driver
+
+IChargeController (optional; only where hardware exposes safe controls/status)
+      |
+charger IC driver
+</code></pre>
+<p><code>IBatteryGauge</code> should return a snapshot rather than isolated guesses:</p>
+<pre><code class="language-cpp">struct BatterySnapshot {
+    uint16_t millivolts;
+    int16_t milliamps;       // optional; absent when the board has no current sensor
+    int16_t temperatureC10;  // optional; absent when the board has no sensor
+    uint8_t stateOfCharge;   // 0..100, plus a validity/source flag
+    bool present;
+    bool charging;
+    bool chargerStateKnown;
+    bool fault;
+};
+</code></pre>
+<p>The service owns filtering and policy, and emits events for normal, low, and
+critical battery states. Thresholds need hysteresis and time qualification so
+radio bursts or e-paper refresh dips do not flap the UI. Critical policy should
+stop optional Wi-Fi sync, reduce BLE advertising, postpone nonessential display
+refreshes, save settings, warn once, then enter a board-supported low-power
+state before the regulator reaches brownout. Recovery requires voltage above a
+higher threshold for a dwell period. The exact thresholds must be measured on
+the assembled board under radio and display load.</p>
+<p><code>IPowerControl</code> owns board-specific actions such as radio mode, CPU frequency,
+display power, and sleep/wake. The policy service requests an operating profile;
+it does not call ESP-IDF sleep APIs directly. Interrupt-driven buttons can wake
+the board, but sleep must not be enabled until BLE reconnect, RTC wake, and
+e-paper behavior are validated together.</p>
+<p><code>IChargeController</code> is optional and separate from the gauge. It may expose
+charger status or safe input-current/enable controls only when the selected IC
+and board wiring support them. Cell overvoltage, undervoltage, overcurrent, and
+temperature protection must remain in hardware and function with firmware
+stopped.</p>
+<h2 id="hardware-needed-for-full-management">Hardware needed for full management</h2>
+<p>For useful SOC and robust early brownout handling, use a fuel gauge connected to
+the cell (for example a gauge with a documented I2C interface) and expose its
+alert output to a wake-capable GPIO. To manage charge policy, select a charger
+with documented status and controllable inputs, route those signals to the MCU,
+and include a battery temperature sensor. Keep a separate cell-protection path
+that disconnects the cell on electrical faults even if the MCU or firmware has
+failed. Confirm regulator dropout and peak load with oscilloscope measurements.</p>
+<p>Before choosing components or thresholds, record the cell part/capacity, actual
+divider resistor values, charger IC, protection IC, regulator, and loaded voltage
+at brownout. Without these, firmware can provide conservative policy, but cannot
+promise an accurate percentage, remaining runtime, or controlled charging.</p>
+<h2 id="bring-up-and-validation">Bring-up and validation</h2>
+<ol>
+<li>Compare logged ADC-derived millivolts with a multimeter at full charge,
+   mid-discharge, and near the board's safe shutdown point; tune divider scale.</li>
+<li>Log voltage at a fixed cadence with BLE idle, BLE connected, during e-paper
+   refresh, and during Wi-Fi sync. Measure cell voltage at the same time to
+   quantify transient sag and ADC error.</li>
+<li>Verify low/critical thresholds with a bench supply or protected test cell;
+   confirm orderly shutdown happens before ESP32 brownout and that wake/recovery
+   has hysteresis.</li>
+<li>Test charging only through the charger IC's documented behavior and confirm
+   its protections independently of firmware.</li>
+</ol>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../FEATURES/" class="btn btn-neutral float-left" title="Features"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../FIRMWARE_POWER_AUDIT/" class="btn btn-neutral float-right" title="Firmware power audit">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/ersascape/ErsaWearableOS" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../FEATURES/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../FIRMWARE_POWER_AUDIT/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

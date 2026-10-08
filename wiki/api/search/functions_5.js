@@ -1,0 +1,13 @@
+var searchData=
+[
+  ['feed_0',['feed',['../d9/da9/classersa_1_1protocols_1_1AncsAttributes.html#a2b463b69a968b495e9dc32bba646fa51',1,'ersa::protocols::AncsAttributes']]],
+  ['fetchhttputc_1',['fetchHttpUtc',['../dd/db8/namespaceNetSync.html#a48086173379f1937a0aeeb08a850d0a1',1,'NetSync']]],
+  ['fetchntputc_2',['fetchNtpUtc',['../dd/db8/namespaceNetSync.html#a267daf9dc8f8a88df82d6c992cdb652f',1,'NetSync']]],
+  ['fetchtimewithfallbacks_3',['fetchTimeWithFallbacks',['../dd/db8/namespaceNetSync.html#a879f5c07e9dbedd63b2082e1c3ca690e',1,'NetSync']]],
+  ['fillcircle_4',['fillcircle',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#aea3009e74142480fe03edbff08e7a765',1,'ersa::hal::IDisplay::fillCircle(int16_t x, int16_t y, int16_t r, Color color)=0'],['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#ae9fdd267365e6f69b9616c2fa6842b59',1,'ersa::hal::IDisplay::fillCircle(int16_t x, int16_t y, int16_t r, uint16_t color)'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a7821a75dbf7ddb1ca5826b8509cb0b79',1,'ersa::test::MockDisplay::fillCircle()']]],
+  ['fillrect_5',['fillrect',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a0a8cd93b67b7154304c3f2afea0c17a4',1,'ersa::hal::IDisplay::fillRect(int16_t x, int16_t y, int16_t w, int16_t h, Color color)=0'],['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a40f7abbaae5abcdba92df5303c027113',1,'ersa::hal::IDisplay::fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)'],['../d5/dd7/classersa_1_1ui_1_1Canvas.html#a7527c250256fbc6cec45559526f24c45',1,'ersa::ui::Canvas::fillRect()'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a96fb5cb91fce90795983940d1b32d200',1,'ersa::test::MockDisplay::fillRect()']]],
+  ['fillroundrect_6',['fillroundrect',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a28732ac46c05f21616a113d8aa24a83c',1,'ersa::hal::IDisplay::fillRoundRect()'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aa77d4f99c26d30362a42b54276a4efb9',1,'ersa::test::MockDisplay::fillRoundRect()'],['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a78cdd6e83bbad258aa90d3171f98979d',1,'ersa::hal::IDisplay::fillRoundRect(int16_t x, int16_t y, int16_t w, int16_t h, int16_t r, uint16_t color)']]],
+  ['fillscreen_7',['fillScreen',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a5b69b7b32f1687d32cb95c776d03ddce',1,'ersa::hal::IDisplay']]],
+  ['flush_8',['flush',['../d3/d93/namespaceDebugLog.html#a8720047ee3d4043c9baadad3484754ae',1,'DebugLog']]],
+  ['formatuptime_9',['formatUptime',['../d5/dbe/namespaceAppStatus.html#a7876e0a6fbdd9feeb9605040c4c50443',1,'AppStatus']]]
+];

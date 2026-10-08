@@ -1,0 +1,34 @@
+digraph "ersa::services::TimeService"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node1 [id="Node000001",label="ersa::services::TimeService",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="Coordinates RTC time, external time sources, and minute-boundary events."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" rtc_",fontcolor="grey" ];
+  Node2 [id="Node000002",label="ersa::hal::IRtc",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$dc/d69/classersa_1_1hal_1_1IRtc.html",tooltip="Real-time clock contract using transport-neutral calendar values."];
+  Node3 -> Node1 [id="edge2_Node000001_Node000003",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" bus_",fontcolor="grey" ];
+  Node3 [id="Node000003",label="ersa::events::EventBus",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d4/de9/classersa_1_1events_1_1EventBus.html",tooltip=" "];
+  Node4 -> Node3 [id="edge3_Node000003_Node000004",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" subscribers_",fontcolor="grey" ];
+  Node4 [id="Node000004",label="ersa::events::Subscription",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$df/dbf/structersa_1_1events_1_1Subscription.html",tooltip=" "];
+  Node5 -> Node4 [id="edge4_Node000004_Node000005",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" callback",fontcolor="grey" ];
+  Node5 [id="Node000005",label="ersa::events::Event",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d4/db2/structersa_1_1events_1_1Event.html",tooltip=" "];
+  Node6 -> Node5 [id="edge5_Node000005_Node000006",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" button",fontcolor="grey" ];
+  Node6 [id="Node000006",label="ersa::events::ButtonPayload",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d5/d26/structersa_1_1events_1_1ButtonPayload.html",tooltip=" "];
+  Node7 -> Node5 [id="edge6_Node000005_Node000007",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" time",fontcolor="grey" ];
+  Node7 [id="Node000007",label="ersa::events::TimePayload",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d5/d53/structersa_1_1events_1_1TimePayload.html",tooltip=" "];
+  Node8 -> Node5 [id="edge7_Node000005_Node000008",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" battery",fontcolor="grey" ];
+  Node8 [id="Node000008",label="ersa::events::BatteryPayload",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d2/dfb/structersa_1_1events_1_1BatteryPayload.html",tooltip=" "];
+  Node9 -> Node5 [id="edge8_Node000005_Node000009",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" network",fontcolor="grey" ];
+  Node9 [id="Node000009",label="ersa::events::NetworkPayload",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d3/d27/structersa_1_1events_1_1NetworkPayload.html",tooltip=" "];
+  Node10 -> Node5 [id="edge9_Node000005_Node000010",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" call",fontcolor="grey" ];
+  Node10 [id="Node000010",label="ersa::events::CallPayload",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d4/dbc/structersa_1_1events_1_1CallPayload.html",tooltip=" "];
+  Node11 -> Node5 [id="edge10_Node000005_Node000011",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" media",fontcolor="grey" ];
+  Node11 [id="Node000011",label="ersa::events::MediaPayload",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d9/db7/structersa_1_1events_1_1MediaPayload.html",tooltip=" "];
+  Node12 -> Node5 [id="edge11_Node000005_Node000012",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" notification",fontcolor="grey" ];
+  Node12 [id="Node000012",label="ersa::events::Notification\lPayload",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d6/dc2/structersa_1_1events_1_1NotificationPayload.html",tooltip=" "];
+  Node13 -> Node4 [id="edge12_Node000004_Node000013",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" listener",fontcolor="grey" ];
+  Node13 [id="Node000013",label="ersa::events::IEventListener",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$d7/d9e/classersa_1_1events_1_1IEventListener.html",tooltip=" "];
+  Node5 -> Node3 [id="edge13_Node000003_Node000005",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" queue_",fontcolor="grey" ];
+}

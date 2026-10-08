@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['candial_0',['canDial',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#acbede3e0d72da14eec06389f76ae84f5',1,'ersa::services::BluetoothManager']]],
+  ['canhangup_1',['canHangup',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a1dd9ca4a6e8a9a3ed08dd58b221ef30e',1,'ersa::services::BluetoothManager']]],
+  ['cansleep_2',['canSleep',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#a29b9b4e797bdd71e60787405db1e26d6',1,'ersa::services::PowerManager']]],
+  ['capabilities_3',['capabilities',['../dc/d9d/classersa_1_1board_1_1Board.html#a967bd3bcd73d8bcd21a66e5b2b6aa4da',1,'ersa::board::Board::capabilities()'],['../d3/dfe/classersa_1_1hal_1_1ICompanionSource.html#aa3289a8d36df8d56f30e807a41d6aa80',1,'ersa::hal::ICompanionSource::capabilities()'],['../d2/d84/classersa_1_1services_1_1DummyBle.html#ac38ae3896ca41f050661242f66afc73c',1,'ersa::services::DummyBle::capabilities()'],['../d6/d72/classersa_1_1hal_1_1Esp32Bluetooth.html#a99d08fefe28e7e2f7bab87a2a2a97c6a',1,'ersa::hal::Esp32Bluetooth::capabilities()'],['../d6/db0/classersa_1_1test_1_1MockBluetooth.html#ada9213fe3ee4e3ae95178c4ef48fd3c1',1,'ersa::test::MockBluetooth::capabilities()']]],
+  ['checkforupdate_4',['checkForUpdate',['../d9/d27/classersa_1_1services_1_1OtaService.html#a2aab83633c9148e1b1eb894262190a08',1,'ersa::services::OtaService']]],
+  ['clear_5',['clear',['../d5/d9b/classersa_1_1hal_1_1IDisplay.html#a3d1a30dd61d39b30d0024e4aa41dffc8',1,'ersa::hal::IDisplay::clear()'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#a6e522f862000b9e4f4291f878393ec86',1,'ersa::test::MockDisplay::clear()'],['../d2/d50/classersa_1_1services_1_1MemoryStorageService.html#a0b478a399ddbd4c29048ce5abb96658e',1,'ersa::services::MemoryStorageService::clear()'],['../d5/dd7/classersa_1_1ui_1_1Canvas.html#a7aad96401153692002022f5b865232db',1,'ersa::ui::Canvas::clear()'],['../d0/d6a/classersa_1_1services_1_1StorageService.html#ab995d66d6e71a4f052c30123e9679ff9',1,'ersa::services::StorageService::clear()'],['../d4/de9/classersa_1_1events_1_1EventBus.html#af8de48e68995bf1a2c884141fb55a9c7',1,'ersa::events::EventBus::clear()']]],
+  ['clearappswitched_6',['clearAppSwitched',['../de/df7/classersa_1_1app_1_1ApplicationManager.html#a7912c3a07c91e1a22079032e6715c962',1,'ersa::app::ApplicationManager']]],
+  ['cleardirty_7',['clearDirty',['../de/df7/classersa_1_1app_1_1ApplicationManager.html#a2026b6c1e606dc122a20a046ea45ff0e',1,'ersa::app::ApplicationManager']]],
+  ['clearnotifications_8',['clearNotifications',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a602de62d61500f21d34baf18e9e67817',1,'ersa::services::BluetoothManager']]],
+  ['companioncapabilities_9',['companionCapabilities',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a3b1f890d7ee6bcaab36c6494ad34cfe7',1,'ersa::services::BluetoothManager']]],
+  ['companionsourceavailable_10',['companionSourceAvailable',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#af210d1022ff95aa3b3dfeb37d7720ef1',1,'ersa::services::BluetoothManager']]],
+  ['companionsourceid_11',['companionSourceId',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#ad314339f37c3961c72b4e1e05f49c846',1,'ersa::services::BluetoothManager']]],
+  ['connectstation_12',['connectstation',['../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#a1ecf960c1988713ac51c6dbed38f4c81',1,'ersa::hal::IWifiRadio::connectStation()'],['../d4/d6a/classersa_1_1test_1_1MockWifi.html#a352fa247ccbd5b8a81b0efd4dbe3f989',1,'ersa::test::MockWifi::connectStation()']]],
+  ['contains_13',['contains',['../de/dc7/structersa_1_1Rect.html#a133a11d095d61f8fdca7a0597b515d2d',1,'ersa::Rect']]],
+  ['copyaccesspointaddress_14',['copyaccesspointaddress',['../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#ad0781e4856181f198f94af8dfc9dbee8',1,'ersa::hal::IWifiRadio::copyAccessPointAddress()'],['../d4/d6a/classersa_1_1test_1_1MockWifi.html#ab57a26dc740ef54e2ea6bdb5dab92ea7',1,'ersa::test::MockWifi::copyAccessPointAddress()']]],
+  ['copylocaladdress_15',['copylocaladdress',['../d7/d7e/classersa_1_1hal_1_1IWifiRadio.html#ad64e7b8cdc81391ffbf47a3d12f13952',1,'ersa::hal::IWifiRadio::copyLocalAddress()'],['../d4/d6a/classersa_1_1test_1_1MockWifi.html#a088efdf6da6a14953cf3fd9b3aa3c4e5',1,'ersa::test::MockWifi::copyLocalAddress()']]],
+  ['createbatterychanged_16',['createBatteryChanged',['../d4/db2/structersa_1_1events_1_1Event.html#a93121b77ce927b9469921dd6d0009b4a',1,'ersa::events::Event']]],
+  ['createbutton_17',['createButton',['../d4/db2/structersa_1_1events_1_1Event.html#aeb7506b5060d95b01737dafeb3063e7c',1,'ersa::events::Event']]],
+  ['createcall_18',['createCall',['../d4/db2/structersa_1_1events_1_1Event.html#a3157d1bcd2ddd1441851d15c89349ff4',1,'ersa::events::Event']]],
+  ['createmedia_19',['createMedia',['../d4/db2/structersa_1_1events_1_1Event.html#a720a839a86d16ee6b9e19a6ce1a5b3b9',1,'ersa::events::Event']]],
+  ['createminutetick_20',['createMinuteTick',['../d4/db2/structersa_1_1events_1_1Event.html#a4f6be191ee77a06f02318d471e810304',1,'ersa::events::Event']]],
+  ['createnotification_21',['createNotification',['../d4/db2/structersa_1_1events_1_1Event.html#a21fc01234fad2ed90987e5122bff060b',1,'ersa::events::Event']]],
+  ['createtimesync_22',['createTimeSync',['../d4/db2/structersa_1_1events_1_1Event.html#a9720ba98b3f01d1c9d163f779ea4bc00',1,'ersa::events::Event']]],
+  ['current_23',['current',['../dc/d9d/classersa_1_1board_1_1Board.html#aeffbb38ed323e257f9d41e98d5e861b5',1,'ersa::board::Board']]],
+  ['currentornull_24',['currentOrNull',['../dc/d9d/classersa_1_1board_1_1Board.html#a251af83b97ecc7a1d34ef8869e82cfa8',1,'ersa::board::Board']]]
+];
