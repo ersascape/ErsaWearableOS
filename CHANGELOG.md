@@ -1,5 +1,14 @@
 # Changelog
 
+## ewp-0.4.4
+
+- Fully deinitialize the BLE host during OTA maintenance so Wi-Fi and TLS
+  certificate verification have more contiguous heap available. Recreate the
+  GATT server and security state after maintenance, and discard stale GATT
+  pointers before the Arduino BLE layer deletes its objects.
+
+See [release notes](release-notes/ewp-0.4.4.md) for details.
+
 ## ewp-0.3.2
 
 - Fix OTA range validation to share the `Content-Range` state populated by the

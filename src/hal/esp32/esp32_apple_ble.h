@@ -41,6 +41,8 @@ public:
     void stop();
     /** Pause workers/GATT activity for OTA and wait up to the given deadline. */
     bool suspendForMaintenance(uint32_t timeoutMs);
+    /** Forget vendor GATT objects before BLEDevice deinitializes their stack. */
+    void prepareForStackRestart();
 
     bool isAncsActive() const;
     bool isAmsActive() const;
@@ -80,6 +82,7 @@ public:
     void authenticationComplete(bool) {}
     void stop() {}
     bool suspendForMaintenance(uint32_t) { return true; }
+    void prepareForStackRestart() {}
     bool isAncsActive() const { return false; }
     bool isAmsActive() const { return false; }
     bool isCtsActive() const { return false; }

@@ -256,6 +256,27 @@ public:
         return true;
     }
 
+    void prepareForStackRestart() {
+        // BLEDevice::deinit() owns and deletes the BLEClient. Clear all borrowed
+        // GATT pointers now so the next authenticated session creates a fresh
+        // client instead of touching the objects from the previous stack.
+        client_ = nullptr;
+        source_ = nullptr;
+        data_ = nullptr;
+        control_ = nullptr;
+        currentTime_ = nullptr;
+        update_ = nullptr;
+        entityAttribute_ = nullptr;
+        remote_ = nullptr;
+        changed_ = nullptr;
+        servicesCached_ = false;
+        haveServicesPeer_ = false;
+        replaceClient_ = false;
+        ctsReady_ = false;
+        ancsReady_ = false;
+        amsReady_ = false;
+    }
+
     void handleNotification(const uint8_t* data, size_t size) {
         if (size != 8 || data[0] > 2) return;
         const uint32_t uid = protocols::readLe32(data + 4);
@@ -757,6 +778,9 @@ void Esp32AppleClient::authenticationComplete(bool success) {
 void Esp32AppleClient::stop() { pImpl_->changePeer(nullptr, BLE_ADDR_TYPE_RANDOM); }
 bool Esp32AppleClient::suspendForMaintenance(uint32_t timeoutMs) {
     return pImpl_->suspendForMaintenance(timeoutMs);
+}
+void Esp32AppleClient::prepareForStackRestart() {
+    pImpl_->prepareForStackRestart();
 }
 bool Esp32AppleClient::isAncsActive() const { return pImpl_->ancsReady_; }
 bool Esp32AppleClient::isAmsActive() const { return pImpl_->amsReady_; }

@@ -57,6 +57,8 @@ public:
     std::atomic<bool> companionCalls_{false}, companionMedia_{false};
     uint16_t connectionId_{0};
     bool initialized_{false};
+    BleSecCallbacks* securityCallbacks_{nullptr};
+    BLESecurity* security_{nullptr};
     std::atomic<uint32_t> advertiseAfterMs_{0};
     std::atomic<uint32_t> advertisingStartedAtMs_{0};
     static Impl*& current() { static Impl* instance = nullptr; return instance; }
@@ -277,11 +279,14 @@ Result<void> Esp32Bluetooth::init() {
     if (!selectedBoard) return Result<void>(ErrorCode::NotFound, "selected board identity is unavailable");
     const auto& identity = selectedBoard->getDeviceInfo();
     DebugLog::log("BLE: initializing '%s' BLE peripheral", identity.name);
-    BLEDevice::init(identity.name);
+    if (!BLEDevice::init(identity.name))
+        return Result<void>(ErrorCode::HardwareFault, "BLE stack initialization failed");
     Impl::current() = pImpl_;
     BLEDevice::setCustomGapHandler(&Impl::gapEvent);
 
     pImpl_->pServer_ = BLEDevice::createServer();
+    if (!pImpl_->pServer_)
+        return Result<void>(ErrorCode::OutOfMemory, "BLE GATT server allocation failed");
     pImpl_->pServer_->setCallbacks(pImpl_);
     pImpl_->appleClient_.setCallCallback(callCb_, callUserData_);
     pImpl_->appleClient_.setMediaCallback(mediaCb_, mediaUserData_);
@@ -350,12 +355,17 @@ Result<void> Esp32Bluetooth::init() {
     pImpl_->pMediaChar_->setAccessPermissions(ESP_GATT_PERM_READ_ENCRYPTED | ESP_GATT_PERM_WRITE_ENCRYPTED);
 
     // Configure BLE Security Bonding for native iOS Pairing & ANCS / AMS access
-    BLEDevice::setSecurityCallbacks(new BleSecCallbacks(&Impl::authenticated, pImpl_));
-    BLESecurity* pSecurity = new BLESecurity();
-    pSecurity->setAuthenticationMode(ESP_LE_AUTH_REQ_SC_BOND);
-    pSecurity->setCapability(ESP_IO_CAP_NONE);
-    pSecurity->setInitEncryptionKey(ESP_BLE_ENC_KEY_MASK | ESP_BLE_ID_KEY_MASK);
-    pSecurity->setRespEncryptionKey(ESP_BLE_ENC_KEY_MASK | ESP_BLE_ID_KEY_MASK);
+    if (!pImpl_->securityCallbacks_)
+        pImpl_->securityCallbacks_ = new (std::nothrow) BleSecCallbacks(&Impl::authenticated, pImpl_);
+    if (!pImpl_->security_)
+        pImpl_->security_ = new (std::nothrow) BLESecurity();
+    if (!pImpl_->securityCallbacks_ || !pImpl_->security_)
+        return Result<void>(ErrorCode::OutOfMemory, "BLE security object allocation failed");
+    BLEDevice::setSecurityCallbacks(pImpl_->securityCallbacks_);
+    pImpl_->security_->setAuthenticationMode(ESP_LE_AUTH_REQ_SC_BOND);
+    pImpl_->security_->setCapability(ESP_IO_CAP_NONE);
+    pImpl_->security_->setInitEncryptionKey(ESP_BLE_ENC_KEY_MASK | ESP_BLE_ID_KEY_MASK);
+    pImpl_->security_->setRespEncryptionKey(ESP_BLE_ENC_KEY_MASK | ESP_BLE_ID_KEY_MASK);
 
     pImpl_->initialized_ = true;
     return Result<void>();
@@ -508,7 +518,21 @@ bool Esp32Bluetooth::pauseForMaintenance() {
         DebugLog::log("BLE source: maintenance pause failed; protocol worker did not stop");
         return false;
     }
-    DebugLog::log("BLE source: protocol worker resources released for maintenance");
+    pImpl_->appleClient_.prepareForStackRestart();
+    BLEDevice::deinit(false);
+    pImpl_->pServer_ = nullptr;
+    pImpl_->pService_ = nullptr;
+    pImpl_->pCallChar_ = nullptr;
+    pImpl_->pMediaChar_ = nullptr;
+    pImpl_->pRecentsChar_ = nullptr;
+    pImpl_->connected_ = false;
+    pImpl_->advertising_ = false;
+    pImpl_->advertisingPending_ = false;
+    pImpl_->initialized_ = false;
+    Impl::current() = nullptr;
+    DebugLog::log("BLE source: host, protocol worker, and queues released for maintenance; heap=%lu largest=%lu",
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
     return true;
 }
 
@@ -519,6 +543,12 @@ void Esp32Bluetooth::resumeFromMaintenance() {
 
 void Esp32Bluetooth::resumeAfterMaintenance() {
     if (!maintenanceSuspended_) return;
+    auto result = init();
+    if (!result.isOk()) {
+        DebugLog::log("BLE: stack reinitialization after maintenance failed");
+        maintenanceSuspended_ = false;
+        return;
+    }
     maintenanceSuspended_ = false;
     startAdvertising();
     DebugLog::log("BLE: advertising resumed after OTA maintenance");
