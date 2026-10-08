@@ -6,7 +6,7 @@ repository and labels planned integrations as planned.
 
 ## Start here
 
-- [Project overview and build commands](https://github.com/ersascape/EWP#readme)
+- [Project overview and build commands](https://github.com/ersascape/ErsaWearableOS#readme)
 - [Architecture and hardware boundaries](HAL_ARCHITECTURE.md)
 - [Build and register apps](BUILDING_APPS.md)
 - [Add or port a board](ADDING_A_BOARD.md)

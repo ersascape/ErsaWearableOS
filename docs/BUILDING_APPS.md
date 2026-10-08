@@ -11,7 +11,7 @@ screen logic into a small module and adapt it to `ersa::app::Application` in
 `src/apps/apps_registry.cpp`.
 
 Implement the application contract from
-[`include/ersa/app/application.h`](https://github.com/ersascape/EWP/blob/master/include/ersa/app/application.h):
+[`include/ersa/app/application.h`](https://github.com/ersascape/ErsaWearableOS/blob/master/include/ersa/app/application.h):
 
 - `getId()` returns a stable unique ID used by navigation.
 - `getTitle()` returns the display name.
