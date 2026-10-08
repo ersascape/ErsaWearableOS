@@ -357,7 +357,7 @@ void handleRequest(uint32_t id, uint32_t version, const char* command, const cha
                  appDescription ? appDescription->version : "unknown",
                  device.name, device.codename, device.manufacturer,
                  __DATE__, __TIME__, otaSlotName(esp_ota_get_running_partition()), static_cast<unsigned long>(millis() / 1000), DebugLog::resetReasonName(), appId,
-                 static_cast<unsigned long>(ESP.getFreeHeap()), powerStateName(power.getState()), power.canSleep() ? "true" : "false");
+                 static_cast<unsigned long>(ersa::board::Board::current().getDiagnostics().freeHeapBytes()), powerStateName(power.getState()), power.canSleep() ? "true" : "false");
         sendReply(id, true, nullptr, nullptr, data);
     } else if (strcmp(command, "config.get") == 0) {
         const auto& cfg = WatchConfig::get();

@@ -10,8 +10,6 @@
 #include <time.h>
 #include <ctype.h>
 #include <atomic>
-#include <esp_heap_caps.h>
-#include <esp_system.h>
 #include <string>
 
 namespace NetSync {
@@ -258,8 +256,8 @@ bool fetchAndParseIcs(ersa::hal::IHttpClient& client, const std::string& url,
                       size_t& outEvents, size_t& outTodos) {
     if (url.empty()) return false;
     DebugLog::log("NET: Fetching ICS heap=%lu largest=%lu",
-                  static_cast<unsigned long>(esp_get_free_heap_size()),
-                  static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
+                  static_cast<unsigned long>(ersa::board::Board::current().getDiagnostics().freeHeapBytes()),
+                  static_cast<unsigned long>(ersa::board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
 
     if (client.begin(url, true).isError()) {
         DebugLog::log("NET: HTTPClient begin failed");
@@ -293,7 +291,7 @@ bool fetchAndParseIcs(ersa::hal::IHttpClient& client, const std::string& url,
         const int tlsErrorCode = client.lastTransportError(tlsError, sizeof(tlsError));
         DebugLog::log("NET: CalDAV transport error=%d TLS=%d (%s) free_heap=%lu",
                       code, tlsErrorCode, tlsError,
-                      static_cast<unsigned long>(esp_get_free_heap_size()));
+                      static_cast<unsigned long>(ersa::board::Board::current().getDiagnostics().freeHeapBytes()));
         // mbedTLS -0x7F00 is MBEDTLS_ERR_SSL_ALLOC_FAILED. Repeating the same
         // handshake with URL spelling/task-path fallbacks cannot recover RAM.
         if (tlsErrorCode == -0x7F00 || strstr(tlsError, "CTR_DRBG") != nullptr ||

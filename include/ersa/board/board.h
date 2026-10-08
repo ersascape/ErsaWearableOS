@@ -14,6 +14,7 @@
 #include "ersa/hal/console.h"
 #include "ersa/hal/http_server.h"
 #include "ersa/hal/network_client.h"
+#include "ersa/hal/platform_diagnostics.h"
 
 namespace ersa {
 namespace board {
@@ -82,6 +83,8 @@ public:
     virtual hal::IHttpClient& getHttpClient() = 0;
     /// Return the platform NTP synchronization adapter.
     virtual hal::INtpTimeSource& getNtpTimeSource() = 0;
+    /// Return reset, memory, and CPU readings through the platform diagnostics HAL.
+    virtual hal::IPlatformDiagnostics& getDiagnostics() = 0;
 
     /** Return monotonic milliseconds; values wrap according to uint32_t uptime. */
     virtual uint32_t getUptimeMs() const = 0;

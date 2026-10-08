@@ -2,10 +2,9 @@
 #include "ersa/board/board.h"
 #include "ersa/services/storage_service.h"
 #include "watch_clock.h"
-#include <Arduino.h>
-#include <esp_system.h>
 #include <stdarg.h>
 #include <string.h>
+#include <freertos/FreeRTOS.h>
 
 // The selected console HAL must use USB Serial/JTAG, never UART0 on EPD GPIO20/21.
 namespace {
@@ -28,22 +27,6 @@ struct BootHistory {
 BootHistory history = {};
 bool historySaved = false;
 
-const char* reasonName(uint32_t reason) {
-    switch (reason) {
-        case ESP_RST_POWERON: return "POWERON";
-        case ESP_RST_EXT: return "EXTERNAL";
-        case ESP_RST_SW: return "SOFTWARE";
-        case ESP_RST_PANIC: return "PANIC";
-        case ESP_RST_INT_WDT: return "INT_WDT";
-        case ESP_RST_TASK_WDT: return "TASK_WDT";
-        case ESP_RST_WDT: return "WDT";
-        case ESP_RST_DEEPSLEEP: return "DEEPSLEEP";
-        case ESP_RST_BROWNOUT: return "BROWNOUT";
-        case ESP_RST_SDIO: return "SDIO";
-        default: return "UNKNOWN";
-    }
-}
-
 bool isRoutineLog(const char* format) {
     // These fire continuously during normal use and drown out useful events.
     static constexpr const char* QUIET_PREFIXES[] = {
@@ -64,7 +47,7 @@ void recordBoot() {
     if (history.magic != magic) history = {magic, 0, {0, 0, 0, 0}};
     ++history.count;
     for (unsigned i = 3; i > 0; --i) history.causes[i] = history.causes[i - 1];
-    history.causes[0] = uint32_t(esp_reset_reason());
+    history.causes[0] = ersa::board::Board::current().getDiagnostics().resetReasonCode();
     if (opened) {
         historySaved = storage.setBytes("diag_boots", &history, sizeof(history));
     }
@@ -82,7 +65,8 @@ void DebugLog::begin() {
 void DebugLog::log(const char* format, ...) {
     if (!format || isRoutineLog(format)) return;
     char text[240];
-    const int prefix = snprintf(text, sizeof(text), "[%lu] ", (unsigned long)millis());
+    const int prefix = snprintf(text, sizeof(text), "[%lu] ",
+        (unsigned long)ersa::board::Board::current().getUptimeMs());
     va_list args;
     va_start(args, format);
     vsnprintf(text + prefix, sizeof(text) - prefix - 2, format, args);
@@ -140,16 +124,20 @@ void DebugLog::tick() {
     if (!connected) setProtocolMode(false);
     if (connected && !attached) {
         log("ErsaWearable boot=%lu reset=%s(%d) saved=%d; display shows HH:MM only",
-            (unsigned long)history.count, resetReasonName(), int(esp_reset_reason()), historySaved);
+            (unsigned long)history.count, resetReasonName(),
+            int(ersa::board::Board::current().getDiagnostics().resetReasonCode()), historySaved);
         log("RESET history newest->oldest: %s, %s, %s, %s",
-            reasonName(history.causes[0]), reasonName(history.causes[1]),
-            reasonName(history.causes[2]), reasonName(history.causes[3]));
+            ersa::board::Board::current().getDiagnostics().resetReasonName(history.causes[0]),
+            ersa::board::Board::current().getDiagnostics().resetReasonName(history.causes[1]),
+            ersa::board::Board::current().getDiagnostics().resetReasonName(history.causes[2]),
+            ersa::board::Board::current().getDiagnostics().resetReasonName(history.causes[3]));
         log("PCB pins: upper S2/B1=GPIO%d lower S1/B2=GPIO%d; LOW=pressed",
             ersa::board::Board::current().getPins().buttons().top.number, ersa::board::Board::current().getPins().buttons().bottom.number);
     }
     attached = connected;
-    if (uint32_t(millis() - lastReport) < HEARTBEAT_INTERVAL_MS) return;
-    lastReport = millis();
+    const uint32_t now = ersa::board::Board::current().getUptimeMs();
+    if (uint32_t(now - lastReport) < HEARTBEAT_INTERVAL_MS) return;
+    lastReport = now;
     const DateTime time = WatchClock::now();
     auto& board = ersa::board::Board::current();
     const bool button1Pressed = board.getInput().isPressed(ersa::events::ButtonId::Button1);
@@ -158,7 +146,8 @@ void DebugLog::tick() {
         (unsigned long)history.count,
         unsigned(time.hour()), unsigned(time.minute()), unsigned(time.second()),
         WatchClock::healthy() ? "online" : "offline",
-        button1Pressed, button2Pressed, board.getDisplay().isBusy(), unsigned(ESP.getFreeHeap()));
+        button1Pressed, button2Pressed, board.getDisplay().isBusy(),
+        unsigned(board.getDiagnostics().freeHeapBytes()));
 }
 
 void DebugLog::flush() {
@@ -166,4 +155,7 @@ void DebugLog::flush() {
 }
 
 uint32_t DebugLog::bootCount() { return history.count; }
-const char* DebugLog::resetReasonName() { return reasonName(uint32_t(esp_reset_reason())); }
+const char* DebugLog::resetReasonName() {
+    auto& diagnostics = ersa::board::Board::current().getDiagnostics();
+    return diagnostics.resetReasonName(diagnostics.resetReasonCode());
+}

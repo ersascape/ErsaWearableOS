@@ -5,7 +5,6 @@
 #include "core/watch_config.h"
 #include "ersa/board/board.h"
 #include <Arduino.h>
-#include <esp_heap_caps.h>
 #include <esp_image_format.h>
 #include <esp_ota_ops.h>
 #include <esp_partition.h>
@@ -314,8 +313,8 @@ bool downloadFirmware(esp_http_client_handle_t client, esp_ota_handle_t otaHandl
                     DebugLog::log("OTA: transfer progress bytes=%u/%u elapsed_ms=%lu heap=%lu largest=%lu",
                                   unsigned(written), unsigned(manifest.size),
                                   static_cast<unsigned long>(millis() - started),
-                                  static_cast<unsigned long>(ESP.getFreeHeap()),
-                                  static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
+                                  static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                                  static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
                     lastProgress = written;
                     lastProgressAt = millis();
                 }
@@ -430,8 +429,8 @@ bool connectWifi() {
         }
     }
     DebugLog::log("OTA: Wi-Fi status=%d heap=%lu largest=%lu", int(wifi.state()),
-                  static_cast<unsigned long>(ESP.getFreeHeap()),
-                  static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
     return wifi.state() == hal::WifiState::Connected;
 }
 
@@ -549,12 +548,12 @@ void OtaService::runUpdate(bool install) {
     } resumeComponents{bluetooth, source, keepCommunicationPaused, resumeComponentsRequested_};
 
     DebugLog::log("OTA: BLE suspended; heap=%u largest=%u",
-                  unsigned(ESP.getFreeHeap()),
-                  unsigned(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
+                  unsigned(board::Board::current().getDiagnostics().freeHeapBytes()),
+                  unsigned(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
     // With the flash-resident certificate bundle, OTA can proceed with a
     // smaller contiguous block than the old PEM-based TLS path required.
-    if (heap_caps_get_largest_free_block(MALLOC_CAP_8BIT) < 12 * 1024 ||
-        ESP.getFreeHeap() < 45000) {
+    if (board::Board::current().getDiagnostics().largestFreeHeapBlockBytes() < 12 * 1024 ||
+        board::Board::current().getDiagnostics().freeHeapBytes() < 45000) {
         updateState_.store(UpdateState::Failed);
         DebugLog::log("OTA: update stopped; insufficient free heap");
         return;
@@ -567,8 +566,8 @@ void OtaService::runUpdate(bool install) {
     }
 
     DebugLog::log("OTA: Wi-Fi ready; starting manifest request heap=%lu largest=%lu",
-                  static_cast<unsigned long>(ESP.getFreeHeap()),
-                  static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
     OtaManifest manifest;
     if (!fetchManifest(manifest)) {
         updateState_.store(UpdateState::Failed);
@@ -606,8 +605,8 @@ void OtaService::runUpdate(bool install) {
     httpConfig.user_data = &rangeResponse;
     DebugLog::log("OTA: preparing resumable ranged transfer range=%d timeout_ms=%d heap=%lu largest=%lu",
                   OTA_RANGE_SIZE, httpConfig.timeout_ms,
-                  static_cast<unsigned long>(ESP.getFreeHeap()),
-                  static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
     esp_http_client_handle_t client = esp_http_client_init(&httpConfig);
     const esp_partition_t* target = esp_ota_get_next_update_partition(nullptr);
     esp_ota_handle_t otaHandle = 0;
@@ -617,8 +616,8 @@ void OtaService::runUpdate(bool install) {
     if (result != ESP_OK) {
         DebugLog::log("OTA: could not begin update target=%s size=%u status=0x%x heap=%lu largest=%lu",
                       target ? target->label : "unavailable", unsigned(manifest.size), unsigned(result),
-                      static_cast<unsigned long>(ESP.getFreeHeap()),
-                      static_cast<unsigned long>(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT)));
+                      static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                      static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
     }
     size_t imageLength = 0;
     if (result == ESP_OK) {
