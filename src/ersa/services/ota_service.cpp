@@ -78,7 +78,9 @@ esp_err_t logOtaHttpEvent(esp_http_client_event_t* event) {
             DebugLog::log("OTA: HTTPS range connection closed");
             break;
         case HTTP_EVENT_ERROR:
-            DebugLog::log("OTA: HTTP transport reported an error");
+            DebugLog::log("OTA: HTTP transport reported an error heap=%lu largest=%lu",
+                          static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                          static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
             break;
         default:
             break;
@@ -150,9 +152,11 @@ bool fetchManifest(OtaManifest& manifest) {
     const esp_err_t result = esp_http_client_perform(client);
     const int status = esp_http_client_get_status_code(client);
     esp_http_client_cleanup(client);
-    DebugLog::log("OTA: manifest response status=%d result=0x%x bytes=%u elapsed_ms=%lu",
+    DebugLog::log("OTA: manifest response status=%d result=0x%x bytes=%u elapsed_ms=%lu heap=%lu largest=%lu",
                   status, unsigned(result), unsigned(body.length),
-                  static_cast<unsigned long>(millis() - started));
+                  static_cast<unsigned long>(millis() - started),
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().freeHeapBytes()),
+                  static_cast<unsigned long>(board::Board::current().getDiagnostics().largestFreeHeapBlockBytes()));
     if (result != ESP_OK || status != 200 || body.overflow) {
         DebugLog::log("OTA: manifest request failed status=%d result=0x%x", status, unsigned(result));
         return false;
