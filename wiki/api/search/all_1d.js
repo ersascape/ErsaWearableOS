@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['w_0',['w',['../de/dc7/structersa_1_1Rect.html#a9ec11d58a5717ec577d68937c66128b8',1,'ersa::Rect::w'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aabb96b46820ec2b9e144e29931827d3c',1,'ersa::test::MockDisplay::W']]],
+  ['w_0',['w',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aabb96b46820ec2b9e144e29931827d3c',1,'ersa::test::MockDisplay::W'],['../de/dc7/structersa_1_1Rect.html#a9ec11d58a5717ec577d68937c66128b8',1,'ersa::Rect::w']]],
   ['waitforwake_1',['waitforwake',['../dc/d23/classersa_1_1hal_1_1IPowerManagement.html#a2bc3cbe6288f1191dbdc02b49f318f3a',1,'ersa::hal::IPowerManagement::waitForWake()'],['../d7/ddd/classersa_1_1hal_1_1Esp32PowerManagement.html#a6c9f7a39af095548820d8e7b123aea06',1,'ersa::hal::Esp32PowerManagement::waitForWake()'],['../da/d19/classersa_1_1test_1_1MockPowerManagement.html#a998dce83172da045975906ac4f1a3a75',1,'ersa::test::MockPowerManagement::waitForWake()']]],
   ['waitms_2',['waitMs',['../d3/d2d/structersa_1_1runtime_1_1LoopSchedule.html#ad4b5641bf03651b329b832561766d1b3',1,'ersa::runtime::LoopSchedule']]],
   ['wakecallback_3',['WakeCallback',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#a44a1c44df18e2d60e2f79c29b9daa2c3',1,'ersa::services::BluetoothManager']]],

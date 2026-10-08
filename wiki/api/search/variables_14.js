@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['w_0',['w',['../de/dc7/structersa_1_1Rect.html#a9ec11d58a5717ec577d68937c66128b8',1,'ersa::Rect::w'],['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aabb96b46820ec2b9e144e29931827d3c',1,'ersa::test::MockDisplay::W']]],
+  ['w_0',['w',['../de/dc3/classersa_1_1test_1_1MockDisplay.html#aabb96b46820ec2b9e144e29931827d3c',1,'ersa::test::MockDisplay::W'],['../de/dc7/structersa_1_1Rect.html#a9ec11d58a5717ec577d68937c66128b8',1,'ersa::Rect::w']]],
   ['waitms_1',['waitMs',['../d3/d2d/structersa_1_1runtime_1_1LoopSchedule.html#ad4b5641bf03651b329b832561766d1b3',1,'ersa::runtime::LoopSchedule']]],
   ['wakecallback_5f_2',['wakeCallback_',['../d0/de0/classersa_1_1services_1_1BluetoothManager.html#ac91e1911d453c6a48129f3a19b895e90',1,'ersa::services::BluetoothManager']]],
   ['wakelockreferences_5f_3',['wakeLockReferences_',['../d7/d2e/classersa_1_1services_1_1PowerManager.html#af4160ab61e855412b846c9f6fa7b40de',1,'ersa::services::PowerManager']]],
