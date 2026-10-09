@@ -74,6 +74,39 @@ class OtaManifestTests(unittest.TestCase):
             self.assertEqual(firmware_path.read_bytes(), payload)
             self.assertEqual(json.loads(manifest_path.read_text())["codename"], "terra")
 
+    def test_migration_manifest_copies_and_hashes_partition_assets(self):
+        project = Path(__file__).resolve().parents[1]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            firmware = root / "firmware.bin"
+            assets = {name: root / name for name in ("bootloader.bin", "partitions.bin", "boot_app0.bin")}
+            firmware.write_bytes(b"firmware-image")
+            for name, path in assets.items():
+                path.write_bytes((name + "-payload").encode())
+            site = root / "site"
+            for platform in ("xiao_esp32c3", "xiao_esp32c6"):
+                result = subprocess.run(
+                    [sys.executable, str(project / "scripts/create_ota_manifest.py"), str(firmware),
+                     "--tag", "ewp-0.3.1", "--platform", platform, "--project-root", str(project),
+                     "--site-root", str(site), "--bootloader", str(assets["bootloader.bin"]),
+                     "--partitions", str(assets["partitions.bin"]), "--boot-app0", str(assets["boot_app0.bin"])],
+                    check=False, capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                manifest = json.loads((site / f"ota/terra/{platform}/ota.json").read_text())
+                self.assertEqual(manifest["schema"], 2)
+                expected_addresses = {"bootloader": 0, "partitions": 0x8000, "boot_app0": 0xE000}
+                for name, expected_address in expected_addresses.items():
+                    record = manifest["migration"][name]
+                    asset_name = {"bootloader": "bootloader.bin", "partitions": "partitions.bin",
+                                  "boot_app0": "boot_app0.bin"}[name]
+                    payload = assets[asset_name].read_bytes()
+                    published = site / f"migration/terra/{platform}/ewp-0.3.1" / asset_name
+                    self.assertEqual(record["address"], expected_address)
+                    self.assertEqual(record["size"], len(payload))
+                    self.assertEqual(record["sha256"], hashlib.sha256(payload).hexdigest())
+                    self.assertEqual(published.read_bytes(), payload)
+
     def test_c6_manifest_is_platform_scoped(self):
         project = Path(__file__).resolve().parents[1]
         identity_source = selected_device_info(project, "xiao_esp32c6")

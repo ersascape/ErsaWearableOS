@@ -168,9 +168,15 @@ jobs:
           RELEASE_TAG: ${{ github.ref_name }}
         run: |
           python3 scripts/create_ota_manifest.py .pio/release/firmware-terra-xiao_esp32c3.bin \
-            --platform xiao_esp32c3 --tag "$RELEASE_TAG" --site-root .pio/site
+            --platform xiao_esp32c3 --tag "$RELEASE_TAG" --site-root .pio/site \
+            --bootloader .pio/release/bootloader-terra-xiao_esp32c3.bin \
+            --partitions .pio/release/partitions-terra-xiao_esp32c3.bin \
+            --boot-app0 .pio/release/boot_app0-terra-xiao_esp32c3.bin
           python3 scripts/create_ota_manifest.py .pio/release/firmware-terra-xiao_esp32c6.bin \
-            --platform xiao_esp32c6 --tag "$RELEASE_TAG" --site-root .pio/site
+            --platform xiao_esp32c6 --tag "$RELEASE_TAG" --site-root .pio/site \
+            --bootloader .pio/release/bootloader-terra-xiao_esp32c6.bin \
+            --partitions .pio/release/partitions-terra-xiao_esp32c6.bin \
+            --boot-app0 .pio/release/boot_app0-terra-xiao_esp32c6.bin
       - name: Assemble package, OTA, and wiki sites
         run: |
           mkdir -p .pio/site
@@ -195,11 +201,12 @@ jobs:
           mkdir -p "$SITE_REPO/wiki"
           cp -a .pio/wiki-site/. "$SITE_REPO/wiki/"
           if [[ "$GITHUB_REF" == refs/tags/ewp-* ]]; then
-            mkdir -p "$SITE_REPO/firmware" "$SITE_REPO/ota"
+            mkdir -p "$SITE_REPO/firmware" "$SITE_REPO/ota" "$SITE_REPO/migration"
             rm -f "$SITE_REPO/ota.json"
             find "$SITE_REPO/ota" -maxdepth 1 -type f -name 'ewp-*.json' -delete
             cp -a .pio/site/firmware/. "$SITE_REPO/firmware/"
             cp -a .pio/site/ota/. "$SITE_REPO/ota/"
+            cp -a .pio/site/migration/. "$SITE_REPO/migration/"
           fi
           git -C "$SITE_REPO" add --all
           if git -C "$SITE_REPO" diff --cached --quiet; then
