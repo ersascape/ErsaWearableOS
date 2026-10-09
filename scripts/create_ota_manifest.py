@@ -43,14 +43,12 @@ def read_device_info(source: Path, platform: str) -> dict[str, str]:
             "manufacturer": manufacturer, "platform": platform}
 
 
-def create_manifest(image: Path, tag: str, identity: dict[str, str],
-                    bootloader: Path | None = None, partitions: Path | None = None,
-                    boot_app0: Path | None = None, site_root: Path | None = None) -> dict:
+def create_manifest(image: Path, tag: str, identity: dict[str, str]) -> dict:
     if not re.fullmatch(r"ewp-[A-Za-z0-9._-]+", tag):
         raise ValueError("release tag must start with ewp-")
     payload = image.read_bytes()
     manifest = {
-        "schema": 2 if all((bootloader, partitions, boot_app0, site_root)) else 1,
+        "schema": 1,
         "device_name": identity["device_name"],
         "codename": identity["codename"],
         "manufacturer": identity["manufacturer"],
@@ -61,28 +59,38 @@ def create_manifest(image: Path, tag: str, identity: dict[str, str],
         "sha256": hashlib.sha256(payload).hexdigest(),
         "size": len(payload),
     }
-    if all((bootloader, partitions, boot_app0, site_root)):
-        migration_root = site_root / "migration" / identity["codename"] / identity["platform"] / tag
-        migration_files = {
-            "bootloader": (bootloader, "bootloader.bin", 0x0),
-            "partitions": (partitions, "partitions.bin", 0x8000),
-            "boot_app0": (boot_app0, "boot_app0.bin", 0xE000),
-        }
-        migration = {}
-        for key, (source, filename, offset) in migration_files.items():
-            destination = migration_root / filename
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(source, destination)
-            contents = source.read_bytes()
-            migration[key] = {
-                "url": ("https://pkgs-wearables.ersa.dev/migration/"
-                        f"{identity['codename']}/{identity['platform']}/{tag}/{filename}"),
-                "sha256": hashlib.sha256(contents).hexdigest(),
-                "size": len(contents),
-                "address": offset,
-            }
-        manifest["migration"] = migration
     return manifest
+
+
+def create_migration_manifest(tag: str, identity: dict[str, str], bootloader: Path,
+                              partitions: Path, boot_app0: Path, site_root: Path) -> dict:
+    """Publish browser-only recovery assets separately from the watch OTA manifest."""
+    migration_root = site_root / "migration" / identity["codename"] / identity["platform"] / tag
+    migration_files = {
+        "bootloader": (bootloader, "bootloader.bin", 0x0),
+        "partitions": (partitions, "partitions.bin", 0x8000),
+        "boot_app0": (boot_app0, "boot_app0.bin", 0xE000),
+    }
+    assets = {}
+    for key, (source, filename, offset) in migration_files.items():
+        destination = migration_root / filename
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, destination)
+        contents = source.read_bytes()
+        assets[key] = {
+            "url": ("https://pkgs-wearables.ersa.dev/migration/"
+                    f"{identity['codename']}/{identity['platform']}/{tag}/{filename}"),
+            "sha256": hashlib.sha256(contents).hexdigest(),
+            "size": len(contents),
+            "address": offset,
+        }
+    return {
+        "schema": 1,
+        "codename": identity["codename"],
+        "platform": identity["platform"],
+        "tag": tag,
+        "assets": assets,
+    }
 
 
 def main() -> int:
@@ -100,14 +108,21 @@ def main() -> int:
     migration_arguments = (args.bootloader, args.partitions, args.boot_app0)
     if any(migration_arguments) and not all(migration_arguments):
         parser.error("--bootloader, --partitions, and --boot-app0 must be provided together")
-    manifest = create_manifest(args.firmware, args.tag, identity, *migration_arguments,
-                               args.site_root if all(migration_arguments) else None)
+    manifest = create_manifest(args.firmware, args.tag, identity)
     firmware_path = args.site_root / "firmware" / identity["codename"] / identity["platform"] / f"{args.tag}.bin"
     manifest_path = args.site_root / "ota" / identity["codename"] / identity["platform"] / "ota.json"
     firmware_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(args.firmware, firmware_path)
     manifest_path.write_text(json.dumps(manifest, sort_keys=True, separators=(",", ":")) + "\n")
+    if all(migration_arguments):
+        migration_manifest = create_migration_manifest(
+            args.tag, identity, *migration_arguments, args.site_root)
+        migration_manifest_path = (args.site_root / "migration" / identity["codename"] /
+                                   identity["platform"] / "migration.json")
+        migration_manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        migration_manifest_path.write_text(
+            json.dumps(migration_manifest, sort_keys=True, separators=(",", ":")) + "\n")
     return 0
 
 

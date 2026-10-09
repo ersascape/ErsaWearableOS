@@ -93,11 +93,18 @@ class OtaManifestTests(unittest.TestCase):
                     check=False, capture_output=True, text=True,
                 )
                 self.assertEqual(result.returncode, 0, result.stderr)
-                manifest = json.loads((site / f"ota/terra/{platform}/ota.json").read_text())
-                self.assertEqual(manifest["schema"], 2)
+                ota_manifest_path = site / f"ota/terra/{platform}/ota.json"
+                manifest = json.loads(ota_manifest_path.read_text())
+                self.assertEqual(manifest["schema"], 1)
+                self.assertNotIn("migration", manifest)
+                self.assertLess(ota_manifest_path.stat().st_size, 512)
+                migration_path = site / f"migration/terra/{platform}/migration.json"
+                migration_manifest = json.loads(migration_path.read_text())
+                self.assertEqual(migration_manifest["schema"], 1)
+                self.assertEqual(migration_manifest["tag"], "ewp-0.3.1")
                 expected_addresses = {"bootloader": 0, "partitions": 0x8000, "boot_app0": 0xE000}
                 for name, expected_address in expected_addresses.items():
-                    record = manifest["migration"][name]
+                    record = migration_manifest["assets"][name]
                     asset_name = {"bootloader": "bootloader.bin", "partitions": "partitions.bin",
                                   "boot_app0": "boot_app0.bin"}[name]
                     payload = assets[asset_name].read_bytes()
